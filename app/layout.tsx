@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display, Caveat } from "next/font/google";
+import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
+import ThemeProvider from "./components/ThemeProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -11,11 +12,6 @@ const inter = Inter({
 const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-playfair",
-});
-
-const caveat = Caveat({
-  subsets: ["latin"],
-  variable: "--font-caveat",
 });
 
 export const metadata: Metadata = {
@@ -30,13 +26,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${playfair.variable} ${caveat.variable} antialiased bg-[#FCF9F2] text-[#20280B] font-sans`}
+        className={`${inter.variable} ${playfair.variable} antialiased bg-background text-foreground font-sans`}
       >
-        <div className="bg-noise-overlay" />
-        <Navbar />
-        {children}
+        <ThemeProvider>
+          <Navbar />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

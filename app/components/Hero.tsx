@@ -3,91 +3,87 @@
 import { motion } from "framer-motion";
 import { FiGithub, FiLinkedin, FiMail } from "react-icons/fi";
 import { profile } from "@/app/data/profile";
+import MagneticWrap from "./MagneticWrap";
 
 export default function Hero() {
   return (
     <section className="max-w-6xl mx-auto px-6 pt-16 md:pt-24 pb-8">
-      <div className="flex flex-col md:flex-row items-center gap-8 md:gap-16">
+      <div className="flex flex-col md:flex-row items-center gap-10 md:gap-20">
         <div className="flex-1 text-center md:text-left">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 bg-[#F4EFE6] border border-[#6A784D]/30 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-[#6A784D] shadow-sm mb-5"
+            className="inline-flex items-center gap-2 bg-foreground text-background px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest border-[2px] border-border shadow-sm mb-5"
           >
-            <span className="w-2 h-2 rounded-full bg-[#C4866D] animate-pulse" />
+            <span className="w-1.5 h-1.5 bg-background animate-pulse" />
             Open to Internships & Full-Time Roles
           </motion.div>
 
           <motion.h1
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="font-serif text-5xl md:text-6xl font-bold tracking-tight text-[#20280B]"
+            className="font-sans text-5xl md:text-7xl font-black tracking-tight text-foreground uppercase leading-[0.9]"
           >
             {profile.name}
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-lg font-semibold tracking-wide text-[#6A784D] uppercase mt-2"
+            className="text-base font-bold tracking-widest text-muted-foreground uppercase mt-3"
           >
             {profile.tagline}
           </motion.p>
 
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="text-base text-[#33432B]/80 leading-relaxed max-w-xl mt-4"
+            className="text-sm text-muted-foreground leading-relaxed max-w-xl mt-4"
           >
             I build production-grade AI systems, geospatial intelligence platforms,
             and full-stack applications that solve real-world problems.
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
             className="flex flex-wrap justify-center md:justify-start gap-3 mt-6"
           >
-            <a
-              href={`mailto:${profile.email}`}
-              className="px-5 py-2.5 rounded-lg text-sm font-semibold bg-[#C4866D] text-[#FCF9F2] hover:bg-[#b0745b] shadow-md hover:shadow-lg transition-all duration-300 flex items-center gap-2"
-            >
-              <FiMail size={16} />
-              Contact Me
-            </a>
-            <a
-              href={profile.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-5 py-2.5 rounded-lg text-sm font-semibold bg-[#33432B] text-[#FCF9F2] hover:bg-[#20280B] shadow-md hover:shadow-lg transition-all duration-300 flex items-center gap-2"
-            >
-              <FiGithub size={16} />
-              GitHub
-            </a>
-            <a
-              href={profile.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-5 py-2.5 rounded-lg text-sm font-semibold border-2 border-[#6A784D] text-[#20280B] hover:bg-[#F4EFE6] transition-all duration-300 flex items-center gap-2"
-            >
-              <FiLinkedin size={16} />
-              LinkedIn
-            </a>
+            <MagneticWrap>
+              <a href={`mailto:${profile.email}`}
+                className="px-6 py-3 text-sm font-bold uppercase tracking-widest bg-foreground text-background border-[3px] border-border shadow-md hover:shadow-lg transition-shadow flex items-center gap-2"
+              >
+                <FiMail size={16} /> Contact Me
+              </a>
+            </MagneticWrap>
+            <MagneticWrap>
+              <a href={profile.github} target="_blank" rel="noopener noreferrer"
+                className="px-6 py-3 text-sm font-bold uppercase tracking-widest bg-background text-foreground border-[3px] border-border shadow-md hover:shadow-lg transition-shadow flex items-center gap-2"
+              >
+                <FiGithub size={16} /> GitHub
+              </a>
+            </MagneticWrap>
+            <MagneticWrap>
+              <a href={profile.linkedin} target="_blank" rel="noopener noreferrer"
+                className="px-6 py-3 text-sm font-bold uppercase tracking-widest bg-background text-foreground border-[3px] border-border shadow-md hover:shadow-lg transition-shadow flex items-center gap-2"
+              >
+                <FiLinkedin size={16} /> LinkedIn
+              </a>
+            </MagneticWrap>
           </motion.div>
         </div>
 
         <motion.div
-          initial={{ scale: 0, rotate: -10 }}
-          animate={{ scale: 1, rotate: 0 }}
-          transition={{ type: "spring", duration: 1.5 }}
-          className="flex-shrink-0"
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ type: "spring", stiffness: 200, damping: 15 }}
         >
-          <div className="w-36 h-36 md:w-44 md:h-44 rounded-full bg-[#F4EFE6] border-2 border-[#6A784D]/20 flex items-center justify-center shadow-xl">
-            <span className="font-serif text-6xl md:text-7xl font-bold text-[#6A784D]/30 select-none">
+          <div className="w-36 h-36 md:w-44 md:h-44 bg-background border-[3px] border-border shadow-lg flex items-center justify-center select-none">
+            <span className="font-serif text-6xl md:text-7xl font-bold text-muted-foreground">
               MK
             </span>
           </div>

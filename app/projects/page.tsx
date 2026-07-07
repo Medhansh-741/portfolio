@@ -16,11 +16,11 @@ const stagger = {
 
 export default function ProjectsPage() {
   return (
-    <main className="min-h-screen bg-grid-paper">
+    <main className="min-h-screen bg-background">
       <div className="max-w-6xl mx-auto px-6 py-16">
         <div className="text-center space-y-2 mb-12">
-          <span className="font-hand text-lg text-[#C4866D] tracking-wider font-semibold">What I&apos;ve Built</span>
-          <h1 className="font-serif text-4xl md:text-5xl font-bold tracking-tight text-[#20280B]">Projects</h1>
+          <p className="text-xs text-muted-foreground font-bold uppercase tracking-widest">What I&apos;ve Built</p>
+          <h1 className="font-sans text-4xl md:text-5xl font-black text-foreground uppercase tracking-tight">Projects</h1>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -31,20 +31,20 @@ export default function ProjectsPage() {
               initial="hidden"
               animate="show"
               custom={i}
-              whileHover={{ y: -6, boxShadow: "0 12px 40px rgba(0,0,0,0.08)" }}
-              className="bg-[#FCF9F2] border border-[#6A784D]/20 rounded-lg p-6 md:p-8 shadow-sm flex flex-col cursor-default"
+              whileHover={{ y: -5 }}
+              className="bg-card text-card-foreground border-[3px] border-border shadow-md p-6 md:p-8 flex flex-col cursor-default"
             >
-              <div className="mb-3">
-                <h2 className="font-serif text-xl font-bold text-[#20280B]">{proj.title}</h2>
-                <p className="text-sm font-semibold text-[#C4866D]">{proj.subtitle}</p>
-                <span className="text-xs text-[#6A784D]">{proj.period}</span>
+              <div className="mb-4">
+                <h2 className="font-sans text-xl font-bold text-foreground uppercase">{proj.title}</h2>
+                <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider mt-0.5">{proj.subtitle}</p>
+                <span className="text-[10px] text-muted-foreground font-semibold uppercase tracking-wider">{proj.period}</span>
               </div>
 
-              <p className="text-sm text-[#33432B]/80 mb-3 leading-relaxed">{proj.description}</p>
+              <p className="text-sm text-muted-foreground mb-4 leading-relaxed">{proj.description}</p>
 
               {proj.metrics && (
-                <div className="mb-3">
-                  <span className="text-xs font-bold text-[#C4866D] bg-[#C4866D]/10 px-2 py-1 rounded">
+                <div className="mb-4">
+                  <span className="text-[10px] font-bold uppercase tracking-widest bg-foreground text-background px-2 py-1">
                     {proj.metrics}
                   </span>
                 </div>
@@ -52,7 +52,7 @@ export default function ProjectsPage() {
 
               <div className="flex flex-wrap gap-2 mb-4">
                 {proj.tech.map((t) => (
-                  <span key={t} className="px-2.5 py-1 rounded-md text-xs font-semibold bg-[#6A784D]/10 text-[#6A784D] border border-[#6A784D]/20">
+                  <span key={t} className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider bg-muted text-muted-foreground border-[2px] border-border">
                     {t}
                   </span>
                 ))}
@@ -60,17 +60,17 @@ export default function ProjectsPage() {
 
               <ul className="space-y-2 mb-6 flex-1">
                 {proj.highlights.map((h, j) => (
-                  <li key={j} className="text-sm text-[#33432B]/90 leading-relaxed pl-4 border-l-2 border-[#C4866D]/40">
+                  <li key={j} className="text-sm text-muted-foreground leading-relaxed pl-4 border-l-[3px] border-border">
                     {h}
                   </li>
                 ))}
               </ul>
 
-              <div className="flex flex-wrap gap-3 pt-4 border-t border-[#6A784D]/10">
+              <div className="flex flex-wrap gap-4 pt-4 border-t-[3px] border-border">
                 {proj.links.live && (
                   <MagneticWrap>
                     <a href={proj.links.live} target="_blank" rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#C4866D] hover:underline">
+                      className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-widest text-foreground hover:text-muted-foreground transition-colors">
                       <FiExternalLink size={14} /> Live
                     </a>
                   </MagneticWrap>
@@ -78,7 +78,7 @@ export default function ProjectsPage() {
                 {proj.links.github && (
                   <MagneticWrap>
                     <a href={proj.links.github} target="_blank" rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#33432B] hover:underline">
+                      className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-widest text-foreground hover:text-muted-foreground transition-colors">
                       <FiGithub size={14} /> GitHub
                     </a>
                   </MagneticWrap>
@@ -86,8 +86,8 @@ export default function ProjectsPage() {
                 {proj.links.demo && (
                   <MagneticWrap>
                     <a href={proj.links.demo} target="_blank" rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#6A784D] hover:underline">
-                      <FiYoutube size={14} /> Demo Video
+                      className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-widest text-foreground hover:text-muted-foreground transition-colors">
+                      <FiYoutube size={14} /> Demo
                     </a>
                   </MagneticWrap>
                 )}

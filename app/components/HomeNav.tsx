@@ -18,7 +18,7 @@ export default function HomeNav() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
-        className="text-sm text-[#6A784D] font-semibold tracking-wide"
+        className="text-xs text-muted-foreground font-bold uppercase tracking-widest"
       >
         Explore the full story
       </motion.p>
@@ -33,10 +33,10 @@ export default function HomeNav() {
             <MagneticWrap>
               <Link
                 href={l.href}
-                className={`group inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-sm shadow-md hover:shadow-lg transition-shadow duration-300 ${
+                className={`group inline-flex items-center gap-2 px-6 py-3 text-sm font-bold uppercase tracking-widest border-[3px] border-border shadow-md hover:shadow-lg transition-shadow duration-200 ${
                   i === 0
-                    ? "bg-[#33432B] text-[#FCF9F2]"
-                    : "border-2 border-[#6A784D] text-[#20280B]"
+                    ? "bg-foreground text-background"
+                    : "bg-background text-foreground"
                 }`}
               >
                 {l.label} <FiArrowRight className="group-hover:translate-x-1 transition-transform" />

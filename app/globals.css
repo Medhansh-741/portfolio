@@ -1,16 +1,56 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #FCF9F2;
-  --foreground: #20280B;
+  --background: #FFFFFF;
+  --foreground: #000000;
+  --card: #FFFFFF;
+  --card-foreground: #000000;
+  --muted: #F5F5F5;
+  --muted-foreground: #666666;
+  --border: #000000;
+  --primary: #000000;
+  --primary-foreground: #FFFFFF;
+  --accent: #000000;
+  --accent-foreground: #FFFFFF;
+  --radius: 0;
+}
+
+.dark {
+  --background: #0f0f0f;
+  --foreground: #f5f5f5;
+  --card: #1a1a1a;
+  --card-foreground: #f5f5f5;
+  --muted: #2a2a2a;
+  --muted-foreground: #aaaaaa;
+  --border: #444444;
+  --primary: #f5f5f5;
+  --primary-foreground: #0f0f0f;
+  --accent: #f5f5f5;
+  --accent-foreground: #0f0f0f;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
   --font-sans: "Inter", sans-serif;
   --font-serif: "Playfair Display", serif;
-  --font-hand: "Caveat", cursive;
+  --shadow-xs: 1px 1px 0 0 var(--border);
+  --shadow-sm: 2px 2px 0 0 var(--border);
+  --shadow: 3px 3px 0 0 var(--border);
+  --shadow-md: 4px 4px 0 0 var(--border);
+  --shadow-lg: 6px 6px 0 0 var(--border);
+  --shadow-xl: 10px 10px 0 1px var(--border);
 }
 
 body {
@@ -24,51 +64,16 @@ html {
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #FCF9F2;
+  background: var(--background);
 }
 ::-webkit-scrollbar-thumb {
-  background: #6A784D;
-  border-radius: 4px;
+  background: var(--border);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #33432B;
-}
-
-.bg-grid-paper {
-  background-color: #FCF9F2;
-  background-image:
-    linear-gradient(to right, rgba(106, 120, 77, 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(106, 120, 77, 0.05) 1px, transparent 1px);
-  background-size: 24px 24px;
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-8px) rotate(0.5deg); }
-}
-.animate-float {
-  animation: float 6s ease-in-out infinite;
-}
-
-@keyframes pulse-circle {
-  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(196, 134, 109, 0.4); }
-  50% { transform: scale(1.15); box-shadow: 0 0 0 6px rgba(196, 134, 109, 0); }
-}
-.animate-pulse-circle {
-  animation: pulse-circle 2s infinite;
-}
-
-.reveal {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
-}
-.reveal.active {
-  opacity: 1;
-  transform: translateY(0);
+  background: var(--foreground);
 }
 
 @keyframes marquee {
@@ -83,13 +88,10 @@ html {
   animation-play-state: paused;
 }
 
-.bg-noise-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  pointer-events: none;
-  opacity: 0.025;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 256px 256px;
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(0.5deg); }
+}
+.animate-float {
+  animation: float 6s ease-in-out infinite;
 }
