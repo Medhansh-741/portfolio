@@ -17,7 +17,7 @@ export default function ResumePage() {
           <a
             href={profile.resumeUrl}
             download
-            className="inline-flex items-center gap-2 px-5 py-2.5 text-xs font-bold uppercase tracking-widest bg-accent text-accent-foreground border-[3px] border-accent shadow-md hover:shadow-lg transition-shadow"
+            className="inline-flex items-center gap-2 px-5 py-2.5 text-xs font-bold uppercase tracking-widest bg-background text-foreground border-[3px] border-border shadow-sm hover:shadow-[3px_3px_0_0_var(--accent)] hover:-translate-x-[1px] hover:-translate-y-[1px] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-200 select-none cursor-pointer"
           >
             <FiDownload size={16} />
             Download PDF

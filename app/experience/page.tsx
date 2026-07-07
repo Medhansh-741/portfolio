@@ -43,7 +43,7 @@ export default function ExperiencePage() {
                   <span>{exp.period}</span>
                   <MagneticWrap>
                     <a href={exp.offerLetter} target="_blank" rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-accent hover:text-foreground transition-colors">
+                      className="inline-flex items-center gap-1 text-accent-secondary hover:text-foreground transition-colors">
                       Offer Letter <FiExternalLink size={12} />
                     </a>
                   </MagneticWrap>
