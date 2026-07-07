@@ -43,3 +43,6 @@ next-env.d.ts
 # local dev artifacts
 .playwright-mcp/
 ref-screenshot.png
+clock-analysis.png
+medhanshk-me-screenshot.png
+trace.json
