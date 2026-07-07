@@ -2,6 +2,8 @@ import Link from "next/link";
 import { FiDownload, FiArrowLeft } from "react-icons/fi";
 import { profile } from "@/app/data/profile";
 
+export const revalidate = 3600;
+
 export default function ResumePage() {
   return (
     <main className="min-h-screen bg-muted">

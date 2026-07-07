@@ -4,7 +4,7 @@ export const revalidate = 3600; // Cache on server for 1 hour
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const username = searchParams.get("username") || "Medhansh-741";
+  const username = searchParams.get("username") || process.env.GITHUB_USERNAME || "Medhansh-741";
 
   // Fetch full data (all years) to support client-side toggling and complete calendars
   const apiUrl = `https://github-contributions-api.jogruber.de/v4/${username}`;
