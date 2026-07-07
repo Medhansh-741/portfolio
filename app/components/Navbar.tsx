@@ -25,15 +25,17 @@ export default function Navbar() {
           medhansh<span className="text-accent">.kapoor</span>
         </Link>
 
-        <div className="hidden md:flex items-center space-x-8">
+        <div className="hidden md:flex items-center gap-3">
           {links.map((l) => {
             const active = pathname === l.href;
             return (
               <Link
                 key={l.href}
                 href={l.href}
-                className={`text-sm font-bold uppercase tracking-widest transition-colors duration-200 ${
-                  active ? "text-accent" : "text-muted-foreground hover:text-accent"
+                className={`px-4 py-2 text-[11px] font-bold uppercase tracking-widest border-[3px] shadow-sm transition-shadow duration-200 ${
+                  active
+                    ? "bg-accent text-accent-foreground border-accent"
+                    : "bg-background text-foreground border-border hover:shadow-md"
                 }`}
               >
                 {l.label}
@@ -70,8 +72,10 @@ export default function Navbar() {
               key={l.href}
               href={l.href}
               onClick={() => setOpen(false)}
-              className={`text-sm font-bold uppercase tracking-widest py-1 ${
-                pathname === l.href ? "text-accent" : "text-muted-foreground hover:text-accent"
+              className={`block px-4 py-2 text-[11px] font-bold uppercase tracking-widest border-[3px] shadow-sm ${
+                pathname === l.href
+                  ? "bg-accent text-accent-foreground border-accent"
+                  : "bg-background text-foreground border-border"
               }`}
             >
               {l.label}
