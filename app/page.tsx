@@ -4,7 +4,7 @@ import HomeNav from "./components/HomeNav";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-background">
+    <main className="flex-1 flex flex-col overflow-hidden bg-background">
       <Hero />
       <SkillStrip />
       <HomeNav />

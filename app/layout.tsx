@@ -31,8 +31,10 @@ export default function RootLayout({
         className={`${inter.variable} ${playfair.variable} antialiased bg-background text-foreground font-sans`}
       >
         <ThemeProvider>
-          <Navbar />
-          {children}
+          <div className="min-h-dvh flex flex-col">
+            <Navbar />
+            {children}
+          </div>
         </ThemeProvider>
       </body>
     </html>
