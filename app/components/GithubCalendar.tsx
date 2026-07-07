@@ -168,24 +168,24 @@ export default function GithubCalendar() {
     }
   });
 
-  // Color mapping matching official GitHub light and dark mode colors
+  // Color mapping matching active mode accents (shades of Red for light mode, Green for dark mode)
   const getSquareStyle = (level: number) => {
     if (isDark) {
       switch (level) {
         case 0: return "#161b22";
-        case 1: return "#0e4429";
-        case 2: return "#006d32";
-        case 3: return "#26a641";
-        case 4: return "#39d353";
+        case 1: return "#022c11";
+        case 2: return "#0f5127";
+        case 3: return "#1db954";
+        case 4: return "#00ff41";
         default: return "#161b22";
       }
     } else {
       switch (level) {
         case 0: return "#ebedf0";
-        case 1: return "#9be9a8";
-        case 2: return "#40c463";
-        case 3: return "#30a14e";
-        case 4: return "#216e39";
+        case 1: return "#fee2e2";
+        case 2: return "#fca5a5";
+        case 3: return "#f87171";
+        case 4: return "#dc2626";
         default: return "#ebedf0";
       }
     }
@@ -222,7 +222,7 @@ export default function GithubCalendar() {
       <div className="flex flex-col md:flex-row gap-4 items-stretch w-full">
         
         {/* Calendar Board Card */}
-        <div className="flex-1 bg-card border-[3px] border-border shadow-md p-3 flex flex-col justify-between overflow-hidden">
+        <div className="flex-1 bg-card border-[3px] border-border shadow-md hover:shadow-[3px_3px_0_0_var(--accent)] p-3 flex flex-col justify-between overflow-hidden transition-all duration-200">
           
           {/* Scrollable Grid Container */}
           <div 
@@ -274,7 +274,7 @@ export default function GithubCalendar() {
                         return (
                           <div
                             key={rowIdx}
-                            className="w-[10px] h-[10px] rounded-[1.5px] cursor-pointer transition-transform hover:scale-[1.3] hover:z-10"
+                            className="w-[10px] h-[10px] rounded-[1.5px] cursor-pointer transition-transform hover:scale-[1.3] hover:z-10 border border-black dark:border-white"
                             style={{ backgroundColor: color }}
                             onMouseEnter={() => setHoveredDay(day)}
                             onMouseLeave={() => setHoveredDay(null)}
@@ -306,7 +306,7 @@ export default function GithubCalendar() {
                 {[0, 1, 2, 3, 4].map((lvl) => (
                   <div
                     key={lvl}
-                    className="w-[10px] h-[10px] rounded-[1.5px]"
+                    className="w-[10px] h-[10px] rounded-[1.5px] border border-black dark:border-white"
                     style={{ backgroundColor: getSquareStyle(lvl) }}
                   />
                 ))}
@@ -325,10 +325,10 @@ export default function GithubCalendar() {
               <button
                 key={yr}
                 onClick={() => setSelectedYear(yr)}
-                className={`px-4 py-2 text-xs font-black uppercase tracking-wider transition-all cursor-pointer border-[2px] ${
+                className={`px-4 py-2 text-xs font-black uppercase tracking-wider transition-all duration-200 cursor-pointer border-[2px] select-none ${
                   isSelected
-                    ? "bg-accent text-accent-foreground border-border shadow-xs translate-x-[1px] translate-y-[1px]"
-                    : "bg-background text-foreground border-border shadow-sm hover:shadow-md hover:-translate-y-[1px]"
+                    ? "bg-background text-foreground border-border shadow-[2px_2px_0_0_var(--accent)] translate-x-[1px] translate-y-[1px]"
+                    : "bg-background text-foreground border-border shadow-sm hover:-translate-x-[1px] hover:-translate-y-[1px] hover:shadow-[2px_2px_0_0_var(--color-accent-secondary)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
                 }`}
               >
                 {yr}
@@ -342,7 +342,7 @@ export default function GithubCalendar() {
       {/* Floating Tooltip Component */}
       {hoveredDay && (
         <div
-          className="fixed pointer-events-none z-50 bg-black text-white text-[10px] font-bold py-1.5 px-2.5 rounded shadow-lg border border-neutral-700 -translate-x-1/2"
+          className="fixed pointer-events-none z-50 bg-accent-warning text-black text-[10px] font-black py-1.5 px-2.5 border-[2px] border-border shadow-sm -translate-x-1/2 select-none uppercase tracking-wider"
           style={{
             left: `${tooltipPos.x}px`,
             top: `${tooltipPos.y}px`,
