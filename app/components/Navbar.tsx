@@ -6,6 +6,7 @@ import { useState } from "react";
 import { FiMenu, FiX, FiSun, FiMoon } from "react-icons/fi";
 import { useTheme } from "./ThemeProvider";
 import MagneticWrap from "./MagneticWrap";
+import HeaderClock from "./HeaderClock";
 
 const links = [
   { href: "/projects", label: "Projects" },
@@ -20,11 +21,14 @@ export default function Navbar() {
   const { theme, toggle } = useTheme();
 
   return (
-    <nav className="sticky top-0 z-50 w-full bg-background border-b-[3px] border-border px-6 py-4">
-      <div className="max-w-6xl mx-auto flex justify-between items-center">
-        <Link href="/" className="font-serif text-2xl font-bold tracking-tight text-foreground">
-          medhansh<span className="text-accent">.kapoor</span>
-        </Link>
+    <nav className="sticky top-0 z-50 w-full bg-background border-b-[3px] border-border px-6 md:px-12 py-4">
+      <div className="w-full flex justify-between items-center">
+        <div className="flex items-center gap-4">
+          <HeaderClock />
+          <Link href="/" className="font-serif text-2xl font-bold tracking-tight text-foreground">
+            medhansh<span className="text-accent">.kapoor</span>
+          </Link>
+        </div>
 
         <div className="hidden md:flex items-center gap-3">
           {links.map((l) => {

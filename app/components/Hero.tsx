@@ -6,15 +6,10 @@ import { profile } from "@/app/data/profile";
 import MagneticWrap from "./MagneticWrap";
 import GithubCalendar from "./GithubCalendar";
 import CommitFeed from "./CommitFeed";
-import DeskStation from "./DeskStation";
 
 export default function Hero() {
   return (
     <section className="max-w-6xl mx-auto px-6 pt-3 md:pt-4 pb-0 flex-1 relative">
-      {/* Left Gutter Sidebar Slot */}
-      <div className="absolute right-full mr-6 top-0 bottom-0 h-full w-40 hidden 2xl:flex flex-col justify-evenly items-center select-none">
-        <DeskStation />
-      </div>
       <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8 w-full h-full">
         <div className="flex-1 text-center md:text-left">
           <motion.div

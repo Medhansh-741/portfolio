@@ -1,3 +1,30 @@
+@font-face {
+  font-family: 'DSEG7-Classic';
+  src: url('/fonts/DSEG7Classic-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'DSEG7-Classic';
+  src: url('/fonts/DSEG7Classic-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'DSEG14-Classic';
+  src: url('/fonts/DSEG14Classic-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'DSEG14-Classic';
+  src: url('/fonts/DSEG14Classic-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
 @import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
@@ -46,6 +73,7 @@
   --font-sans: "Inter", sans-serif;
   --font-serif: "Playfair Display", serif;
   --font-gothic: var(--font-pirata);
+  --font-digital: "DSEG7-Classic", monospace;
   --shadow-xs: 1px 1px 0 0 var(--border);
   --shadow-sm: 2px 2px 0 0 var(--border);
   --shadow: 3px 3px 0 0 var(--border);
