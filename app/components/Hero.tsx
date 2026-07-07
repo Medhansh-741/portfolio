@@ -4,10 +4,11 @@ import { motion } from "framer-motion";
 import { FiGithub, FiLinkedin, FiMail } from "react-icons/fi";
 import { profile } from "@/app/data/profile";
 import MagneticWrap from "./MagneticWrap";
+import GithubCalendar from "./GithubCalendar";
 
 export default function Hero() {
   return (
-    <section className="max-w-6xl mx-auto px-6 pt-5 md:pt-7 pb-2 flex-1">
+    <section className="max-w-6xl mx-auto px-6 pt-3 md:pt-4 pb-0 flex-1">
       <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8 w-full h-full">
         <div className="flex-1 text-center md:text-left">
           <motion.div
@@ -41,7 +42,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="text-sm text-muted-foreground leading-relaxed max-w-xl mt-4"
+            className="text-sm text-muted-foreground leading-relaxed max-w-xl mt-3"
           >
             I build by jumping in headfirst — every project is an excuse to explore a stack I haven&apos;t mastered yet, a problem that feels just out of reach, or an architecture I haven&apos;t tried. I think in systems, not features: connecting ideas across AI, infrastructure, and full-stack to build solutions that hold up under pressure. I don&apos;t stay comfortable. I learn by doing, I ship fast, and I believe code should scale beyond its first use case.
           </motion.p>
@@ -50,7 +51,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="flex flex-wrap justify-center md:justify-start gap-3 mt-6"
+            className="flex flex-wrap justify-center md:justify-start gap-3 mt-4"
           >
             <MagneticWrap>
               <a href={`mailto:${profile.email}`}
@@ -73,6 +74,14 @@ export default function Hero() {
                 <FiLinkedin size={16} /> LinkedIn
               </a>
             </MagneticWrap>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+          >
+            <GithubCalendar />
           </motion.div>
         </div>
 
