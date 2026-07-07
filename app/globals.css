@@ -12,7 +12,7 @@
   --border: #000000;
   --primary: #000000;
   --primary-foreground: #FFFFFF;
-  --accent: #000000;
+  --accent: #FF4500;
   --accent-foreground: #FFFFFF;
   --radius: 0;
 }
@@ -27,8 +27,8 @@
   --border: #444444;
   --primary: #f5f5f5;
   --primary-foreground: #0f0f0f;
-  --accent: #f5f5f5;
-  --accent-foreground: #0f0f0f;
+  --accent: #00FF41;
+  --accent-foreground: #000000;
 }
 
 @theme inline {

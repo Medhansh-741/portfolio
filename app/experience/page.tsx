@@ -19,7 +19,7 @@ export default function ExperiencePage() {
     <main className="min-h-screen bg-background">
       <div className="max-w-4xl mx-auto px-6 py-16">
         <div className="text-center space-y-2 mb-12">
-          <p className="text-xs text-muted-foreground font-bold uppercase tracking-widest">Where I&apos;ve Worked</p>
+          <p className="text-xs text-accent font-bold uppercase tracking-widest">Where I&apos;ve Worked</p>
           <h1 className="font-sans text-4xl md:text-5xl font-black text-foreground uppercase tracking-tight">Experience</h1>
         </div>
 
@@ -43,7 +43,7 @@ export default function ExperiencePage() {
                   <span>{exp.period}</span>
                   <MagneticWrap>
                     <a href={exp.offerLetter} target="_blank" rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-foreground hover:text-muted-foreground transition-colors">
+                      className="inline-flex items-center gap-1 text-accent hover:text-foreground transition-colors">
                       Offer Letter <FiExternalLink size={12} />
                     </a>
                   </MagneticWrap>

@@ -10,7 +10,7 @@ export default function AboutPage() {
       <div className="max-w-4xl mx-auto px-6 py-16">
         <section className="mb-16">
           <div className="text-center space-y-2 mb-8">
-            <p className="text-xs text-muted-foreground font-bold uppercase tracking-widest">About Me</p>
+            <p className="text-xs text-accent font-bold uppercase tracking-widest">About Me</p>
             <h1 className="font-sans text-4xl md:text-5xl font-black text-foreground uppercase tracking-tight">
               Driven by code, obsessed with craft.
             </h1>
@@ -32,7 +32,7 @@ export default function AboutPage() {
 
         <section className="mb-16">
           <div className="text-center space-y-2 mb-8">
-            <p className="text-xs text-muted-foreground font-bold uppercase tracking-widest">Recognition</p>
+            <p className="text-xs text-accent font-bold uppercase tracking-widest">Recognition</p>
             <h2 className="font-sans text-4xl md:text-5xl font-black text-foreground uppercase tracking-tight">Achievements</h2>
           </div>
           <div className="space-y-6">
@@ -44,14 +44,14 @@ export default function AboutPage() {
                 transition={{ delay: i * 0.2 }}
                 className="flex items-start gap-4 bg-card text-card-foreground border-[3px] border-border shadow-md p-6"
               >
-                <div className="w-10 h-10 bg-foreground text-background flex items-center justify-center flex-shrink-0 mt-0.5 border-[2px] border-border">
+                <div className="w-10 h-10 bg-accent text-accent-foreground flex items-center justify-center flex-shrink-0 mt-0.5 border-[2px] border-border">
                   <FiAward size={20} />
                 </div>
                 <div className="flex-1">
                   <h3 className="font-sans text-base font-bold text-foreground uppercase">{ach.title}</h3>
                   <p className="text-sm text-muted-foreground mt-1 leading-relaxed">{ach.detail}</p>
                   <a href={ach.certificate} target="_blank" rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-widest text-foreground hover:text-muted-foreground transition-colors mt-2">
+                    className="inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-widest text-accent hover:text-foreground transition-colors mt-2">
                     View Certificate <FiExternalLink size={12} />
                   </a>
                 </div>
@@ -62,7 +62,7 @@ export default function AboutPage() {
 
         <section>
           <div className="text-center space-y-2 mb-8">
-            <p className="text-xs text-muted-foreground font-bold uppercase tracking-widest">Academic Background</p>
+            <p className="text-xs text-accent font-bold uppercase tracking-widest">Academic Background</p>
             <h2 className="font-sans text-4xl md:text-5xl font-black text-foreground uppercase tracking-tight">Education</h2>
           </div>
           <div className="space-y-6">

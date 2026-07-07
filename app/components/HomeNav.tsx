@@ -35,7 +35,7 @@ export default function HomeNav() {
                 href={l.href}
                 className={`group inline-flex items-center gap-2 px-6 py-3 text-sm font-bold uppercase tracking-widest border-[3px] border-border shadow-md hover:shadow-lg transition-shadow duration-200 ${
                   i === 0
-                    ? "bg-foreground text-background"
+                    ? "bg-accent text-accent-foreground border-accent"
                     : "bg-background text-foreground"
                 }`}
               >

@@ -13,7 +13,7 @@ export default function Hero() {
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 bg-foreground text-background px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest border-[2px] border-border shadow-sm mb-5"
+            className="inline-flex items-center gap-2 bg-accent text-accent-foreground px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest border-[2px] border-border shadow-sm mb-5"
           >
             <span className="w-1.5 h-1.5 bg-background animate-pulse" />
             Open to Internships & Full-Time Roles
@@ -55,7 +55,7 @@ export default function Hero() {
           >
             <MagneticWrap>
               <a href={`mailto:${profile.email}`}
-                className="px-6 py-3 text-sm font-bold uppercase tracking-widest bg-foreground text-background border-[3px] border-border shadow-md hover:shadow-lg transition-shadow flex items-center gap-2"
+                className="px-6 py-3 text-sm font-bold uppercase tracking-widest bg-accent text-accent-foreground border-[3px] border-accent shadow-md hover:shadow-lg transition-shadow flex items-center gap-2"
               >
                 <FiMail size={16} /> Contact Me
               </a>

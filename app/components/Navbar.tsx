@@ -22,7 +22,7 @@ export default function Navbar() {
     <nav className="sticky top-0 z-50 w-full bg-background border-b-[3px] border-border px-6 py-4">
       <div className="max-w-6xl mx-auto flex justify-between items-center">
         <Link href="/" className="font-serif text-2xl font-bold tracking-tight text-foreground">
-          medhansh<span className="text-muted-foreground">.kapoor</span>
+          medhansh<span className="text-accent">.kapoor</span>
         </Link>
 
         <div className="hidden md:flex items-center space-x-8">
@@ -33,7 +33,7 @@ export default function Navbar() {
                 key={l.href}
                 href={l.href}
                 className={`text-sm font-bold uppercase tracking-widest transition-colors duration-200 ${
-                  active ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+                  active ? "text-accent" : "text-muted-foreground hover:text-accent"
                 }`}
               >
                 {l.label}
@@ -42,7 +42,7 @@ export default function Navbar() {
           })}
           <button
             onClick={toggle}
-            className="p-2 border-2 border-border shadow-sm hover:shadow-md transition-shadow"
+            className="p-2 border-2 border-border shadow-sm hover:shadow-md transition-shadow text-accent"
             aria-label="Toggle theme"
           >
             {theme === "light" ? <FiMoon size={16} /> : <FiSun size={16} />}
@@ -52,7 +52,7 @@ export default function Navbar() {
         <div className="md:hidden flex items-center gap-3">
           <button
             onClick={toggle}
-            className="p-2 border-2 border-border"
+            className="p-2 border-2 border-border text-accent"
             aria-label="Toggle theme"
           >
             {theme === "light" ? <FiMoon size={16} /> : <FiSun size={16} />}
@@ -71,7 +71,7 @@ export default function Navbar() {
               href={l.href}
               onClick={() => setOpen(false)}
               className={`text-sm font-bold uppercase tracking-widest py-1 ${
-                pathname === l.href ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+                pathname === l.href ? "text-accent" : "text-muted-foreground hover:text-accent"
               }`}
             >
               {l.label}

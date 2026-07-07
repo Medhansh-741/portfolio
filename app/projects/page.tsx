@@ -19,7 +19,7 @@ export default function ProjectsPage() {
     <main className="min-h-screen bg-background">
       <div className="max-w-6xl mx-auto px-6 py-16">
         <div className="text-center space-y-2 mb-12">
-          <p className="text-xs text-muted-foreground font-bold uppercase tracking-widest">What I&apos;ve Built</p>
+          <p className="text-xs text-accent font-bold uppercase tracking-widest">What I&apos;ve Built</p>
           <h1 className="font-sans text-4xl md:text-5xl font-black text-foreground uppercase tracking-tight">Projects</h1>
         </div>
 
@@ -44,7 +44,7 @@ export default function ProjectsPage() {
 
               {proj.metrics && (
                 <div className="mb-4">
-                  <span className="text-[10px] font-bold uppercase tracking-widest bg-foreground text-background px-2 py-1">
+                  <span className="text-[10px] font-bold uppercase tracking-widest bg-accent text-accent-foreground px-2 py-1">
                     {proj.metrics}
                   </span>
                 </div>
@@ -70,7 +70,7 @@ export default function ProjectsPage() {
                 {proj.links.live && (
                   <MagneticWrap>
                     <a href={proj.links.live} target="_blank" rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-widest text-foreground hover:text-muted-foreground transition-colors">
+                      className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-widest text-foreground hover:text-accent transition-colors">
                       <FiExternalLink size={14} /> Live
                     </a>
                   </MagneticWrap>
@@ -78,7 +78,7 @@ export default function ProjectsPage() {
                 {proj.links.github && (
                   <MagneticWrap>
                     <a href={proj.links.github} target="_blank" rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-widest text-foreground hover:text-muted-foreground transition-colors">
+                      className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-widest text-foreground hover:text-accent transition-colors">
                       <FiGithub size={14} /> GitHub
                     </a>
                   </MagneticWrap>
@@ -86,7 +86,7 @@ export default function ProjectsPage() {
                 {proj.links.demo && (
                   <MagneticWrap>
                     <a href={proj.links.demo} target="_blank" rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-widest text-foreground hover:text-muted-foreground transition-colors">
+                      className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-widest text-foreground hover:text-accent transition-colors">
                       <FiYoutube size={14} /> Demo
                     </a>
                   </MagneticWrap>

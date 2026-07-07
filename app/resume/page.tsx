@@ -17,7 +17,7 @@ export default function ResumePage() {
           <a
             href={profile.resumeUrl}
             download
-            className="inline-flex items-center gap-2 px-5 py-2.5 text-xs font-bold uppercase tracking-widest bg-foreground text-background border-[3px] border-border shadow-md hover:shadow-lg transition-shadow"
+            className="inline-flex items-center gap-2 px-5 py-2.5 text-xs font-bold uppercase tracking-widest bg-accent text-accent-foreground border-[3px] border-accent shadow-md hover:shadow-lg transition-shadow"
           >
             <FiDownload size={16} />
             Download PDF
@@ -120,7 +120,7 @@ export default function ResumePage() {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="mb-8">
-      <h2 className="text-xs font-bold uppercase tracking-widest text-foreground border-b-[3px] border-border pb-1 mb-3">
+      <h2 className="text-xs font-bold uppercase tracking-widest text-accent border-b-[3px] border-border pb-1 mb-3">
         {title}
       </h2>
       {children}
