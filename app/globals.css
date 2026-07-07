@@ -45,12 +45,23 @@
   --color-accent-foreground: var(--accent-foreground);
   --font-sans: "Inter", sans-serif;
   --font-serif: "Playfair Display", serif;
+  --font-gothic: var(--font-pirata);
   --shadow-xs: 1px 1px 0 0 var(--border);
   --shadow-sm: 2px 2px 0 0 var(--border);
   --shadow: 3px 3px 0 0 var(--border);
   --shadow-md: 4px 4px 0 0 var(--border);
   --shadow-lg: 6px 6px 0 0 var(--border);
   --shadow-xl: 10px 10px 0 1px var(--border);
+}
+
+@theme {
+  --color-accent-secondary: #7C3AED;
+  --color-accent-warning: #D97706;
+}
+
+.dark {
+  --color-accent-secondary: #06B6D4;
+  --color-accent-warning: #FACC15;
 }
 
 body {
@@ -95,3 +106,17 @@ html {
 .animate-float {
   animation: float 6s ease-in-out infinite;
 }
+
+@keyframes marquee-vertical {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+.marquee-vertical {
+  animation: marquee-vertical 35s linear infinite;
+  display: flex;
+  flex-direction: column;
+}
+.marquee-vertical:hover {
+  animation-play-state: paused;
+}
+

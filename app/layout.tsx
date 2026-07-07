@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Inter, Playfair_Display, Pirata_One } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import ThemeProvider from "./components/ThemeProvider";
@@ -12,6 +12,12 @@ const inter = Inter({
 const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-playfair",
+});
+
+const pirataOne = Pirata_One({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-pirata",
 });
 
 export const metadata: Metadata = {
@@ -28,7 +34,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${playfair.variable} antialiased bg-background text-foreground font-sans`}
+        className={`${inter.variable} ${playfair.variable} ${pirataOne.variable} antialiased bg-background text-foreground font-sans`}
       >
         <ThemeProvider>
           <div className="min-h-dvh flex flex-col">
