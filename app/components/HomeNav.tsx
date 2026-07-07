@@ -13,7 +13,7 @@ const links = [
 
 export default function HomeNav() {
   return (
-    <div className="max-w-4xl mx-auto px-6 py-16 text-center space-y-6">
+    <div className="max-w-4xl mx-auto px-6 py-4 text-center space-y-3 flex-1 flex flex-col justify-center">
       <motion.p
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

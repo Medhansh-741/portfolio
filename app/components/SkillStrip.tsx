@@ -40,7 +40,7 @@ export default function SkillStrip() {
   const duplicated = [...skills, ...skills, ...skills];
 
   return (
-    <div className="w-full overflow-hidden border-y-[3px] border-border bg-muted py-4">
+    <div className="w-full overflow-hidden border-y-[3px] border-border bg-muted py-3">
       <div className="flex marquee gap-6 items-center">
         {duplicated.map((skill, i) => (
           <div
