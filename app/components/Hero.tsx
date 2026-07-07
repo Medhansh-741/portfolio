@@ -5,18 +5,24 @@ import { FiGithub, FiLinkedin, FiMail } from "react-icons/fi";
 import { profile } from "@/app/data/profile";
 import MagneticWrap from "./MagneticWrap";
 import GithubCalendar from "./GithubCalendar";
+import CommitFeed from "./CommitFeed";
+import DeskStation from "./DeskStation";
 
 export default function Hero() {
   return (
-    <section className="max-w-6xl mx-auto px-6 pt-3 md:pt-4 pb-0 flex-1">
+    <section className="max-w-6xl mx-auto px-6 pt-3 md:pt-4 pb-0 flex-1 relative">
+      {/* Left Gutter Sidebar Slot */}
+      <div className="absolute right-full mr-6 top-0 bottom-0 h-full w-40 hidden 2xl:flex flex-col justify-evenly items-center select-none">
+        <DeskStation />
+      </div>
       <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8 w-full h-full">
         <div className="flex-1 text-center md:text-left">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 bg-accent text-accent-foreground px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest border-[2px] border-border shadow-sm mb-4"
+            className="inline-flex items-center gap-2 bg-accent-warning text-black px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest border-[2px] border-border shadow-sm mb-4"
           >
-            <span className="w-1.5 h-1.5 bg-background animate-pulse" />
+            <span className="w-1.5 h-1.5 bg-black animate-pulse" />
             Open to Internships & Full-Time Roles
           </motion.div>
 
@@ -24,9 +30,16 @@ export default function Hero() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="font-sans text-5xl md:text-7xl font-black tracking-tight text-foreground uppercase leading-[0.9]"
+            className="font-gothic text-5xl md:text-7xl font-normal tracking-wide text-black dark:text-white leading-[0.9] cursor-default select-none"
           >
-            {profile.name}
+            {"Medhansh".split("").map((char, index) => (
+              <span
+                key={index}
+                className="transition-all duration-300 hover:[text-shadow:0_0_15px_rgba(220,38,38,0.55)] dark:hover:[text-shadow:0_0_15px_rgba(0,255,65,0.75)]"
+              >
+                {char}
+              </span>
+            ))}
           </motion.h1>
 
           <motion.p
@@ -55,21 +68,21 @@ export default function Hero() {
           >
             <MagneticWrap>
               <a href={`mailto:${profile.email}`}
-                className="px-6 py-3 text-sm font-bold uppercase tracking-widest bg-accent text-accent-foreground border-[3px] border-accent shadow-md hover:shadow-lg transition-shadow flex items-center gap-2"
+                className="px-6 py-3 text-sm font-bold uppercase tracking-widest bg-background text-foreground border-[3px] border-border shadow-sm hover:shadow-[3px_3px_0_0_var(--accent)] hover:-translate-x-[1px] hover:-translate-y-[1px] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-200 flex items-center gap-2 select-none cursor-pointer"
               >
                 <FiMail size={16} /> Contact Me
               </a>
             </MagneticWrap>
             <MagneticWrap>
               <a href={profile.github} target="_blank" rel="noopener noreferrer"
-                className="px-6 py-3 text-sm font-bold uppercase tracking-widest bg-background text-foreground border-[3px] border-border shadow-md hover:shadow-lg transition-shadow flex items-center gap-2"
+                className="px-6 py-3 text-sm font-bold uppercase tracking-widest bg-background text-foreground border-[3px] border-border shadow-sm hover:shadow-[3px_3px_0_0_var(--color-accent-secondary)] hover:-translate-x-[1px] hover:-translate-y-[1px] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-200 flex items-center gap-2 select-none cursor-pointer"
               >
                 <FiGithub size={16} /> GitHub
               </a>
             </MagneticWrap>
             <MagneticWrap>
               <a href={profile.linkedin} target="_blank" rel="noopener noreferrer"
-                className="px-6 py-3 text-sm font-bold uppercase tracking-widest bg-background text-foreground border-[3px] border-border shadow-md hover:shadow-lg transition-shadow flex items-center gap-2"
+                className="px-6 py-3 text-sm font-bold uppercase tracking-widest bg-background text-foreground border-[3px] border-border shadow-sm hover:shadow-[3px_3px_0_0_var(--color-accent-secondary)] hover:-translate-x-[1px] hover:-translate-y-[1px] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-200 flex items-center gap-2 select-none cursor-pointer"
               >
                 <FiLinkedin size={16} /> LinkedIn
               </a>
@@ -86,16 +99,12 @@ export default function Hero() {
         </div>
 
         <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ type: "spring", stiffness: 200, damping: 15 }}
-          className="-rotate-2 flex-shrink-0"
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ type: "spring", stiffness: 120, damping: 14, delay: 0.6 }}
+          className="flex-shrink-0"
         >
-          <div className="w-36 h-36 md:w-44 md:h-44 bg-background border-[3px] border-border shadow-lg flex items-center justify-center select-none">
-            <span className="font-serif text-6xl md:text-7xl font-bold text-muted-foreground">
-              MK
-            </span>
-          </div>
+          <CommitFeed />
         </motion.div>
       </div>
     </section>
