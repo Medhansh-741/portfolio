@@ -3,6 +3,9 @@
 import { useEffect, useState } from "react";
 import { useTheme } from "./ThemeProvider";
 import { FiGitCommit, FiGithub } from "react-icons/fi";
+import RetroCard from "./ui/RetroCard";
+import CardHeader from "./ui/CardHeader";
+import CardFooter from "./ui/CardFooter";
 
 interface Commit {
   id: string;
@@ -44,7 +47,13 @@ const mockFallbackCommits: Commit[] = [
   },
 ];
 
-export default function CommitFeed() {
+interface CommitFeedProps {
+  className?: string;
+  delay?: number;
+  style?: React.CSSProperties;
+}
+
+export default function CommitFeed({ className = "", delay = 0.7, style }: CommitFeedProps) {
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
@@ -116,31 +125,30 @@ export default function CommitFeed() {
   }
 
   return (
-    <div className="w-full md:w-64 h-[370px] bg-card border-[3px] border-border shadow-md hover:shadow-[3px_3px_0_0_var(--accent)] p-4 flex flex-col justify-between overflow-hidden transition-all duration-200 select-none">
-      
-      {/* Header */}
-      <div>
-        <div className="flex justify-between items-center">
-          <span className="font-sans text-[10px] font-black uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
-            <FiGitCommit className="text-accent animate-pulse" size={14} />
-            LIVE ACTIVITY
-          </span>
-          <span className="font-sans text-[9px] font-bold text-muted-foreground uppercase">
-            @Medhansh-741
-          </span>
-        </div>
-        <div className="border-b-[2px] border-border mt-2.5 mb-3.5" />
-      </div>
+    <RetroCard
+      accentColor="var(--color-accent)"
+      padding="p-4"
+      delay={delay}
+      className={className}
+      style={style}
+    >
+      {/* Header — clickable GitHub icon badge replaces @Medhansh-741 subtitle */}
+      <CardHeader
+        icon={<FiGitCommit size={14} />}
+        accentColor="var(--color-accent)"
+        title="LIVE ACTIVITY"
+        badge={<FiGithub size={11} />}
+        badgeHref="https://github.com/Medhansh-741"
+        pulse
+      />
 
       {/* Timeline Viewport Container */}
-      <div className="relative flex-grow overflow-hidden h-[210px] pr-1">
-        
+      <div className="relative pr-1 w-full h-[calc(100%-80px)] overflow-hidden mt-3">
         {/* Dotted Vertical Timeline Line */}
         <div className="absolute left-[9px] top-1 bottom-1 w-0.5 border-l-[2px] border-dashed border-muted z-0" />
 
         {/* Marquee Wrapper: Contains two copies of the list for seamless wrapping */}
         <div className="marquee-vertical gap-4 py-1">
-          
           {/* First Copy */}
           <div className="flex flex-col gap-4">
             {displayCommits.map((commit, idx) => (
@@ -199,40 +207,26 @@ export default function CommitFeed() {
               </a>
             ))}
           </div>
-
         </div>
-
       </div>
 
-      {/* Footer Button */}
-      <div className="mt-3.5 pt-3.5 border-t-[2px] border-border">
-        <a
-          href="https://github.com/Medhansh-741"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="w-full flex items-center justify-center gap-2 border-[2px] border-border py-2 text-[10px] font-black uppercase tracking-widest bg-background hover:shadow-[2px_2px_0_0_var(--color-accent-secondary)] hover:-translate-x-[1px] hover:-translate-y-[1px] active:translate-x-0 active:translate-y-0 active:shadow-none transition-all duration-200 cursor-pointer select-none text-foreground"
-        >
-          <FiGithub size={12} />
-          VIEW ON GITHUB
-        </a>
-      </div>
-
-    </div>
+      {/* Footer — standard text footer replacing the big VIEW ON GITHUB button */}
+      <CardFooter left="@Medhansh-741" right="LIVE_FEED" />
+    </RetroCard>
   );
 }
 
 function CommitFeedSkeleton({ isDark }: { isDark: boolean }) {
   return (
-    <div className="w-full md:w-64 h-[370px] bg-card border-[3px] border-border shadow-md p-4 flex flex-col justify-between overflow-hidden animate-pulse">
+    <div className="w-full md:w-60 h-full bg-card border-[3px] border-border shadow-md p-4 flex flex-col justify-between overflow-hidden animate-pulse">
       <div>
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center pb-2 border-b border-border/10">
           <div className="w-24 h-3 bg-muted rounded" />
-          <div className="w-16 h-3 bg-muted rounded" />
+          <div className="w-8 h-4 bg-muted rounded" />
         </div>
-        <div className="border-b-[2px] border-border mt-2.5 mb-3.5" />
       </div>
 
-      <div className="relative flex-1">
+      <div className="relative flex-1 mt-3">
         <div className="absolute left-[9px] top-1.5 bottom-1.5 w-0.5 border-l-[2px] border-dashed border-muted" />
         <div className="flex flex-col gap-4">
           {[...Array(4)].map((_, i) => (
@@ -248,8 +242,9 @@ function CommitFeedSkeleton({ isDark }: { isDark: boolean }) {
         </div>
       </div>
 
-      <div className="mt-3.5 pt-3.5 border-t-[2px] border-border">
-        <div className="w-full h-9 bg-muted border-[2px] border-border" />
+      <div className="border-t border-border/10 pt-2 flex justify-between items-center">
+        <div className="w-20 h-2.5 bg-muted rounded" />
+        <div className="w-16 h-2.5 bg-muted rounded" />
       </div>
     </div>
   );
