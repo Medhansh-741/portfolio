@@ -27,6 +27,8 @@ export const metadata: Metadata = {
     "Portfolio of Medhansh Kapoor — AI/ML Engineer and Full-Stack Developer. Building production-grade AI agents, geospatial systems, and full-stack applications.",
 };
 
+import { ReactLenisProvider } from "./components/ReactLenisProvider";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -42,10 +44,12 @@ export default function RootLayout({
         className={`${inter.variable} ${playfair.variable} ${pirataOne.variable} antialiased bg-background text-foreground font-sans`}
       >
         <ThemeProvider>
-          <div className="min-h-dvh flex flex-col">
-            <Navbar />
-            {children}
-          </div>
+          <ReactLenisProvider>
+            <div className="min-h-dvh flex flex-col">
+              <Navbar />
+              {children}
+            </div>
+          </ReactLenisProvider>
         </ThemeProvider>
         <Analytics />
       </body>

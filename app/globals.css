@@ -147,4 +147,11 @@ html {
 .marquee-vertical:hover {
   animation-play-state: paused;
 }
+@utility no-scrollbar {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+  &::-webkit-scrollbar {
+    display: none !important;
+  }
+}
 
