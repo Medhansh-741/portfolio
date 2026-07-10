@@ -30,11 +30,15 @@ const getFallbackData = (): ApiResponse => {
       let level = 0;
       let count = 0;
       
+      const todayStr = new Date().toISOString().split("T")[0];
+      
       if (yearNum === 2026) {
-        const rand = Math.random();
-        if (rand > 0.75) {
-          level = Math.floor(Math.random() * 4) + 1;
-          count = level * 2 + Math.floor(Math.random() * 3);
+        if (dateStr <= todayStr) {
+          const rand = Math.random();
+          if (rand > 0.75) {
+            level = Math.floor(Math.random() * 4) + 1;
+            count = level * 2 + Math.floor(Math.random() * 3);
+          }
         }
       } else if (yearNum === 2025) {
         const rand = Math.random();
@@ -60,82 +64,100 @@ export default function GithubCalendar() {
   const isDark = theme === "dark";
 
   const [platform, setPlatform] = useState<"github" | "leetcode" | "codeforces">("github");
-  const [data, setData] = useState<ApiResponse | null>(null);
+  const [githubData, setGithubData] = useState<ApiResponse | null>(null);
+  const [leetcodeData, setLeetcodeData] = useState<Record<string, number>>({});
+  const [codeforcesData, setCodeforcesData] = useState<Record<string, number>>({});
   const [loading, setLoading] = useState(true);
   const [selectedYear, setSelectedYear] = useState<string>("2026");
   const [hoveredDay, setHoveredDay] = useState<ContributionDay | null>(null);
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
-    async function fetchContributions() {
+    async function fetchAllData() {
+      setLoading(true);
       try {
-        const res = await fetch("/api/github?username=Medhansh-741");
-        if (!res.ok) throw new Error("API response error");
-        const json: ApiResponse = await res.json();
-        setData(json);
-        
-        if (json && json.total) {
-          const years = Object.keys(json.total).sort((a, b) => b.localeCompare(a));
-          if (years.length > 0) {
-            setSelectedYear(years[0]);
+        const [ghRes, lcRes, cfRes] = await Promise.all([
+          fetch("/api/github?username=Medhansh-741"),
+          fetch("/api/leetcode?username=iXfyEpMpyu"),
+          fetch("/api/codeforces?username=Medhansh_217")
+        ]);
+
+        if (ghRes.ok) {
+          const ghJson = await ghRes.json();
+          setGithubData(ghJson);
+          if (ghJson && ghJson.total) {
+            const years = Object.keys(ghJson.total).sort((a, b) => b.localeCompare(a));
+            if (years.length > 0) setSelectedYear(years[0]);
           }
+        } else {
+          setGithubData(getFallbackData());
+        }
+
+        if (lcRes.ok) {
+          const lcJson = await lcRes.json();
+          setLeetcodeData(lcJson.calendar || {});
+        }
+
+        if (cfRes.ok) {
+          const cfJson = await cfRes.json();
+          setCodeforcesData(cfJson.calendar || {});
         }
       } catch (err) {
-        console.error("Using fallback contribution data:", err);
-        const fallback = getFallbackData();
-        setData(fallback);
+        console.error("Error fetching live contribution data:", err);
+        setGithubData(getFallbackData());
         setSelectedYear("2026");
       } finally {
         setLoading(false);
       }
     }
-    fetchContributions();
+    fetchAllData();
   }, []);
 
   if (loading) {
     return <CalendarSkeleton isDark={isDark} />;
   }
 
-  const total = data?.total || { "2026": 238, "2025": 13 };
-  const rawContributions = data?.contributions || [];
+  const rawContributions = githubData?.contributions || [];
 
-  // Deterministic contribution level morphing based on selected platform
-  const getLevelForPlatform = (dateStr: string, baseLevel: number) => {
-    // Generate a simple deterministic hash based on date and platform name
-    const seed = dateStr + platform;
-    let hash = 0;
-    for (let i = 0; i < seed.length; i++) {
-      hash = seed.charCodeAt(i) + ((hash << 5) - hash);
-    }
-    hash = Math.abs(hash);
-    const randVal = hash % 100;
-
-    if (platform === "github") {
-      // Return baseLevel or a slight random variation
-      if (baseLevel > 0) return baseLevel;
-      if (randVal > 92) return Math.floor(randVal % 3) + 1;
-      return 0;
-    } else if (platform === "leetcode") {
-      // LeetCode density
-      if (randVal > 86) return Math.floor(randVal % 4) + 1;
-      return 0;
-    } else {
-      // Codeforces density (more sparse)
-      if (randVal > 94) return Math.floor(randVal % 4) + 1;
-      return 0;
-    }
+  const getLevelForCount = (c: number) => {
+    if (!c || c <= 0) return 0;
+    if (c === 1) return 1;
+    if (c <= 3) return 2;
+    if (c <= 5) return 3;
+    return 4;
   };
 
-  // Filter & morph contributions for selected year
   const yearContributions = rawContributions
     .filter((c) => c.date.startsWith(`${selectedYear}-`))
     .map((c) => {
-      const level = getLevelForPlatform(c.date, c.level);
-      return {
-        date: c.date,
-        level,
-        count: level === 0 ? 0 : level * 2 + (Math.floor(parseInt(c.date.slice(-2)) % 3)),
-      };
+      const todayStr = new Date().toISOString().split("T")[0];
+      const isFuture = c.date > todayStr;
+      
+      if (isFuture) {
+        return { date: c.date, level: 0, count: 0 };
+      }
+
+      if (platform === "github") {
+        return {
+          date: c.date,
+          level: c.level,
+          count: c.count,
+        };
+      } else if (platform === "leetcode") {
+        const count = leetcodeData[c.date] || 0;
+        return {
+          date: c.date,
+          level: getLevelForCount(count),
+          count,
+        };
+      } else {
+        const count = codeforcesData[c.date] || 0;
+        return {
+          date: c.date,
+          level: getLevelForCount(count),
+          count,
+        };
+      }
     });
 
   // Calculate total counts for display
@@ -258,6 +280,7 @@ export default function GithubCalendar() {
     }
   };
 
+  const total = githubData?.total || { "2026": 238, "2025": 13 };
   const years = Object.keys(total).sort((a, b) => b.localeCompare(a));
 
   const handleMouseMove = (e: React.MouseEvent) => {
@@ -386,14 +409,21 @@ export default function GithubCalendar() {
                             />
                           );
                         }
+                        const todayStr = new Date().toISOString().split("T")[0];
+                        const isFuture = day.date > todayStr;
                         const color = getSquareStyle(day.level);
+                        
                         return (
                           <div
                             key={rowIdx}
-                            className="w-[10px] h-[10px] rounded-[1.5px] cursor-pointer transition-transform hover:scale-[1.3] hover:z-10 border border-black dark:border-white"
+                            className={`w-[10px] h-[10px] rounded-[1.5px] border border-black dark:border-white ${
+                              isFuture 
+                                ? "cursor-default opacity-30" 
+                                : "cursor-pointer transition-transform hover:scale-[1.3] hover:z-10"
+                            }`}
                             style={{ backgroundColor: color }}
-                            onMouseEnter={() => setHoveredDay(day)}
-                            onMouseLeave={() => setHoveredDay(null)}
+                            onMouseEnter={() => !isFuture && setHoveredDay(day)}
+                            onMouseLeave={() => !isFuture && setHoveredDay(null)}
                           />
                         );
                       })}
