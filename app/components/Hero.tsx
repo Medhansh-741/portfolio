@@ -4,15 +4,24 @@ import { motion } from "framer-motion";
 import { FiGithub, FiLinkedin, FiMail } from "react-icons/fi";
 import { profile } from "@/app/data/profile";
 import MagneticWrap from "./MagneticWrap";
-import GithubCalendar from "./GithubCalendar";
-import CommitFeed from "./CommitFeed";
 import ProjectsDrawer from "./ProjectsDrawer";
 import ExperienceCard from "./ExperienceCard";
-import LeetCodeWidget from "./LeetCodeWidget";
-import CodeforcesWidget from "./CodeforcesWidget";
-import GithubStatsWidget from "./GithubStatsWidget";
 
-export default function Hero() {
+interface HeroProps {
+  githubCalendar: React.ReactNode;
+  leetCodeWidget: React.ReactNode;
+  codeforcesWidget: React.ReactNode;
+  commitFeed: React.ReactNode;
+  githubStatsWidget: React.ReactNode;
+}
+
+export default function Hero({
+  githubCalendar,
+  leetCodeWidget,
+  codeforcesWidget,
+  commitFeed,
+  githubStatsWidget,
+}: HeroProps) {
   return (
     <section className="w-full px-6 md:px-12 lg:px-0 pt-3 md:pt-4 pb-6 flex-grow flex flex-col relative overflow-hidden lg:h-[calc(100dvh-155px)]">
       <div className="flex flex-col lg:flex-row justify-between items-stretch gap-8 lg:gap-12 w-full max-w-[1392px] mx-auto flex-grow h-full">
@@ -100,7 +109,7 @@ export default function Hero() {
             transition={{ delay: 0.5 }}
             className="max-w-xl w-full"
           >
-            <GithubCalendar />
+            {githubCalendar}
           </motion.div>
         </div>
 
@@ -110,19 +119,19 @@ export default function Hero() {
           {/* Column 1: Experience Stack */}
           <div className="flex flex-col justify-between w-full md:w-60 h-full">
             <ExperienceCard style={{ height: "64%" }} delay={0.5} />
-            <LeetCodeWidget style={{ height: "32%" }} delay={0.55} />
+            {leetCodeWidget}
           </div>
 
           {/* Column 2: Projects Stack */}
           <div className="flex flex-col justify-between w-full md:w-60 h-full">
             <ProjectsDrawer style={{ height: "64%" }} delay={0.6} />
-            <CodeforcesWidget style={{ height: "32%" }} delay={0.65} />
+            {codeforcesWidget}
           </div>
 
           {/* Column 3: Commit Feed Stack */}
           <div className="flex flex-col justify-between w-full md:w-60 h-full">
-            <CommitFeed style={{ height: "64%" }} delay={0.7} />
-            <GithubStatsWidget style={{ height: "32%" }} delay={0.75} />
+            {commitFeed}
+            {githubStatsWidget}
           </div>
           
         </div>
