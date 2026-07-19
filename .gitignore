@@ -47,5 +47,21 @@ clock-analysis.png
 medhanshk-me-screenshot.png
 trace.json
 
+# graphify tool output
+graphify-out/
+
+# page snapshots
+page-snapshot.txt
+*snapshot*.txt
+*snapshot*.yml
+
+# responsive screenshots
+screenshot-*.png
+*-fullpage.png
+*-screenshot.png
+
 # dev scripts
 scripts/
+
+# scratch files
+temp*.tsx
