@@ -43,10 +43,36 @@ export async function GET(request: Request) {
   }
 
   try {
-    const [contribRes, userRes, reposRes] = await Promise.allSettled([
-      fetch(`https://github-contributions-api.jogruber.de/v4/${username}`, {
+    const currentYear = new Date().getFullYear();
+    const prevYear = currentYear - 1;
+    const query = `
+      query($userName:String!) {
+        user(login: $userName) {
+          current: contributionsCollection(from: "${currentYear}-01-01T00:00:00Z", to: "${currentYear}-12-31T23:59:59Z") {
+            contributionCalendar {
+              totalContributions
+              weeks { contributionDays { contributionCount date } }
+            }
+          }
+          previous: contributionsCollection(from: "${prevYear}-01-01T00:00:00Z", to: "${prevYear}-12-31T23:59:59Z") {
+            contributionCalendar {
+              totalContributions
+              weeks { contributionDays { contributionCount date } }
+            }
+          }
+        }
+      }
+    `;
+
+    const [graphqlRes, userRes, reposRes] = await Promise.allSettled([
+      fetch("https://api.github.com/graphql", {
+        method: "POST",
         next: { revalidate: 3600 },
-        headers: { "User-Agent": "Portfolio-App" },
+        headers: {
+          ...authHeaders,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ query, variables: { userName: username } }),
       }),
       fetch(`https://api.github.com/users/${username}`, {
         next: { revalidate: 3600 },
@@ -58,12 +84,49 @@ export async function GET(request: Request) {
       }),
     ]);
 
-    let contribData = { total: {}, contributions: [] };
-    if (contribRes.status === "fulfilled" && contribRes.value.ok) {
-      const rawJson = await contribRes.value.json();
-      const parsed = GithubContributionsSchema.safeParse(rawJson);
-      if (parsed.success && parsed.data) {
-        contribData = parsed.data as any;
+    let contribData = { total: {} as Record<string, number>, contributions: [] as any[] };
+    
+    if (graphqlRes.status === "fulfilled" && graphqlRes.value.ok) {
+      const json = await graphqlRes.value.json();
+      const collections = json?.data?.user;
+      
+      if (collections) {
+        const getLevel = (count: number) => {
+          if (count === 0) return 0;
+          if (count <= 3) return 1;
+          if (count <= 6) return 2;
+          if (count <= 9) return 3;
+          return 4;
+        };
+
+        const processCalendar = (calendarInfo: any, yearStr: string) => {
+          if (!calendarInfo) return;
+          contribData.total[yearStr] = calendarInfo.totalContributions;
+          
+          for (const week of calendarInfo.weeks) {
+            for (const day of week.contributionDays) {
+              // Only push days up to today to match normal behavior
+              const todayStr = new Date().toISOString().split("T")[0];
+              if (day.date <= todayStr || yearStr === prevYear.toString()) {
+                contribData.contributions.push({
+                  date: day.date,
+                  count: day.contributionCount,
+                  level: getLevel(day.contributionCount)
+                });
+              } else if (day.date > todayStr) {
+                 // Include future days as empty so the skeleton renders a full grid
+                 contribData.contributions.push({
+                  date: day.date,
+                  count: 0,
+                  level: 0
+                });
+              }
+            }
+          }
+        };
+
+        processCalendar(collections.current?.contributionCalendar, currentYear.toString());
+        processCalendar(collections.previous?.contributionCalendar, prevYear.toString());
       }
     }
 
