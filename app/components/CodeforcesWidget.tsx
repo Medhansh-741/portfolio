@@ -1,10 +1,8 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import { FiTrendingUp } from "react-icons/fi";
 import RetroCard from "./ui/RetroCard";
 import CardHeader from "./ui/CardHeader";
 import CardFooter from "./ui/CardFooter";
+import { getCodeforcesData } from "@/app/lib/api-fetchers";
 
 interface CodeforcesWidgetProps {
   className?: string;
@@ -12,85 +10,30 @@ interface CodeforcesWidgetProps {
   style?: React.CSSProperties;
 }
 
-export default function CodeforcesWidget({ className = "", delay = 0.65, style }: CodeforcesWidgetProps) {
-  const [loading, setLoading] = useState(true);
-  const [rating, setRating] = useState(0);
-  const [maxRating, setMaxRating] = useState(0);
-  const [rank, setRank] = useState("unrated");
-  const [maxRank, setMaxRank] = useState("unrated");
-  const [solvedCount, setSolvedCount] = useState(0);
-  const [contestCount, setContestCount] = useState(0);
+const formatRank = (r: string) => {
+  if (r === "unrated") return "UNRATED";
+  return r.toUpperCase();
+};
 
-  useEffect(() => {
-    async function fetchStats() {
-      try {
-        const res = await fetch("/api/codeforces?username=Medhansh_217");
-        if (!res.ok) throw new Error("API error");
-        const json = await res.json();
-        
-        if (json) {
-          setRating(json.rating);
-          setMaxRating(json.maxRating);
-          setRank(json.rank);
-          setMaxRank(json.maxRank);
-          setSolvedCount(json.solvedCount);
-          setContestCount(json.contestCount);
-        }
-      } catch (err) {
-        console.error("Failed to fetch live Codeforces stats:", err);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchStats();
-  }, []);
+const getRankColorClass = (r: string) => {
+  const norm = r.toLowerCase();
+  if (norm === "unrated") return "text-muted-foreground";
+  if (norm === "newbie") return "text-gray-500";
+  if (norm === "pupil") return "text-emerald-500";
+  if (norm === "specialist") return "text-[#03a89e]";
+  if (norm === "expert") return "text-blue-600";
+  if (norm === "candidate master") return "text-violet-500";
+  return "text-rose-500";
+};
 
-  const formatRank = (r: string) => {
-    if (r === "unrated") return "UNRATED";
-    return r.toUpperCase();
-  };
+export default async function CodeforcesWidget({ className = "", delay = 0.65, style }: CodeforcesWidgetProps) {
+  const cfData = await getCodeforcesData();
 
-  const getRankColorClass = (r: string) => {
-    const norm = r.toLowerCase();
-    if (norm === "unrated") return "text-muted-foreground";
-    if (norm === "newbie") return "text-gray-500";
-    if (norm === "pupil") return "text-emerald-500";
-    if (norm === "specialist") return "text-[#03a89e]";
-    if (norm === "expert") return "text-blue-600";
-    if (norm === "candidate master") return "text-violet-500";
-    return "text-rose-500"; // masters, grandmasters, etc.
-  };
-
-  if (loading) {
-    return (
-      <RetroCard
-        accentColor="#3182CE"
-        padding="p-3.5"
-        delay={delay}
-        className={className}
-        style={style}
-      >
-        <div className="animate-pulse flex flex-col justify-between h-full">
-          <div>
-            <div className="flex justify-between items-center pb-2 border-b border-border/10">
-              <div className="w-20 h-3.5 bg-muted rounded" />
-              <div className="w-12 h-4 bg-muted rounded" />
-            </div>
-            <div className="mt-4 space-y-2.5">
-              <div className="h-4 bg-muted rounded w-2/3" />
-              <div className="h-3 bg-muted rounded w-full" />
-              <div className="h-3 bg-muted rounded w-full" />
-              <div className="h-3 bg-muted rounded w-full" />
-            </div>
-          </div>
-          <div className="border-t border-border/10 pt-2 flex justify-between">
-            <div className="w-16 h-2.5 bg-muted rounded" />
-            <div className="w-12 h-2.5 bg-muted rounded" />
-          </div>
-        </div>
-      </RetroCard>
-    );
-  }
+  const rating = cfData.rating;
+  const maxRating = cfData.maxRating;
+  const rank = cfData.rank;
+  const solvedCount = cfData.solvedCount;
+  const contestCount = cfData.contestCount;
 
   return (
     <RetroCard
@@ -144,6 +87,37 @@ export default function CodeforcesWidget({ className = "", delay = 0.65, style }
 
       {/* Footer Details */}
       <CardFooter left="HANDLE: Medhansh_217" right="SYS_SYNCED" />
+    </RetroCard>
+  );
+}
+
+export function CodeforcesSkeleton({ delay = 0.65, className = "", style }: CodeforcesWidgetProps) {
+  return (
+    <RetroCard
+      accentColor="#3182CE"
+      padding="p-3.5"
+      delay={delay}
+      className={className}
+      style={style}
+    >
+      <div className="animate-pulse flex flex-col justify-between h-full">
+        <div>
+          <div className="flex justify-between items-center pb-2 border-b border-border/10">
+            <div className="w-24 h-3.5 bg-muted rounded" />
+            <div className="w-12 h-4 bg-muted rounded" />
+          </div>
+          <div className="mt-4 space-y-2.5">
+            <div className="h-4 bg-muted rounded w-2/3" />
+            <div className="h-3 bg-muted rounded w-full" />
+            <div className="h-3 bg-muted rounded w-full" />
+            <div className="h-3 bg-muted rounded w-full" />
+          </div>
+        </div>
+        <div className="border-t border-border/10 pt-2 flex justify-between">
+          <div className="w-16 h-2.5 bg-muted rounded" />
+          <div className="w-12 h-2.5 bg-muted rounded" />
+        </div>
+      </div>
     </RetroCard>
   );
 }

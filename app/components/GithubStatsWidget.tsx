@@ -1,9 +1,8 @@
-"use client";
-
 import { FiGithub } from "react-icons/fi";
 import RetroCard from "./ui/RetroCard";
 import CardHeader from "./ui/CardHeader";
 import CardFooter from "./ui/CardFooter";
+import { getGithubData } from "@/app/lib/api-fetchers";
 
 interface GithubStatsWidgetProps {
   className?: string;
@@ -11,7 +10,26 @@ interface GithubStatsWidgetProps {
   style?: React.CSSProperties;
 }
 
-export default function GithubStatsWidget({ className = "", delay = 0.75, style }: GithubStatsWidgetProps) {
+const defaultLanguages = [
+  { name: "Python", shortName: "PY", percentage: 65, color: "var(--color-accent-secondary)" },
+  { name: "TypeScript", shortName: "TS", percentage: 25, color: "var(--color-accent-warning)" },
+  { name: "C++", shortName: "C++", percentage: 10, color: "var(--color-accent)" },
+];
+
+export default async function GithubStatsWidget({ className = "", delay = 0.75, style }: GithubStatsWidgetProps) {
+  const githubData = await getGithubData();
+
+  const publicRepos = githubData?.stats?.publicRepos ?? 14;
+  const totalStars = githubData?.stats?.totalStars ?? 24;
+  const topLanguages = githubData?.stats?.topLanguages && githubData.stats.topLanguages.length > 0
+    ? githubData.stats.topLanguages
+    : defaultLanguages;
+
+  const currentYear = new Date().getFullYear().toString();
+  const liveCommits = githubData?.total
+    ? Object.values(githubData.total).reduce((acc: number, count: any) => acc + (typeof count === "number" ? count : 0), 0)
+    : 1248;
+
   return (
     <RetroCard
       accentColor="var(--color-accent-secondary)"
@@ -34,7 +52,7 @@ export default function GithubStatsWidget({ className = "", delay = 0.75, style 
           <div className="flex justify-between items-baseline">
             <span className="text-[10px] font-bold text-muted-foreground uppercase">PUBLIC REPOS:</span>
             <span className="text-sm font-black text-foreground">
-              12<span className="text-[10px] text-muted-foreground font-normal"> / 24★</span>
+              {publicRepos}<span className="text-[10px] text-muted-foreground font-normal"> / {totalStars}★</span>
             </span>
           </div>
 
@@ -44,23 +62,65 @@ export default function GithubStatsWidget({ className = "", delay = 0.75, style 
             
             {/* Split stack bar */}
             <div className="w-full h-3 border border-border/20 flex overflow-hidden rounded-[1px] bg-muted">
-              <div className="h-full bg-[var(--color-accent-secondary)]" style={{ width: "65%" }} title="Python: 65%" />
-              <div className="h-full bg-[var(--color-accent-warning)]" style={{ width: "25%" }} title="TypeScript: 25%" />
-              <div className="h-full bg-[var(--color-accent)]" style={{ width: "10%" }} title="C++: 10%" />
+              {topLanguages.map((lang, idx) => (
+                <div
+                  key={idx}
+                  className="h-full transition-all duration-300"
+                  style={{ width: `${lang.percentage}%`, backgroundColor: lang.color }}
+                  title={`${lang.name}: ${lang.percentage}%`}
+                />
+              ))}
             </div>
 
             {/* Labels */}
             <div className="flex justify-between text-[8px] font-black text-muted-foreground">
-              <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 bg-[var(--color-accent-secondary)]" /> PY 65%</span>
-              <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 bg-[var(--color-accent-warning)]" /> TS 25%</span>
-              <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 bg-[var(--color-accent)]" /> C++ 10%</span>
+              {topLanguages.map((lang, idx) => (
+                <span key={idx} className="flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: lang.color }} />
+                  {lang.shortName} {lang.percentage}%
+                </span>
+              ))}
             </div>
           </div>
         </div>
       </div>
 
       {/* Footer Details */}
-      <CardFooter left="COMMITS: 1,248" right="ACTIVE_2026" />
+      <CardFooter left={`COMMITS: ${liveCommits.toLocaleString()}`} right={`ACTIVE_${currentYear}`} />
+    </RetroCard>
+  );
+}
+
+export function GitArchiveSkeleton({ delay = 0.75, className = "", style }: GithubStatsWidgetProps) {
+  return (
+    <RetroCard
+      accentColor="var(--color-accent-secondary)"
+      padding="p-3.5"
+      delay={delay}
+      className={className}
+      style={style}
+    >
+      <div className="animate-pulse flex flex-col justify-between h-full">
+        <div>
+          <div className="flex justify-between items-center pb-2 border-b border-border/10">
+            <div className="w-20 h-3.5 bg-muted rounded" />
+            <div className="w-12 h-4 bg-muted rounded" />
+          </div>
+          <div className="mt-4 space-y-3">
+            <div className="h-4 bg-muted rounded w-2/3" />
+            <div className="h-3 bg-muted rounded w-full" />
+            <div className="flex justify-between">
+              <div className="w-10 h-2 bg-muted rounded" />
+              <div className="w-10 h-2 bg-muted rounded" />
+              <div className="w-10 h-2 bg-muted rounded" />
+            </div>
+          </div>
+        </div>
+        <div className="border-t border-border/10 pt-2 flex justify-between">
+          <div className="w-16 h-2.5 bg-muted rounded" />
+          <div className="w-12 h-2.5 bg-muted rounded" />
+        </div>
+      </div>
     </RetroCard>
   );
 }
