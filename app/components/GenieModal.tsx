@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, arc } from "framer-motion";
 import Link from "next/link";
 import { FiExternalLink } from "react-icons/fi";
 
@@ -43,48 +43,25 @@ export default function GenieModal({
   const normalWidth = Math.min(window.innerWidth - 32, 1024);
   const normalHeight = Math.min(window.innerHeight * 0.8, 680);
 
-  const startState = {
-    scale: 0.95,
-    opacity: 0,
-    y: 12,
-    width: normalWidth,
-    height: normalHeight,
-  };
-
-  const normalState = {
-    scale: 1,
-    opacity: 1,
-    y: 0,
-    width: normalWidth,
-    height: normalHeight,
-  };
-
-  const maximizedState = {
-    scale: 1,
-    opacity: 1,
-    y: 0,
-    width: window.innerWidth,
-    height: window.innerHeight,
-  };
-
-  const transition = {
-    ease: "easeOut",
-    duration: 0.25,
-  };
-
   return createPortal(
     <AnimatePresence>
-      {isOpen && project && triggerRect && (
-        <div 
+      {isOpen && project && (
+        <motion.div 
+          key="modal-backdrop"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
           onClick={onClose}
           className="fixed inset-0 bg-background/60 backdrop-blur-md z-50 flex items-center justify-center p-0 cursor-zoom-out"
         >
           <motion.div
-            initial={startState as any}
-            animate={isMaximized ? (maximizedState as any) : (normalState as any)}
-            exit={startState as any}
-            transition={transition as any}
+            layoutId={`project-window-${project.title}`}
+            transition={{ layout: { path: arc({ direction: "auto" }) } }}
             onClick={(e) => e.stopPropagation()}
+            style={{
+              width: isMaximized ? "100vw" : normalWidth,
+              height: isMaximized ? "100vh" : normalHeight,
+            }}
             className={`bg-card text-card-foreground flex flex-col cursor-default relative overflow-hidden select-none transition-shadow duration-200 ${
               isMaximized 
                 ? "border-0 shadow-none rounded-none" 
@@ -127,7 +104,10 @@ export default function GenieModal({
             <div className="p-4 bg-background flex flex-col gap-4 relative z-10 flex-grow h-[calc(100%-38px)] overflow-hidden">
               {project.links.demo && (
                 <div className="w-full relative bg-black shadow-md border-[3px] border-border overflow-hidden flex-grow">
-                  <iframe
+                  <motion.iframe
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.2, duration: 0.2 }}
                     src={`https://www.youtube.com/embed/${getYoutubeId(project.links.demo)}?autoplay=1&mute=0&loop=1&playlist=${getYoutubeId(project.links.demo)}`}
                     title={`${project.title} Demo Video`}
                     className="absolute inset-0 w-full h-full"
@@ -153,7 +133,7 @@ export default function GenieModal({
               </div>
             </div>
           </motion.div>
-        </div>
+        </motion.div>
       )}
     </AnimatePresence>,
     document.body

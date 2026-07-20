@@ -8,6 +8,7 @@ import GenieModal from "./GenieModal";
 import RetroCard from "./ui/RetroCard";
 import CardHeader from "./ui/CardHeader";
 import CardFooter from "./ui/CardFooter";
+import { motion, arc } from "framer-motion";
 
 interface VideoLoopProps {
   src: string;
@@ -107,10 +108,10 @@ export default function ProjectsDrawer({ className = "", delay = 0.6, style }: P
 
                 {/* Clean Video Preview Frame */}
                 {videoId && (
-                  <button
+                  <motion.button
+                    layoutId={`project-window-${proj.title}`}
+                    transition={{ layout: { path: arc({ direction: "auto" }) } }}
                     onClick={(e) => {
-                      const rect = e.currentTarget.getBoundingClientRect();
-                      setTriggerRect(rect);
                       setActiveProject(proj);
                       setIsMaximized(false);
                     }}
@@ -130,7 +131,7 @@ export default function ProjectsDrawer({ className = "", delay = 0.6, style }: P
                         EXPAND MONITOR
                       </span>
                     </div>
-                  </button>
+                  </motion.button>
                 )}
 
                 {/* View Details link — bottom right */}
