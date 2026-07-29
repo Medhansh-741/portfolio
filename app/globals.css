@@ -98,10 +98,6 @@ body {
   font-family: "Inter", sans-serif;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
 ::-webkit-scrollbar {
   width: 6px;
 }

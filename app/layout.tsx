@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Playfair_Display, Pirata_One } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
+import "lenis/dist/lenis.css";
 import Navbar from "./components/Navbar";
 import ThemeProvider from "./components/ThemeProvider";
 
@@ -35,7 +36,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://medhanshk.me" />
         <link rel="dns-prefetch" href="https://medhanshk.me" />
