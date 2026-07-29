@@ -252,7 +252,7 @@ export default function GithubCalendarUI({
       {/* Main Grid Viewport and Year Selector Row */}
       <div className="flex flex-col md:flex-row gap-4 xl:gap-[clamp(0.5rem,2vh,1rem)] items-stretch w-full">
         {/* Calendar Box */}
-        <div className={`flex-1 min-w-0 bg-card border-[3px] border-border shadow-md p-3 xl:p-[clamp(0.5rem,1.5vh,0.75rem)] flex flex-col justify-between overflow-hidden transition-all duration-200 relative ${getShadowHoverClass()}`}>
+        <div className={`flex-1 min-w-0 bg-card border-[3px] border-border shadow-md p-3 xl:p-[clamp(0.5rem,1.5vh,0.75rem)] flex flex-col justify-between clip-margin-5 transition-all duration-200 relative ${getShadowHoverClass()}`}>
           
           {/* Scrollable Grid Container */}
           <div 
@@ -395,7 +395,7 @@ export function CalendarSkeleton({ isDark = false }: { isDark?: boolean }) {
       <div className="w-48 h-5 bg-muted border border-border mb-3 xl:mb-[clamp(0.25rem,1.5vh,0.75rem)] rounded-[2px]" />
 
       <div className="flex flex-col md:flex-row gap-4 xl:gap-[clamp(0.5rem,2vh,1rem)] items-stretch w-full">
-        <div className="flex-1 bg-card border-[3px] border-border shadow-md p-3 xl:p-[clamp(0.5rem,1.5vh,0.75rem)] flex flex-col justify-between overflow-hidden">
+        <div className="flex-1 bg-card border-[3px] border-border shadow-md p-3 xl:p-[clamp(0.5rem,1.5vh,0.75rem)] flex flex-col justify-between clip-margin-5">
           <div className="min-w-[640px] flex flex-col">
             <div className="flex h-4 pl-[30px] mb-1.5">
               {[...Array(12)].map((_, i) => (

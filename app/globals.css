@@ -155,3 +155,8 @@ html {
   }
 }
 
+@utility clip-margin-5 {
+  overflow: clip;
+  overflow-clip-margin: 5px;
+}
+
