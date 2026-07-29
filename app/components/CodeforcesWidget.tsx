@@ -38,49 +38,47 @@ export default async function CodeforcesWidget({ className = "", delay = 0.65, s
   return (
     <RetroCard
       accentColor="#3182CE"
-      padding="p-3.5"
+      padding="p-3.5 xl:p-[clamp(0.5rem,1.5vh,0.875rem)]"
       delay={delay}
       className={className}
       style={style}
     >
       {/* Header */}
-      <div>
-        <CardHeader
-          icon={<FiTrendingUp size={13} />}
-          accentColor="#3182CE"
-          title="CODEFORCES CP"
-          badge={rating > 0 ? "ACTIVE" : "STANDBY"}
-          badgeTextColor="text-white"
-        />
+      <CardHeader
+        icon={<FiTrendingUp size={13} />}
+        accentColor="#3182CE"
+        title="CODEFORCES CP"
+        badge={rating > 0 ? "ACTIVE" : "STANDBY"}
+        badgeTextColor="text-white"
+      />
 
-        {/* Stats Content */}
-        <div className="mt-3.5 flex flex-col gap-2 font-mono">
-          <div className="flex justify-between items-baseline">
-            <span className="text-[10px] font-bold text-muted-foreground uppercase">RATING:</span>
-            <span className={`text-sm font-black uppercase ${getRankColorClass(rank)}`}>
-              {rating > 0 ? (
-                <>
-                  {rating} <span className="text-[9px] font-bold">({formatRank(rank)})</span>
-                </>
-              ) : (
-                "UNRATED"
-              )}
-            </span>
+      {/* Stats Content */}
+      <div className="flex-1 overflow-y-auto min-h-0 mt-3.5 flex flex-col gap-2 font-mono" data-lenis-prevent>
+        <div className="flex justify-between items-baseline">
+          <span className="text-[10px] font-bold text-muted-foreground uppercase">RATING:</span>
+          <span className={`text-sm font-black uppercase ${getRankColorClass(rank)}`}>
+            {rating > 0 ? (
+              <>
+                {rating} <span className="text-[9px] font-bold">({formatRank(rank)})</span>
+              </>
+            ) : (
+              "UNRATED"
+            )}
+          </span>
+        </div>
+
+        <div className="flex flex-col gap-1.5 text-[9px] font-bold text-foreground/80 mt-1">
+          <div className="flex justify-between border-b border-border/5 pb-1">
+            <span className="text-muted-foreground uppercase">MAX RATING:</span>
+            <span className="font-black text-foreground">{maxRating > 0 ? maxRating : "—"}</span>
           </div>
-
-          <div className="flex flex-col gap-1.5 text-[9px] font-bold text-foreground/80 mt-1">
-            <div className="flex justify-between border-b border-border/5 pb-1">
-              <span className="text-muted-foreground uppercase">MAX RATING:</span>
-              <span className="font-black text-foreground">{maxRating > 0 ? maxRating : "—"}</span>
-            </div>
-            <div className="flex justify-between border-b border-border/5 pb-1">
-              <span className="text-muted-foreground uppercase">PROBLEMS SOLVED:</span>
-              <span className="font-black text-foreground">{solvedCount}</span>
-            </div>
-            <div className="flex justify-between pb-0.5">
-              <span className="text-muted-foreground uppercase">CONTESTS PLAYED:</span>
-              <span className="font-black text-foreground">{contestCount}</span>
-            </div>
+          <div className="flex justify-between border-b border-border/5 pb-1">
+            <span className="text-muted-foreground uppercase">PROBLEMS SOLVED:</span>
+            <span className="font-black text-foreground">{solvedCount}</span>
+          </div>
+          <div className="flex justify-between pb-0.5">
+            <span className="text-muted-foreground uppercase">CONTESTS PLAYED:</span>
+            <span className="font-black text-foreground">{contestCount}</span>
           </div>
         </div>
       </div>
@@ -95,7 +93,7 @@ export function CodeforcesSkeleton({ delay = 0.65, className = "", style }: Code
   return (
     <RetroCard
       accentColor="#3182CE"
-      padding="p-3.5"
+      padding="p-3.5 xl:p-[clamp(0.5rem,1.5vh,0.875rem)]"
       delay={delay}
       className={className}
       style={style}

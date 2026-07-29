@@ -90,7 +90,7 @@ export default async function CommitFeed({ className = "", delay = 0.7, style }:
   return (
     <RetroCard
       accentColor="var(--color-accent)"
-      padding="p-4"
+      padding="p-4 xl:p-[clamp(0.5rem,1.5vh,1rem)]"
       delay={delay}
       className={className}
       style={style}
@@ -106,68 +106,34 @@ export default async function CommitFeed({ className = "", delay = 0.7, style }:
       />
 
       {/* Timeline Viewport Container */}
-      <div className="relative pr-1 w-full h-[calc(100%-80px)] overflow-hidden mt-3">
+      <div className="flex-1 overflow-y-auto min-h-0 mt-3 relative pr-1 w-full" data-lenis-prevent>
         <div className="absolute left-[9px] top-1 bottom-1 w-0.5 border-l-[2px] border-dashed border-muted z-0" />
 
-        {/* Marquee Wrapper */}
-        <div className="marquee-vertical gap-4 py-1">
-          {/* First Copy */}
-          <div className="flex flex-col gap-4">
-            {displayCommits.map((commit, idx) => (
-              <a
-                key={`c1-${commit.id}-${idx}`}
-                href={commit.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-start relative group cursor-pointer text-left"
-              >
-                <div className="w-5 h-5 rounded-full border-[2px] border-border bg-card flex items-center justify-center z-10 flex-shrink-0">
-                  <div className="w-1.5 h-1.5 rounded-full bg-accent-secondary" />
-                </div>
-                <div className="flex-1 ml-3 min-w-0">
-                  <p className="text-[9px] font-black uppercase tracking-wider text-muted-foreground truncate leading-none mb-1">
-                    {cleanRepoName(commit.repo)}
-                  </p>
-                  <h4 className="text-[11px] font-bold leading-tight text-foreground truncate group-hover:text-accent-secondary group-hover:underline">
-                    {commit.message}
-                  </h4>
-                  <span className="text-[9px] font-semibold text-muted-foreground block mt-0.5 leading-none">
-                    {formatRelativeTime(commit.date)}
-                  </span>
-                </div>
-              </a>
-            ))}
-          </div>
-
-          <div className="h-4 flex-shrink-0" />
-
-          {/* Second Copy */}
-          <div className="flex flex-col gap-4">
-            {displayCommits.map((commit, idx) => (
-              <a
-                key={`c2-${commit.id}-${idx}`}
-                href={commit.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-start relative group cursor-pointer text-left"
-              >
-                <div className="w-5 h-5 rounded-full border-[2px] border-border bg-card flex items-center justify-center z-10 flex-shrink-0">
-                  <div className="w-1.5 h-1.5 rounded-full bg-accent-secondary" />
-                </div>
-                <div className="flex-1 ml-3 min-w-0">
-                  <p className="text-[9px] font-black uppercase tracking-wider text-muted-foreground truncate leading-none mb-1">
-                    {cleanRepoName(commit.repo)}
-                  </p>
-                  <h4 className="text-[11px] font-bold leading-tight text-foreground truncate group-hover:text-accent-secondary group-hover:underline">
-                    {commit.message}
-                  </h4>
-                  <span className="text-[9px] font-semibold text-muted-foreground block mt-0.5 leading-none">
-                    {formatRelativeTime(commit.date)}
-                  </span>
-                </div>
-              </a>
-            ))}
-          </div>
+        <div className="flex flex-col gap-4 py-1">
+          {displayCommits.map((commit, idx) => (
+            <a
+              key={`c1-${commit.id}-${idx}`}
+              href={commit.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-start relative group cursor-pointer text-left"
+            >
+              <div className="w-5 h-5 rounded-full border-[2px] border-border bg-card flex items-center justify-center z-10 flex-shrink-0">
+                <div className="w-1.5 h-1.5 rounded-full bg-accent-secondary" />
+              </div>
+              <div className="flex-1 ml-3 min-w-0">
+                <p className="text-[9px] font-black uppercase tracking-wider text-muted-foreground truncate leading-none mb-1">
+                  {cleanRepoName(commit.repo)}
+                </p>
+                <h4 className="text-[11px] font-bold leading-tight text-foreground truncate group-hover:text-accent-secondary group-hover:underline">
+                  {commit.message}
+                </h4>
+                <span className="text-[9px] font-semibold text-muted-foreground block mt-0.5 leading-none">
+                  {formatRelativeTime(commit.date)}
+                </span>
+              </div>
+            </a>
+          ))}
         </div>
       </div>
 
@@ -180,7 +146,7 @@ export function CommitFeedSkeleton({ delay = 0.7, className = "", style }: Commi
   return (
     <RetroCard
       accentColor="var(--color-accent)"
-      padding="p-4"
+      padding="p-4 xl:p-[clamp(0.5rem,1.5vh,1rem)]"
       delay={delay}
       className={className}
       style={style}

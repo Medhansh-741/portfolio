@@ -29,7 +29,7 @@ export default function RetroCard({
         // @ts-ignore — CSS custom property for dynamic hover shadow
         "--card-accent": accentColor,
       } as React.CSSProperties}
-      className={`w-full md:w-60 bg-card border-[3px] border-border shadow-md hover:shadow-[3px_3px_0_0_var(--card-accent)] ${padding} flex flex-col justify-between overflow-hidden transition-all duration-200 select-none relative ${className}`}
+      className={`w-full h-full bg-card border-[3px] border-border shadow-md hover:shadow-[3px_3px_0_0_var(--card-accent)] ${padding} flex flex-col justify-between overflow-hidden transition-all duration-200 select-none relative ${className}`}
     >
       {children}
     </motion.div>

@@ -33,54 +33,52 @@ export default async function GithubStatsWidget({ className = "", delay = 0.75, 
   return (
     <RetroCard
       accentColor="var(--color-accent-secondary)"
-      padding="p-3.5"
+      padding="p-3.5 xl:p-[clamp(0.5rem,1.5vh,0.875rem)]"
       delay={delay}
       className={className}
       style={style}
     >
       {/* Header */}
-      <div>
-        <CardHeader
-          icon={<FiGithub size={13} />}
-          accentColor="var(--color-accent-secondary)"
-          title="GIT ARCHIVE"
-          badge="SYNCED"
-        />
+      <CardHeader
+        icon={<FiGithub size={13} />}
+        accentColor="var(--color-accent-secondary)"
+        title="GIT ARCHIVE"
+        badge="SYNCED"
+      />
 
-        {/* Stats Content */}
-        <div className="mt-3.5 flex flex-col gap-2 font-mono">
-          <div className="flex justify-between items-baseline">
-            <span className="text-[10px] font-bold text-muted-foreground uppercase">PUBLIC REPOS:</span>
-            <span className="text-sm font-black text-foreground">
-              {publicRepos}<span className="text-[10px] text-muted-foreground font-normal"> / {totalStars}★</span>
-            </span>
+      {/* Stats Content */}
+      <div className="flex-1 overflow-y-auto min-h-0 mt-3.5 flex flex-col gap-2 font-mono" data-lenis-prevent>
+        <div className="flex justify-between items-baseline">
+          <span className="text-[10px] font-bold text-muted-foreground uppercase">PUBLIC REPOS:</span>
+          <span className="text-sm font-black text-foreground">
+            {publicRepos}<span className="text-[10px] text-muted-foreground font-normal"> / {totalStars}★</span>
+          </span>
+        </div>
+
+        {/* Language Breakdown */}
+        <div className="flex flex-col gap-1.5 text-[9px] font-bold mt-1">
+          <span className="text-[8px] text-muted-foreground uppercase">LANGUAGES:</span>
+          
+          {/* Split stack bar */}
+          <div className="w-full h-3 border border-border/20 flex overflow-hidden rounded-[1px] bg-muted">
+            {topLanguages.map((lang, idx) => (
+              <div
+                key={idx}
+                className="h-full transition-all duration-300"
+                style={{ width: `${lang.percentage}%`, backgroundColor: lang.color }}
+                title={`${lang.name}: ${lang.percentage}%`}
+              />
+            ))}
           </div>
 
-          {/* Language Breakdown */}
-          <div className="flex flex-col gap-1.5 text-[9px] font-bold mt-1">
-            <span className="text-[8px] text-muted-foreground uppercase">LANGUAGES:</span>
-            
-            {/* Split stack bar */}
-            <div className="w-full h-3 border border-border/20 flex overflow-hidden rounded-[1px] bg-muted">
-              {topLanguages.map((lang, idx) => (
-                <div
-                  key={idx}
-                  className="h-full transition-all duration-300"
-                  style={{ width: `${lang.percentage}%`, backgroundColor: lang.color }}
-                  title={`${lang.name}: ${lang.percentage}%`}
-                />
-              ))}
-            </div>
-
-            {/* Labels */}
-            <div className="flex justify-between text-[8px] font-black text-muted-foreground">
-              {topLanguages.map((lang, idx) => (
-                <span key={idx} className="flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: lang.color }} />
-                  {lang.shortName} {lang.percentage}%
-                </span>
-              ))}
-            </div>
+          {/* Labels */}
+          <div className="flex justify-between text-[8px] font-black text-muted-foreground">
+            {topLanguages.map((lang, idx) => (
+              <span key={idx} className="flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: lang.color }} />
+                {lang.shortName} {lang.percentage}%
+              </span>
+            ))}
           </div>
         </div>
       </div>
@@ -95,7 +93,7 @@ export function GitArchiveSkeleton({ delay = 0.75, className = "", style }: Gith
   return (
     <RetroCard
       accentColor="var(--color-accent-secondary)"
-      padding="p-3.5"
+      padding="p-3.5 xl:p-[clamp(0.5rem,1.5vh,0.875rem)]"
       delay={delay}
       className={className}
       style={style}

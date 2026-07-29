@@ -205,9 +205,9 @@ export default function GithubCalendarUI({
   };
 
   return (
-    <div className="mt-3 select-none w-full max-w-full">
+    <div className="mt-3 xl:mt-[clamp(0.25rem,1.5vh,0.75rem)] select-none w-full max-w-full">
       {/* Header with Title and Platform Toggle */}
-      <div className="flex flex-col sm:flex-row justify-between items-center mb-3 gap-2 w-full max-w-xl">
+      <div className="flex flex-col sm:flex-row justify-between items-center mb-3 xl:mb-[clamp(0.25rem,1.5vh,0.75rem)] gap-2 w-full">
         <h3 className="font-sans text-[11px] font-black uppercase tracking-wider text-foreground">
           {platformTotal.toLocaleString()} {getMetricLabel()} in {selectedYear}
         </h3>
@@ -250,9 +250,9 @@ export default function GithubCalendarUI({
       </div>
 
       {/* Main Grid Viewport and Year Selector Row */}
-      <div className="flex flex-col md:flex-row gap-4 items-stretch w-full">
+      <div className="flex flex-col md:flex-row gap-4 xl:gap-[clamp(0.5rem,2vh,1rem)] items-stretch w-full">
         {/* Calendar Box */}
-        <div className={`w-fit flex-initial bg-card border-[3px] border-border shadow-md p-3 flex flex-col justify-between overflow-hidden transition-all duration-200 relative ${getShadowHoverClass()}`}>
+        <div className={`flex-1 min-w-0 bg-card border-[3px] border-border shadow-md p-3 xl:p-[clamp(0.5rem,1.5vh,0.75rem)] flex flex-col justify-between overflow-hidden transition-all duration-200 relative ${getShadowHoverClass()}`}>
           
           {/* Scrollable Grid Container */}
           <div 
@@ -357,7 +357,7 @@ export default function GithubCalendarUI({
               <button
                 key={yr}
                 onClick={() => setSelectedYear(yr)}
-                className={`px-4 py-2 text-xs font-black uppercase tracking-wider transition-all duration-200 cursor-pointer border-[2px] select-none ${
+                className={`px-4 py-2 xl:px-[clamp(0.75rem,2vw,1rem)] xl:py-[clamp(0.25rem,1.5vh,0.5rem)] text-xs font-black uppercase tracking-wider transition-all duration-200 cursor-pointer border-[2px] select-none ${
                   isSelected
                     ? "bg-background text-foreground border-border shadow-[2px_2px_0_0_var(--accent)] translate-x-[1px] translate-y-[1px]"
                     : "bg-background text-foreground border-border shadow-sm hover:-translate-x-[1px] hover:-translate-y-[1px] hover:shadow-[2px_2px_0_0_var(--color-accent-secondary)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
@@ -391,11 +391,11 @@ export function CalendarSkeleton({ isDark = false }: { isDark?: boolean }) {
   const getSkeletonColor = () => (isDark ? "#1f242c" : "#ebedf0");
 
   return (
-    <div className="mt-3 select-none w-full max-w-full animate-pulse">
-      <div className="w-48 h-5 bg-muted border border-border mb-3 rounded-[2px]" />
+    <div className="mt-3 xl:mt-[clamp(0.25rem,1.5vh,0.75rem)] select-none w-full max-w-full animate-pulse">
+      <div className="w-48 h-5 bg-muted border border-border mb-3 xl:mb-[clamp(0.25rem,1.5vh,0.75rem)] rounded-[2px]" />
 
-      <div className="flex flex-col md:flex-row gap-4 items-stretch w-full">
-        <div className="flex-1 bg-card border-[3px] border-border shadow-md p-3 flex flex-col justify-between overflow-hidden">
+      <div className="flex flex-col md:flex-row gap-4 xl:gap-[clamp(0.5rem,2vh,1rem)] items-stretch w-full">
+        <div className="flex-1 bg-card border-[3px] border-border shadow-md p-3 xl:p-[clamp(0.5rem,1.5vh,0.75rem)] flex flex-col justify-between overflow-hidden">
           <div className="min-w-[640px] flex flex-col">
             <div className="flex h-4 pl-[30px] mb-1.5">
               {[...Array(12)].map((_, i) => (

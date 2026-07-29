@@ -76,7 +76,7 @@ export default function ProjectsDrawer({ className = "", delay = 0.6, style }: P
     <>
       <RetroCard
         accentColor="var(--color-accent-secondary)"
-        padding="p-4"
+        padding="p-4 xl:p-[clamp(0.5rem,1.5vh,1rem)]"
         delay={delay}
         className={className}
         style={style}
@@ -93,7 +93,7 @@ export default function ProjectsDrawer({ className = "", delay = 0.6, style }: P
         {/* Scrollable list inside */}
         <div 
           data-lenis-prevent
-          className="mt-3 overflow-y-auto no-scrollbar flex flex-col gap-4 relative z-10 w-full h-[calc(100%-80px)]"
+          className="mt-3 overflow-y-auto no-scrollbar flex-1 min-h-0 flex flex-col gap-4 relative z-10 w-full"
         >
           {profile.projects.map((proj, index) => {
             const videoId = getYoutubeId(proj.links.demo || "");

@@ -71,55 +71,53 @@ export default async function LeetCodeWidget({ className = "", delay = 0.55, sty
   return (
     <RetroCard
       accentColor="#FFA116"
-      padding="p-3.5"
+      padding="p-3.5 xl:p-[clamp(0.5rem,1.5vh,0.875rem)]"
       delay={delay}
       className={className}
       style={style}
     >
       {/* Header */}
-      <div>
-        <CardHeader
-          icon={<FiCode size={13} />}
-          accentColor="#FFA116"
-          title="LEETCODE DSA"
-          badge={rating ? "ACTIVE" : "STANDBY"}
-        />
+      <CardHeader
+        icon={<FiCode size={13} />}
+        accentColor="#FFA116"
+        title="LEETCODE DSA"
+        badge={rating ? "ACTIVE" : "STANDBY"}
+      />
 
-        {/* Stats Content */}
-        <div className="mt-3.5 flex flex-col gap-2 font-mono">
-          <div className="flex justify-between items-baseline">
-            <span className="text-[10px] font-bold text-muted-foreground uppercase">SOLVED:</span>
-            <span className="text-sm font-black text-foreground">
-              {solved}<span className="text-[10px] text-muted-foreground font-normal">/{totalQuestions}</span>
-            </span>
+      {/* Stats Content */}
+      <div className="flex-1 overflow-y-auto min-h-0 mt-3.5 flex flex-col gap-2 font-mono" data-lenis-prevent>
+        <div className="flex justify-between items-baseline">
+          <span className="text-[10px] font-bold text-muted-foreground uppercase">SOLVED:</span>
+          <span className="text-sm font-black text-foreground">
+            {solved}<span className="text-[10px] text-muted-foreground font-normal">/{totalQuestions}</span>
+          </span>
+        </div>
+
+        {/* Progress split bars */}
+        <div className="flex flex-col gap-1.5 text-[9px] font-bold">
+          {/* Easy */}
+          <div className="flex items-center gap-2">
+            <span className="w-8 text-emerald-500 uppercase">EASY</span>
+            <div className="flex-grow h-2 bg-muted border border-border/20 relative overflow-hidden">
+              <div className="absolute top-0 left-0 bottom-0 bg-emerald-500" style={{ width: getWidthPercent(easy) }} />
+            </div>
+            <span className="w-6 text-right">{easy.solved}</span>
           </div>
-
-          {/* Progress split bars */}
-          <div className="flex flex-col gap-1.5 text-[9px] font-bold">
-            {/* Easy */}
-            <div className="flex items-center gap-2">
-              <span className="w-8 text-emerald-500 uppercase">EASY</span>
-              <div className="flex-grow h-2 bg-muted border border-border/20 relative overflow-hidden">
-                <div className="absolute top-0 left-0 bottom-0 bg-emerald-500" style={{ width: getWidthPercent(easy) }} />
-              </div>
-              <span className="w-6 text-right">{easy.solved}</span>
+          {/* Medium */}
+          <div className="flex items-center gap-2">
+            <span className="w-8 text-amber-500 uppercase">MED</span>
+            <div className="flex-grow h-2 bg-muted border border-border/20 relative overflow-hidden">
+              <div className="absolute top-0 left-0 bottom-0 bg-amber-500" style={{ width: getWidthPercent(medium) }} />
             </div>
-            {/* Medium */}
-            <div className="flex items-center gap-2">
-              <span className="w-8 text-amber-500 uppercase">MED</span>
-              <div className="flex-grow h-2 bg-muted border border-border/20 relative overflow-hidden">
-                <div className="absolute top-0 left-0 bottom-0 bg-amber-500" style={{ width: getWidthPercent(medium) }} />
-              </div>
-              <span className="w-6 text-right">{medium.solved}</span>
+            <span className="w-6 text-right">{medium.solved}</span>
+          </div>
+          {/* Hard */}
+          <div className="flex items-center gap-2">
+            <span className="w-8 text-rose-500 uppercase">HARD</span>
+            <div className="flex-grow h-2 bg-muted border border-border/20 relative overflow-hidden">
+              <div className="absolute top-0 left-0 bottom-0 bg-rose-500" style={{ width: getWidthPercent(hard) }} />
             </div>
-            {/* Hard */}
-            <div className="flex items-center gap-2">
-              <span className="w-8 text-rose-500 uppercase">HARD</span>
-              <div className="flex-grow h-2 bg-muted border border-border/20 relative overflow-hidden">
-                <div className="absolute top-0 left-0 bottom-0 bg-rose-500" style={{ width: getWidthPercent(hard) }} />
-              </div>
-              <span className="w-6 text-right">{hard.solved}</span>
-            </div>
+            <span className="w-6 text-right">{hard.solved}</span>
           </div>
         </div>
       </div>
@@ -137,7 +135,7 @@ export function LeetCodeSkeleton({ delay = 0.55, className = "", style }: LeetCo
   return (
     <RetroCard
       accentColor="#FFA116"
-      padding="p-3.5"
+      padding="p-3.5 xl:p-[clamp(0.5rem,1.5vh,0.875rem)]"
       delay={delay}
       className={className}
       style={style}
