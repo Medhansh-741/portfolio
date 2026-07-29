@@ -45,7 +45,7 @@ export default function RootLayout({
       >
         <ThemeProvider>
           <ReactLenisProvider>
-            <div className="min-h-dvh flex flex-col">
+            <div className="min-h-dvh xl:[@media(min-height:768px)]:h-dvh xl:[@media(min-height:768px)]:max-h-dvh xl:[@media(min-height:768px)]:overflow-hidden flex flex-col">
               <Navbar />
               {children}
             </div>
