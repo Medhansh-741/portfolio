@@ -56,7 +56,7 @@ export default function GenieModal({
         >
           <motion.div
             layoutId={`project-window-${project.title}`}
-            transition={{ layout: { path: arc({ direction: "auto" }) } }}
+            transition={{ layout: { type: "spring", bounce: 0.2, duration: 0.6 } }}
             onClick={(e) => e.stopPropagation()}
             style={{
               width: isMaximized ? "100vw" : normalWidth,
