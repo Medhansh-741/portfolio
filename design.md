@@ -276,6 +276,8 @@ export default function HeroSection() {
 
 ## Phase 4 — RetroCard + Internal Card Scroll
 
+> **Grid Row Philosophy (2026-07-31):** The bento grid uses a "Capped Fluid" approach. The `minmax(0, 2fr)` and `minmax(0, 1fr)` proportions are correct, but they are bounded by a `max-h-[900px]` limit on the grid wrapper. This ensures cards maintain a 66/33 split but never stretch into absurdly tall empty boxes on 4K/ultra-wide monitors. Extra vertical space on large screens is handled by `my-auto` centering.
+
 ### 4a. RetroCard
 
 **File: `app/components/ui/RetroCard.tsx`**
@@ -284,6 +286,8 @@ Since the CSS Grid parent now dictates the exactly 240px width, remove the hardc
 ```tsx
 className={`w-full h-full bg-card border-[3px] border-border shadow-md hover:shadow-[3px_3px_0_0_var(--card-accent)] ${padding} flex flex-col justify-between overflow-hidden transition-all duration-200 select-none relative ${className}`}
 ```
+
+> **Implementation Note (2026-07-31):** `overflow-hidden` on RetroCard was replaced with `clip-margin-5` on the cell wrappers in GridHero.tsx (commit 47343d6). This uses `overflow: clip` + `overflow-clip-margin: 5px` to allow 3px hover shadows to extend beyond cell bounds. RetroCard itself also uses `clip-margin-5` instead of `overflow-hidden`. This is a deliberate deviation — functionally correct because the inner `flex-1 overflow-y-auto min-h-0` creates its own scroll context.
 
 ### 4b. Universal scroll pattern
 

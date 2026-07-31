@@ -1,5 +1,7 @@
 # Bento Grid Fix Plan
 
+> **Status Update (2026-07-31):** The grid utilizes a Capped Fluid strategy. `minmax(0,2fr)` / `minmax(0,1fr)` row definitions are correct and bound by a `max-h-[900px]` container. This fixes the stretching issue on large monitors while preserving visual hierarchy.
+
 ## Problem
 
 The 4×2 bento grid at xl+ has two failures:

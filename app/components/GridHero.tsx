@@ -22,9 +22,9 @@ export default function GridHero({
   githubStatsWidget,
 }: GridHeroProps) {
   return (
-    <section className="w-full px-6 md:px-12 pt-3 md:pt-4 xl:pt-6 pb-6 flex-grow flex flex-col relative overflow-x-hidden overflow-y-visible xl:[@media(min-height:768px)]:overflow-hidden">
-      <div className="w-full h-auto xl:[@media(min-height:768px)]:h-full min-h-0 flex flex-col flex-grow">
-        <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_repeat(3,240px)] xl:[@media(max-height:767px)]:grid-rows-[minmax(250px,55vh)_auto] xl:[@media(min-height:768px)]:grid-rows-[minmax(0,2fr)_minmax(210px,1fr)] gap-4 h-auto xl:[@media(min-height:768px)]:h-full flex-grow">
+    <section className="w-full px-6 md:px-12 pt-3 md:pt-4 xl:pt-6 pb-6 flex-grow min-h-0 flex flex-col relative overflow-x-hidden overflow-y-visible xl:[@media(min-height:768px)]:overflow-hidden">
+      <div className="w-full h-auto xl:[@media(min-height:768px)]:h-full xl:[@media(min-height:768px)]:max-h-[900px] xl:[@media(min-height:768px)]:my-auto min-h-0 flex flex-col">
+        <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_repeat(3,240px)] xl:[@media(max-height:767px)]:grid-rows-[minmax(250px,55vh)_auto] xl:[@media(min-height:768px)]:grid-rows-[minmax(0,2fr)_minmax(0,1fr)] gap-4 h-auto xl:[@media(min-height:768px)]:h-full">
           
           {/* Row 1 */}
           <div className="h-full min-h-0 flex flex-col justify-start clip-margin-5">
