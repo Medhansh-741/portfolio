@@ -205,9 +205,9 @@ export default function GithubCalendarUI({
   };
 
   return (
-    <div className="mt-3 xl:mt-[clamp(0.25rem,1.5vh,0.75rem)] select-none w-full max-w-full">
+    <div className="mt-2 xl:mt-[clamp(0.125rem,0.75vh,0.375rem)] select-none w-full max-w-full h-full flex flex-col min-h-0">
       {/* Header with Title and Platform Toggle */}
-      <div className="flex flex-col sm:flex-row justify-between items-center mb-3 xl:mb-[clamp(0.25rem,1.5vh,0.75rem)] gap-2 w-full">
+      <div className="flex flex-col sm:flex-row justify-between items-center mb-2 xl:mb-[clamp(0.125rem,0.75vh,0.375rem)] gap-2 w-full">
         <h3 className="font-sans text-[11px] font-black uppercase tracking-wider text-foreground">
           {platformTotal.toLocaleString()} {getMetricLabel()} in {selectedYear}
         </h3>
@@ -250,19 +250,19 @@ export default function GithubCalendarUI({
       </div>
 
       {/* Main Grid Viewport and Year Selector Row */}
-      <div className="flex flex-col md:flex-row gap-4 xl:gap-[clamp(0.5rem,2vh,1rem)] items-stretch w-full">
+      <div className="flex flex-col md:flex-row gap-4 xl:gap-[clamp(0.5rem,2vh,1rem)] items-stretch w-full flex-1 min-h-0">
         {/* Calendar Box */}
-        <div className={`flex-1 min-w-0 bg-card border-[3px] border-border shadow-md p-3 xl:p-[clamp(0.5rem,1.5vh,0.75rem)] flex flex-col justify-between clip-margin-5 transition-all duration-200 relative ${getShadowHoverClass()}`}>
+        <div className={`flex-1 min-w-0 bg-card border-[3px] border-border shadow-md p-2 xl:p-[clamp(0.25rem,0.75vh,0.5rem)] flex flex-col justify-between clip-margin-5 transition-all duration-200 relative ${getShadowHoverClass()}`}>
           
           {/* Scrollable Grid Container */}
           <div 
-            className="overflow-x-auto pb-1 scrollbar-thin"
+            className="overflow-x-auto pb-0.5 scrollbar-thin"
             onMouseMove={handleMouseMove}
           >
             <div className="min-w-[640px] flex flex-col">
               
               {/* Month Labels row */}
-              <div className="flex text-[10px] font-semibold text-muted-foreground mb-1 h-4 pl-[30px] relative">
+              <div className="flex text-[10px] font-semibold text-muted-foreground mb-1 h-3 pl-[30px] relative">
                 {monthLabels.map((lbl, idx) => {
                   const leftPos = 30 + lbl.colIndex * 13;
                   return (
@@ -327,7 +327,7 @@ export default function GithubCalendarUI({
           </div>
 
           {/* Footer of Calendar Box */}
-          <div className="flex flex-col sm:flex-row items-center justify-between text-[10px] font-semibold text-muted-foreground border-t border-muted mt-2 pt-2 gap-2">
+          <div className="flex flex-col sm:flex-row items-center justify-between text-[10px] font-semibold text-muted-foreground border-t border-muted mt-1 pt-1 gap-2">
             <span className="text-[9px] uppercase tracking-wider text-center sm:text-left">
               Live activity sync: active
             </span>
@@ -391,42 +391,47 @@ export function CalendarSkeleton({ isDark = false }: { isDark?: boolean }) {
   const getSkeletonColor = () => (isDark ? "#1f242c" : "#ebedf0");
 
   return (
-    <div className="mt-3 xl:mt-[clamp(0.25rem,1.5vh,0.75rem)] select-none w-full max-w-full animate-pulse">
-      <div className="w-48 h-5 bg-muted border border-border mb-3 xl:mb-[clamp(0.25rem,1.5vh,0.75rem)] rounded-[2px]" />
+    <div className="mt-2 xl:mt-[clamp(0.125rem,0.75vh,0.375rem)] select-none w-full max-w-full h-full flex flex-col min-h-0 animate-pulse">
+      <div className="w-48 h-5 bg-muted border border-border mb-2 xl:mb-[clamp(0.125rem,0.75vh,0.375rem)] rounded-[2px]" />
 
-      <div className="flex flex-col md:flex-row gap-4 xl:gap-[clamp(0.5rem,2vh,1rem)] items-stretch w-full">
-        <div className="flex-1 bg-card border-[3px] border-border shadow-md p-3 xl:p-[clamp(0.5rem,1.5vh,0.75rem)] flex flex-col justify-between clip-margin-5">
-          <div className="min-w-[640px] flex flex-col">
-            <div className="flex h-4 pl-[30px] mb-1.5">
-              {[...Array(12)].map((_, i) => (
-                <div key={i} className="w-8 h-3 bg-muted rounded-[2px]" style={{ marginLeft: i === 0 ? "0px" : "36px" }} />
-              ))}
-            </div>
-
-            <div className="flex flex-row">
-              <div className="flex flex-col justify-between w-[30px] pr-2 h-[88px]">
-                <div className="w-4 h-2.5 bg-muted rounded-[2px]" />
-                <div className="w-4 h-2.5 bg-muted rounded-[2px]" />
-                <div className="w-4 h-2.5 bg-muted rounded-[2px]" />
+      <div className="flex flex-col md:flex-row gap-4 xl:gap-[clamp(0.5rem,2vh,1rem)] items-stretch w-full flex-1 min-h-0">
+        <div className="flex-1 bg-card border-[3px] border-border shadow-md p-2 xl:p-[clamp(0.25rem,0.75vh,0.5rem)] flex flex-col justify-between clip-margin-5">
+          {/* Scrollable Skeleton Grid */}
+          <div className="overflow-x-auto pb-0.5 scrollbar-thin">
+            <div className="min-w-[640px] flex flex-col">
+              {/* Skeleton Month Labels row */}
+              <div className="flex h-3 pl-[30px] mb-1">
+                {[...Array(12)].map((_, i) => (
+                  <div key={i} className="w-8 h-full bg-muted rounded-[2px]" style={{ marginLeft: i === 0 ? "0px" : "36px" }} />
+                ))}
               </div>
 
-              <div className="flex flex-row gap-[3px]">
-                {[...Array(53)].map((_, colIdx) => (
-                  <div key={colIdx} className="flex flex-col gap-[3px]">
-                    {[...Array(7)].map((_, rowIdx) => (
-                      <div
-                        key={rowIdx}
-                        className="w-[10px] h-[10px] rounded-[1.5px]"
-                        style={{ backgroundColor: getSkeletonColor() }}
-                      />
-                    ))}
-                  </div>
-                ))}
+              {/* Grid with Day of Week labels on left */}
+              <div className="flex flex-row">
+                <div className="flex flex-col justify-between w-[30px] pr-2 pb-[4px] pt-[2px] h-[88px]">
+                  <div className="w-4 h-2.5 bg-muted rounded-[2px]" />
+                  <div className="w-4 h-2.5 bg-muted rounded-[2px]" />
+                  <div className="w-4 h-2.5 bg-muted rounded-[2px]" />
+                </div>
+
+                <div className="flex flex-row gap-[3px]">
+                  {[...Array(53)].map((_, colIdx) => (
+                    <div key={colIdx} className="flex flex-col gap-[3px]">
+                      {[...Array(7)].map((_, rowIdx) => (
+                        <div
+                          key={rowIdx}
+                          className="w-[10px] h-[10px] rounded-[1.5px]"
+                          style={{ backgroundColor: getSkeletonColor() }}
+                        />
+                      ))}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
 
-          <div className="flex items-center justify-between border-t border-muted mt-2 pt-2">
+          <div className="flex items-center justify-between border-t border-muted mt-1 pt-1">
             <div className="w-36 h-3 bg-muted rounded-[2px]" />
             <div className="w-24 h-3 bg-muted rounded-[2px]" />
           </div>
