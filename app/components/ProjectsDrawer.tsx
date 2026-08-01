@@ -92,7 +92,6 @@ export default function ProjectsDrawer({ className = "", delay = 0.6, style }: P
 
         {/* Scrollable list inside */}
         <div 
-          data-lenis-prevent
           className="mt-3 overflow-y-auto no-scrollbar flex-1 min-h-0 flex flex-col gap-4 relative z-10 w-full"
         >
           {profile.projects.map((proj, index) => {

@@ -31,7 +31,7 @@ export default function ExperienceCard({ className = "", delay = 0.5, style }: E
       />
 
       {/* Directory/Playground content */}
-      <div className="flex-1 overflow-y-auto min-h-0 mt-4 flex flex-col gap-3 font-mono text-[11px]" data-lenis-prevent>
+      <div className="flex-1 overflow-y-auto min-h-0 mt-4 flex flex-col gap-3 font-mono text-[11px]">
         <div className="flex justify-between items-center bg-muted/50 p-2 border border-border/10 rounded-sm">
           <span className="text-muted-foreground">MODE: DIRECTORY</span>
           <button className="text-[8px] font-black uppercase bg-[var(--color-accent-warning)] text-black px-2 py-0.5 border border-black hover:-translate-y-[0.5px] hover:shadow-[1px_1px_0_0_#000000] active:translate-y-0 active:shadow-none transition-all cursor-pointer">

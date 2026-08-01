@@ -47,7 +47,7 @@ export default async function GithubStatsWidget({ className = "", delay = 0.75, 
       />
 
       {/* Stats Content */}
-      <div className="flex-1 overflow-y-auto min-h-0 mt-3.5 flex flex-col gap-2 font-mono" data-lenis-prevent>
+      <div className="flex-1 overflow-y-auto min-h-0 mt-3.5 flex flex-col gap-2 font-mono">
         <div className="flex justify-between items-baseline">
           <span className="text-[10px] font-bold text-muted-foreground uppercase">PUBLIC REPOS:</span>
           <span className="text-sm font-black text-foreground">

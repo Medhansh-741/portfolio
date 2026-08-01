@@ -6,7 +6,7 @@ export const revalidate = 3600;
 
 export default function ResumePage() {
   return (
-    <main className="min-h-screen bg-muted">
+    <main className="flex-1 overflow-y-auto bg-muted">
       <div className="max-w-4xl mx-auto px-6 py-10">
         <div className="flex justify-between items-center mb-8">
           <Link

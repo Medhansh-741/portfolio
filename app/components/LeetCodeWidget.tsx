@@ -85,7 +85,7 @@ export default async function LeetCodeWidget({ className = "", delay = 0.55, sty
       />
 
       {/* Stats Content */}
-      <div className="flex-1 overflow-y-auto min-h-0 mt-3.5 flex flex-col gap-2 font-mono" data-lenis-prevent>
+      <div className="flex-1 overflow-y-auto min-h-0 mt-3.5 flex flex-col gap-2 font-mono">
         <div className="flex justify-between items-baseline">
           <span className="text-[10px] font-bold text-muted-foreground uppercase">SOLVED:</span>
           <span className="text-sm font-black text-foreground">

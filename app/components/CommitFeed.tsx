@@ -106,7 +106,7 @@ export default async function CommitFeed({ className = "", delay = 0.7, style }:
       />
 
       {/* Timeline Viewport Container */}
-      <div className="flex-1 overflow-y-auto min-h-0 mt-3 relative pr-1 w-full" data-lenis-prevent>
+      <div className="flex-1 overflow-y-auto min-h-0 mt-3 relative pr-1 w-full">
         <div className="absolute left-[9px] top-1 bottom-1 w-0.5 border-l-[2px] border-dashed border-muted z-0" />
 
         <div className="flex flex-col gap-4 py-1">

@@ -6,7 +6,7 @@ import { profile } from "@/app/data/profile";
 
 export default function AboutPage() {
   return (
-    <main className="min-h-screen bg-background">
+    <main className="flex-1 overflow-y-auto bg-background">
       <div className="max-w-4xl mx-auto px-6 py-16">
         <section className="mb-16">
           <div className="text-center space-y-2 mb-8">
