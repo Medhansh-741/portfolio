@@ -109,7 +109,7 @@ export default function ProjectsDrawer({ className = "", delay = 0.6, style }: P
                 {videoId && (
                   <motion.button
                     layoutId={`project-window-${proj.title}`}
-                    transition={{ layout: { path: arc({ direction: "auto" }) } }}
+                    transition={{ layout: { path: arc({ direction: "cw" }) } }}
                     onClick={(e) => {
                       setActiveProject(proj);
                       setIsMaximized(false);
