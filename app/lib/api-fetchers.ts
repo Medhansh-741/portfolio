@@ -1,174 +1,220 @@
-import {
-  GithubContributionsSchema,
-  GithubUserSchema,
-  GithubReposArraySchema,
-  LeetCodeResponseSchema,
-  CodeforcesUserInfoSchema,
-  CodeforcesStatusSchema,
-  CodeforcesRatingSchema,
-  GithubEventsArraySchema,
+import type {
+	CodeforcesStatusEntry,
+	CodeforcesUserInfo,
+	ContributionDay,
+	GithubData,
 } from "./schemas";
-import type { GithubData, ContributionDay, CodeforcesUserInfo, CodeforcesStatusEntry } from "./schemas";
+import {
+	CodeforcesRatingSchema,
+	CodeforcesStatusSchema,
+	CodeforcesUserInfoSchema,
+	GithubContributionsSchema,
+	GithubEventsArraySchema,
+	GithubReposArraySchema,
+	GithubUserSchema,
+	LeetCodeResponseSchema,
+} from "./schemas";
 
 const LANG_COLORS: Record<string, string> = {
-  Python: "var(--color-accent-secondary)",
-  TypeScript: "var(--color-accent-warning)",
-  "C++": "var(--color-accent)",
-  JavaScript: "#f1e05a",
-  Java: "#b07219",
-  Go: "#00ADD8",
-  Rust: "#dea584",
-  HTML: "#e34c26",
-  CSS: "#563d7c",
+	Python: "var(--color-accent-secondary)",
+	TypeScript: "var(--color-accent-warning)",
+	"C++": "var(--color-accent)",
+	JavaScript: "#f1e05a",
+	Java: "#b07219",
+	Go: "#00ADD8",
+	Rust: "#dea584",
+	HTML: "#e34c26",
+	CSS: "#563d7c",
 };
 
 const LANG_SHORT: Record<string, string> = {
-  Python: "PY",
-  TypeScript: "TS",
-  "C++": "C++",
-  JavaScript: "JS",
-  Java: "JAVA",
-  Go: "GO",
-  Rust: "RS",
+	Python: "PY",
+	TypeScript: "TS",
+	"C++": "C++",
+	JavaScript: "JS",
+	Java: "JAVA",
+	Go: "GO",
+	Rust: "RS",
 };
 
-export async function getGithubData(usernameInput?: string): Promise<GithubData> {
-  const username = usernameInput || process.env.GITHUB_USERNAME || "Medhansh-741";
-  const token = process.env.GITHUB_TOKEN;
+export async function getGithubData(
+	usernameInput?: string,
+): Promise<GithubData> {
+	const username =
+		usernameInput || process.env.GITHUB_USERNAME || "Medhansh-741";
+	const token = process.env.GITHUB_TOKEN;
 
-  const authHeaders: Record<string, string> = {
-    "User-Agent": "Portfolio-App",
-    Accept: "application/vnd.github.v3+json",
-  };
-  if (token) {
-    authHeaders["Authorization"] = `Bearer ${token}`;
-  }
+	const authHeaders: Record<string, string> = {
+		"User-Agent": "Portfolio-App",
+		Accept: "application/vnd.github.v3+json",
+	};
+	if (token) {
+		authHeaders["Authorization"] = `Bearer ${token}`;
+	}
 
-  try {
-    const [contribRes, userRes, reposRes] = await Promise.allSettled([
-      fetch(`https://github-contributions-api.jogruber.de/v4/${username}`, {
-        next: { revalidate: 3600 },
-        headers: { "User-Agent": "Portfolio-App" },
-      }),
-      fetch(`https://api.github.com/users/${username}`, {
-        next: { revalidate: 3600 },
-        headers: authHeaders,
-      }),
-      fetch(`https://api.github.com/users/${username}/repos?per_page=100&type=owner`, {
-        next: { revalidate: 3600 },
-        headers: authHeaders,
-      }),
-    ]);
+	try {
+		const [contribRes, userRes, reposRes] = await Promise.allSettled([
+			fetch(`https://github-contributions-api.jogruber.de/v4/${username}`, {
+				next: { revalidate: 3600 },
+				headers: { "User-Agent": "Portfolio-App" },
+			}),
+			fetch(`https://api.github.com/users/${username}`, {
+				next: { revalidate: 3600 },
+				headers: authHeaders,
+			}),
+			fetch(
+				`https://api.github.com/users/${username}/repos?per_page=100&type=owner`,
+				{
+					next: { revalidate: 3600 },
+					headers: authHeaders,
+				},
+			),
+		]);
 
-    let contribData: { total: Record<string, number>; contributions: ContributionDay[] } = { total: {}, contributions: [] };
-    if (contribRes.status === "fulfilled" && contribRes.value.ok) {
-      const rawJson = await contribRes.value.json();
-      const parsed = GithubContributionsSchema.safeParse(rawJson);
-      if (parsed.success && parsed.data) {
-        contribData = {
-          total: parsed.data.total || {},
-          contributions: parsed.data.contributions || [],
-        };
-      }
-    }
+		let contribData: {
+			total: Record<string, number>;
+			contributions: ContributionDay[];
+		} = { total: {}, contributions: [] };
+		if (contribRes.status === "fulfilled" && contribRes.value.ok) {
+			const rawJson = await contribRes.value.json();
+			const parsed = GithubContributionsSchema.safeParse(rawJson);
+			if (parsed.success && parsed.data) {
+				contribData = {
+					total: parsed.data.total || {},
+					contributions: parsed.data.contributions || [],
+				};
+			}
+		}
 
-    let publicRepos = 12;
-    if (userRes.status === "fulfilled" && userRes.value.ok) {
-      const rawJson = await userRes.value.json();
-      const parsed = GithubUserSchema.safeParse(rawJson);
-      if (parsed.success && typeof parsed.data.public_repos === "number" && parsed.data.public_repos > 0) {
-        publicRepos = parsed.data.public_repos;
-      }
-    }
+		let publicRepos = 12;
+		if (userRes.status === "fulfilled" && userRes.value.ok) {
+			const rawJson = await userRes.value.json();
+			const parsed = GithubUserSchema.safeParse(rawJson);
+			if (
+				parsed.success &&
+				typeof parsed.data.public_repos === "number" &&
+				parsed.data.public_repos > 0
+			) {
+				publicRepos = parsed.data.public_repos;
+			}
+		}
 
-    let totalStars = 24;
-    const langCounts: Record<string, number> = {};
+		let totalStars = 24;
+		const langCounts: Record<string, number> = {};
 
-    if (reposRes.status === "fulfilled" && reposRes.value.ok) {
-      const rawJson = await reposRes.value.json();
-      const parsed = GithubReposArraySchema.safeParse(rawJson);
-      if (parsed.success && parsed.data.length > 0) {
-        let starsSum = 0;
-        parsed.data.forEach((repo) => {
-          if (!repo.fork) {
-            starsSum += repo.stargazers_count;
-            if (repo.language) {
-              langCounts[repo.language] = (langCounts[repo.language] || 0) + 1;
-            }
-          }
-        });
-        if (starsSum > 0) totalStars = starsSum;
-      }
-    }
+		if (reposRes.status === "fulfilled" && reposRes.value.ok) {
+			const rawJson = await reposRes.value.json();
+			const parsed = GithubReposArraySchema.safeParse(rawJson);
+			if (parsed.success && parsed.data.length > 0) {
+				let starsSum = 0;
+				parsed.data.forEach((repo) => {
+					if (!repo.fork) {
+						starsSum += repo.stargazers_count;
+						if (repo.language) {
+							langCounts[repo.language] = (langCounts[repo.language] || 0) + 1;
+						}
+					}
+				});
+				if (starsSum > 0) totalStars = starsSum;
+			}
+		}
 
-    const totalLangRepos = Object.values(langCounts).reduce((a, b) => a + b, 0) || 1;
-    const sortedLangs = Object.entries(langCounts)
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 3);
+		const totalLangRepos =
+			Object.values(langCounts).reduce((a, b) => a + b, 0) || 1;
+		const sortedLangs = Object.entries(langCounts)
+			.sort((a, b) => b[1] - a[1])
+			.slice(0, 3);
 
-    const topLanguages = sortedLangs.map(([name, count], index) => {
-      const pct = Math.round((count / totalLangRepos) * 100);
-      const defaultColors = ["var(--color-accent-secondary)", "var(--color-accent-warning)", "var(--color-accent)"];
-      return {
-        name,
-        shortName: LANG_SHORT[name] || name.substring(0, 4).toUpperCase(),
-        percentage: pct,
-        color: LANG_COLORS[name] || defaultColors[index % defaultColors.length],
-      };
-    });
+		const topLanguages = sortedLangs.map(([name, count], index) => {
+			const pct = Math.round((count / totalLangRepos) * 100);
+			const defaultColors = [
+				"var(--color-accent-secondary)",
+				"var(--color-accent-warning)",
+				"var(--color-accent)",
+			];
+			return {
+				name,
+				shortName: LANG_SHORT[name] || name.substring(0, 4).toUpperCase(),
+				percentage: pct,
+				color: LANG_COLORS[name] || defaultColors[index % defaultColors.length],
+			};
+		});
 
-    if (topLanguages.length < 3) {
-      topLanguages.length = 0;
-      topLanguages.push(
-        { name: "Python", shortName: "PY", percentage: 65, color: "var(--color-accent-secondary)" },
-        { name: "TypeScript", shortName: "TS", percentage: 25, color: "var(--color-accent-warning)" },
-        { name: "C++", shortName: "C++", percentage: 10, color: "var(--color-accent)" }
-      );
-    }
+		if (topLanguages.length < 3) {
+			topLanguages.length = 0;
+			topLanguages.push(
+				{
+					name: "Python",
+					shortName: "PY",
+					percentage: 65,
+					color: "var(--color-accent-secondary)",
+				},
+				{
+					name: "TypeScript",
+					shortName: "TS",
+					percentage: 25,
+					color: "var(--color-accent-warning)",
+				},
+				{
+					name: "C++",
+					shortName: "C++",
+					percentage: 10,
+					color: "var(--color-accent)",
+				},
+			);
+		}
 
-
-    return {
-      ...contribData,
-      stats: {
-        publicRepos,
-        totalStars,
-        topLanguages,
-      },
-    };
-  } catch (error) {
-    console.error("Error in server getGithubData:", error);
-    return { total: {}, contributions: [], stats: { publicRepos: 14, totalStars: 24, topLanguages: [] } };
-  }
+		return {
+			...contribData,
+			stats: {
+				publicRepos,
+				totalStars,
+				topLanguages,
+			},
+		};
+	} catch (error) {
+		console.error("Error in server getGithubData:", error);
+		return {
+			total: {},
+			contributions: [],
+			stats: { publicRepos: 14, totalStars: 24, topLanguages: [] },
+		};
+	}
 }
 
-async function fetchWithTimeout(url: string, init?: RequestInit, timeoutMs = 5000) {
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
-  try {
-    const res = await fetch(url, {
-      ...init,
-      next: { revalidate: 3600, ...(init?.next || {}) },
-      headers: {
-        "Accept": "application/json",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-        ...(init?.headers || {}),
-      },
-      signal: controller.signal,
-    });
-    clearTimeout(timeoutId);
-    return res;
-  } catch {
-    clearTimeout(timeoutId);
-    return null;
-  }
+async function fetchWithTimeout(
+	url: string,
+	init?: RequestInit,
+	timeoutMs = 5000,
+) {
+	const controller = new AbortController();
+	const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+	try {
+		const res = await fetch(url, {
+			...init,
+			next: { revalidate: 3600, ...(init?.next || {}) },
+			headers: {
+				Accept: "application/json",
+				"User-Agent":
+					"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+				...(init?.headers || {}),
+			},
+			signal: controller.signal,
+		});
+		clearTimeout(timeoutId);
+		return res;
+	} catch {
+		clearTimeout(timeoutId);
+		return null;
+	}
 }
 
 export async function getLeetcodeData(usernameInput?: string) {
-  const username = usernameInput || "iXfyEpMpyu";
-  const currentYear = new Date().getFullYear();
-  const prevYear = currentYear - 1;
+	const username = usernameInput || "iXfyEpMpyu";
+	const currentYear = new Date().getFullYear();
+	const prevYear = currentYear - 1;
 
-  const query = `
+	const query = `
     query userProblemsSolved($username: String!) {
       allQuestionsCount {
         difficulty
@@ -195,244 +241,300 @@ export async function getLeetcodeData(usernameInput?: string) {
     }
   `;
 
-  try {
-    const response = await fetchWithTimeout(
-      "https://leetcode.com/graphql",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Referer": "https://leetcode.com",
-        },
-        body: JSON.stringify({ query, variables: { username } }),
-      },
-      5000
-    );
+	try {
+		const response = await fetchWithTimeout(
+			"https://leetcode.com/graphql",
+			{
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					Referer: "https://leetcode.com",
+				},
+				body: JSON.stringify({ query, variables: { username } }),
+			},
+			5000,
+		);
 
-    if (!response || !response.ok) return { data: null, calendar: {} };
+		if (!response || !response.ok) return { data: null, calendar: {} };
 
-    const rawJson = await response.json().catch(() => null);
-    if (!rawJson) return { data: null, calendar: {} };
+		const rawJson = await response.json().catch(() => null);
+		if (!rawJson) return { data: null, calendar: {} };
 
-    const parsed = LeetCodeResponseSchema.safeParse(rawJson);
-    if (!parsed.success) return { data: null, calendar: {} };
+		const parsed = LeetCodeResponseSchema.safeParse(rawJson);
+		if (!parsed.success) return { data: null, calendar: {} };
 
-    const json = parsed.data;
-    const calendarMap: Record<string, number> = {};
+		const json = parsed.data;
+		const calendarMap: Record<string, number> = {};
 
-    if (json.data && json.data.matchedUser) {
-      const { calendarCurrent, calendarPrev } = json.data.matchedUser;
-      const parseCalendar = (cal: { submissionCalendar?: string } | null | undefined) => {
-        if (cal && cal.submissionCalendar) {
-          try {
-            const parsedCal = JSON.parse(cal.submissionCalendar);
-            Object.entries(parsedCal).forEach(([ts, count]) => {
-              const date = new Date(parseInt(ts) * 1000);
-              const year = date.getFullYear();
-              const month = String(date.getMonth() + 1).padStart(2, "0");
-              const day = String(date.getDate()).padStart(2, "0");
-              const dateStr = `${year}-${month}-${day}`;
-              calendarMap[dateStr] = (calendarMap[dateStr] || 0) + (count as number);
-            });
-          } catch {}
-        }
-      };
-      parseCalendar(calendarCurrent);
-      parseCalendar(calendarPrev);
-    }
+		if (json.data && json.data.matchedUser) {
+			const { calendarCurrent, calendarPrev } = json.data.matchedUser;
+			const parseCalendar = (
+				cal: { submissionCalendar?: string } | null | undefined,
+			) => {
+				if (cal && cal.submissionCalendar) {
+					try {
+						const parsedCal = JSON.parse(cal.submissionCalendar);
+						Object.entries(parsedCal).forEach(([ts, count]) => {
+							const date = new Date(parseInt(ts) * 1000);
+							const year = date.getFullYear();
+							const month = String(date.getMonth() + 1).padStart(2, "0");
+							const day = String(date.getDate()).padStart(2, "0");
+							const dateStr = `${year}-${month}-${day}`;
+							calendarMap[dateStr] =
+								(calendarMap[dateStr] || 0) + (count as number);
+						});
+					} catch {}
+				}
+			};
+			parseCalendar(calendarCurrent);
+			parseCalendar(calendarPrev);
+		}
 
-    return { data: json.data, calendar: calendarMap };
-  } catch (err) {
-    console.error("Error in server getLeetcodeData:", err);
-    return { data: null, calendar: {} };
-  }
+		return { data: json.data, calendar: calendarMap };
+	} catch (err) {
+		console.error("Error in server getLeetcodeData:", err);
+		return { data: null, calendar: {} };
+	}
 }
 
 export async function getCodeforcesData(usernameInput?: string) {
-  const username = usernameInput || "Medhansh_217";
+	const username = usernameInput || "Medhansh_217";
 
-  let info: CodeforcesUserInfo | null = null;
-  let solvedCount = 0;
-  let contestCount = 0;
-  const calendarMap: Record<string, number> = {};
+	let info: CodeforcesUserInfo | null = null;
+	let solvedCount = 0;
+	let contestCount = 0;
+	const calendarMap: Record<string, number> = {};
 
-  try {
-    // 1. Fetch User Info
-    const infoRes = await fetchWithTimeout(`https://codeforces.com/api/user.info?handles=${username}`);
-    if (infoRes && infoRes.ok) {
-      const rawJson = await infoRes.json().catch(() => null);
-      if (rawJson) {
-        const parsed = CodeforcesUserInfoSchema.safeParse(rawJson);
-        if (parsed.success && parsed.data.status === "OK" && parsed.data.result && parsed.data.result.length > 0) {
-          info = parsed.data.result[0];
-        }
-      }
-    }
+	try {
+		// 1. Fetch User Info
+		const infoRes = await fetchWithTimeout(
+			`https://codeforces.com/api/user.info?handles=${username}`,
+		);
+		if (infoRes && infoRes.ok) {
+			const rawJson = await infoRes.json().catch(() => null);
+			if (rawJson) {
+				const parsed = CodeforcesUserInfoSchema.safeParse(rawJson);
+				if (
+					parsed.success &&
+					parsed.data.status === "OK" &&
+					parsed.data.result &&
+					parsed.data.result.length > 0
+				) {
+					info = parsed.data.result[0];
+				}
+			}
+		}
 
-    // 2. Fetch User Submissions (Status & Calendar)
-    const statusRes = await fetchWithTimeout(`https://codeforces.com/api/user.status?handle=${username}`);
-    if (statusRes && statusRes.ok) {
-      const rawJson = await statusRes.json().catch(() => null);
-      if (rawJson) {
-        const parsed = CodeforcesStatusSchema.safeParse(rawJson);
-        if (parsed.success && parsed.data.status === "OK" && parsed.data.result) {
-          const solvedSet = new Set();
-          parsed.data.result.forEach((sub: CodeforcesStatusEntry) => {
-            if (sub.verdict === "OK" && sub.problem) {
-              solvedSet.add(`${sub.problem.contestId}-${sub.problem.index}`);
-            }
-            if (sub.creationTimeSeconds) {
-              const date = new Date(sub.creationTimeSeconds * 1000);
-              const dateStr = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
-              calendarMap[dateStr] = (calendarMap[dateStr] || 0) + 1;
-            }
-          });
-          solvedCount = solvedSet.size;
-        }
-      }
-    }
+		// 2. Fetch User Submissions (Status & Calendar)
+		const statusRes = await fetchWithTimeout(
+			`https://codeforces.com/api/user.status?handle=${username}`,
+		);
+		if (statusRes && statusRes.ok) {
+			const rawJson = await statusRes.json().catch(() => null);
+			if (rawJson) {
+				const parsed = CodeforcesStatusSchema.safeParse(rawJson);
+				if (
+					parsed.success &&
+					parsed.data.status === "OK" &&
+					parsed.data.result
+				) {
+					const solvedSet = new Set();
+					parsed.data.result.forEach((sub: CodeforcesStatusEntry) => {
+						if (sub.verdict === "OK" && sub.problem) {
+							solvedSet.add(`${sub.problem.contestId}-${sub.problem.index}`);
+						}
+						if (sub.creationTimeSeconds) {
+							const date = new Date(sub.creationTimeSeconds * 1000);
+							const dateStr = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+							calendarMap[dateStr] = (calendarMap[dateStr] || 0) + 1;
+						}
+					});
+					solvedCount = solvedSet.size;
+				}
+			}
+		}
 
-    // 3. Fetch Rating History
-    const ratingRes = await fetchWithTimeout(`https://codeforces.com/api/user.rating?handle=${username}`);
-    if (ratingRes && ratingRes.ok) {
-      const rawJson = await ratingRes.json().catch(() => null);
-      if (rawJson) {
-        const parsed = CodeforcesRatingSchema.safeParse(rawJson);
-        if (parsed.success && parsed.data.status === "OK" && parsed.data.result) {
-          contestCount = parsed.data.result.length;
-        }
-      }
-    }
-  } catch (err) {
-    console.error("Error in server getCodeforcesData:", err);
-  }
+		// 3. Fetch Rating History
+		const ratingRes = await fetchWithTimeout(
+			`https://codeforces.com/api/user.rating?handle=${username}`,
+		);
+		if (ratingRes && ratingRes.ok) {
+			const rawJson = await ratingRes.json().catch(() => null);
+			if (rawJson) {
+				const parsed = CodeforcesRatingSchema.safeParse(rawJson);
+				if (
+					parsed.success &&
+					parsed.data.status === "OK" &&
+					parsed.data.result
+				) {
+					contestCount = parsed.data.result.length;
+				}
+			}
+		}
+	} catch (err) {
+		console.error("Error in server getCodeforcesData:", err);
+	}
 
-  return {
-    handle: username,
-    rating: info?.rating || 0,
-    maxRating: info?.maxRating || 0,
-    rank: info?.rank || "unrated",
-    maxRank: info?.maxRank || "unrated",
-    solvedCount,
-    contestCount,
-    avatar: info?.avatar || "",
-    calendar: calendarMap,
-  };
+	return {
+		handle: username,
+		rating: info?.rating || 0,
+		maxRating: info?.maxRating || 0,
+		rank: info?.rank || "unrated",
+		maxRank: info?.maxRank || "unrated",
+		solvedCount,
+		contestCount,
+		avatar: info?.avatar || "",
+		calendar: calendarMap,
+	};
 }
 
 export async function getCommitFeed(usernameInput?: string) {
-  const username = usernameInput || process.env.GITHUB_USERNAME || "Medhansh-741";
-  const token = process.env.GITHUB_TOKEN;
+	const username =
+		usernameInput || process.env.GITHUB_USERNAME || "Medhansh-741";
+	const token = process.env.GITHUB_TOKEN;
 
-  const authHeaders: Record<string, string> = {
-    "User-Agent": "Portfolio-App",
-    Accept: "application/vnd.github.v3+json",
-  };
-  if (token) {
-    authHeaders["Authorization"] = `Bearer ${token}`;
-  }
+	const authHeaders: Record<string, string> = {
+		"User-Agent": "Portfolio-App",
+		Accept: "application/vnd.github.v3+json",
+	};
+	if (token) {
+		authHeaders["Authorization"] = `Bearer ${token}`;
+	}
 
-  try {
-    const eventsRes = await fetch(`https://api.github.com/users/${username}/events/public`, {
-      next: { revalidate: 300 },
-      headers: authHeaders,
-    });
+	try {
+		const eventsRes = await fetch(
+			`https://api.github.com/users/${username}/events/public`,
+			{
+				next: { revalidate: 300 },
+				headers: authHeaders,
+			},
+		);
 
-    if (eventsRes.ok) {
-      const rawJson = await eventsRes.json();
-      const parsed = GithubEventsArraySchema.safeParse(rawJson);
+		if (eventsRes.ok) {
+			const rawJson = await eventsRes.json();
+			const parsed = GithubEventsArraySchema.safeParse(rawJson);
 
-      if (parsed.success && parsed.data.length > 0) {
-        const commitsList: Array<{ id: string; repo: string; message: string; date: string; link: string }> = [];
+			if (parsed.success && parsed.data.length > 0) {
+				const commitsList: Array<{
+					id: string;
+					repo: string;
+					message: string;
+					date: string;
+					link: string;
+				}> = [];
 
-        for (const event of parsed.data) {
-          if (commitsList.length >= 12) break;
-          if (event.type === "PushEvent" && event.payload?.commits) {
-            for (const commit of event.payload.commits) {
-              if (commitsList.length >= 12) break;
-              if (commit.message) {
-                const sha = commit.sha || Math.random().toString(36).substring(2, 8);
-                const repoName = event.repo.name || `${username}/repository`;
-                commitsList.push({
-                  id: `${event.id}-${sha}`,
-                  repo: repoName,
-                  message: commit.message.split("\n")[0].trim(),
-                  date: event.created_at,
-                  link: `https://github.com/${repoName}/commit/${sha}`,
-                });
-              }
-            }
-          }
-        }
-        if (commitsList.length > 0) return commitsList;
-      }
-    }
-  } catch {}
+				for (const event of parsed.data) {
+					if (commitsList.length >= 12) break;
+					if (event.type === "PushEvent" && event.payload?.commits) {
+						for (const commit of event.payload.commits) {
+							if (commitsList.length >= 12) break;
+							if (commit.message) {
+								const sha =
+									commit.sha || Math.random().toString(36).substring(2, 8);
+								const repoName = event.repo.name || `${username}/repository`;
+								commitsList.push({
+									id: `${event.id}-${sha}`,
+									repo: repoName,
+									message: commit.message.split("\n")[0].trim(),
+									date: event.created_at,
+									link: `https://github.com/${repoName}/commit/${sha}`,
+								});
+							}
+						}
+					}
+				}
+				if (commitsList.length > 0) return commitsList;
+			}
+		}
+	} catch {}
 
-  // Fallback to Atom Feed
-  try {
-    const atomUrl = `https://github.com/${username}.atom`;
-    const response = await fetch(atomUrl, {
-      next: { revalidate: 300 },
-      headers: { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" },
-    });
+	// Fallback to Atom Feed
+	try {
+		const atomUrl = `https://github.com/${username}.atom`;
+		const response = await fetch(atomUrl, {
+			next: { revalidate: 300 },
+			headers: {
+				"User-Agent":
+					"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+			},
+		});
 
-    if (response.ok) {
-      const xml = await response.text();
-      const commitsList: Array<{ id: string; repo: string; message: string; date: string; link: string }> = [];
-      const entryRegex = /<entry>([\s\S]*?)<\/entry>/g;
-      let match;
+		if (response.ok) {
+			const xml = await response.text();
+			const commitsList: Array<{
+				id: string;
+				repo: string;
+				message: string;
+				date: string;
+				link: string;
+			}> = [];
+			const entryRegex = /<entry>([\s\S]*?)<\/entry>/g;
+			let match;
 
-      const decodeHtml = (str: string) =>
-        str
-          .replace(/&lt;/g, "<")
-          .replace(/&gt;/g, ">")
-          .replace(/&quot;/g, '"')
-          .replace(/&amp;/g, "&")
-          .replace(/&#39;/g, "'");
+			const decodeHtml = (str: string) =>
+				str
+					.replace(/&lt;/g, "<")
+					.replace(/&gt;/g, ">")
+					.replace(/&quot;/g, '"')
+					.replace(/&amp;/g, "&")
+					.replace(/&#39;/g, "'");
 
-      while ((match = entryRegex.exec(xml)) !== null && commitsList.length < 12) {
-        const entry = match[1];
-        const dateMatch = /<published>([^<]+)<\/published>/.exec(entry);
-        const date = dateMatch ? dateMatch[1] : new Date().toISOString();
+			while (
+				(match = entryRegex.exec(xml)) !== null &&
+				commitsList.length < 12
+			) {
+				const entry = match[1];
+				const dateMatch = /<published>([^<]+)<\/published>/.exec(entry);
+				const date = dateMatch ? dateMatch[1] : new Date().toISOString();
 
-        const titleMatch = /<title type="html">[^ ]+ pushed ([^<]+)<\/title>/.exec(entry);
-        let repoName = titleMatch ? titleMatch[1].trim() : "";
-        if (repoName && !repoName.includes("/")) repoName = `${username}/${repoName}`;
+				const titleMatch =
+					/<title type="html">[^ ]+ pushed ([^<]+)<\/title>/.exec(entry);
+				let repoName = titleMatch ? titleMatch[1].trim() : "";
+				if (repoName && !repoName.includes("/"))
+					repoName = `${username}/${repoName}`;
 
-        const contentMatch = /<content type="html">([\s\S]*?)<\/content>/.exec(entry);
-        if (contentMatch) {
-          const decodedHtml = decodeHtml(contentMatch[1]);
-          const liRegex = /<li[^>]*>([\s\S]*?)<\/li>/g;
-          let liMatch;
-          let entryCommitsCount = 0;
+				const contentMatch = /<content type="html">([\s\S]*?)<\/content>/.exec(
+					entry,
+				);
+				if (contentMatch) {
+					const decodedHtml = decodeHtml(contentMatch[1]);
+					const liRegex = /<li[^>]*>([\s\S]*?)<\/li>/g;
+					let liMatch;
+					let entryCommitsCount = 0;
 
-          while ((liMatch = liRegex.exec(decodedHtml)) !== null && commitsList.length < 12) {
-            const msgMatch = /<blockquote>([\s\S]*?)<\/blockquote>/.exec(liMatch[1]);
-            const msg = msgMatch ? msgMatch[1].trim().replace(/\s+/g, " ") : "";
+					while (
+						(liMatch = liRegex.exec(decodedHtml)) !== null &&
+						commitsList.length < 12
+					) {
+						const msgMatch = /<blockquote>([\s\S]*?)<\/blockquote>/.exec(
+							liMatch[1],
+						);
+						const msg = msgMatch ? msgMatch[1].trim().replace(/\s+/g, " ") : "";
 
-            if (msg) {
-              const commitLinkMatch = /href="([^"]*\/commit\/[^"]*)"/.exec(liMatch[1]);
-              const relativeLink = commitLinkMatch ? commitLinkMatch[1] : "";
-              const absoluteLink = relativeLink
-                ? `https://github.com${relativeLink}`
-                : `https://github.com/${repoName}`;
+						if (msg) {
+							const commitLinkMatch = /href="([^"]*\/commit\/[^"]*)"/.exec(
+								liMatch[1],
+							);
+							const relativeLink = commitLinkMatch ? commitLinkMatch[1] : "";
+							const absoluteLink = relativeLink
+								? `https://github.com${relativeLink}`
+								: `https://github.com/${repoName}`;
 
-              commitsList.push({
-                id: `${date}-${entryCommitsCount}-${Math.random().toString(36).substring(2, 7)}`,
-                repo: repoName || "GitHub Repository",
-                message: msg,
-                date: date,
-                link: absoluteLink,
-              });
-              entryCommitsCount++;
-            }
-          }
-        }
-      }
-      return commitsList;
-    }
-  } catch {}
+							commitsList.push({
+								id: `${date}-${entryCommitsCount}-${Math.random().toString(36).substring(2, 7)}`,
+								repo: repoName || "GitHub Repository",
+								message: msg,
+								date: date,
+								link: absoluteLink,
+							});
+							entryCommitsCount++;
+						}
+					}
+				}
+			}
+			return commitsList;
+		}
+	} catch {}
 
-  return [];
+	return [];
 }
