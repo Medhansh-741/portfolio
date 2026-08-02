@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { FiFolder } from "react-icons/fi";
 import Link from "next/link";
-import { profile } from "@/app/data/profile";
+import { profile, type Project } from "@/app/data/profile";
 import GenieModal from "./GenieModal";
 import RetroCard from "./ui/RetroCard";
 import CardHeader from "./ui/CardHeader";
@@ -60,7 +60,7 @@ interface ProjectsDrawerProps {
 }
 
 export default function ProjectsDrawer({ className = "", delay = 0.6, style }: ProjectsDrawerProps) {
-  const [activeProject, setActiveProject] = useState<any | null>(null);
+  const [activeProject, setActiveProject] = useState<Project | null>(null);
   const [isMaximized, setIsMaximized] = useState(false);
   const [triggerRect, setTriggerRect] = useState<DOMRect | null>(null);
 
@@ -94,7 +94,7 @@ export default function ProjectsDrawer({ className = "", delay = 0.6, style }: P
         <div 
           className="mt-3 overflow-y-auto no-scrollbar flex-1 min-h-0 flex flex-col gap-4 relative z-10 w-full"
         >
-          {profile.projects.map((proj, index) => {
+          {profile.projects.map((proj) => {
             const videoId = getYoutubeId(proj.links.demo || "");
 
             return (
@@ -110,7 +110,7 @@ export default function ProjectsDrawer({ className = "", delay = 0.6, style }: P
                   <motion.button
                     layoutId={`project-window-${proj.title}`}
                     transition={{ layout: { path: arc({ direction: "cw" }) } }}
-                    onClick={(e) => {
+                    onClick={() => {
                       setActiveProject(proj);
                       setIsMaximized(false);
                     }}

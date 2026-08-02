@@ -112,6 +112,9 @@ export const GithubEventSchema = z.object({
 export const GithubEventsArraySchema = z.array(GithubEventSchema);
 
 
+export type CodeforcesUserInfo = NonNullable<z.infer<typeof CodeforcesUserInfoSchema>["result"]>[number];
+export type CodeforcesStatusEntry = NonNullable<z.infer<typeof CodeforcesStatusSchema>["result"]>[number];
+
 export type NormalizedCodeforcesDto = {
   handle: string;
   rating: number;
@@ -122,4 +125,20 @@ export type NormalizedCodeforcesDto = {
   contestCount: number;
   avatar: string;
   calendar: Record<string, number>;
+};
+
+export type ContributionDay = {
+  date: string;
+  count: number;
+  level: number;
+};
+
+export type GithubData = {
+  total: Record<string, number>;
+  contributions: ContributionDay[];
+  stats: {
+    publicRepos: number;
+    totalStars: number;
+    topLanguages: Array<{ name: string; shortName: string; percentage: number; color: string }>;
+  };
 };

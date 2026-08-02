@@ -10,7 +10,7 @@ export default async function GithubCalendar() {
 
   return (
     <GithubCalendarUI
-      githubData={githubData as any}
+      githubData={githubData}
       leetcodeData={leetcodeData.calendar || {}}
       codeforcesData={codeforcesData.calendar || {}}
     />

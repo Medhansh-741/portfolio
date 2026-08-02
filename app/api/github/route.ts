@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 import {
-  GithubContributionsSchema,
   GithubUserSchema,
   GithubReposArraySchema,
 } from "@/app/lib/schemas";
+import type { ContributionDay } from "@/app/lib/schemas";
 
 export const revalidate = 3600; // Cache on server for 1 hour
 
@@ -84,7 +84,7 @@ export async function GET(request: Request) {
       }),
     ]);
 
-    let contribData = { total: {} as Record<string, number>, contributions: [] as any[] };
+    const contribData = { total: {} as Record<string, number>, contributions: [] as ContributionDay[] };
     
     if (graphqlRes.status === "fulfilled" && graphqlRes.value.ok) {
       const json = await graphqlRes.value.json();
@@ -99,7 +99,13 @@ export async function GET(request: Request) {
           return 4;
         };
 
-        const processCalendar = (calendarInfo: any, yearStr: string) => {
+        const processCalendar = (
+          calendarInfo: {
+            totalContributions: number;
+            weeks: { contributionDays: { contributionCount: number; date: string }[] }[];
+          } | null | undefined,
+          yearStr: string
+        ) => {
           if (!calendarInfo) return;
           contribData.total[yearStr] = calendarInfo.totalContributions;
           

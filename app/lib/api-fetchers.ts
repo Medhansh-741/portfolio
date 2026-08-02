@@ -8,6 +8,7 @@ import {
   CodeforcesRatingSchema,
   GithubEventsArraySchema,
 } from "./schemas";
+import type { GithubData, ContributionDay, CodeforcesUserInfo, CodeforcesStatusEntry } from "./schemas";
 
 const LANG_COLORS: Record<string, string> = {
   Python: "var(--color-accent-secondary)",
@@ -31,7 +32,7 @@ const LANG_SHORT: Record<string, string> = {
   Rust: "RS",
 };
 
-export async function getGithubData(usernameInput?: string) {
+export async function getGithubData(usernameInput?: string): Promise<GithubData> {
   const username = usernameInput || process.env.GITHUB_USERNAME || "Medhansh-741";
   const token = process.env.GITHUB_TOKEN;
 
@@ -59,12 +60,15 @@ export async function getGithubData(usernameInput?: string) {
       }),
     ]);
 
-    let contribData = { total: {}, contributions: [] };
+    let contribData: { total: Record<string, number>; contributions: ContributionDay[] } = { total: {}, contributions: [] };
     if (contribRes.status === "fulfilled" && contribRes.value.ok) {
       const rawJson = await contribRes.value.json();
       const parsed = GithubContributionsSchema.safeParse(rawJson);
       if (parsed.success && parsed.data) {
-        contribData = parsed.data as any;
+        contribData = {
+          total: parsed.data.total || {},
+          contributions: parsed.data.contributions || [],
+        };
       }
     }
 
@@ -218,7 +222,7 @@ export async function getLeetcodeData(usernameInput?: string) {
 
     if (json.data && json.data.matchedUser) {
       const { calendarCurrent, calendarPrev } = json.data.matchedUser;
-      const parseCalendar = (cal: any) => {
+      const parseCalendar = (cal: { submissionCalendar?: string } | null | undefined) => {
         if (cal && cal.submissionCalendar) {
           try {
             const parsedCal = JSON.parse(cal.submissionCalendar);
@@ -230,7 +234,7 @@ export async function getLeetcodeData(usernameInput?: string) {
               const dateStr = `${year}-${month}-${day}`;
               calendarMap[dateStr] = (calendarMap[dateStr] || 0) + (count as number);
             });
-          } catch (e) {}
+          } catch {}
         }
       };
       parseCalendar(calendarCurrent);
@@ -247,7 +251,7 @@ export async function getLeetcodeData(usernameInput?: string) {
 export async function getCodeforcesData(usernameInput?: string) {
   const username = usernameInput || "Medhansh_217";
 
-  let info: any = null;
+  let info: CodeforcesUserInfo | null = null;
   let solvedCount = 0;
   let contestCount = 0;
   const calendarMap: Record<string, number> = {};
@@ -273,7 +277,7 @@ export async function getCodeforcesData(usernameInput?: string) {
         const parsed = CodeforcesStatusSchema.safeParse(rawJson);
         if (parsed.success && parsed.data.status === "OK" && parsed.data.result) {
           const solvedSet = new Set();
-          parsed.data.result.forEach((sub: any) => {
+          parsed.data.result.forEach((sub: CodeforcesStatusEntry) => {
             if (sub.verdict === "OK" && sub.problem) {
               solvedSet.add(`${sub.problem.contestId}-${sub.problem.index}`);
             }
@@ -363,7 +367,7 @@ export async function getCommitFeed(usernameInput?: string) {
         if (commitsList.length > 0) return commitsList;
       }
     }
-  } catch (err) {}
+  } catch {}
 
   // Fallback to Atom Feed
   try {
@@ -405,7 +409,7 @@ export async function getCommitFeed(usernameInput?: string) {
 
           while ((liMatch = liRegex.exec(decodedHtml)) !== null && commitsList.length < 12) {
             const msgMatch = /<blockquote>([\s\S]*?)<\/blockquote>/.exec(liMatch[1]);
-            let msg = msgMatch ? msgMatch[1].trim().replace(/\s+/g, " ") : "";
+            const msg = msgMatch ? msgMatch[1].trim().replace(/\s+/g, " ") : "";
 
             if (msg) {
               const commitLinkMatch = /href="([^"]*\/commit\/[^"]*)"/.exec(liMatch[1]);
@@ -428,7 +432,7 @@ export async function getCommitFeed(usernameInput?: string) {
       }
       return commitsList;
     }
-  } catch (err) {}
+  } catch {}
 
   return [];
 }

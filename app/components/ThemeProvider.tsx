@@ -19,6 +19,7 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const stored = localStorage.getItem("theme") as Theme | null;
     if (stored) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- reading localStorage only after mount is the SSR-safe way to hydrate theme
       setTheme(stored);
       document.documentElement.classList.toggle("dark", stored === "dark");
     }

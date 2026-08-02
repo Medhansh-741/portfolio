@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import HeroSection from "./HeroSection";
 import AnimatedCell from "./AnimatedCell";
 import ProjectsDrawer from "./ProjectsDrawer";

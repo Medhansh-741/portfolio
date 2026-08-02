@@ -116,7 +116,7 @@ export async function GET(request: Request) {
 
         while ((liMatch = liRegex.exec(decodedHtml)) !== null && commitsList.length < 12) {
           const msgMatch = /<blockquote>([\s\S]*?)<\/blockquote>/.exec(liMatch[1]);
-          let msg = msgMatch ? msgMatch[1].trim().replace(/\s+/g, " ") : "";
+          const msg = msgMatch ? msgMatch[1].trim().replace(/\s+/g, " ") : "";
 
           if (msg) {
             const commitLinkMatch = /href="([^"]*\/commit\/[^"]*)"/.exec(liMatch[1]);

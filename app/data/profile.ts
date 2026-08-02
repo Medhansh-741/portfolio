@@ -131,3 +131,5 @@ export const profile = {
     },
   ],
 };
+
+export type Project = (typeof profile)["projects"][number];

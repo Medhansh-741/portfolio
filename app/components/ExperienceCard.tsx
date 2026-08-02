@@ -41,7 +41,7 @@ export default function ExperienceCard({ className = "", delay = 0.5, style }: E
 
         {/* Directory Listings */}
         <div className="flex flex-col gap-2.5 mt-2">
-          {profile.experience.map((exp, index) => (
+          {profile.experience.map((exp) => (
             <div 
               key={exp.company} 
               className="flex items-center justify-between p-2 border border-border/10 hover:border-[var(--color-accent-warning)] hover:bg-muted/30 transition-colors cursor-pointer group"

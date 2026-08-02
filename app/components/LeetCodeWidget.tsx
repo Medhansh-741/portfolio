@@ -20,9 +20,9 @@ export default async function LeetCodeWidget({ className = "", delay = 0.55, sty
 
   let solved = 0;
   let totalQuestions = 3999;
-  let easy: StatsDifficulty = { solved: 0, total: 950 };
-  let medium: StatsDifficulty = { solved: 0, total: 2000 };
-  let hard: StatsDifficulty = { solved: 0, total: 950 };
+  const easy: StatsDifficulty = { solved: 0, total: 950 };
+  const medium: StatsDifficulty = { solved: 0, total: 2000 };
+  const hard: StatsDifficulty = { solved: 0, total: 950 };
   let rating: number | null = null;
   let topPercentage: number | null = null;
 
@@ -30,10 +30,10 @@ export default async function LeetCodeWidget({ className = "", delay = 0.55, sty
     const { allQuestionsCount, matchedUser, userContestRanking } = lcData.data;
 
     if (Array.isArray(allQuestionsCount)) {
-      const all = allQuestionsCount.find((q: any) => q?.difficulty === "All");
-      const e = allQuestionsCount.find((q: any) => q?.difficulty === "Easy");
-      const m = allQuestionsCount.find((q: any) => q?.difficulty === "Medium");
-      const h = allQuestionsCount.find((q: any) => q?.difficulty === "Hard");
+      const all = allQuestionsCount.find((q) => q?.difficulty === "All");
+      const e = allQuestionsCount.find((q) => q?.difficulty === "Easy");
+      const m = allQuestionsCount.find((q) => q?.difficulty === "Medium");
+      const h = allQuestionsCount.find((q) => q?.difficulty === "Hard");
 
       if (all?.count) totalQuestions = all.count;
       if (e?.count) easy.total = e.count;
@@ -43,10 +43,10 @@ export default async function LeetCodeWidget({ className = "", delay = 0.55, sty
 
     const acStats = matchedUser?.submitStats?.acSubmissionNum;
     if (Array.isArray(acStats)) {
-      const allSolved = acStats.find((q: any) => q?.difficulty === "All");
-      const eSolved = acStats.find((q: any) => q?.difficulty === "Easy");
-      const mSolved = acStats.find((q: any) => q?.difficulty === "Medium");
-      const hSolved = acStats.find((q: any) => q?.difficulty === "Hard");
+      const allSolved = acStats.find((q) => q?.difficulty === "All");
+      const eSolved = acStats.find((q) => q?.difficulty === "Easy");
+      const mSolved = acStats.find((q) => q?.difficulty === "Medium");
+      const hSolved = acStats.find((q) => q?.difficulty === "Hard");
 
       if (allSolved?.count) solved = allSolved.count;
       if (eSolved?.count) easy.solved = eSolved.count;

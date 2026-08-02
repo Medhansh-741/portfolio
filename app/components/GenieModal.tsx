@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { motion, AnimatePresence, arc } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { FiExternalLink } from "react-icons/fi";
+import type { Project } from "@/app/data/profile";
 
 interface GenieModalProps {
   isOpen: boolean;
@@ -12,12 +13,11 @@ interface GenieModalProps {
   onClose: () => void;
   isMaximized: boolean;
   setIsMaximized: (val: boolean) => void;
-  project: any;
+  project: Project | null;
 }
 
 export default function GenieModal({
   isOpen,
-  triggerRect,
   onClose,
   isMaximized,
   setIsMaximized,
@@ -26,6 +26,7 @@ export default function GenieModal({
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- mounted gate prevents portal/hydration mismatch
     setMounted(true);
   }, []);
 

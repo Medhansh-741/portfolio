@@ -27,7 +27,7 @@ export default async function GithubStatsWidget({ className = "", delay = 0.75, 
 
   const currentYear = new Date().getFullYear().toString();
   const liveCommits = githubData?.total
-    ? Object.values(githubData.total).reduce((acc: number, count: any) => acc + (typeof count === "number" ? count : 0), 0)
+    ? Object.values(githubData.total).reduce((acc: number, count: number) => acc + (typeof count === "number" ? count : 0), 0)
     : 1248;
 
   return (
