@@ -1,7 +1,7 @@
 export default function MobileHome() {
 	return (
 		<div className="xl:hidden flex-1 bg-background overflow-x-clip">
-			<div className="mx-auto w-full max-w-2xl px-4 py-8 flex flex-col gap-6">
+			<div className="@container mx-auto w-full max-w-2xl px-fluid-sm py-fluid-lg flex flex-col gap-fluid-md">
 				{/* mobile sections go here — one file each */}
 			</div>
 		</div>
