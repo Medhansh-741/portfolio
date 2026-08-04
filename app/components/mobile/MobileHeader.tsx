@@ -5,14 +5,14 @@ import MobileThemeToggle from "./MobileThemeToggle";
 export default function MobileHeader() {
 	return (
 		<div className="xl:hidden">
-			<header className="mx-auto w-full max-w-2xl border-x-[3px] border-b-[3px] border-border px-fluid-sm py-4 flex flex-wrap items-center justify-between gap-x-fluid-sm gap-y-fluid-xs">
+			<header className="@container mx-auto w-full max-w-2xl border-x-[3px] border-b-[3px] border-border px-fluid-sm py-4 flex flex-wrap items-center justify-between gap-x-fluid-sm gap-y-fluid-xs">
 				<div className="flex items-center gap-fluid-sm min-w-0">
 					<MobileClock />
 					<Link
 						href="/"
-						className="font-gothic text-fluid-xl text-foreground leading-none min-w-0 select-none active:translate-x-px active:opacity-70 transition-transform pb-1"
+						className="brand-wordmark font-serif font-bold tracking-tight text-h3 text-foreground leading-none min-w-0 select-none active:translate-x-px active:opacity-70 transition-transform"
 					>
-						medhansh
+						medhansh<span className="text-accent">.kapoor</span>
 					</Link>
 				</div>
 				<MobileThemeToggle />
