@@ -43,16 +43,16 @@ These are **engineering rules** — the logical constraints that prevent the reg
 
 ## 4. One UI for Every Device (0–1279) — Dynamic & Scalable
 
-> The whole mobile range is **one layout**, not one-per-device. A 320px phone and a 1279px screen show the *same design*; the only difference is fluid scale and text reflow. This is the ramx.in doctrine: fixed column, fluid everything inside. Nothing is tuned per-device; everything scales.
+> The whole mobile range is **one layout**, not one-per-device. A 320px phone and a 1279px screen show the *same design*; the only difference is fluid scale and text reflow. This is the ramx.in doctrine: fixed column, fluid everything inside. Nothing is tuned per-device; everything scales. **The multiplier math, knobs, and rendered sizes live in `docs/scale.md` — implement from tokens, not this prose.**
 
-- **R4.1** Fluid typography with `clamp()`: `font-size: clamp(min, calc(xvw + yrem), max)`. The `rem` term is **mandatory** — it keeps text zoomable (WCAG 1.4.4: 200% zoom must work) and honors the user's font-size preference. Never bare `vw`. Max must be ≥ 2× min.
+- **R4.1** Fluid typography with `clamp()`: `font-size: clamp(min, calc(x·unit + y·base), max)` where `unit` is `vw` or `cqi`. The `base` (`rem`) term is **mandatory** — it keeps text zoomable (WCAG 1.4.4: 200% zoom must work) and honors the user's font-size preference. Never a bare `vw`/`cqi` and never bare `min`/`max` without a `rem` term. Min/max range ≤ ~2.5× (the web.dev WCAG-safe bound); the 1.25 scale steps stay well inside it.
 - **R4.2** Component-relative scaling with container-query units: `font-size: clamp(1rem, 0.5rem + 4cqi, 2rem)` inside a `container-type: inline-size` parent. Card internals scale with the card's own width, not the viewport — one component is correct at 320px and 672px with zero wrapper classes.
-- **R4.3** Fluid spacing with `min()`/`max()` (e.g. `padding: min(2rem, 8vw)`), always derived from the token scale — never per-component magic numbers.
+- **R4.3** Fluid spacing with `min()`/`max()` or integer multipliers — e.g. `padding: min(2rem, 8vw)` or `gap: calc(var(--spacing-unit) * 4)` — always derived from the token scale, never per-component magic numbers.
 - **R4.4** Intrinsic layout: flex + grid `auto-fit`/`minmax()`, `w-full`, `min-w-0`. Never hardcode column counts for a width — let the container negotiate.
 - **R4.5** `aspect-ratio` + `object-fit: cover` for media boxes (video previews, images) — identical proportions on every phone, no CLS from size jumps.
-- **R4.6** No `px` micro-tuning anywhere. All sizing in `rem`/Tailwind tokens so one root size drives every device. If you catch yourself adding a `px` value "just for this phone", stop.
+- **R4.6** No `px` for **width/height/font/spacing** anywhere. All sizing in `rem`/tokens so one root size drives every device. Borders/shadows/clip-paths/blurs are effect values and are exempt. If you catch yourself adding a `px` size "just for this phone", stop.
 - **R4.7** Reserve media queries for **environment, never width**: `pointer: coarse`, `prefers-reduced-motion`, safe-areas. A width check inside a mobile component means you're building a second layout — stop.
-- **R4.8** Acceptance test: at 320 / 375 / 414 / 768 / 1279px the page is the *same design* — only scale and wrapping differ. If any width needs a structural tweak, the tweak is wrong, not the width.
+- **R4.8** Acceptance test: at 320 / 375 / 414 / 768 / 1279px the page is the *same design* — only scale and wrapping differ. If any width needs a structural tweak, the tweak is wrong, not the width. The scale is fluid only until the column fills (~672px container), then locks flat to 1279px — that plateau is this rule working, not a bug (see `docs/scale.md` §7).
 
 ## 5. Performance — Core Web Vitals
 
@@ -61,6 +61,7 @@ These are **engineering rules** — the logical constraints that prevent the reg
 - **R5.3** **No hard bundle budget — full cinema is allowed.** Still track size per feature with `@next/bundle-analyzer` so that any future tone-down is a **decision**, not archaeology.
 - **R5.4** No long tasks. Any handler that could run > 50ms gets chunked or deferred. Every scroll/tap handler is passive.
 - **R5.5** Keep DOM lean: flat structure, < 1,500 nodes, selector depth ≤ 3. Every wrapper div costs layout time on low-end phones.
+- **R5.5b** Mobile clock inner segments scale with the bezel via `--clock-w-val` ratios (see `docs/scale.md` §5), so one knob rescales the whole clock with no hardcoded `px` (R4.6).
 - **R5.6** `content-visibility: auto` (with `contain-intrinsic-size`) for long below-fold sections so the browser skips rendering them until near-viewport. Never skip the hero (it's the LCP).
 - **R5.7** Only animate `transform` and `opacity`. Never `top/left/width/height`. This is the bedrock of both 60fps and tone-down safety (Section 6).
 
