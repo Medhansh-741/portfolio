@@ -2,42 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-// LCDCell component to render a character precisely over its background shadow cell
-function LCDCell({
-	char,
-	shadowChar = "8",
-	className = "",
-	style,
-	widthClass = "w-[9.5px]",
-}: {
-	char: string;
-	shadowChar?: string;
-	className?: string;
-	style?: React.CSSProperties;
-	widthClass?: string;
-}) {
-	return (
-		<span
-			className={`grid place-items-center select-none text-center ${widthClass}`}
-			style={style}
-		>
-			{/* Ghost Background Segment */}
-			<span
-				className={`row-start-1 col-start-1 opacity-[0.04] text-[#1a251d] dark:text-[#00f3a6] text-center select-none pointer-events-none z-0 ${className}`}
-				style={style}
-			>
-				{shadowChar}
-			</span>
-			{/* Active Foreground Segment */}
-			<span
-				className={`row-start-1 col-start-1 text-center ${className}`}
-				style={style}
-			>
-				{char}
-			</span>
-		</span>
-	);
-}
+import LcdClockFace, { LCDCell } from "./mobile/LcdClockFace";
 
 export default function HeaderClock() {
 	const [time, setTime] = useState<Date | null>(null);
@@ -70,29 +35,12 @@ export default function HeaderClock() {
 				{/* LCD Screen Display */}
 				<div className="bg-[#cad3c8] dark:bg-[#08120f] text-[#1a251d] dark:text-[#00f3a6] px-2.5 py-0.5 flex flex-col items-center justify-center [clip-path:polygon(6px_0%,calc(100%-6px)_0%,100%_6px,100%_calc(100%-6px),calc(100%-6px)_100%,6px_100%,0%_calc(100%-6px),0%_6px)] w-[88px] h-[38px] transition-all duration-300">
 					{/* Top Row: Large Time (7-segment) */}
-					<div className="flex items-center justify-center w-full font-digital text-sm font-bold border-b border-[#1a251d]/10 dark:border-[#00f3a6]/10 pb-[1.5px] mb-[1.5px]">
-						{hours.split("").map((c, i) => (
-							<LCDCell key={`h-${i}`} char={c} />
-						))}
-						<LCDCell
-							char=":"
-							shadowChar=":"
-							className="animate-pulse text-[#1a251d]/60 dark:text-[#00f3a6]/60 mx-[0.5px]"
-							widthClass="w-[6px]"
-						/>
-						{minutes.split("").map((c, i) => (
-							<LCDCell key={`m-${i}`} char={c} />
-						))}
-						<LCDCell
-							char=":"
-							shadowChar=":"
-							className="animate-pulse text-[#1a251d]/60 dark:text-[#00f3a6]/60 mx-[0.5px]"
-							widthClass="w-[6px]"
-						/>
-						{seconds.split("").map((c, i) => (
-							<LCDCell key={`s-${i}`} char={c} />
-						))}
-					</div>
+					<LcdClockFace
+						hours={hours}
+						minutes={minutes}
+						seconds={seconds}
+						className="flex items-center justify-center w-full font-digital text-sm font-bold border-b border-[#1a251d]/10 dark:border-[#00f3a6]/10 pb-[1.5px] mb-[1.5px]"
+					/>
 
 					{/* Bottom Row: Date digits (7-segment) */}
 					<div className="flex items-center justify-center w-full font-digital text-[9px] font-bold">

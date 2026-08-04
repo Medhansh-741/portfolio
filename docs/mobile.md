@@ -153,7 +153,7 @@ Built in phases, each gated and verifiable, so a mistake is caught where it's ma
 
 1. **Phase 0 — Shell + router (done).** `app/components/mobile/MobileHome.tsx` (server component, `mx-auto max-w-2xl px-4`, `overflow-x-clip`) + `app/page.tsx` switch. Verify at 1279px (mobile) and 1280px (desktop). This is the only responsive switch — never touch breakpoints again.
 
-2. **Phase 1 — Foundation tokens.** Define the fluid scale in `globals.css` `@theme`: `clamp()` type scale (R4.1), `min()`/`max()` spacing tokens (R4.3). Establish the `prefers-reduced-motion` baseline (R6.6). Everything downstream consumes these tokens.
+2. **Phase 1 (done) — Foundation tokens.** Define the fluid scale in `globals.css` `@theme`: `clamp()` type scale (R4.1), `min()`/`max()` spacing tokens (R4.3). Establish the `prefers-reduced-motion` baseline (R6.6). Everything downstream consumes these tokens.
 
 3. **Phase 2 — Sections in dependency order.** Header → Hero (LCP) → Contribution graph → card-stack shell (static only) → Bottom bar. Each is a server component, `w-full`, content-driven height, token spacing, no breakpoints, no hover-only UI, data from `profile.ts`.
 

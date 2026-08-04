@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Inter, Pirata_One, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
+import MobileHeader from "./components/mobile/MobileHeader";
 import ThemeProvider from "./components/ThemeProvider";
 
 const inter = Inter({
@@ -44,6 +45,7 @@ export default function RootLayout({
 				<ThemeProvider>
 					<div className="min-h-dvh xl:[@media(min-height:768px)]:h-dvh xl:[@media(min-height:768px)]:max-h-dvh xl:[@media(min-height:768px)]:overflow-hidden flex flex-col">
 						<Navbar />
+						<MobileHeader />
 						{children}
 					</div>
 				</ThemeProvider>

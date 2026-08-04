@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { FiMenu, FiMoon, FiSun, FiX } from "react-icons/fi";
+import { useMatchMedia } from "@/app/lib/use-match-media";
 import HeaderClock from "./HeaderClock";
 import MagneticWrap from "./MagneticWrap";
 import { useTheme } from "./ThemeProvider";
@@ -19,12 +20,13 @@ export default function Navbar() {
 	const [open, setOpen] = useState(false);
 	const pathname = usePathname();
 	const { theme, toggle } = useTheme();
+	const isDesktop = useMatchMedia("(min-width: 1280px)");
 
 	return (
-		<nav className="sticky top-0 z-50 w-full bg-background border-b-[3px] border-border px-6 md:px-12 py-4">
+		<nav className="hidden xl:block sticky top-0 z-50 w-full bg-background border-b-[3px] border-border px-6 md:px-12 py-4">
 			<div className="w-full flex justify-between items-center">
 				<div className="flex items-center gap-4">
-					<HeaderClock />
+					{isDesktop === true && <HeaderClock />}
 					<Link
 						href="/"
 						className="font-serif text-2xl font-bold tracking-tight text-foreground"
