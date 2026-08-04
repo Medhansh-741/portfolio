@@ -42,36 +42,40 @@ export default function LcdClockFace({
 	minutes,
 	seconds,
 	className = "flex items-center justify-center font-digital text-sm font-bold",
+	cellWidthClass = "w-[9.5px]",
+	colonWidthClass = "w-[7px]",
 }: {
 	hours: string;
 	minutes: string;
 	seconds?: string;
 	className?: string;
+	cellWidthClass?: string;
+	colonWidthClass?: string;
 }) {
 	return (
 		<div className={className}>
 			{hours.split("").map((c, i) => (
-				<LCDCell key={`h-${i}`} char={c} />
+				<LCDCell key={`h-${i}`} char={c} widthClass={cellWidthClass} />
 			))}
 			<LCDCell
 				char=":"
 				shadowChar=":"
-				className="animate-pulse text-[#1a251d]/60 dark:text-[#00f3a6]/60 mx-[0.5px]"
-				widthClass="w-[6px]"
+				className="animate-pulse text-[#1a251d]/60 dark:text-[#00f3a6]/60"
+				widthClass={colonWidthClass}
 			/>
 			{minutes.split("").map((c, i) => (
-				<LCDCell key={`m-${i}`} char={c} />
+				<LCDCell key={`m-${i}`} char={c} widthClass={cellWidthClass} />
 			))}
 			{seconds && (
 				<>
 					<LCDCell
 						char=":"
 						shadowChar=":"
-						className="animate-pulse text-[#1a251d]/60 dark:text-[#00f3a6]/60 mx-[0.5px]"
-						widthClass="w-[6px]"
+						className="animate-pulse text-[#1a251d]/60 dark:text-[#00f3a6]/60"
+						widthClass={colonWidthClass}
 					/>
 					{seconds.split("").map((c, i) => (
-						<LCDCell key={`s-${i}`} char={c} />
+						<LCDCell key={`s-${i}`} char={c} widthClass={cellWidthClass} />
 					))}
 				</>
 			)}

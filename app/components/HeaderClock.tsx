@@ -29,7 +29,7 @@ export default function HeaderClock() {
 	const shortYear = time.getFullYear().toString().slice(-2); // e.g. "26"
 
 	return (
-		<div className="filter drop-shadow-[2px_2px_0px_#000000] dark:drop-shadow-[2px_2px_0px_rgba(0,243,166,0.25)] translate-y-[1.5px] hidden sm:inline-flex select-none">
+		<div className="filter drop-shadow-[2px_2px_0px_#000000] dark:drop-shadow-[2px_2px_0px_rgba(0,243,166,0.25)] hidden sm:inline-flex select-none">
 			{/* Octagonal Bezel Border Container */}
 			<div className="bg-border dark:bg-[#00f3a6]/35 p-[1.5px] [clip-path:polygon(6px_0%,calc(100%-6px)_0%,100%_6px,100%_calc(100%-6px),calc(100%-6px)_100%,6px_100%,0%_calc(100%-6px),0%_6px)] flex items-center justify-center">
 				{/* LCD Screen Display */}
@@ -39,7 +39,7 @@ export default function HeaderClock() {
 						hours={hours}
 						minutes={minutes}
 						seconds={seconds}
-						className="flex items-center justify-center w-full font-digital text-sm font-bold border-b border-[#1a251d]/10 dark:border-[#00f3a6]/10 pb-[1.5px] mb-[1.5px]"
+						className="flex items-center justify-center w-full font-digital leading-none text-sm font-bold border-b border-[#1a251d]/10 dark:border-[#00f3a6]/10 pb-[1.5px] mb-[1.5px]"
 					/>
 
 					{/* Bottom Row: Date digits (7-segment) */}
@@ -64,7 +64,7 @@ export default function HeaderClock() {
 
 function HeaderClockSkeleton() {
 	return (
-		<div className="filter drop-shadow-[2px_2px_0px_#000000] dark:drop-shadow-[2px_2px_0px_rgba(0,243,166,0.25)] translate-y-[1.5px] hidden sm:inline-flex select-none">
+		<div className="filter drop-shadow-[2px_2px_0px_#000000] dark:drop-shadow-[2px_2px_0px_rgba(0,243,166,0.25)] hidden sm:inline-flex select-none">
 			<div className="bg-border dark:bg-[#00f3a6]/35 p-[1.5px] [clip-path:polygon(6px_0%,calc(100%-6px)_0%,100%_6px,100%_calc(100%-6px),calc(100%-6px)_100%,6px_100%,0%_calc(100%-6px),0%_6px)] flex items-center justify-center">
 				<div className="bg-[#cad3c8] dark:bg-[#08120f] [clip-path:polygon(6px_0%,calc(100%-6px)_0%,100%_6px,100%_calc(100%-6px),calc(100%-6px)_100%,6px_100%,0%_calc(100%-6px),0%_6px)] w-[88px] h-[38px] animate-pulse" />
 			</div>
