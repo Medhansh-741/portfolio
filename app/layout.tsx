@@ -4,6 +4,7 @@ import { Inter, Pirata_One, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import MobileHeader from "./components/mobile/MobileHeader";
+import MobileBottomBar from "./components/mobile/MobileBottomBar";
 import ThemeProvider from "./components/ThemeProvider";
 
 const inter = Inter({
@@ -43,10 +44,11 @@ export default function RootLayout({
 				className={`${inter.variable} ${playfair.variable} ${pirataOne.variable} antialiased bg-background text-foreground font-sans`}
 			>
 				<ThemeProvider>
-					<div className="min-h-dvh xl:[@media(min-height:768px)]:h-dvh xl:[@media(min-height:768px)]:max-h-dvh xl:[@media(min-height:768px)]:overflow-hidden flex flex-col">
+					<div className="min-h-dvh xl:[@media(min-height:768px)]:h-dvh xl:[@media(min-height:768px)]:max-h-dvh xl:[@media(min-height:768px)]:overflow-hidden flex flex-col pb-[calc(var(--spacing-fluid-xl)+var(--spacing-fluid-md))] xl:pb-0">
 						<Navbar />
 						<MobileHeader />
 						{children}
+						<MobileBottomBar />
 					</div>
 				</ThemeProvider>
 				<Analytics />
