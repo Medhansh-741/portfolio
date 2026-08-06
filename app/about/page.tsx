@@ -6,8 +6,8 @@ import { profile } from "@/app/data/profile";
 
 export default function AboutPage() {
 	return (
-		<main className="flex-1 overflow-y-auto bg-background">
-			<div className="max-w-4xl mx-auto px-6 py-16">
+		<main className="flex-1 bg-background overflow-x-clip">
+			<div className="w-full max-w-2xl mx-auto px-6 py-16 border-x-[3px] border-border grow flex flex-col">
 				<section className="mb-16">
 					<div className="text-center space-y-2 mb-8">
 						<p className="text-xs text-accent font-bold uppercase tracking-widest">

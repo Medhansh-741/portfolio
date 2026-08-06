@@ -21,8 +21,8 @@ const stagger = {
 
 export default function ProjectsPage() {
 	return (
-		<main className="flex-1 overflow-y-auto bg-background">
-			<div className="max-w-6xl mx-auto px-6 py-16">
+		<main className="flex-1 bg-background overflow-x-clip">
+			<div className="w-full max-w-2xl mx-auto px-6 py-16 border-x-[3px] border-border grow flex flex-col">
 				<div className="text-center space-y-2 mb-12">
 					<p className="text-xs text-accent font-bold uppercase tracking-widest">
 						What I&apos;ve Built
@@ -32,7 +32,7 @@ export default function ProjectsPage() {
 					</h1>
 				</div>
 
-				<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+				<div className="flex flex-col gap-8">
 					{profile.projects.map((proj, i) => (
 						<motion.div
 							key={proj.title}
