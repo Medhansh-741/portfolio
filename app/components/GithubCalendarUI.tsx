@@ -256,7 +256,10 @@ export default function GithubCalendarUI({
 	};
 
 	return (
-		<div className="mt-2 xl:mt-[clamp(0.125rem,0.75vh,0.375rem)] select-none w-full max-w-full h-full flex flex-col min-h-0">
+		<div 
+			className="mt-2 xl:mt-[clamp(0.125rem,0.75vh,0.375rem)] select-none w-full max-w-full h-full flex flex-col min-h-0"
+			onClick={() => setHoveredDay(null)}
+		>
 			{/* Header with Title and Platform Toggle */}
 			<div className="flex flex-col sm:flex-row justify-between items-center mb-2 xl:mb-[clamp(0.125rem,0.75vh,0.375rem)] gap-2 w-full">
 				<h3 className="font-sans text-[11px] font-black uppercase tracking-wider text-foreground">
@@ -308,10 +311,10 @@ export default function GithubCalendarUI({
 				>
 					{/* Scrollable Grid Container */}
 					<div
-						className="overflow-x-auto pb-0.5 scrollbar-thin"
+						className="overflow-x-auto overflow-y-hidden pb-0.5 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
 						onMouseMove={handleMouseMove}
 					>
-						<div className="min-w-[640px] flex flex-col">
+						<div className="min-w-[640px] w-max mx-auto flex flex-col">
 							{/* Month Labels row */}
 							<div className="flex text-[10px] font-semibold text-muted-foreground mb-1 h-3 pl-[30px] relative">
 								{monthLabels.map((lbl, idx) => {
@@ -368,6 +371,13 @@ export default function GithubCalendarUI({
 														onMouseLeave={() =>
 															!isFuture && setHoveredDay(null)
 														}
+														onClick={(e) => {
+															if (!isFuture) {
+																e.stopPropagation();
+																setHoveredDay(day);
+																setTooltipPos({ x: e.clientX, y: e.clientY - 40 });
+															}
+														}}
 													/>
 												);
 											})}
@@ -450,8 +460,8 @@ export function CalendarSkeleton({ isDark = false }: { isDark?: boolean }) {
 			<div className="flex flex-col md:flex-row gap-4 xl:gap-[clamp(0.5rem,2vh,1rem)] items-stretch w-full flex-1 min-h-0">
 				<div className="flex-1 bg-card border-[3px] border-border shadow-md p-2 xl:p-[clamp(0.25rem,0.75vh,0.5rem)] flex flex-col justify-between clip-margin-5">
 					{/* Scrollable Skeleton Grid */}
-					<div className="overflow-x-auto pb-0.5 scrollbar-thin">
-						<div className="min-w-[640px] flex flex-col">
+					<div className="overflow-x-auto pb-0.5 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+						<div className="min-w-[640px] w-max mx-auto flex flex-col">
 							{/* Skeleton Month Labels row */}
 							<div className="flex h-3 pl-[30px] mb-1">
 								{[...Array(12)].map((_, i) => (

@@ -44,7 +44,7 @@ export default function RootLayout({
 				className={`${inter.variable} ${playfair.variable} ${pirataOne.variable} antialiased bg-background text-foreground font-sans`}
 			>
 				<ThemeProvider>
-					<div className="min-h-dvh xl:[@media(min-height:768px)]:h-dvh xl:[@media(min-height:768px)]:max-h-dvh xl:[@media(min-height:768px)]:overflow-hidden flex flex-col pb-[calc(var(--spacing-fluid-xl)+var(--spacing-fluid-md))] xl:pb-0">
+					<div className="min-h-dvh xl:[@media(min-height:768px)]:h-dvh xl:[@media(min-height:768px)]:max-h-dvh xl:[@media(min-height:768px)]:overflow-hidden flex flex-col">
 						<Navbar />
 						<MobileHeader />
 						{children}

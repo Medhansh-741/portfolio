@@ -17,11 +17,11 @@ export default function MobileHeroCTA() {
 	};
 
 	const iconClass =
-		"min-h-11 min-w-11 px-fluid-md py-fluid-sm flex items-center justify-center bg-background text-foreground border-[3px] border-border shadow-sm hover:-translate-x-[1px] hover:-translate-y-[1px] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-200 cursor-pointer select-none";
+		"w-12 h-12 shrink-0 flex items-center justify-center bg-background text-foreground border-[3px] border-border shadow-sm hover:-translate-x-[1px] hover:-translate-y-[1px] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-200 cursor-pointer select-none";
 
 	return (
 		<div className="relative w-full">
-			<div className="flex flex-wrap gap-4">
+			<div className="flex flex-wrap gap-3">
 				<a
 					href="https://x.com/medhansh541"
 					target="_blank"
