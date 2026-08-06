@@ -17,11 +17,11 @@ export default function MobileHeroCTA() {
 	};
 
 	const iconClass =
-		"w-12 h-12 shrink-0 flex items-center justify-center bg-background text-foreground border-[3px] border-border shadow-sm hover:-translate-x-[1px] hover:-translate-y-[1px] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-200 cursor-pointer select-none";
+		"flex-1 max-w-[3rem] aspect-square flex items-center justify-center bg-background text-foreground border-[3px] border-border shadow-sm hover:-translate-x-[1px] hover:-translate-y-[1px] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-200 cursor-pointer select-none";
 
 	return (
 		<div className="relative w-full">
-			<div className="flex flex-wrap gap-3">
+			<div className="flex w-full gap-2">
 				<a
 					href="https://x.com/medhansh541"
 					target="_blank"
@@ -65,13 +65,15 @@ export default function MobileHeroCTA() {
 				>
 					<FiCalendar size={20} />
 				</a>
-				<Link
-					href="/resume"
+				<a
+					href="/resume.pdf"
+					target="_blank"
+					rel="noopener noreferrer"
 					className={iconClass}
 					aria-label="Resume"
 				>
 					<FiFileText size={20} />
-				</Link>
+				</a>
 			</div>
 
 			{/* Brutalist Toast Popup */}

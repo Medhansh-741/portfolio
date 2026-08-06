@@ -16,7 +16,7 @@ const NAVIGATION_ROUTES = [
   { name: 'Home', path: '/', outlineIcon: HiOutlineHome, solidIcon: HiHome },
   { name: 'Projects', path: '/projects', outlineIcon: HiOutlineFolder, solidIcon: HiFolder },
   { name: 'Exp', path: '/experience', outlineIcon: HiOutlineBriefcase, solidIcon: HiBriefcase },
-  { name: 'Resume', path: '/resume', outlineIcon: HiOutlineDocumentText, solidIcon: HiDocumentText },
+  { name: 'Resume', path: '/resume.pdf', outlineIcon: HiOutlineDocumentText, solidIcon: HiDocumentText, external: true },
   { name: 'About', path: '/about', outlineIcon: HiOutlineUser, solidIcon: HiUser },
 ];
 
@@ -36,12 +36,15 @@ export default function MobileBottomBar() {
           {NAVIGATION_ROUTES.map((route) => {
             const isActive = currentPath === route.path;
             const Icon = isActive ? route.solidIcon : route.outlineIcon;
+            const LinkComponent = route.external ? 'a' : Link;
+            const externalProps = route.external ? { target: '_blank', rel: 'noopener noreferrer' } : {};
             
             return (
               <li key={route.name} className="flex-1 flex justify-center">
                 {/* Phase 3, 5, & 7: Touch Targets, Vertical Rhythm, Active State Dot, and 100% Opacity Icons */}
-                <Link 
+                <LinkComponent 
                   href={route.path}
+                  {...externalProps}
                   className="flex flex-col justify-center items-center gap-1 min-h-11 min-w-11 transition-transform active:scale-95 text-foreground"
                   aria-label={route.name}
                 >
@@ -52,7 +55,7 @@ export default function MobileBottomBar() {
                       isActive ? 'bg-accent opacity-100' : 'bg-transparent opacity-0'
                     }`} 
                   />
-                </Link>
+                </LinkComponent>
               </li>
             );
           })}

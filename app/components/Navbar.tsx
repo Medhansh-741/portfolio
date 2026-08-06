@@ -13,7 +13,7 @@ const links = [
 	{ href: "/projects", label: "Projects" },
 	{ href: "/experience", label: "Experience" },
 	{ href: "/about", label: "About" },
-	{ href: "/resume", label: "Resume" },
+	{ href: "/resume.pdf", label: "Resume", external: true },
 ];
 
 export default function Navbar() {
@@ -38,10 +38,13 @@ export default function Navbar() {
 				<div className="hidden md:flex items-center gap-3">
 					{links.map((l) => {
 						const active = pathname === l.href;
+						const LinkComponent = l.external ? "a" : Link;
+						const externalProps = l.external ? { target: "_blank", rel: "noopener noreferrer" } : {};
 						return (
 							<MagneticWrap key={l.href}>
-								<Link
+								<LinkComponent
 									href={l.href}
+									{...externalProps}
 									className={`px-4 py-2 text-[11px] font-bold uppercase tracking-widest border-[3px] transition-all duration-200 select-none cursor-pointer ${
 										active
 											? "bg-background text-foreground border-border shadow-[3px_3px_0_0_var(--accent)] translate-x-[1px] translate-y-[1px]"
@@ -49,7 +52,7 @@ export default function Navbar() {
 									}`}
 								>
 									{l.label}
-								</Link>
+								</LinkComponent>
 							</MagneticWrap>
 						);
 					})}
@@ -84,20 +87,25 @@ export default function Navbar() {
 
 			{open && (
 				<div className="md:hidden w-full bg-background border-b-[3px] border-border px-6 py-4 flex flex-col space-y-4 mt-3">
-					{links.map((l) => (
-						<Link
-							key={l.href}
-							href={l.href}
-							onClick={() => setOpen(false)}
-							className={`block px-4 py-2 text-[11px] font-bold uppercase tracking-widest border-[3px] transition-all duration-200 ${
-								pathname === l.href
-									? "bg-background text-foreground border-border shadow-[3px_3px_0_0_var(--accent)] translate-x-[1px] translate-y-[1px]"
-									: "bg-background text-foreground border-border shadow-xs"
-							}`}
-						>
-							{l.label}
-						</Link>
-					))}
+					{links.map((l) => {
+						const LinkComponent = l.external ? "a" : Link;
+						const externalProps = l.external ? { target: "_blank", rel: "noopener noreferrer" } : {};
+						return (
+							<LinkComponent
+								key={l.href}
+								href={l.href}
+								onClick={() => setOpen(false)}
+								{...externalProps}
+								className={`block px-4 py-2 text-[11px] font-bold uppercase tracking-widest border-[3px] transition-all duration-200 ${
+									pathname === l.href
+										? "bg-background text-foreground border-border shadow-[3px_3px_0_0_var(--accent)] translate-x-[1px] translate-y-[1px]"
+										: "bg-background text-foreground border-border shadow-xs"
+								}`}
+							>
+								{l.label}
+							</LinkComponent>
+						);
+					})}
 				</div>
 			)}
 		</nav>
