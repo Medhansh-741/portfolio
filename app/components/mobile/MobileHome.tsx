@@ -8,7 +8,7 @@ export default function MobileHome() {
 	return (
 		<div className="xl:hidden flex-1 flex flex-col bg-background overflow-x-clip">
 			{/* Main Content Column */}
-			<div className="@container mx-auto w-full max-w-2xl grow border-x-[3px] border-border flex flex-col pb-[calc(var(--spacing-fluid-xl)+var(--spacing-fluid-md)+0.5rem)]">
+			<div className="@container mx-auto w-full max-w-2xl grow border-x-[3px] border-border flex flex-col pb-[calc(var(--spacing-fluid-xl)+var(--spacing-fluid-md)+2.75rem)] xl:pb-0">
 				
 				{/* Hook: Hero Section */}
 				<div className="px-fluid-sm py-fluid-sm">
@@ -26,7 +26,7 @@ export default function MobileHome() {
 				</div>
 
 				{/* Proof: Contribution Graph */}
-				<div className="px-fluid-sm pb-fluid-lg mt-auto">
+				<div className="px-fluid-sm mt-auto">
 					<Suspense
 						fallback={
 							<div className="w-full flex flex-col gap-3 min-w-0 animate-pulse">

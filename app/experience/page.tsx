@@ -22,7 +22,7 @@ const stagger = {
 export default function ExperiencePage() {
 	return (
 		<main className="flex-1 bg-background overflow-x-clip">
-			<div className="w-full max-w-2xl mx-auto px-6 py-16 border-x-[3px] border-border grow flex flex-col">
+			<div className="w-full max-w-2xl mx-auto px-6 pt-16 pb-[calc(var(--spacing-fluid-xl)+var(--spacing-fluid-md)+2.75rem)] xl:pb-16 border-x-[3px] border-border grow flex flex-col">
 				<div className="text-center space-y-2 mb-12">
 					<p className="text-xs text-accent font-bold uppercase tracking-widest">
 						Where I&apos;ve Worked
