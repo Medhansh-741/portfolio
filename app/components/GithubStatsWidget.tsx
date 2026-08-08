@@ -55,37 +55,45 @@ export default function GithubStatsWidget({
 	const currentYear = new Date().getFullYear().toString();
 	const liveCommits = githubData?.total
 		? Object.values(githubData.total).reduce(
-				(acc: number, count: number) =>
-					acc + (typeof count === "number" ? count : 0),
-				0,
-			)
+			(acc: number, count: number) =>
+				acc + (typeof count === "number" ? count : 0),
+			0,
+		)
 		: 1248;
 
 	return (
 		<RetroCard
 			accentColor="var(--color-accent-secondary)"
-			padding="p-3.5 xl:p-[clamp(0.5rem,1.5vh,0.875rem)]"
+			paddingX="px-3.5 xl:px-desktop-sm"
+			paddingTop="pt-3.5 xl:pt-desktop-sm"
+			paddingBottom="pb-3.5 xl:pb-desktop-sm"
 			delay={delay}
 			className={className}
 			style={style}
+			header={
+				<CardHeader
+					icon={<FiGithub size={13} />}
+					accentColor="var(--color-accent-secondary)"
+					title="GIT ARCHIVE"
+					badge="SYNCED"
+				/>
+			}
+			footer={
+				<CardFooter
+					left={`COMMITS: ${liveCommits.toLocaleString()}`}
+					right={`ACTIVE_${currentYear}`}
+				/>
+			}
 		>
-			{/* Header */}
-			<CardHeader
-				icon={<FiGithub size={13} />}
-				accentColor="var(--color-accent-secondary)"
-				title="GIT ARCHIVE"
-				badge="SYNCED"
-			/>
-
 			{/* Stats Content */}
-			<div className="flex-1 overflow-y-auto min-h-0 mt-3.5 flex flex-col gap-2 font-mono">
+			<div className="my-auto flex flex-col gap-2 font-mono">
 				<div className="flex justify-between items-baseline">
-					<span className="text-[10px] font-bold text-muted-foreground uppercase">
+					<span className="text-desktop-xs font-bold text-muted-foreground uppercase">
 						PUBLIC REPOS:
 					</span>
-					<span className="text-sm font-black text-foreground">
+					<span className="text-desktop-sm font-black text-foreground">
 						{publicRepos}
-						<span className="text-[10px] text-muted-foreground font-normal">
+						<span className="text-desktop-xs text-muted-foreground font-normal">
 							{" "}
 							/ {totalStars}★
 						</span>
@@ -93,8 +101,8 @@ export default function GithubStatsWidget({
 				</div>
 
 				{/* Language Breakdown */}
-				<div className="flex flex-col gap-1.5 text-[9px] font-bold mt-1">
-					<span className="text-[8px] text-muted-foreground uppercase">
+				<div className="flex flex-col gap-1.5 text-desktop-2xs font-bold mt-1">
+					<span className="text-[length:var(--text-desktop-2xs)] text-muted-foreground uppercase">
 						LANGUAGES:
 					</span>
 
@@ -114,7 +122,7 @@ export default function GithubStatsWidget({
 					</div>
 
 					{/* Labels */}
-					<div className="flex justify-between text-[8px] font-black text-muted-foreground">
+					<div className="flex justify-between text-[length:var(--text-desktop-2xs)] font-black text-muted-foreground">
 						{topLanguages.map((lang, idx) => (
 							<span key={idx} className="flex items-center gap-1">
 								<span
@@ -127,12 +135,6 @@ export default function GithubStatsWidget({
 					</div>
 				</div>
 			</div>
-
-			{/* Footer Details */}
-			<CardFooter
-				left={`COMMITS: ${liveCommits.toLocaleString()}`}
-				right={`ACTIVE_${currentYear}`}
-			/>
 		</RetroCard>
 	);
 }
@@ -145,18 +147,30 @@ export function GitArchiveSkeleton({
 	return (
 		<RetroCard
 			accentColor="var(--color-accent-secondary)"
-			padding="p-3.5 xl:p-[clamp(0.5rem,1.5vh,0.875rem)]"
+			paddingX="px-3.5 xl:px-[clamp(0.5rem,1.5vh,0.875rem)]"
+			paddingTop="pt-3.5 xl:pt-[clamp(0.5rem,1.5vh,0.875rem)]"
+			paddingBottom="pb-3.5 xl:pb-[clamp(0.5rem,1.5vh,0.875rem)]"
 			delay={delay}
 			className={className}
 			style={style}
-		>
-			<div className="animate-pulse flex flex-col justify-between h-full">
+			header={
 				<div>
 					<div className="flex justify-between items-center pb-2 border-b border-border/10">
 						<div className="w-20 h-3.5 bg-muted rounded" />
 						<div className="w-12 h-4 bg-muted rounded" />
 					</div>
-					<div className="mt-4 space-y-3">
+				</div>
+			}
+			footer={
+				<div className="border-t border-border/10 pt-2 flex justify-between">
+					<div className="w-16 h-2.5 bg-muted rounded" />
+					<div className="w-12 h-2.5 bg-muted rounded" />
+				</div>
+			}
+		>
+			<div className="animate-pulse h-full">
+				<div>
+					<div className="my-auto space-y-3">
 						<div className="h-4 bg-muted rounded w-2/3" />
 						<div className="h-3 bg-muted rounded w-full" />
 						<div className="flex justify-between">
@@ -165,10 +179,6 @@ export function GitArchiveSkeleton({
 							<div className="w-10 h-2 bg-muted rounded" />
 						</div>
 					</div>
-				</div>
-				<div className="border-t border-border/10 pt-2 flex justify-between">
-					<div className="w-16 h-2.5 bg-muted rounded" />
-					<div className="w-12 h-2.5 bg-muted rounded" />
 				</div>
 			</div>
 		</RetroCard>

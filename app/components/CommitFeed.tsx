@@ -104,23 +104,26 @@ export default function CommitFeed({
 	return (
 		<RetroCard
 			accentColor="var(--color-accent)"
-			padding="p-4 xl:p-[clamp(0.5rem,1.5vh,1rem)]"
+			paddingX="px-4 xl:px-desktop-sm"
+			paddingTop="pt-4 xl:pt-desktop-sm"
+			paddingBottom="pb-4 xl:pb-desktop-sm"
 			delay={delay}
 			className={className}
 			style={style}
+			header={
+				<CardHeader
+					icon={<FiGitCommit size={14} />}
+					accentColor="var(--color-accent)"
+					title="LIVE ACTIVITY"
+					badge={<FiGithub size={11} />}
+					badgeHref="https://github.com/Medhansh-741"
+					pulse
+				/>
+			}
+			footer={<CardFooter left="@Medhansh-741" right="LIVE_FEED" />}
 		>
-			{/* Header */}
-			<CardHeader
-				icon={<FiGitCommit size={14} />}
-				accentColor="var(--color-accent)"
-				title="LIVE ACTIVITY"
-				badge={<FiGithub size={11} />}
-				badgeHref="https://github.com/Medhansh-741"
-				pulse
-			/>
-
 			{/* Timeline Viewport Container */}
-			<div className="flex-1 overflow-y-auto min-h-0 mt-3 relative pr-1 w-full">
+			<div className="mt-3 relative pr-1 w-full">
 				<div className="absolute left-[9px] top-1 bottom-1 w-0.5 border-l-[2px] border-dashed border-muted z-0" />
 
 				<div className="flex flex-col gap-4 py-1">
@@ -136,13 +139,13 @@ export default function CommitFeed({
 								<div className="w-1.5 h-1.5 rounded-full bg-accent-secondary" />
 							</div>
 							<div className="flex-1 ml-3 min-w-0">
-								<p className="text-[9px] font-black uppercase tracking-wider text-muted-foreground truncate leading-none mb-1">
+								<p className="text-desktop-2xs font-black uppercase tracking-wider text-muted-foreground truncate leading-none mb-1">
 									{cleanRepoName(commit.repo)}
 								</p>
-								<h4 className="text-[11px] font-bold leading-tight text-foreground truncate group-hover:text-accent-secondary group-hover:underline">
+								<h4 className="text-desktop-xs font-bold leading-tight text-foreground truncate group-hover:text-accent-secondary group-hover:underline">
 									{commit.message}
 								</h4>
-								<span className="text-[9px] font-semibold text-muted-foreground block mt-0.5 leading-none">
+								<span className="text-desktop-2xs font-semibold text-muted-foreground block mt-0.5 leading-none">
 									{formatRelativeTime(commit.date)}
 								</span>
 							</div>
@@ -150,8 +153,6 @@ export default function CommitFeed({
 					))}
 				</div>
 			</div>
-
-			<CardFooter left="@Medhansh-741" right="LIVE_FEED" />
 		</RetroCard>
 	);
 }
@@ -164,20 +165,29 @@ export function CommitFeedSkeleton({
 	return (
 		<RetroCard
 			accentColor="var(--color-accent)"
-			padding="p-4 xl:p-[clamp(0.5rem,1.5vh,1rem)]"
+			paddingX="px-4 xl:px-desktop-sm"
+			paddingTop="pt-4 xl:pt-desktop-sm"
+			paddingBottom="pb-4 xl:pb-desktop-sm"
 			delay={delay}
 			className={className}
 			style={style}
-		>
-			<div className="animate-pulse flex flex-col justify-between h-full">
+			header={
 				<div>
 					<div className="flex justify-between items-center pb-2 border-b border-border/10">
 						<div className="w-24 h-3 bg-muted rounded" />
 						<div className="w-8 h-4 bg-muted rounded" />
 					</div>
 				</div>
-
-				<div className="relative flex-1 mt-3">
+			}
+			footer={
+				<div className="border-t border-border/10 pt-2 flex justify-between items-center">
+					<div className="w-20 h-2.5 bg-muted rounded" />
+					<div className="w-16 h-2.5 bg-muted rounded" />
+				</div>
+			}
+		>
+			<div className="animate-pulse h-full">
+				<div className="relative mt-3">
 					<div className="absolute left-[9px] top-1.5 bottom-1.5 w-0.5 border-l-[2px] border-dashed border-muted" />
 					<div className="flex flex-col gap-4">
 						{[...Array(4)].map((_, i) => (
@@ -191,11 +201,6 @@ export function CommitFeedSkeleton({
 							</div>
 						))}
 					</div>
-				</div>
-
-				<div className="border-t border-border/10 pt-2 flex justify-between items-center">
-					<div className="w-20 h-2.5 bg-muted rounded" />
-					<div className="w-16 h-2.5 bg-muted rounded" />
 				</div>
 			</div>
 		</RetroCard>

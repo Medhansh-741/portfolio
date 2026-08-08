@@ -80,22 +80,30 @@ export default function ProjectsDrawer({
 		<>
 			<RetroCard
 				accentColor="var(--color-accent-secondary)"
-				padding="p-4 xl:p-[clamp(0.5rem,1.5vh,1rem)]"
+				paddingX="px-4 xl:px-desktop-sm"
+				paddingTop="pt-4 xl:pt-desktop-sm"
+				paddingBottom="pb-4 xl:pb-desktop-sm"
 				delay={delay}
 				className={className}
 				style={style}
+				header={
+					<CardHeader
+						icon={<FiFolder size={14} />}
+						accentColor="var(--color-accent-secondary)"
+						title="PROJECTS CABINET"
+						badge="v2.0"
+						pulse
+					/>
+				}
+				footer={
+					<CardFooter
+						left={`items: ${profile.projects.length}`}
+						right="SYS_READY"
+					/>
+				}
 			>
-				{/* Header */}
-				<CardHeader
-					icon={<FiFolder size={14} />}
-					accentColor="var(--color-accent-secondary)"
-					title="PROJECTS CABINET"
-					badge="v2.0"
-					pulse
-				/>
-
 				{/* Scrollable list inside */}
-				<div className="mt-3 overflow-y-auto no-scrollbar flex-1 min-h-0 flex flex-col gap-4 relative z-10 w-full">
+				<div className="mt-3 flex flex-col gap-4 relative z-10 w-full">
 					{profile.projects.map((proj) => {
 						const videoId = getYoutubeId(proj.links.demo || "");
 
@@ -106,10 +114,10 @@ export default function ProjectsDrawer({
 							>
 								{/* Title + Subtitle */}
 								<div>
-									<h4 className="font-sans text-xs font-bold uppercase text-foreground text-left">
+									<h4 className="font-sans text-desktop-sm font-bold uppercase text-foreground text-left">
 										{proj.title}
 									</h4>
-									<p className="text-[8px] text-muted-foreground font-semibold uppercase tracking-wider text-left">
+									<p className="text-desktop-2xs text-muted-foreground font-semibold uppercase tracking-wider text-left">
 										{proj.subtitle}
 									</p>
 								</div>
@@ -135,7 +143,7 @@ export default function ProjectsDrawer({
 
 										{/* Hover expand indicator */}
 										<div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-200 z-20">
-											<span className="bg-background text-foreground border-[2px] border-border px-2 py-0.5 text-[8px] font-black uppercase tracking-widest shadow-xs">
+											<span className="bg-background text-foreground border-[2px] border-border px-2 py-0.5 text-desktop-2xs font-black uppercase tracking-widest shadow-xs">
 												EXPAND MONITOR
 											</span>
 										</div>
@@ -146,7 +154,7 @@ export default function ProjectsDrawer({
 								<div className="flex justify-end">
 									<Link
 										href={`/projects#${proj.title.toLowerCase()}`}
-										className="inline-flex items-center gap-0.5 text-[8px] font-bold uppercase tracking-widest text-muted-foreground hover:text-[var(--color-accent-secondary)] transition-colors"
+										className="inline-flex items-center gap-0.5 text-desktop-2xs font-bold uppercase tracking-widest text-muted-foreground hover:text-[var(--color-accent-secondary)] transition-colors"
 									>
 										View Details ↗
 									</Link>
@@ -155,12 +163,6 @@ export default function ProjectsDrawer({
 						);
 					})}
 				</div>
-
-				{/* Footer */}
-				<CardFooter
-					left={`items: ${profile.projects.length}`}
-					right="SYS_READY"
-				/>
 			</RetroCard>
 
 			{/* Retro OS Lightbox Modal with Genie Warp */}

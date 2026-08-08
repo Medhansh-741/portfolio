@@ -256,47 +256,44 @@ export default function GithubCalendarUI({
 	};
 
 	return (
-		<div 
+		<div
 			className="mt-2 xl:mt-[clamp(0.125rem,0.75vh,0.375rem)] select-none w-full max-w-full h-full flex flex-col min-h-0"
 			onClick={() => setHoveredDay(null)}
 		>
 			{/* Header with Title and Platform Toggle */}
 			<div className="flex flex-col sm:flex-row justify-between items-center mb-2 xl:mb-[clamp(0.125rem,0.75vh,0.375rem)] gap-2 w-full">
-				<h3 className="font-sans text-[11px] font-black uppercase tracking-wider text-foreground">
+				<h3 className="font-sans text-desktop-xs font-black uppercase tracking-wider text-foreground">
 					{platformTotal.toLocaleString()} {getMetricLabel()} in {selectedYear}
 				</h3>
 
 				{/* Sleek, super-compact platform indicator selector */}
-				<div className="flex items-center gap-1 bg-muted border border-border p-0.5 rounded-[1px] font-mono text-[8px] font-bold">
+				<div className="flex items-center gap-1 bg-muted border border-border p-0.5 rounded-[1px] font-mono text-[length:var(--text-desktop-2xs)] font-bold">
 					<button
 						onClick={() => setPlatform("github")}
-						className={`px-1.5 py-0.5 rounded-[1px] cursor-pointer transition-colors uppercase ${
-							platform === "github"
+						className={`px-1.5 py-0.5 rounded-[1px] cursor-pointer transition-colors uppercase ${platform === "github"
 								? "bg-[var(--color-accent-secondary)] text-black"
 								: "text-muted-foreground hover:text-foreground"
-						}`}
+							}`}
 					>
 						GIT
 					</button>
 					<span className="text-border/40 select-none">|</span>
 					<button
 						onClick={() => setPlatform("leetcode")}
-						className={`px-1.5 py-0.5 rounded-[1px] cursor-pointer transition-colors uppercase ${
-							platform === "leetcode"
+						className={`px-1.5 py-0.5 rounded-[1px] cursor-pointer transition-colors uppercase ${platform === "leetcode"
 								? "bg-[#FFA116] text-black"
 								: "text-muted-foreground hover:text-foreground"
-						}`}
+							}`}
 					>
 						LC
 					</button>
 					<span className="text-border/40 select-none">|</span>
 					<button
 						onClick={() => setPlatform("codeforces")}
-						className={`px-1.5 py-0.5 rounded-[1px] cursor-pointer transition-colors uppercase ${
-							platform === "codeforces"
+						className={`px-1.5 py-0.5 rounded-[1px] cursor-pointer transition-colors uppercase ${platform === "codeforces"
 								? "bg-[#3182CE] text-white"
 								: "text-muted-foreground hover:text-foreground"
-						}`}
+							}`}
 					>
 						CF
 					</button>
@@ -310,87 +307,88 @@ export default function GithubCalendarUI({
 					className={`flex-1 min-w-0 bg-card border-[3px] border-border shadow-md p-2 xl:p-[clamp(0.25rem,0.75vh,0.5rem)] flex flex-col justify-between clip-margin-5 transition-all duration-200 relative ${getShadowHoverClass()}`}
 				>
 					{/* Scrollable Grid Container */}
-					<div
-						className="overflow-x-auto overflow-y-hidden pb-0.5 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
-						onMouseMove={handleMouseMove}
-					>
-						<div className="min-w-[640px] w-max mx-auto flex flex-col">
-							{/* Month Labels row */}
-							<div className="flex text-[10px] font-semibold text-muted-foreground mb-1 h-3 pl-[30px] relative">
-								{monthLabels.map((lbl, idx) => {
-									const leftPos = 30 + lbl.colIndex * 13;
-									return (
-										<span
-											key={idx}
-											className="absolute"
-											style={{ left: `${leftPos}px` }}
-										>
-											{lbl.label}
-										</span>
-									);
-								})}
-							</div>
-
-							{/* Grid with Day of Week labels on left */}
-							<div className="flex flex-row">
-								{/* Y-axis Labels */}
-								<div className="flex flex-col justify-between text-[10px] font-semibold text-muted-foreground w-[30px] pr-2 pb-[4px] pt-[2px] h-[88px]">
-									<span>Mon</span>
-									<span>Wed</span>
-									<span>Fri</span>
+					<div className="flex-1 flex flex-col justify-center min-h-0">
+						<div
+							className="overflow-x-auto overflow-y-hidden pb-0.5 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+							onMouseMove={handleMouseMove}
+						>
+							<div className="min-w-[640px] w-max mx-auto flex flex-col">
+								{/* Month Labels row */}
+								<div className="flex text-desktop-2xs font-semibold text-muted-foreground mb-1 h-3 pl-[30px] relative">
+									{monthLabels.map((lbl, idx) => {
+										const leftPos = 30 + lbl.colIndex * 13;
+										return (
+											<span
+												key={idx}
+												className="absolute"
+												style={{ left: `${leftPos}px` }}
+											>
+												{lbl.label}
+											</span>
+										);
+									})}
 								</div>
 
-								{/* Grid Columns */}
-								<div className="flex flex-row gap-[3px]">
-									{weeks.map((week, colIdx) => (
-										<div key={colIdx} className="flex flex-col gap-[3px]">
-											{week.map((day, rowIdx) => {
-												if (!day) {
+								{/* Grid with Day of Week labels on left */}
+								<div className="flex flex-row">
+									{/* Y-axis Labels */}
+									<div className="flex flex-col justify-between text-desktop-2xs font-semibold text-muted-foreground w-[30px] pr-2 pb-[4px] pt-[2px] h-[88px]">
+										<span>Mon</span>
+										<span>Wed</span>
+										<span>Fri</span>
+									</div>
+
+									{/* Grid Columns */}
+									<div className="flex flex-row gap-[3px]">
+										{weeks.map((week, colIdx) => (
+											<div key={colIdx} className="flex flex-col gap-[3px]">
+												{week.map((day, rowIdx) => {
+													if (!day) {
+														return (
+															<div
+																key={rowIdx}
+																className="w-[10px] h-[10px] rounded-[1.5px]"
+																style={{ backgroundColor: "transparent" }}
+															/>
+														);
+													}
+													const todayStr = new Date().toISOString().split("T")[0];
+													const isFuture = day.date > todayStr;
+													const color = getSquareStyle(day.level);
+
 													return (
 														<div
 															key={rowIdx}
-															className="w-[10px] h-[10px] rounded-[1.5px]"
-															style={{ backgroundColor: "transparent" }}
+															className={`w-[10px] h-[10px] rounded-[1.5px] border border-black dark:border-white ${isFuture
+																	? "cursor-default opacity-30"
+																	: "cursor-pointer transition-transform hover:scale-[1.3] hover:z-10"
+																}`}
+															style={{ backgroundColor: color }}
+															onMouseEnter={() => !isFuture && setHoveredDay(day)}
+															onMouseLeave={() =>
+																!isFuture && setHoveredDay(null)
+															}
+															onClick={(e) => {
+																if (!isFuture) {
+																	e.stopPropagation();
+																	setHoveredDay(day);
+																	setTooltipPos({ x: e.clientX, y: e.clientY - 40 });
+																}
+															}}
 														/>
 													);
-												}
-												const todayStr = new Date().toISOString().split("T")[0];
-												const isFuture = day.date > todayStr;
-												const color = getSquareStyle(day.level);
-
-												return (
-													<div
-														key={rowIdx}
-														className={`w-[10px] h-[10px] rounded-[1.5px] border border-black dark:border-white ${
-															isFuture
-																? "cursor-default opacity-30"
-																: "cursor-pointer transition-transform hover:scale-[1.3] hover:z-10"
-														}`}
-														style={{ backgroundColor: color }}
-														onMouseEnter={() => !isFuture && setHoveredDay(day)}
-														onMouseLeave={() =>
-															!isFuture && setHoveredDay(null)
-														}
-														onClick={(e) => {
-															if (!isFuture) {
-																e.stopPropagation();
-																setHoveredDay(day);
-																setTooltipPos({ x: e.clientX, y: e.clientY - 40 });
-															}
-														}}
-													/>
-												);
-											})}
-										</div>
-									))}
+												})}
+											</div>
+										))}
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 
 					{/* Footer of Calendar Box */}
-					<div className="flex flex-col sm:flex-row items-center justify-between text-[10px] font-semibold text-muted-foreground border-t border-muted mt-1 pt-1 gap-2">
-						<span className="text-[9px] uppercase tracking-wider text-center sm:text-left">
+					<div className="flex flex-col sm:flex-row items-center justify-between text-desktop-2xs font-semibold text-muted-foreground border-t border-muted mt-1 pt-1 gap-2">
+						<span className="text-[length:var(--text-desktop-2xs)] uppercase tracking-wider text-center sm:text-left">
 							Live activity sync: active
 						</span>
 
@@ -418,11 +416,10 @@ export default function GithubCalendarUI({
 							<button
 								key={yr}
 								onClick={() => setSelectedYear(yr)}
-								className={`px-4 py-2 xl:px-[clamp(0.75rem,2vw,1rem)] xl:py-[clamp(0.25rem,1.5vh,0.5rem)] text-xs font-black uppercase tracking-wider transition-all duration-200 cursor-pointer border-[2px] select-none ${
-									isSelected
+								className={`px-4 py-2 xl:px-desktop-md xl:py-desktop-sm text-desktop-sm font-black uppercase tracking-wider transition-all duration-200 cursor-pointer border-[2px] select-none ${isSelected
 										? "bg-background text-foreground border-border shadow-[2px_2px_0_0_var(--accent)] translate-x-[1px] translate-y-[1px]"
 										: "bg-background text-foreground border-border shadow-sm hover:-translate-x-[1px] hover:-translate-y-[1px] hover:shadow-[2px_2px_0_0_var(--color-accent-secondary)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
-								}`}
+									}`}
 							>
 								{yr}
 							</button>
@@ -434,7 +431,7 @@ export default function GithubCalendarUI({
 			{/* Floating Tooltip Component */}
 			{hoveredDay && (
 				<div
-					className="fixed pointer-events-none z-50 bg-accent-warning text-black text-[10px] font-black py-1.5 px-2.5 border-[2px] border-border shadow-sm -translate-x-1/2 select-none uppercase tracking-wider"
+					className="fixed pointer-events-none z-50 bg-accent-warning text-black text-[length:var(--text-desktop-2xs)] font-black py-1.5 px-2.5 border-[2px] border-border shadow-sm -translate-x-1/2 select-none uppercase tracking-wider"
 					style={{
 						left: `${tooltipPos.x}px`,
 						top: `${tooltipPos.y}px`,
@@ -460,39 +457,41 @@ export function CalendarSkeleton({ isDark = false }: { isDark?: boolean }) {
 			<div className="flex flex-col md:flex-row gap-4 xl:gap-[clamp(0.5rem,2vh,1rem)] items-stretch w-full flex-1 min-h-0">
 				<div className="flex-1 bg-card border-[3px] border-border shadow-md p-2 xl:p-[clamp(0.25rem,0.75vh,0.5rem)] flex flex-col justify-between clip-margin-5">
 					{/* Scrollable Skeleton Grid */}
-					<div className="overflow-x-auto pb-0.5 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-						<div className="min-w-[640px] w-max mx-auto flex flex-col">
-							{/* Skeleton Month Labels row */}
-							<div className="flex h-3 pl-[30px] mb-1">
-								{[...Array(12)].map((_, i) => (
-									<div
-										key={i}
-										className="w-8 h-full bg-muted rounded-[2px]"
-										style={{ marginLeft: i === 0 ? "0px" : "36px" }}
-									/>
-								))}
-							</div>
-
-							{/* Grid with Day of Week labels on left */}
-							<div className="flex flex-row">
-								<div className="flex flex-col justify-between w-[30px] pr-2 pb-[4px] pt-[2px] h-[88px]">
-									<div className="w-4 h-2.5 bg-muted rounded-[2px]" />
-									<div className="w-4 h-2.5 bg-muted rounded-[2px]" />
-									<div className="w-4 h-2.5 bg-muted rounded-[2px]" />
+					<div className="flex-1 flex flex-col justify-center min-h-0">
+						<div className="overflow-x-auto pb-0.5 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+							<div className="min-w-[640px] w-max mx-auto flex flex-col">
+								{/* Skeleton Month Labels row */}
+								<div className="flex h-3 pl-[30px] mb-1">
+									{[...Array(12)].map((_, i) => (
+										<div
+											key={i}
+											className="w-8 h-full bg-muted rounded-[2px]"
+											style={{ marginLeft: i === 0 ? "0px" : "36px" }}
+										/>
+									))}
 								</div>
 
-								<div className="flex flex-row gap-[3px]">
-									{[...Array(53)].map((_, colIdx) => (
-										<div key={colIdx} className="flex flex-col gap-[3px]">
-											{[...Array(7)].map((_, rowIdx) => (
-												<div
-													key={rowIdx}
-													className="w-[10px] h-[10px] rounded-[1.5px]"
-													style={{ backgroundColor: getSkeletonColor() }}
-												/>
-											))}
-										</div>
-									))}
+								{/* Grid with Day of Week labels on left */}
+								<div className="flex flex-row">
+									<div className="flex flex-col justify-between w-[30px] pr-2 pb-[4px] pt-[2px] h-[88px]">
+										<div className="w-4 h-2.5 bg-muted rounded-[2px]" />
+										<div className="w-4 h-2.5 bg-muted rounded-[2px]" />
+										<div className="w-4 h-2.5 bg-muted rounded-[2px]" />
+									</div>
+
+									<div className="flex flex-row gap-[3px]">
+										{[...Array(53)].map((_, colIdx) => (
+											<div key={colIdx} className="flex flex-col gap-[3px]">
+												{[...Array(7)].map((_, rowIdx) => (
+													<div
+														key={rowIdx}
+														className="w-[10px] h-[10px] rounded-[1.5px]"
+														style={{ backgroundColor: getSkeletonColor() }}
+													/>
+												))}
+											</div>
+										))}
+									</div>
 								</div>
 							</div>
 						</div>

@@ -49,28 +49,31 @@ export default function CodeforcesWidget({
 	return (
 		<RetroCard
 			accentColor="#3182CE"
-			padding="p-3.5 xl:p-[clamp(0.5rem,1.5vh,0.875rem)]"
+			paddingX="px-3.5 xl:px-desktop-sm"
+			paddingTop="pt-3.5 xl:pt-desktop-sm"
+			paddingBottom="pb-3.5 xl:pb-desktop-sm"
 			delay={delay}
 			className={className}
 			style={style}
+			header={
+				<CardHeader
+					icon={<FiTrendingUp size={13} />}
+					accentColor="#3182CE"
+					title="CODEFORCES CP"
+					badge={rating > 0 ? "ACTIVE" : "STANDBY"}
+					badgeTextColor="text-white"
+				/>
+			}
+			footer={<CardFooter left="HANDLE: Medhansh_217" right="SYS_SYNCED" />}
 		>
-			{/* Header */}
-			<CardHeader
-				icon={<FiTrendingUp size={13} />}
-				accentColor="#3182CE"
-				title="CODEFORCES CP"
-				badge={rating > 0 ? "ACTIVE" : "STANDBY"}
-				badgeTextColor="text-white"
-			/>
-
 			{/* Stats Content */}
-			<div className="flex-1 overflow-y-auto min-h-0 mt-3.5 flex flex-col gap-2 font-mono">
+			<div className="my-auto flex flex-col gap-2 font-mono">
 				<div className="flex justify-between items-baseline">
-					<span className="text-[10px] font-bold text-muted-foreground uppercase">
+					<span className="text-desktop-xs font-bold text-muted-foreground uppercase">
 						RATING:
 					</span>
 					<span
-						className={`text-sm font-black uppercase ${getRankColorClass(rank)}`}
+						className={`text-desktop-sm font-black uppercase ${getRankColorClass(rank)}`}
 					>
 						{rating > 0 ? (
 							<>
@@ -106,9 +109,6 @@ export default function CodeforcesWidget({
 					</div>
 				</div>
 			</div>
-
-			{/* Footer Details */}
-			<CardFooter left="HANDLE: Medhansh_217" right="SYS_SYNCED" />
 		</RetroCard>
 	);
 }
@@ -121,27 +121,35 @@ export function CodeforcesSkeleton({
 	return (
 		<RetroCard
 			accentColor="#3182CE"
-			padding="p-3.5 xl:p-[clamp(0.5rem,1.5vh,0.875rem)]"
+			paddingX="px-3.5 xl:px-[clamp(0.5rem,1.5vh,0.875rem)]"
+			paddingTop="pt-3.5 xl:pt-[clamp(0.5rem,1.5vh,0.875rem)]"
+			paddingBottom="pb-3.5 xl:pb-[clamp(0.5rem,1.5vh,0.875rem)]"
 			delay={delay}
 			className={className}
 			style={style}
-		>
-			<div className="animate-pulse flex flex-col justify-between h-full">
+			header={
 				<div>
 					<div className="flex justify-between items-center pb-2 border-b border-border/10">
 						<div className="w-24 h-3.5 bg-muted rounded" />
 						<div className="w-12 h-4 bg-muted rounded" />
 					</div>
-					<div className="mt-4 space-y-2.5">
+				</div>
+			}
+			footer={
+				<div className="border-t border-border/10 pt-2 flex justify-between">
+					<div className="w-16 h-2.5 bg-muted rounded" />
+					<div className="w-12 h-2.5 bg-muted rounded" />
+				</div>
+			}
+		>
+			<div className="animate-pulse h-full">
+				<div>
+					<div className="my-auto space-y-2.5">
 						<div className="h-4 bg-muted rounded w-2/3" />
 						<div className="h-3 bg-muted rounded w-full" />
 						<div className="h-3 bg-muted rounded w-full" />
 						<div className="h-3 bg-muted rounded w-full" />
 					</div>
-				</div>
-				<div className="border-t border-border/10 pt-2 flex justify-between">
-					<div className="w-16 h-2.5 bg-muted rounded" />
-					<div className="w-12 h-2.5 bg-muted rounded" />
 				</div>
 			</div>
 		</RetroCard>
