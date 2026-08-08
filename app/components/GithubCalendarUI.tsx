@@ -416,9 +416,9 @@ export default function GithubCalendarUI({
 							<button
 								key={yr}
 								onClick={() => setSelectedYear(yr)}
-								className={`px-4 py-2 xl:px-desktop-md xl:py-desktop-sm text-desktop-sm font-black uppercase tracking-wider transition-all duration-200 cursor-pointer border-[2px] select-none ${isSelected
+								className={`px-2 py-1 xl:px-desktop-sm xl:py-desktop-xs text-xs xl:text-[length:var(--text-desktop-xs)] font-black uppercase tracking-wider transition-all duration-200 cursor-pointer border select-none ${isSelected
 										? "bg-background text-foreground border-border shadow-[2px_2px_0_0_var(--accent)] translate-x-[1px] translate-y-[1px]"
-										: "bg-background text-foreground border-border shadow-sm hover:-translate-x-[1px] hover:-translate-y-[1px] hover:shadow-[2px_2px_0_0_var(--color-accent-secondary)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
+										: "bg-background text-foreground border-border shadow-[2px_2px_0_0_var(--border)] hover:-translate-x-[1px] hover:-translate-y-[1px] hover:shadow-[2px_2px_0_0_var(--color-accent-secondary)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
 									}`}
 							>
 								{yr}
@@ -504,8 +504,8 @@ export function CalendarSkeleton({ isDark = false }: { isDark?: boolean }) {
 				</div>
 
 				<div className="flex flex-row md:flex-col gap-2 flex-shrink-0">
-					<div className="w-16 h-8 bg-muted border border-border rounded-[2px]" />
-					<div className="w-16 h-8 bg-muted border border-border rounded-[2px]" />
+					<div className="w-12 h-6 bg-muted border border-border rounded-[2px]" />
+					<div className="w-12 h-6 bg-muted border border-border rounded-[2px]" />
 				</div>
 			</div>
 		</div>
