@@ -52,11 +52,10 @@ const skills: SkillItem[] = [
 ];
 
 export default function MobileSkillStrip() {
-	// Duplicate slightly more times for mobile since icons only take up less width
-	const duplicated = [...skills, ...skills, ...skills, ...skills];
+	const duplicated = [...skills, ...skills, ...skills];
 
 	return (
-		<div className="flex marquee gap-3 items-center w-full">
+		<div className="flex marquee gap-3 items-center">
 			{duplicated.map((skill, i) => (
 				<div
 					key={`${skill.name}-${i}`}
