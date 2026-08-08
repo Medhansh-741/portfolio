@@ -36,15 +36,13 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en" suppressHydrationWarning>
-			<head>
-				<link rel="preconnect" href="https://medhanshk.me" />
-				<link rel="dns-prefetch" href="https://medhanshk.me" />
-			</head>
 			<body
 				className={`${inter.variable} ${playfair.variable} ${pirataOne.variable} antialiased bg-background text-foreground font-sans`}
 			>
+				<link rel="preconnect" href="https://medhanshk.me" />
+				<link rel="dns-prefetch" href="https://medhanshk.me" />
 				<ThemeProvider>
-					<div className="min-h-dvh xl:[@media(min-height:768px)]:h-dvh xl:[@media(min-height:768px)]:max-h-dvh xl:[@media(min-height:768px)]:overflow-hidden flex flex-col">
+					<div className="min-h-dvh flex flex-col">
 						<Navbar />
 						<MobileHeader />
 						{children}
