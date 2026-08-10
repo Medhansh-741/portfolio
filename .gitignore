@@ -66,5 +66,15 @@ scripts/
 # scratch files
 temp*.tsx
 
-#agent file
+# agent file
 .agents
+
+# audit harness (intentionally excluded from git)
+audit/
+audit-results/
+playwright.config.ts
+seo.md
+
+# playwright run artifacts
+test-results/
+playwright-report/
