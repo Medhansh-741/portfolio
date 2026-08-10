@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { FiInstagram, FiGithub, FiMail, FiCalendar, FiFileText } from "react-icons/fi";
+import { FiInstagram, FiGithub, FiMail, FiVideo, FiFileText } from "react-icons/fi";
 import { FaXTwitter } from "react-icons/fa6";
 import { profile } from "@/app/data/profile";
 import { AnimatePresence, motion } from "framer-motion";
@@ -61,9 +61,9 @@ export default function MobileHeroCTA() {
 					target="_blank"
 					rel="noopener noreferrer"
 					className={iconClass}
-					aria-label="Calendar"
+					aria-label="Meet"
 				>
-					<FiCalendar size={20} />
+					<FiVideo size={20} />
 				</a>
 				<a
 					href="/resume.pdf"
