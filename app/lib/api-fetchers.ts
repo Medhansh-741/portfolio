@@ -53,10 +53,36 @@ export async function getGithubData(
 	}
 
 	try {
-		const [contribRes, userRes, reposRes] = await Promise.allSettled([
-			fetch(`https://github-contributions-api.jogruber.de/v4/${username}`, {
+		const currentYear = new Date().getFullYear();
+		const prevYear = currentYear - 1;
+		const query = `
+      query($userName:String!) {
+        user(login: $userName) {
+          current: contributionsCollection(from: "${currentYear}-01-01T00:00:00Z", to: "${currentYear}-12-31T23:59:59Z") {
+            contributionCalendar {
+              totalContributions
+              weeks { contributionDays { contributionCount date } }
+            }
+          }
+          previous: contributionsCollection(from: "${prevYear}-01-01T00:00:00Z", to: "${prevYear}-12-31T23:59:59Z") {
+            contributionCalendar {
+              totalContributions
+              weeks { contributionDays { contributionCount date } }
+            }
+          }
+        }
+      }
+    `;
+
+		const [graphqlRes, userRes, reposRes] = await Promise.allSettled([
+			fetch("https://api.github.com/graphql", {
+				method: "POST",
 				next: { revalidate: 3600 },
-				headers: { "User-Agent": "Portfolio-App" },
+				headers: {
+					...authHeaders,
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ query, variables: { userName: username } }),
 			}),
 			fetch(`https://api.github.com/users/${username}`, {
 				next: { revalidate: 3600 },
@@ -71,30 +97,69 @@ export async function getGithubData(
 			),
 		]);
 
-		let contribData: {
-			total: Record<string, number>;
-			contributions: ContributionDay[];
-		} = { total: {}, contributions: [] };
-		if (contribRes.status === "fulfilled" && contribRes.value.ok) {
-			const rawJson = await contribRes.value.json();
-			const parsed = GithubContributionsSchema.safeParse(rawJson);
-			if (parsed.success && parsed.data) {
-				contribData = {
-					total: parsed.data.total || {},
-					contributions: parsed.data.contributions || [],
+		const contribData = {
+			total: {} as Record<string, number>,
+			contributions: [] as ContributionDay[],
+		};
+
+		if (graphqlRes.status === "fulfilled" && graphqlRes.value.ok) {
+			const json = await graphqlRes.value.json();
+			const collections = json?.data?.user;
+
+			if (collections) {
+				const getLevel = (count: number) => {
+					if (count === 0) return 0;
+					if (count <= 3) return 1;
+					if (count <= 6) return 2;
+					if (count <= 9) return 3;
+					return 4;
 				};
+
+				const processCalendar = (
+					calendarInfo: any,
+					yearStr: string,
+				) => {
+					if (!calendarInfo) return;
+					contribData.total[yearStr] = calendarInfo.totalContributions;
+
+					for (const week of calendarInfo.weeks) {
+						for (const day of week.contributionDays) {
+							// Only push days up to today to match normal behavior
+							const todayStr = new Date().toISOString().split("T")[0];
+							if (day.date <= todayStr || yearStr === prevYear.toString()) {
+								contribData.contributions.push({
+									date: day.date,
+									count: day.contributionCount,
+									level: getLevel(day.contributionCount),
+								});
+							} else if (day.date > todayStr) {
+								// Include future days as empty so the skeleton renders a full grid
+								contribData.contributions.push({
+									date: day.date,
+									count: 0,
+									level: 0,
+								});
+							}
+						}
+					}
+				};
+
+				processCalendar(
+					collections.current?.contributionCalendar,
+					currentYear.toString(),
+				);
+				processCalendar(
+					collections.previous?.contributionCalendar,
+					prevYear.toString(),
+				);
 			}
 		}
 
-		let publicRepos = 12;
+		let publicRepos = 14;
 		if (userRes.status === "fulfilled" && userRes.value.ok) {
 			const rawJson = await userRes.value.json();
 			const parsed = GithubUserSchema.safeParse(rawJson);
-			if (
-				parsed.success &&
-				typeof parsed.data.public_repos === "number" &&
-				parsed.data.public_repos > 0
-			) {
+			if (parsed.success && typeof parsed.data.public_repos === "number") {
 				publicRepos = parsed.data.public_repos;
 			}
 		}
@@ -115,10 +180,11 @@ export async function getGithubData(
 						}
 					}
 				});
-				if (starsSum > 0) totalStars = starsSum;
+				totalStars = starsSum;
 			}
 		}
 
+		// Process top 3 languages
 		const totalLangRepos =
 			Object.values(langCounts).reduce((a, b) => a + b, 0) || 1;
 		const sortedLangs = Object.entries(langCounts)
@@ -140,8 +206,8 @@ export async function getGithubData(
 			};
 		});
 
-		if (topLanguages.length < 3) {
-			topLanguages.length = 0;
+		// Fallback if no language data was returned
+		if (topLanguages.length === 0) {
 			topLanguages.push(
 				{
 					name: "Python",
@@ -405,7 +471,7 @@ export async function getCommitFeed(usernameInput?: string) {
 		const eventsRes = await fetch(
 			`https://api.github.com/users/${username}/events/public`,
 			{
-				next: { revalidate: 300 },
+				next: { revalidate: 60 },
 				headers: authHeaders,
 			},
 		);
@@ -452,7 +518,7 @@ export async function getCommitFeed(usernameInput?: string) {
 	try {
 		const atomUrl = `https://github.com/${username}.atom`;
 		const response = await fetch(atomUrl, {
-			next: { revalidate: 300 },
+			next: { revalidate: 60 },
 			headers: {
 				"User-Agent":
 					"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
