@@ -123,11 +123,17 @@ export default function CommitFeed({
 			footer={<CardFooter left="@Medhansh-741" right="LIVE_FEED" />}
 		>
 			{/* Timeline Viewport Container */}
-			<div className="mt-3 relative pr-1 w-full">
+			<div
+				className="mt-3 relative pr-1 w-full overflow-hidden flex-1 min-h-[180px]"
+				style={{
+					maskImage: "linear-gradient(to bottom, transparent, black 5%, black 95%, transparent)",
+					WebkitMaskImage: "linear-gradient(to bottom, transparent, black 5%, black 95%, transparent)"
+				}}
+			>
 				<div className="absolute left-[9px] top-1 bottom-1 w-0.5 border-l-[2px] border-dashed border-muted z-0" />
 
-				<div className="flex flex-col gap-4 py-1">
-					{displayCommits.map((commit, idx) => (
+				<div className="marquee-vertical gap-4 py-1">
+					{[...displayCommits, ...displayCommits].map((commit, idx) => (
 						<a
 							key={`c1-${commit.id}-${idx}`}
 							href={commit.link}
