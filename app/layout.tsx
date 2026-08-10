@@ -24,7 +24,7 @@ const pirataOne = Pirata_One({
 });
 
 export const metadata: Metadata = {
-	title: "Medhansh Kapoor — AI/ML Engineer & Full-Stack Developer",
+	title: "Medhansh Kapoor",
 	description:
 		"Portfolio of Medhansh Kapoor — AI/ML Engineer and Full-Stack Developer. Building production-grade AI agents, geospatial systems, and full-stack applications.",
 };

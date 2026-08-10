@@ -19,6 +19,7 @@ import {
 	SiSupabase,
 	SiTypescript,
 } from "react-icons/si";
+import { FaAws } from "react-icons/fa";
 
 type SkillItem = {
 	name: string;
@@ -43,7 +44,7 @@ const skills: SkillItem[] = [
 	{ name: "Git", icon: <SiGit /> },
 	{
 		name: "AWS S3",
-		icon: <span className="text-[0.6875rem] font-bold uppercase">S3</span>,
+		icon: <FaAws />,
 	},
 	{ name: "GCP", icon: <SiGooglecloud /> },
 	{ name: "Neo4j", icon: <SiNeo4J /> },
