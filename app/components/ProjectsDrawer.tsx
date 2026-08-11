@@ -131,7 +131,7 @@ export default function ProjectsDrawer({
 											setActiveProject(proj);
 											setIsMaximized(false);
 										}}
-										className="w-full aspect-video relative overflow-hidden bg-card border-[3px] border-border shadow-md cursor-pointer hover:shadow-[3px_3px_0_0_var(--color-accent-secondary)] hover:-translate-x-[1px] hover:-translate-y-[1px] active:translate-x-0 active:translate-y-0 active:shadow-none transition-all duration-200 group"
+										className="w-full aspect-video relative overflow-hidden bg-border border-[3px] border-border shadow-md cursor-pointer hover:shadow-[3px_3px_0_0_var(--color-accent-secondary)] hover:-translate-x-[1px] hover:-translate-y-[1px] active:translate-x-0 active:translate-y-0 active:shadow-none transition-all duration-200 group"
 									>
 										<VideoLoop
 											src={`/videos/${proj.title.toLowerCase() === "jansamadhan" ? "jansamadhan.mp4" : "nyayaai.mp4"}`}
