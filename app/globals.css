@@ -98,17 +98,12 @@ body {
   font-family: "Inter", sans-serif;
 }
 
-::-webkit-scrollbar {
-  width: 6px;
+html {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
-::-webkit-scrollbar-track {
-  background: var(--background);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--border);
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--foreground);
+html::-webkit-scrollbar {
+  display: none;
 }
 
 @keyframes marquee {
