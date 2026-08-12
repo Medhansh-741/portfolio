@@ -13,68 +13,15 @@ interface Commit {
 	link: string;
 }
 
-const mockFallbackCommits: Commit[] = [
-	{
-		id: "fb1",
-		repo: "Medhansh-741/portfolio",
-		message: "style: custom calendar borders and mode colors",
-		date: new Date(Date.now() - 3600 * 2000).toISOString(),
-		link: "https://github.com/Medhansh-741/portfolio",
-	},
-	{
-		id: "fb2",
-		repo: "Medhansh-741/portfolio",
-		message: "feat: add api route proxy for github contributions",
-		date: new Date(Date.now() - 3600 * 5000).toISOString(),
-		link: "https://github.com/Medhansh-741/portfolio",
-	},
-	{
-		id: "fb3",
-		repo: "Medhansh-741/ai-agent",
-		message: "refactor: optimize model system prompts",
-		date: new Date(Date.now() - 3600 * 24000).toISOString(),
-		link: "https://github.com/Medhansh-741/ai-agent",
-	},
-	{
-		id: "fb4",
-		repo: "Medhansh-741/ai-agent",
-		message: "init: initial project setup and pipeline tests",
-		date: new Date(Date.now() - 3600 * 72000).toISOString(),
-		link: "https://github.com/Medhansh-741/ai-agent",
-	},
-];
-
 interface CommitFeedProps {
 	className?: string;
 	delay?: number;
 	style?: React.CSSProperties;
 }
 
-function formatRelativeTime(dateStr: string) {
-	const date = new Date(dateStr);
-	const now = new Date();
-	const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-
-	const intervals: Record<string, number> = {
-		year: 31536000,
-		month: 2592000,
-		week: 604800,
-		day: 86400,
-		hour: 3600,
-		minute: 60,
-	};
-
-	for (const [unit, val] of Object.entries(intervals)) {
-		const count = Math.floor(seconds / val);
-		if (count >= 1) {
-			return `${count} ${unit}${count > 1 ? "s" : ""} ago`;
-		}
-	}
-	return "recently";
-}
-
 const cleanRepoName = (name: string) => {
-	return name.replace(/^Medhansh-741\//, "");
+	const slash = name.lastIndexOf("/");
+	return slash >= 0 ? name.slice(slash + 1) : name;
 };
 
 export default function CommitFeed({
@@ -89,17 +36,37 @@ export default function CommitFeed({
 		return (
 			<CommitFeedSkeleton delay={delay} className={className} style={style} />
 		);
-	const commits =
-		fetchedCommits && fetchedCommits.length > 0
-			? fetchedCommits
-			: mockFallbackCommits;
+	const commits = fetchedCommits && fetchedCommits.length > 0 ? fetchedCommits : [];
+
+	if (commits.length === 0)
+		return (
+			<RetroCard
+				accentColor="var(--color-accent)"
+				paddingX="px-4 xl:px-desktop-sm"
+				paddingTop="pt-4 xl:pt-desktop-sm"
+				paddingBottom="pb-4 xl:pb-desktop-sm"
+				delay={delay}
+				className={className}
+				style={style}
+				header={
+					<CardHeader
+						icon={<FiGitCommit size={14} />}
+						accentColor="var(--color-accent)"
+						title="LIVE ACTIVITY"
+						badge={<FiGithub size={11} />}
+						badgeHref="https://github.com/Medhansh-741"
+						pulse
+					/>
+				}
+				footer={<CardFooter left="@Medhansh-741" right="LIVE_FEED" />}
+			>
+				<p className="mt-3 min-h-[180px] flex items-center justify-center text-desktop-xs font-semibold text-muted-foreground">
+					No recent commits
+				</p>
+			</RetroCard>
+		);
 
 	const displayCommits = [...commits];
-	if (displayCommits.length > 0 && displayCommits.length < 4) {
-		mockFallbackCommits.forEach((m) => {
-			if (displayCommits.length < 4) displayCommits.push(m);
-		});
-	}
 
 	return (
 		<RetroCard
@@ -151,9 +118,6 @@ export default function CommitFeed({
 								<h4 className="text-desktop-xs font-bold leading-tight text-foreground truncate group-hover:text-accent-secondary group-hover:underline">
 									{commit.message}
 								</h4>
-								<span className="text-desktop-2xs font-semibold text-muted-foreground block mt-0.5 leading-none">
-									{formatRelativeTime(commit.date)}
-								</span>
 							</div>
 						</a>
 					))}

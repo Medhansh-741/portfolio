@@ -8,8 +8,8 @@ import {
 	CodeforcesRatingSchema,
 	CodeforcesStatusSchema,
 	CodeforcesUserInfoSchema,
+	GithubCommitArraySchema,
 	GithubContributionsSchema,
-	GithubEventsArraySchema,
 	GithubReposArraySchema,
 	GithubUserSchema,
 	LeetCodeResponseSchema,
@@ -454,6 +454,9 @@ export async function getCodeforcesData(usernameInput?: string) {
 	};
 }
 
+const COMMIT_FEED_REPO_COUNT = 12;
+const COMMITS_PER_REPO = 3;
+
 export async function getCommitFeed(usernameInput?: string) {
 	const username =
 		usernameInput || process.env.GITHUB_USERNAME || "Medhansh-741";
@@ -468,139 +471,86 @@ export async function getCommitFeed(usernameInput?: string) {
 	}
 
 	try {
-		const eventsRes = await fetch(
-			`https://api.github.com/users/${username}/events/public`,
+		const reposRes = await fetch(
+			`https://api.github.com/user/repos?per_page=100`,
 			{
 				next: { revalidate: 60 },
 				headers: authHeaders,
 			},
 		);
+		if (!reposRes.ok) return [];
 
-		if (eventsRes.ok) {
-			const rawJson = await eventsRes.json();
-			const parsed = GithubEventsArraySchema.safeParse(rawJson);
+		const reposParsed =
+			GithubReposArraySchema.safeParse(await reposRes.json());
+		if (!reposParsed.success) return [];
+		const repoNames = Array.from(
+			new Set(
+				reposParsed.data.map((repo) => repo.full_name || `${username}/${repo.name}`),
+			),
+		);
+		if (repoNames.length === 0) return [];
 
-			if (parsed.success && parsed.data.length > 0) {
-				const commitsList: Array<{
-					id: string;
-					repo: string;
-					message: string;
-					date: string;
-					link: string;
-				}> = [];
+		const results = await Promise.allSettled(
+			repoNames.map((repo) =>
+				fetch(
+					`https://api.github.com/repos/${repo}/commits?per_page=${COMMITS_PER_REPO}&author=${username}`,
+					{
+						next: { revalidate: 60 },
+						headers: authHeaders,
+					},
+				),
+			),
+		);
 
-				for (const event of parsed.data) {
-					if (commitsList.length >= 12) break;
-					if (event.type === "PushEvent" && event.payload?.commits) {
-						for (const commit of event.payload.commits) {
-							if (commitsList.length >= 12) break;
-							if (commit.message) {
-								const sha =
-									commit.sha || Math.random().toString(36).substring(2, 8);
-								const repoName = event.repo.name || `${username}/repository`;
-								commitsList.push({
-									id: `${event.id}-${sha}`,
-									repo: repoName,
-									message: commit.message.split("\n")[0].trim(),
-									date: event.created_at,
-									link: `https://github.com/${repoName}/commit/${sha}`,
-								});
-							}
-						}
-					}
-				}
-				if (commitsList.length > 0) return commitsList;
+		const commitsList: Array<{
+			id: string;
+			repo: string;
+			message: string;
+			date: string;
+			link: string;
+		}> = [];
+
+		for (const [index, result] of results.entries()) {
+			if (result.status !== "fulfilled") continue;
+			const res = result.value;
+			if (!res.ok) continue;
+
+			const parsed = GithubCommitArraySchema.safeParse(await res.json());
+			if (!parsed.success || parsed.data.length === 0) continue;
+			const mine = parsed.data.filter(
+				(commit) => commit.author?.login === username,
+			);
+			if (mine.length === 0) continue;
+
+			const repo = repoNames[index];
+			for (const commit of mine) {
+				const sha = commit.sha;
+				const date =
+					commit.commit.author?.date ?? commit.commit.committer?.date;
+				commitsList.push({
+					id: sha,
+					repo,
+					message: commit.commit.message.split("\n")[0].trim(),
+					date: date ?? new Date().toISOString(),
+					link:
+						commit.html_url ?? `https://github.com/${repo}/commit/${sha}`,
+				});
 			}
 		}
-	} catch {}
 
-	// Fallback to Atom Feed
-	try {
-		const atomUrl = `https://github.com/${username}.atom`;
-		const response = await fetch(atomUrl, {
-			next: { revalidate: 60 },
-			headers: {
-				"User-Agent":
-					"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-			},
+		const seen = new Set<string>();
+		const uniqueCommits = commitsList.filter((commit) => {
+			if (seen.has(commit.id)) return false;
+			seen.add(commit.id);
+			return true;
 		});
 
-		if (response.ok) {
-			const xml = await response.text();
-			const commitsList: Array<{
-				id: string;
-				repo: string;
-				message: string;
-				date: string;
-				link: string;
-			}> = [];
-			const entryRegex = /<entry>([\s\S]*?)<\/entry>/g;
-			let match;
-
-			const decodeHtml = (str: string) =>
-				str
-					.replace(/&lt;/g, "<")
-					.replace(/&gt;/g, ">")
-					.replace(/&quot;/g, '"')
-					.replace(/&amp;/g, "&")
-					.replace(/&#39;/g, "'");
-
-			while (
-				(match = entryRegex.exec(xml)) !== null &&
-				commitsList.length < 12
-			) {
-				const entry = match[1];
-				const dateMatch = /<published>([^<]+)<\/published>/.exec(entry);
-				const date = dateMatch ? dateMatch[1] : new Date().toISOString();
-
-				const titleMatch =
-					/<title type="html">[^ ]+ pushed ([^<]+)<\/title>/.exec(entry);
-				let repoName = titleMatch ? titleMatch[1].trim() : "";
-				if (repoName && !repoName.includes("/"))
-					repoName = `${username}/${repoName}`;
-
-				const contentMatch = /<content type="html">([\s\S]*?)<\/content>/.exec(
-					entry,
-				);
-				if (contentMatch) {
-					const decodedHtml = decodeHtml(contentMatch[1]);
-					const liRegex = /<li[^>]*>([\s\S]*?)<\/li>/g;
-					let liMatch;
-					let entryCommitsCount = 0;
-
-					while (
-						(liMatch = liRegex.exec(decodedHtml)) !== null &&
-						commitsList.length < 12
-					) {
-						const msgMatch = /<blockquote>([\s\S]*?)<\/blockquote>/.exec(
-							liMatch[1],
-						);
-						const msg = msgMatch ? msgMatch[1].trim().replace(/\s+/g, " ") : "";
-
-						if (msg) {
-							const commitLinkMatch = /href="([^"]*\/commit\/[^"]*)"/.exec(
-								liMatch[1],
-							);
-							const relativeLink = commitLinkMatch ? commitLinkMatch[1] : "";
-							const absoluteLink = relativeLink
-								? `https://github.com${relativeLink}`
-								: `https://github.com/${repoName}`;
-
-							commitsList.push({
-								id: `${date}-${entryCommitsCount}-${Math.random().toString(36).substring(2, 7)}`,
-								repo: repoName || "GitHub Repository",
-								message: msg,
-								date: date,
-								link: absoluteLink,
-							});
-							entryCommitsCount++;
-						}
-					}
-				}
-			}
-			return commitsList;
-		}
-	} catch {}
-
-	return [];
+		return uniqueCommits
+			.sort(
+				(a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+			)
+			.slice(0, COMMIT_FEED_REPO_COUNT);
+	} catch {
+		return [];
+	}
 }

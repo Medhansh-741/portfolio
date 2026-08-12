@@ -112,6 +112,7 @@ export const GithubUserSchema = z.object({
 
 export const GithubRepoSchema = z.object({
 	name: z.string(),
+	full_name: z.string().optional(),
 	stargazers_count: z.number().default(0),
 	language: z.string().nullable().optional(),
 	fork: z.boolean().default(false),
@@ -142,6 +143,19 @@ export const GithubEventSchema = z.object({
 });
 
 export const GithubEventsArraySchema = z.array(GithubEventSchema);
+
+export const GithubCommitSchema = z.object({
+	sha: z.string(),
+	author: z.object({ login: z.string().optional() }).optional(),
+	commit: z.object({
+		message: z.string(),
+		author: z.object({ date: z.string() }).optional(),
+		committer: z.object({ date: z.string() }).optional(),
+	}),
+	html_url: z.string().optional(),
+});
+
+export const GithubCommitArraySchema = z.array(GithubCommitSchema);
 
 export type CodeforcesUserInfo = NonNullable<
 	z.infer<typeof CodeforcesUserInfoSchema>["result"]
