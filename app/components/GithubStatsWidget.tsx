@@ -1,12 +1,13 @@
 "use client";
 import { FiGithub } from "react-icons/fi";
 import type { GithubData } from "@/app/lib/schemas";
-import { useClientData } from "@/app/lib/use-client-data";
+
 import CardFooter from "./ui/CardFooter";
 import CardHeader from "./ui/CardHeader";
 import RetroCard from "./ui/RetroCard";
 
 interface GithubStatsWidgetProps {
+	githubData?: GithubData;
 	className?: string;
 	delay?: number;
 	style?: React.CSSProperties;
@@ -34,16 +35,11 @@ const defaultLanguages = [
 ];
 
 export default function GithubStatsWidget({
+	githubData,
 	className = "",
 	delay = 0.75,
 	style,
 }: GithubStatsWidgetProps) {
-	const { data: githubData, loading } =
-		useClientData<GithubData>("/api/github");
-	if (loading)
-		return (
-			<GitArchiveSkeleton delay={delay} className={className} style={style} />
-		);
 
 	const publicRepos = githubData?.stats?.publicRepos ?? 14;
 	const totalStars = githubData?.stats?.totalStars ?? 24;

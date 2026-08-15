@@ -1,6 +1,6 @@
 "use client";
 import { FiGitCommit, FiGithub } from "react-icons/fi";
-import { useClientData } from "@/app/lib/use-client-data";
+
 import CardFooter from "./ui/CardFooter";
 import CardHeader from "./ui/CardHeader";
 import RetroCard from "./ui/RetroCard";
@@ -13,7 +13,8 @@ interface Commit {
 	link: string;
 }
 
-interface CommitFeedProps {
+export interface CommitFeedProps {
+	commits?: Commit[];
 	className?: string;
 	delay?: number;
 	style?: React.CSSProperties;
@@ -25,18 +26,11 @@ const cleanRepoName = (name: string) => {
 };
 
 export default function CommitFeed({
+	commits = [],
 	className = "",
 	delay = 0.7,
 	style,
 }: CommitFeedProps) {
-	const { data: fetchedCommits, loading } = useClientData<Commit[]>(
-		"/api/github-activity",
-	);
-	if (loading)
-		return (
-			<CommitFeedSkeleton delay={delay} className={className} style={style} />
-		);
-	const commits = fetchedCommits && fetchedCommits.length > 0 ? fetchedCommits : [];
 
 	if (commits.length === 0)
 		return (

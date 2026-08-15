@@ -1,29 +1,25 @@
 "use client";
 import type {
 	GithubData,
-	LeetCodeApiResponse,
-	NormalizedCodeforcesDto,
 } from "@/app/lib/schemas";
-import { useClientData } from "@/app/lib/use-client-data";
 import GithubCalendarUI from "./GithubCalendarUI";
 
-export default function GithubCalendar() {
-	const github = useClientData<GithubData>("/api/github");
-	const leetcode = useClientData<LeetCodeApiResponse>("/api/leetcode");
-	const codeforces = useClientData<NormalizedCodeforcesDto>("/api/codeforces");
-	if (github.loading || leetcode.loading || codeforces.loading)
-		return <GithubCalendarSkeleton />;
+interface GithubCalendarProps {
+	githubData: GithubData;
+	leetcodeData: Record<string, number>;
+	codeforcesData: Record<string, number>;
+}
+
+export default function GithubCalendar({
+	githubData,
+	leetcodeData,
+	codeforcesData,
+}: GithubCalendarProps) {
 	return (
 		<GithubCalendarUI
-			githubData={
-				github.data ?? {
-					total: {},
-					contributions: [],
-					stats: { publicRepos: 0, totalStars: 0, topLanguages: [] },
-				}
-			}
-			leetcodeData={leetcode.data?.calendar || {}}
-			codeforcesData={codeforces.data?.calendar || {}}
+			githubData={githubData}
+			leetcodeData={leetcodeData}
+			codeforcesData={codeforcesData}
 		/>
 	);
 }

@@ -1,12 +1,13 @@
 "use client";
 import { FiCode } from "react-icons/fi";
 import type { LeetCodeApiResponse } from "@/app/lib/schemas";
-import { useClientData } from "@/app/lib/use-client-data";
+
 import CardFooter from "./ui/CardFooter";
 import CardHeader from "./ui/CardHeader";
 import RetroCard from "./ui/RetroCard";
 
 interface LeetCodeWidgetProps {
+	lcData?: LeetCodeApiResponse;
 	className?: string;
 	delay?: number;
 	style?: React.CSSProperties;
@@ -18,16 +19,11 @@ interface StatsDifficulty {
 }
 
 export default function LeetCodeWidget({
+	lcData,
 	className = "",
 	delay = 0.55,
 	style,
 }: LeetCodeWidgetProps) {
-	const { data: lcData, loading } =
-		useClientData<LeetCodeApiResponse>("/api/leetcode");
-	if (loading)
-		return (
-			<LeetCodeSkeleton delay={delay} className={className} style={style} />
-		);
 
 	let solved = 0;
 	let totalQuestions = 3999;

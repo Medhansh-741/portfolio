@@ -2,7 +2,7 @@ export default function DesktopGridSkeleton() {
 	return (
 		<>
 			{/* Cell A (Experience) */}
-			<div className="h-full min-h-0 flex flex-col clip-margin-5">
+			<div className="hidden xl:flex h-full min-h-0 flex-col clip-margin-5">
 				<div className="w-full h-full p-4 flex flex-col bg-background/50 border-2 border-muted/20 animate-pulse">
 					<div className="h-5 w-32 bg-muted/50 rounded mb-4"></div>
 					<div className="h-4 w-2/3 bg-muted/30 rounded mb-2"></div>
@@ -11,7 +11,7 @@ export default function DesktopGridSkeleton() {
 				</div>
 			</div>
 			{/* Cell B (Projects) */}
-			<div className="h-full min-h-0 flex flex-col clip-margin-5">
+			<div className="hidden xl:flex h-full min-h-0 flex-col clip-margin-5">
 				<div className="w-full h-full p-4 flex flex-col bg-background/50 border-2 border-muted/20 animate-pulse">
 					<div className="h-5 w-32 bg-muted/50 rounded mb-4"></div>
 					<div className="h-4 w-2/3 bg-muted/30 rounded mb-2"></div>
@@ -20,7 +20,7 @@ export default function DesktopGridSkeleton() {
 				</div>
 			</div>
 			{/* Cell C (Commit feed) */}
-			<div className="h-full min-h-0 flex flex-col clip-margin-5">
+			<div className="hidden xl:flex h-full min-h-0 flex-col clip-margin-5">
 				<div className="w-full h-full p-4 flex flex-col bg-background/50 border-2 border-muted/20 animate-pulse">
 					<div className="h-5 w-32 bg-muted/50 rounded mb-4"></div>
 					<div className="flex flex-col gap-4 mt-2">
@@ -42,7 +42,7 @@ export default function DesktopGridSkeleton() {
 				</div>
 			</div>
 			{/* Cell D (Calendar) */}
-			<div className="h-full min-h-0 flex flex-col clip-margin-5">
+			<div className="hidden xl:flex h-full min-h-0 flex-col clip-margin-5">
 				<div className="w-full h-full p-4 flex flex-col bg-background/50 border-2 border-muted/20 animate-pulse justify-end">
 					<div className="h-5 w-32 bg-muted/50 rounded mb-4"></div>
 					<div className="grid grid-cols-[repeat(auto-fill,minmax(12px,1fr))] gap-1 mt-auto">
@@ -56,7 +56,7 @@ export default function DesktopGridSkeleton() {
 				</div>
 			</div>
 			{/* Cell E (LeetCode) */}
-			<div className="h-full min-h-0 flex flex-col clip-margin-5">
+			<div className="hidden xl:flex h-full min-h-0 flex-col clip-margin-5">
 				<div className="w-full h-full p-4 flex flex-col bg-background/50 border-2 border-muted/20 animate-pulse">
 					<div className="h-5 w-32 bg-muted/50 rounded mb-4"></div>
 					<div className="space-y-3 mt-4">
@@ -67,7 +67,7 @@ export default function DesktopGridSkeleton() {
 				</div>
 			</div>
 			{/* Cell F (Codeforces) */}
-			<div className="h-full min-h-0 flex flex-col clip-margin-5">
+			<div className="hidden xl:flex h-full min-h-0 flex-col clip-margin-5">
 				<div className="w-full h-full p-4 flex flex-col bg-background/50 border-2 border-muted/20 animate-pulse">
 					<div className="h-5 w-32 bg-muted/50 rounded mb-4"></div>
 					<div className="space-y-3 mt-4">
@@ -78,7 +78,7 @@ export default function DesktopGridSkeleton() {
 				</div>
 			</div>
 			{/* Cell G (Git archive) */}
-			<div className="h-full min-h-0 flex flex-col clip-margin-5">
+			<div className="hidden xl:flex h-full min-h-0 flex-col clip-margin-5">
 				<div className="w-full h-full p-4 flex flex-col bg-background/50 border-2 border-muted/20 animate-pulse">
 					<div className="h-5 w-32 bg-muted/50 rounded mb-4"></div>
 					<div className="space-y-3 mt-4">

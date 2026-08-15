@@ -73,7 +73,7 @@ temp*.tsx
 audit/
 audit-results/
 playwright.config.ts
-seo.md
+
 
 # playwright run artifacts
 test-results/

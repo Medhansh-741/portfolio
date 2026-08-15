@@ -1,4 +1,6 @@
-import DesktopOnly from "./components/desktop/DesktopOnly";
+import { Suspense } from "react";
+import DesktopGrid from "./components/desktop/DesktopGrid";
+import DesktopGridSkeleton from "./components/desktop/DesktopGridSkeleton";
 import HeroSection from "./components/HeroSection";
 import MobileHome from "./components/mobile/MobileHome";
 import SkillStrip from "./components/SkillStrip";
@@ -13,7 +15,9 @@ export default function Home() {
 							<div className="h-full min-h-0 flex flex-col justify-start clip-margin-5 [container-type:inline-size]">
 								<HeroSection />
 							</div>
-							<DesktopOnly />
+							<Suspense fallback={<DesktopGridSkeleton />}>
+								<DesktopGrid />
+							</Suspense>
 						</div>
 					</div>
 				</section>

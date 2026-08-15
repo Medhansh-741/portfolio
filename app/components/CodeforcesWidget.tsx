@@ -1,12 +1,13 @@
 "use client";
 import { FiTrendingUp } from "react-icons/fi";
 import type { NormalizedCodeforcesDto } from "@/app/lib/schemas";
-import { useClientData } from "@/app/lib/use-client-data";
+
 import CardFooter from "./ui/CardFooter";
 import CardHeader from "./ui/CardHeader";
 import RetroCard from "./ui/RetroCard";
 
 interface CodeforcesWidgetProps {
+	cfData?: NormalizedCodeforcesDto;
 	className?: string;
 	delay?: number;
 	style?: React.CSSProperties;
@@ -29,16 +30,11 @@ const getRankColorClass = (r: string) => {
 };
 
 export default function CodeforcesWidget({
+	cfData,
 	className = "",
 	delay = 0.65,
 	style,
 }: CodeforcesWidgetProps) {
-	const { data: cfData, loading } =
-		useClientData<NormalizedCodeforcesDto>("/api/codeforces");
-	if (loading)
-		return (
-			<CodeforcesSkeleton delay={delay} className={className} style={style} />
-		);
 
 	const rating = cfData?.rating ?? 0;
 	const maxRating = cfData?.maxRating ?? 0;
