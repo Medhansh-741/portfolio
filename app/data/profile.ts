@@ -67,7 +67,7 @@ export const profile = {
 			role: "AI/ML Intern",
 			period: "Jun 2026 – Jul 2026",
 			description:
-				"Building a standalone dataset-quality evaluation toolkit for AIKosh (under MeitY's IndiaAI Mission) — bridging the ICMR MIDAS 2.0 framework gap, slated for production integration by internship end.",
+				"Built an automated dataset-quality evaluation toolkit for ICMR.",
 			tech: [
 				"Next.js",
 				"FastAPI",
@@ -93,7 +93,7 @@ export const profile = {
 			role: "Student Trainee, Ministry of Defence",
 			period: "May 2026 – Jul 2026",
 			description:
-				"Building a self-contained, fully offline GIS platform enabling classified defence environments with no internet access to securely upload, process, and visualize geospatial map data.",
+				"Developed an air-gapped GIS platform to securely process and visualize offline geospatial data.",
 			tech: [
 				"FastAPI",
 				"PostGIS",
@@ -116,7 +116,7 @@ export const profile = {
 			role: "Software Development Intern",
 			period: "May 2026 – Jun 2026",
 			description:
-				"Evaluated enterprise AI toolchains and shipped production integration tests on live Salesforce CRM infrastructure.",
+				"Evaluated enterprise AI toolchains and shipped integration tests for production Salesforce environments.",
 			tech: [
 				"Vanna.ai",
 				"LlamaIndex",
