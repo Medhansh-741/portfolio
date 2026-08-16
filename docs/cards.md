@@ -28,7 +28,23 @@ Mirrors doesn't mean imitate px by px it means logically to have same sense to h
 - Heading & Subheading exact same(literals) as the desktop
 - Demo Video (Silent, auto-looping)
 - "View Details" button will redirect to the /projects page 
-- **Expansion:** Clicking on video preview (replacing expand monitor button since there is no hover in mobile)will open to vertical full screen modal similar to how clicking on expand monitor opens on dekstop full screen modal.
+  - **Expansion:** 
+  - We won't implement the modal thing by clicking on the video because it will have animations and may hinder or fight
+  rahter it will be triggered using yt button
+  - it will full vertical screen modal
+  - internally it will look like  yt ui
+  - video modal opens
+  - top video player 
+  - profile subscribe like dislike share download
+  - comments
+  - modal will be internally scrollable
+  - and have my other project's demo video stacked with webp thumbnail and title
+  
+  - The Static Shell (Server-First): Build the entire modal structure as a pure, non-interactive layout using min-h-[100dvh] and overflow-y-auto. Zero state, zero JavaScript, zero fixed heights.
+  - The Brutalist Translation: Map the YouTube elements directly to your globals.css tokens. Action pills become sharp border-2 squares; spacing relies solely on gap-fluid-* and p-fluid-*; typography uses only text-h3, text-body, and text-caption.
+  - Overflow Hardening: Enforce overscroll-behavior: contain on the modal wrapper and min-w-0 on every text container (title, comments) to guarantee it never causes horizontal scroll or page-bouncing.
+  - The Client Boundary (Donut Pattern): Once the static design scales perfectly from 320px to 1279px, wrap it in a strict "use client" shell (e.g., ProjectModalEngine). This shell will solely handle the open/close state and the YouTube button trigger.
+  - The Motion Pass: Finally, add the entrance animation exclusively to the client shell, ensuring it only uses transform/opacity and respects prefers-reduced-motion, so it can be ripped out in 5 minutes without touching the UI layout.
 
 ### Experience Cards
 - See the current desktop exp children cards i want logically same.(The typography spacing style functions should be logically discussed then only adpated in mobile.)
