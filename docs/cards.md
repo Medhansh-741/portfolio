@@ -24,17 +24,19 @@ The projects and experience sections on mobile are transformed into a physical, 
 
 ### Project Cards
 Mirrors the desktop project drawer format:
-- Heading & Subheading
-- Demo Video (Silent, auto-looping in the background/header)
-- "View Details" button
-- **Expansion:** Clicking "View Details" or a monitor icon expands a modal/overlay containing the heavy embedded YouTube video. (This prevents performance issues from loading multiple iframes in the deck).
+Mirrors doesn't mean imitate px by px it means logically to have same sense to have design uniformity.The typography spacing style functions should be logically discussed then only adpated in mobile.
+- Heading & Subheading exact same(literals) as the desktop
+- Demo Video (Silent, auto-looping)
+- "View Details" button will redirect to the /projects page 
+- **Expansion:** Clicking on video preview (replacing expand monitor button since there is no hover in mobile)will open to vertical full screen modal similar to how clicking on expand monitor opens on dekstop full screen modal.
 
 ### Experience Cards
+- See the current desktop exp children cards i want logically same.(The typography spacing style functions should be logically discussed then only adpated in mobile.)
 - Organization Name
-- 1-2 line simple language description
-- Tools / Tech Stack used
-- Certificate hyperlink
-- "View Details" button (for further expansion if needed)
+- exact same description(copy the same literals)
+- Tools / Tech Stack used(same way as used in desktop)
+- Certificate hyperlink(have it in button format placed in bottom left and bottom right)
+- "View Details" button (i am not sure where to place this or how should we redirect to /exp page)
 
 ---
 

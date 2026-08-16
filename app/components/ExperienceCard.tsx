@@ -50,11 +50,11 @@ export default function ExperienceCard({
 				/>
 			}
 		>
-			<div className="mt-3 flex flex-col gap-2 overflow-y-auto min-h-0 h-full pr-1.5 no-scrollbar">
+			<div className="mt-2 pt-1 pl-1 flex flex-col gap-2 overflow-y-auto min-h-0 h-full pr-1.5 no-scrollbar">
 				{profile.experience.map((exp, idx) => (
 					<article 
 						key={idx} 
-						className="flex flex-col gap-1.5 border-[length:var(--border-fluid)] border-black p-2 bg-muted/20 shadow-sm transition-all duration-200 hover:-translate-x-[var(--border-fluid)] hover:-translate-y-[var(--border-fluid)] hover:shadow-[3px_3px_0_0_var(--color-accent-warning)]"
+						className="flex flex-col gap-1.5 border-[length:var(--border-fluid)] border-black p-2 bg-muted/20"
 					>
 						{/* Header */}
 						<div className="flex flex-col">

@@ -91,3 +91,25 @@ Each floor block contains:
 - **Why a Crane & Magnet?** A crane lifting floors perfectly symbolizes "building a career." It is a positive, additive metaphor compared to games like Tetris that focus on deletion.
 - **Why Anti-Gravity?** Web users expect objects to fall down. Reversing gravity instantly captures attention because it feels unnatural and magical.
 - **Why the Sudden Fall?** The snap from anti-gravity suspension to a heavy, realistic downward free-fall is incredibly punchy. It makes the transition to the next page feel deliberate and action-oriented.
+
+---
+
+## 8. Implementation Workflow (Creative Developer Standard)
+
+1. **The Static Skeleton (Structure First)**
+   Build the entire component as a flawless, static React/HTML layout first using CSS Flexbox/Grid. Ensure it acts as a perfect visual fallback without any JavaScript.
+   
+2. **Asset Separation (Vector/WebGL Prep)**
+   Extract complex visual elements (e.g., the crane, magnet) into distinct, inline SVG nodes or 3D assets so they can be manipulated directly via code without triggering DOM layout recalculations.
+   
+3. **The Motion Boundary (The Puppeteer Layer)**
+   Wrap the elements that will move in animation containers (like \motion.div\). Establish basic lifecycle animations (mount/unmount fading) to define the boundaries of what is allowed to move.
+   
+4. **The Physics Engine (The Invisible World)**
+   Initialize a background physics engine (like \Rapier\ or \Matter.js\) separated from the DOM. Create invisible bodies that map to your HTML elements, running on a \equestAnimationFrame\ loop that syncs coordinate data to the visual layer.
+   
+5. **Choreography & Juice (Micro-Interactions)**
+   Layer in organic spring physics for transitions, sequence your animations with staggered delays, and bind subtle parallax or rotational forces to cursor/scroll tracking to make the component feel "alive."
+   
+6. **The Hardware & Accessibility Audit (Jank Control)**
+   Offload motion to the GPU by strictly animating only \	ransform\ and \opacity\ (avoiding layout thrashing). Wrap the engine in a \prefers-reduced-motion\ check to automatically downgrade to the static skeleton for accessibility compliance.

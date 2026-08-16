@@ -106,7 +106,7 @@ export default function GenieModal({
 						{/* Theater Video Body */}
 						<div className="p-4 bg-background flex flex-col gap-4 relative z-10 flex-grow h-[calc(100%-38px)] overflow-hidden">
 							{project.links.demo && (
-								<div className="w-full relative bg-black shadow-md border-[3px] border-border overflow-hidden flex-grow">
+								<div className="w-full relative bg-black border-[3px] border-border overflow-hidden flex-grow">
 									<motion.iframe
 										initial={{ opacity: 0 }}
 										animate={{ opacity: 1 }}

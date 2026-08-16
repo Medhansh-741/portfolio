@@ -2,56 +2,16 @@
 
 import { arc, motion } from "framer-motion";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { FiFolder } from "react-icons/fi";
 import { type Project, profile } from "@/app/data/profile";
 import GenieModal from "./GenieModal";
 import CardFooter from "./ui/CardFooter";
 import CardHeader from "./ui/CardHeader";
 import RetroCard from "./ui/RetroCard";
+import SharedVideoPreview from "./ui/SharedVideoPreview";
 
-interface VideoLoopProps {
-	src: string;
-	className?: string;
-}
 
-function VideoLoop({ src, className }: VideoLoopProps) {
-	const videoRef = useRef<HTMLVideoElement>(null);
-
-	useEffect(() => {
-		const video = videoRef.current;
-		if (!video) return;
-
-		// Force reloading the video asset source and playing cleanly on mount/update
-		video.load();
-		const playPromise = video.play();
-		if (playPromise !== undefined) {
-			playPromise.catch((err) => {
-				console.log("Video autoplay blocked or load failed:", err);
-			});
-		}
-	}, [src]);
-
-	return (
-		<video
-			ref={videoRef}
-			src={src}
-			loop
-			muted
-			playsInline
-			autoPlay
-			preload="auto"
-			onTimeUpdate={(e) => {
-				const video = e.currentTarget;
-				// Truncate loop to 8 seconds for a fast loading, lightweight preview
-				if (video.currentTime >= 8) {
-					video.currentTime = 0;
-				}
-			}}
-			className={className}
-		/>
-	);
-}
 
 interface ProjectsDrawerProps {
 	className?: string;
@@ -131,10 +91,10 @@ export default function ProjectsDrawer({
 											setActiveProject(proj);
 											setIsMaximized(false);
 										}}
-										className="w-full aspect-video relative overflow-hidden bg-border border-[3px] border-border shadow-md cursor-pointer hover:shadow-[3px_3px_0_0_var(--color-accent-secondary)] hover:-translate-x-[1px] hover:-translate-y-[1px] active:translate-x-0 active:translate-y-0 active:shadow-none transition-all duration-200 group"
+										className="w-full aspect-video relative overflow-hidden bg-border border-[3px] border-border cursor-pointer transition-all duration-200 group"
 									>
-										<VideoLoop
-											src={`/videos/${proj.title.toLowerCase() === "jansamadhan" ? "jansamadhan.mp4" : "nyayaai.mp4"}`}
+										<SharedVideoPreview
+											projectFileName={proj.title.toLowerCase() === "jansamadhan" ? "jansamadhan" : "nyayaai"}
 											className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
 										/>
 
@@ -143,7 +103,7 @@ export default function ProjectsDrawer({
 
 										{/* Hover expand indicator */}
 										<div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-200 z-20">
-											<span className="bg-background text-foreground border-[2px] border-border px-2 py-0.5 text-desktop-2xs font-black uppercase tracking-widest shadow-xs">
+											<span className="bg-background text-foreground border-[2px] border-border px-2 py-0.5 text-desktop-2xs font-black uppercase tracking-widest">
 												EXPAND MONITOR
 											</span>
 										</div>
