@@ -2,7 +2,7 @@
 
 import { arc, motion } from "framer-motion";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FiFolder } from "react-icons/fi";
 import { type Project, profile } from "@/app/data/profile";
 import GenieModal from "./GenieModal";
@@ -35,6 +35,30 @@ export default function ProjectsDrawer({
 		}
 		return "";
 	};
+
+	// OPTION B: Sync desktop GenieModal state with URL History API
+	useEffect(() => {
+		if (activeProject) {
+			const targetUrl = `/projects/${activeProject.title.toLowerCase()}`;
+			if (window.location.pathname !== targetUrl) {
+				window.history.pushState({ modal: activeProject.title }, "", targetUrl);
+			}
+		} else {
+			if (window.location.pathname.startsWith("/projects/")) {
+				window.history.pushState({}, "", "/projects");
+			}
+		}
+
+		const handlePopState = () => {
+			// If user presses back, close the modal
+			setActiveProject(null);
+			setTriggerRect(null);
+		};
+
+		window.addEventListener("popstate", handlePopState);
+		return () => window.removeEventListener("popstate", handlePopState);
+	}, [activeProject]);
+
 
 	return (
 		<>
