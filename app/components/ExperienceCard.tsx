@@ -90,7 +90,7 @@ export default function ExperienceCard({
 									<a
 										href={exp.offerLetter}
 										target="_blank"
-										rel="noreferrer"
+										rel="noopener noreferrer"
 										className="inline-block text-[length:var(--text-desktop-2xs)] font-black uppercase border-[length:var(--border-fluid)] border-black bg-[var(--color-accent-warning)] text-black px-2 py-1 shadow-sm hover:-translate-x-[var(--border-fluid)] hover:-translate-y-[var(--border-fluid)] hover:shadow active:translate-x-[calc(var(--border-fluid)*2)] active:translate-y-[calc(var(--border-fluid)*2)] active:shadow-none transition-all cursor-pointer"
 									>
 										Offer Letter
@@ -100,7 +100,7 @@ export default function ExperienceCard({
 									<a
 										href={exp.completionLetter}
 										target="_blank"
-										rel="noreferrer"
+										rel="noopener noreferrer"
 										className="inline-block text-[length:var(--text-desktop-2xs)] font-black uppercase border-[length:var(--border-fluid)] border-black bg-[var(--color-accent-secondary)] text-white px-2 py-1 shadow-sm hover:-translate-x-[var(--border-fluid)] hover:-translate-y-[var(--border-fluid)] hover:shadow active:translate-x-[calc(var(--border-fluid)*2)] active:translate-y-[calc(var(--border-fluid)*2)] active:shadow-none transition-all cursor-pointer"
 									>
 										Completion

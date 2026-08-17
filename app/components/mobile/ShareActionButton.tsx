@@ -23,6 +23,7 @@ export default function ShareActionButton({ url }: ShareActionButtonProps) {
 	return (
 		<button
 			onClick={handleShare}
+			aria-label="Share"
 			className="flex items-center justify-center min-w-11 min-h-11 text-foreground transition-all"
 			title="Share"
 		>
