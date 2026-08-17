@@ -14,7 +14,7 @@ export default function SharedVideoPreview({
 			loop
 			muted
 			playsInline
-			preload="auto"
+			preload="none"
 			poster={`/videos/${projectFileName}-poster.webp`}
 		>
 			{/* Load tiny WebM first if browser supports it */}

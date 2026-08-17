@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { FiExternalLink } from "react-icons/fi";
 import type { Project } from "@/app/data/profile";
+import { YouTubeEmbed } from '@next/third-parties/google';
 
 interface GenieModalProps {
 	isOpen: boolean;
@@ -107,16 +108,17 @@ export default function GenieModal({
 						<div className="p-4 bg-background flex flex-col gap-4 relative z-10 flex-grow h-[calc(100%-38px)] overflow-hidden">
 							{project.links.demo && (
 								<div className="w-full relative bg-black border-[3px] border-border overflow-hidden flex-grow">
-									<motion.iframe
+									<motion.div
 										initial={{ opacity: 0 }}
 										animate={{ opacity: 1 }}
 										transition={{ delay: 0.2, duration: 0.2 }}
-										src={`https://www.youtube.com/embed/${getYoutubeId(project.links.demo)}?autoplay=1&mute=0&loop=1&playlist=${getYoutubeId(project.links.demo)}`}
-										title={`${project.title} Demo Video`}
-										className="absolute inset-0 w-full h-full"
-										allow="autoplay; encrypted-media; picture-in-picture"
-										allowFullScreen
-									/>
+										className="absolute inset-0 w-full h-full flex items-center justify-center [&_lite-youtube]:!max-w-none [&_lite-youtube]:!w-full [&_lite-youtube]:!h-full"
+									>
+										<YouTubeEmbed 
+											videoid={getYoutubeId(project.links.demo)} 
+											params={`loop=1&playlist=${getYoutubeId(project.links.demo)}`} 
+										/>
+									</motion.div>
 								</div>
 							)}
 
