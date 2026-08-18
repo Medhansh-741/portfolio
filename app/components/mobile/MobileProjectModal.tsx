@@ -34,7 +34,10 @@ export default function MobileProjectModal({ project, allProjects }: MobileProje
 			<article className="w-full max-w-2xl h-full flex flex-col bg-background shadow-2xl relative pointer-events-auto overflow-y-auto overscroll-contain border-x-2 border-border [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
 				
 				{/* 1. Video Player */}
-				<figure className="w-full aspect-video bg-muted border-b-2 border-border shrink-0">
+				<figure 
+					className="w-full aspect-video bg-muted border-b-2 border-border shrink-0"
+					style={{ viewTransitionName: `project-video-${project.title.toLowerCase().replace(/\s+/g, '-')}` }}
+				>
 				{videoId ? (
 					<YouTubeEmbed videoid={videoId} params="rel=0" />
 				) : (
