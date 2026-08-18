@@ -5,6 +5,7 @@ import MobileExperienceCard from "./MobileExperienceCard";
 import MobileContributionGraph from "./MobileContributionGraph";
 import { Suspense } from "react";
 import { profile } from "@/app/data/profile";
+import CardStackEngine from "./CardStackEngine";
 
 export default function MobileHome() {
 	return (
@@ -22,18 +23,16 @@ export default function MobileHome() {
 					<MobileSkillStrip />
 				</div>
 
-				{/* Work: Playing-Card Stack (Static Phase 1 UI) */}
-				<div className="px-fluid-sm pt-fluid-lg pb-fluid-sm flex-1 flex flex-col gap-6">
-					{profile.projects.map(proj => (
-						<MobileProjectCard key={proj.title} project={proj} />
-					))}
-
-					{/* TEMPORARY EXPERIENCE RENDER */}
-					<div className="w-full h-px bg-border my-4" />
-					
-					{profile.experience.map((exp, idx) => (
-						<MobileExperienceCard key={`exp-${idx}`} experience={exp} />
-					))}
+				{/* Work: Playing-Card Stack (Engine Phase 2 UI) */}
+				<div className="px-fluid-sm pt-fluid-lg pb-fluid-sm flex-1 flex flex-col">
+					<CardStackEngine 
+						projectCards={profile.projects.map(proj => (
+							<MobileProjectCard key={proj.title} project={proj} />
+						))}
+						experienceCards={profile.experience.map((exp, idx) => (
+							<MobileExperienceCard key={`exp-${idx}`} experience={exp} />
+						))}
+					/>
 				</div>
 
 				{/* Proof: Contribution Graph */}

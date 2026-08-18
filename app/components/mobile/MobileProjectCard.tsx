@@ -15,7 +15,7 @@ const MOBILE_VIDEO_MAP: Record<string, string> = {
 
 export default function MobileProjectCard({ project }: MobileProjectCardProps) {
 	return (
-		<div className="w-11/12 max-w-sm mx-auto flex flex-col h-full bg-card border-2 border-border p-fluid-md gap-fluid-sm relative">
+		<div className="w-11/12 max-w-sm mx-auto flex flex-col justify-between aspect-[5/7] bg-card border border-border/50 rounded-xl shadow-[0_1px_3px_rgba(0,0,0,0.1),0_1px_2px_rgba(0,0,0,0.06)] p-fluid-md gap-fluid-sm relative">
 			{/* Card Header Equivalent */}
 			<div className="flex items-center gap-fluid-xs border-b-2 border-border pb-fluid-xs">
 				<FiFolder className="w-[1.5em] h-[1.5em] text-[var(--color-accent-secondary)]" />
@@ -35,7 +35,7 @@ export default function MobileProjectCard({ project }: MobileProjectCardProps) {
 			</div>
 
 			{/* Video Preview */}
-			<div className="w-full aspect-video bg-muted border-2 border-border overflow-hidden relative mt-fluid-xs">
+			<div className="w-full flex-1 min-h-0 bg-muted border-2 border-border overflow-hidden relative mt-fluid-xs">
 				<SharedVideoPreview
 					projectFileName={MOBILE_VIDEO_MAP[project.title.toLowerCase()] || project.title.toLowerCase()}
 					className="w-full h-full object-cover"
@@ -49,6 +49,7 @@ export default function MobileProjectCard({ project }: MobileProjectCardProps) {
 						href={project.links.github}
 						target="_blank"
 						rel="noopener noreferrer"
+						aria-label="View on GitHub"
 						className="flex items-center justify-center w-11 h-11 bg-background border-2 border-border shadow-[2px_2px_0_0_var(--color-border)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-150 text-foreground"
 					>
 						<FiGithub size="1.25rem" />
@@ -59,6 +60,7 @@ export default function MobileProjectCard({ project }: MobileProjectCardProps) {
 					<Link
 						href={`/projects/${project.title.toLowerCase()}`}
 						scroll={false}
+						aria-label="View Project Demo"
 						className="flex items-center justify-center w-11 h-11 bg-background border-2 border-border shadow-[2px_2px_0_0_var(--color-border)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-150 text-[var(--color-accent-warning)]"
 					>
 						<FiYoutube size="1.25rem" />
@@ -67,6 +69,7 @@ export default function MobileProjectCard({ project }: MobileProjectCardProps) {
 
 				<Link
 					href={`/projects#${project.title.toLowerCase()}`}
+					aria-label="View Project Details"
 					className="flex items-center justify-center w-11 h-11 ml-auto bg-background border-2 border-border shadow-[2px_2px_0_0_var(--color-border)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-150 text-foreground"
 				>
 					<FiArrowUpRight size="1.25rem" />

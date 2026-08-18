@@ -15,7 +15,7 @@ export default function MobileExperienceCard({ experience }: MobileExperienceCar
 	const buttonCount = 1 + (hasOffer ? 1 : 0) + (hasCompletion ? 1 : 0); // Always has "Details"
 
 	return (
-		<div className="w-11/12 max-w-sm mx-auto flex flex-col h-full bg-card border-2 border-border p-fluid-md gap-fluid-sm relative">
+		<div className="w-11/12 max-w-sm mx-auto flex flex-col justify-between aspect-[5/7] bg-card border border-border/50 rounded-xl shadow-[0_1px_3px_rgba(0,0,0,0.1),0_1px_2px_rgba(0,0,0,0.06)] p-fluid-md gap-fluid-sm relative">
 			{/* Card Header Equivalent */}
 			<div className="flex items-center gap-fluid-xs border-b-2 border-border pb-fluid-xs shrink-0">
 				<FiTerminal className="w-[1.5em] h-[1.5em] text-[var(--color-accent-warning)]" />
@@ -35,7 +35,7 @@ export default function MobileExperienceCard({ experience }: MobileExperienceCar
 			</div>
 
 			{/* Description */}
-			<p className="text-small text-foreground/80 leading-snug shrink-0 flex-1">
+			<p className="text-small text-foreground/80 leading-snug flex-1 min-h-0 overflow-y-auto overscroll-contain">
 				{experience.description}
 			</p>
 
@@ -46,6 +46,7 @@ export default function MobileExperienceCard({ experience }: MobileExperienceCar
 						href={experience.offerLetter}
 						target="_blank"
 						rel="noopener noreferrer"
+						aria-label="View Offer Letter"
 						className="flex items-center justify-center w-11 h-11 bg-background border-2 border-border shadow-[2px_2px_0_0_var(--color-border)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-150 text-foreground"
 					>
 						<FiFileText size="1.25rem" />
@@ -57,6 +58,7 @@ export default function MobileExperienceCard({ experience }: MobileExperienceCar
 						href={experience.completionLetter}
 						target="_blank"
 						rel="noopener noreferrer"
+						aria-label="View Completion Letter"
 						className="flex items-center justify-center w-11 h-11 bg-background border-2 border-border shadow-[2px_2px_0_0_var(--color-border)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-150 text-[var(--color-accent-warning)]"
 					>
 						<FiAward size="1.25rem" />
@@ -65,6 +67,7 @@ export default function MobileExperienceCard({ experience }: MobileExperienceCar
 
 				<Link
 					href="/experience"
+					aria-label="View Experience Details"
 					className="flex items-center justify-center w-11 h-11 ml-auto bg-background border-2 border-border shadow-[2px_2px_0_0_var(--color-border)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-150 text-foreground"
 				>
 					<FiArrowUpRight size="1.25rem" />
