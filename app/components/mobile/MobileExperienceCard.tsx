@@ -15,7 +15,7 @@ export default function MobileExperienceCard({ experience }: MobileExperienceCar
 	const buttonCount = 1 + (hasOffer ? 1 : 0) + (hasCompletion ? 1 : 0); // Always has "Details"
 
 	return (
-		<div className="w-11/12 max-w-sm mx-auto flex flex-col justify-between aspect-[5/7] bg-card border border-border/50 rounded-xl shadow-[0_1px_3px_rgba(0,0,0,0.1),0_1px_2px_rgba(0,0,0,0.06)] p-fluid-md gap-fluid-sm relative">
+		<div className="w-full h-full flex flex-col justify-between bg-card border border-border/50 rounded-xl shadow-[0_1px_3px_rgba(0,0,0,0.1),0_1px_2px_rgba(0,0,0,0.06)] p-fluid-md gap-fluid-sm relative">
 			{/* Card Header Equivalent */}
 			<div className="flex items-center gap-fluid-xs border-b-2 border-border pb-fluid-xs shrink-0">
 				<FiTerminal className="w-[1.5em] h-[1.5em] text-[var(--color-accent-warning)]" />

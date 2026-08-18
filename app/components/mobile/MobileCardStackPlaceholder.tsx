@@ -4,7 +4,7 @@ export default function MobileCardStackPlaceholder() {
 	return (
 		<div className="w-full flex flex-col items-center justify-center py-4">
 			{/* Container matching aspect ratio of a mobile card to ensure proper scalable height */}
-			<div className="relative w-full max-w-[22rem] aspect-[4/5] mx-auto">
+			<div className="relative w-11/12 max-w-sm aspect-[5/7] mx-auto">
 				{/* 3rd Card (Deepest) */}
 				<div
 					className="absolute top-0 left-0 w-full h-full bg-muted border-[3px] border-border shadow-md rounded-[2px]"
