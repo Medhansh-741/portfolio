@@ -1,6 +1,6 @@
 interface CardFooterProps {
 	left: string;
-	right: string;
+	right: React.ReactNode;
 }
 
 export default function CardFooter({ left, right }: CardFooterProps) {
