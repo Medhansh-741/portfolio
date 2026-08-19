@@ -1,6 +1,7 @@
 import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
 import { Inter, Pirata_One, Playfair_Display } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import MobileHeader from "./components/mobile/MobileHeader";
@@ -23,6 +24,24 @@ const pirataOne = Pirata_One({
 	variable: "--font-pirata",
 });
 
+const dseg7 = localFont({
+	src: [
+		{ path: "../public/fonts/DSEG7Classic-Regular.woff2", weight: "400", style: "normal" },
+		{ path: "../public/fonts/DSEG7Classic-Bold.woff2", weight: "700", style: "normal" },
+	],
+	variable: "--font-dseg7",
+	display: "block",
+});
+
+const dseg14 = localFont({
+	src: [
+		{ path: "../public/fonts/DSEG14Classic-Regular.woff2", weight: "400", style: "normal" },
+		{ path: "../public/fonts/DSEG14Classic-Bold.woff2", weight: "700", style: "normal" },
+	],
+	variable: "--font-dseg14",
+	display: "block",
+});
+
 export const metadata: Metadata = {
 	title: "Medhansh Kapoor",
 	description:
@@ -39,12 +58,10 @@ export default function RootLayout({
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<body
-				className={`${inter.variable} ${playfair.variable} ${pirataOne.variable} antialiased bg-background text-foreground font-sans`}
+				className={`${inter.variable} ${playfair.variable} ${pirataOne.variable} ${dseg7.variable} ${dseg14.variable} antialiased bg-background text-foreground font-sans`}
 			>
 				<link rel="preconnect" href="https://medhanshk.me" />
 				<link rel="dns-prefetch" href="https://medhanshk.me" />
-				<link rel="preload" href="/fonts/DSEG7Classic-Bold.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
-				<link rel="preload" href="/fonts/DSEG7Classic-Regular.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
 				<ThemeProvider>
 					<div className="min-h-dvh flex flex-col">
 						<Navbar />

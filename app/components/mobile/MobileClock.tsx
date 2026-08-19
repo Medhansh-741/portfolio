@@ -43,7 +43,9 @@ function MobileClockSkeleton() {
 	return (
 		<div className="filter drop-shadow-[2px_2px_0px_#000000] dark:drop-shadow-[2px_2px_0px_rgba(0,243,166,0.25)] select-none shrink-0">
 			<div className="bg-border dark:bg-[#00f3a6]/35 p-[1.5px] [clip-path:polygon(6px_0%,calc(100%-6px)_0%,100%_6px,100%_calc(100%-6px),calc(100%-6px)_100%,6px_100%,0%_calc(100%-6px),0%_6px)] flex items-center justify-center">
-				<div className="bg-[#cad3c8] dark:bg-[#08120f] [clip-path:polygon(6px_0%,calc(100%-6px)_0%,100%_6px,100%_calc(100%-6px),calc(100%-6px)_100%,6px_100%,0%_calc(100%-6px),0%_6px)] w-clock aspect-[16/7] animate-pulse" />
+				<div className="bg-[#cad3c8] dark:bg-[#08120f] [clip-path:polygon(6px_0%,calc(100%-6px)_0%,100%_6px,100%_calc(100%-6px),calc(100%-6px)_100%,6px_100%,0%_calc(100%-6px),0%_6px)] w-clock aspect-[16/7] animate-pulse relative">
+					<span className="font-digital opacity-0 text-[0px] absolute inset-0 pointer-events-none">88:88</span>
+				</div>
 			</div>
 		</div>
 	);

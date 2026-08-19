@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { flushSync } from "react-dom";
 import { useSprings, animated } from "@react-spring/web";
 import { useDrag } from "@use-gesture/react";
 import { CardDeckContext } from "./CardDeckVideo";
@@ -22,7 +23,12 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 	const activeCards = activeDeckType === "projects" ? projectCards : experienceCards;
 	const inactiveCards = activeDeckType === "projects" ? experienceCards : projectCards;
 
-	const [offset, setOffset] = useState(0);
+	const [projectOffset, setProjectOffset] = useState(0);
+	const [experienceOffset, setExperienceOffset] = useState(0);
+
+	const activeOffset = activeDeckType === "projects" ? projectOffset : experienceOffset;
+	const inactiveOffset = activeDeckType === "projects" ? experienceOffset : projectOffset;
+
 	const [dragDirection, setDragDirection] = useState<"next" | "prev">("next");
 
 	// Tracks the physical DOM nodes mapped to their current depth slot (0 is front, 4 is back)
@@ -60,7 +66,8 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 			return;
 		}
 
-		setOffset(0);
+		setProjectOffset(0);
+		setExperienceOffset(0);
 		setDragDirection("next");
 		orderRef.current = [0, 1, 2, 3, 4];
 		api.start(i => {
@@ -77,6 +84,7 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 	}, [activeDeckType, api]);
 
 	const bind = useDrag(({ args: [index], active, movement: [mx, my], velocity: [vx, vy], initial: [ix, iy], first }) => {
+		if (isVerticalSwapRef.current) return;
 		const pos = orderRef.current.indexOf(index);
 		if (pos !== 0) return; // Only allow grabbing the top card
 
@@ -118,11 +126,12 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 					});
 					await Promise.all(Array.isArray(outPromises) ? outPromises : [outPromises]);
 
-					// 2. Trigger React State Swap
-					isVerticalSwapRef.current = true;
-					setActiveDeckType(prev => prev === "projects" ? "experience" : "projects");
-					setOffset(0);
-					orderRef.current = [0, 1, 2, 3, 4]; // Reset logical array
+					// 2. Trigger React State Swap synchronously to prevent 1-frame teleport flicker
+					flushSync(() => {
+						isVerticalSwapRef.current = true;
+						setActiveDeckType(prev => prev === "projects" ? "experience" : "projects");
+						orderRef.current = [0, 1, 2, 3, 4]; // Reset logical array
+					});
 					
 					// 3. Teleport new deck perfectly to the exact resting state of the passive deck
 					// We use scale 1.0 so there is no visual bouncing or shrinking when it takes focus. It is perfectly seamless!
@@ -202,7 +211,11 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 							newOrder.push(shifted);
 							orderRef.current = newOrder;
 
-							setOffset(prev => prev + (isNext ? 1 : -1));
+							if (activeDeckType === "projects") {
+								setProjectOffset(prev => prev + (isNext ? 1 : -1));
+							} else {
+								setExperienceOffset(prev => prev + (isNext ? 1 : -1));
+							}
 							setDragDirection("next");
 
 							api.start(j => {
@@ -280,9 +293,7 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 			
 			{/* The Ghost Element: Holds container open securely */}
 			{activeCards.length > 0 && (
-				<div className={`relative invisible pointer-events-none opacity-0 ${ENGINE_SHAPE_CLASSES}`}>
-					{activeCards[0]}
-				</div>
+				<div className={`relative invisible pointer-events-none opacity-0 ${ENGINE_SHAPE_CLASSES}`} />
 			)}
 
 			{/* The Shadow Plate */}
@@ -296,7 +307,10 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 			{/* Rendered physically behind the active deck so when you pull up, you see the actual new deck waiting beneath! */}
 			{inactiveCards.length > 0 && (
 				<div className="absolute inset-0 origin-center pointer-events-none" style={{ zIndex: 0 }}>
-					{inactiveCards.slice(0, 5).map((card, index) => {
+					{[0, 1, 2, 3, 4].map((index) => {
+						const dataIndex = inactiveOffset + index;
+						const card = getCardData(dataIndex, inactiveCards);
+						if (!card) return null;
 						return (
 							<div
 								key={`inactive-${index}`}
@@ -323,7 +337,7 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 				const isTop = positionInStack === 0;
 
 				const dirMult = dragDirection === "prev" ? -1 : 1;
-				const dataIndex = offset + (positionInStack * dirMult);
+				const dataIndex = activeOffset + (positionInStack * dirMult);
 				const cardData = getCardData(dataIndex, activeCards);
 
 				if (!cardData) return null;

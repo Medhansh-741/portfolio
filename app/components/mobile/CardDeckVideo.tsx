@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect, useRef } from "react";
 
 export const CardDeckContext = createContext({ isTop: true });
 
@@ -25,10 +25,36 @@ export default function CardDeckVideo({ projectFileName, className = "" }: CardD
 		);
 	}
 
+	const videoRef = useRef<HTMLVideoElement>(null);
+
+	useEffect(() => {
+		const video = videoRef.current;
+		if (!video) return;
+
+		const observer = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) {
+						// Only play when intersecting to prevent blocking initial page load
+						video.play().catch((err) => {
+							console.warn("Autoplay prevented by browser:", err);
+						});
+					} else {
+						video.pause();
+					}
+				});
+			},
+			{ threshold: 0.1 }
+		);
+
+		observer.observe(video);
+		return () => observer.disconnect();
+	}, []);
+
 	return (
 		<video
+			ref={videoRef}
 			className={`object-cover ${className}`}
-			autoPlay
 			loop
 			muted
 			playsInline
