@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { useSprings, animated } from "@react-spring/web";
 import { useDrag } from "@use-gesture/react";
 import { CardDeckContext } from "./CardDeckVideo";
@@ -22,8 +22,15 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 	const activeCards = activeDeckType === "projects" ? projectCards : experienceCards;
 	const inactiveCards = activeDeckType === "projects" ? experienceCards : projectCards;
 
-	const [offset, setOffset] = useState(0);
-	const [dragDirection, setDragDirection] = useState<"next" | "prev">("next");
+	type DeckCursor = { offset: number; direction: "next" | "prev" };
+	const [cursors, setCursors] = useState<Record<"projects" | "experience", DeckCursor>>({
+		projects: { offset: 0, direction: "next" },
+		experience: { offset: 0, direction: "next" },
+	});
+	const { offset, direction: dragDirection } = cursors[activeDeckType];
+
+	const patchActiveCursor = (fn: (c: DeckCursor) => DeckCursor) =>
+		setCursors(prev => ({ ...prev, [activeDeckType]: fn(prev[activeDeckType]) }));
 
 	// Tracks the physical DOM nodes mapped to their current depth slot (0 is front, 4 is back)
 	const orderRef = useRef([0, 1, 2, 3, 4]);
@@ -31,8 +38,7 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 	// Lock gesture intent so dragging diagonally doesn't jitter
 	const intentRef = useRef<"horizontal" | "vertical" | null>(null);
 
-	// Flag to suppress the useEffect reset during our custom 3D swap animation
-	const isVerticalSwapRef = useRef(false);
+
 
 	// Resolves the exact data to render for a given virtual index, wrapping around the array infinitely
 	const getCardData = (dataIndex: number, deck: React.ReactNode[]) => {
@@ -53,28 +59,7 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 		};
 	});
 
-	// Hard Reset when switching between Projects/Experience decks manually
-	useEffect(() => {
-		if (isVerticalSwapRef.current) {
-			isVerticalSwapRef.current = false;
-			return;
-		}
 
-		setOffset(0);
-		setDragDirection("next");
-		orderRef.current = [0, 1, 2, 3, 4];
-		api.start(i => {
-			const pos = orderRef.current.indexOf(i);
-			return {
-				x: 0, y: 0, rotY: 0,
-				scale: 1,
-				rotZ: STATIC_ROTATIONS[pos],
-				opacity: 1,
-				zIndex: NUM_PHYSICAL_CARDS - pos,
-				immediate: true
-			};
-		});
-	}, [activeDeckType, api]);
 
 	const bind = useDrag(({ args: [index], active, movement: [mx, my], velocity: [vx, vy], initial: [ix, iy], first }) => {
 		const pos = orderRef.current.indexOf(index);
@@ -118,15 +103,16 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 					await Promise.all(Array.isArray(outPromises) ? outPromises : [outPromises]);
 
 					// 2. Trigger React State Swap
-					isVerticalSwapRef.current = true;
 					setActiveDeckType(prev => prev === "projects" ? "experience" : "projects");
-					setOffset(0);
 					orderRef.current = [0, 1, 2, 3, 4]; // Reset logical array
 					
 					// 3. Teleport new deck perfectly to the exact resting state of the passive deck
 					// We use scale 1.0 so there is no visual bouncing or shrinking when it takes focus. It is perfectly seamless!
 					api.start(j => ({
-						y: 0, rotZ: STATIC_ROTATIONS[j], scale: 1, opacity: 1,
+						x: 0, y: 0, rotY: 0,
+						rotZ: STATIC_ROTATIONS[j], 
+						scale: 1, opacity: 1,
+						zIndex: NUM_PHYSICAL_CARDS - j,
 						immediate: true
 					}));
 				};
@@ -173,7 +159,7 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 		if (active) {
 			const currentDir = mx < 0 ? "prev" : "next";
 			if (dragDirection !== currentDir) {
-				setDragDirection(currentDir);
+				patchActiveCursor(c => ({ ...c, direction: currentDir }));
 			}
 		}
 
@@ -201,8 +187,7 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 							newOrder.push(shifted);
 							orderRef.current = newOrder;
 
-							setOffset(prev => prev + (isNext ? 1 : -1));
-							setDragDirection("next");
+							patchActiveCursor(c => ({ offset: c.offset + (isNext ? 1 : -1), direction: "next" }));
 
 							api.start(j => {
 								const newPos = orderRef.current.indexOf(j);
