@@ -21,6 +21,7 @@ export default function CardDeckVideo({ projectFileName, className = "" }: CardD
 				fill
 				sizes="(max-width: 640px) 100vw, 24rem"
 				className={`object-cover ${className}`}
+				loading="eager"
 			/>
 		);
 	}
