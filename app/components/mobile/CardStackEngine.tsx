@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useSprings, animated } from "@react-spring/web";
 import { useDrag } from "@use-gesture/react";
+import { CardDeckContext } from "./CardDeckVideo";
 
 interface CardStackEngineProps {
 	projectCards: React.ReactNode[];
@@ -136,19 +137,32 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 				return;
 			}
 
-			// Interactive Scrubbing or Rejection Fallback
-			api.start(i => {
-				const currentPos = orderRef.current.indexOf(i);
-
-				return {
-					y: active ? my : 0, 
-					rotZ: STATIC_ROTATIONS[currentPos], // Keep the deck perfectly messy during the slide
-					scale: active ? currentScale : 1, 
-					opacity: 1, // Always fully visible during drag
-					rotY: 0, x: 0, 
-					config: { tension: active ? 1200 : 500, friction: active ? 80 : 50 } 
-				};
-			});
+			// Interactive scrubbing: imperative set (no spring re-solve per frame)
+			if (active) {
+				api.set(i => {
+					const currentPos = orderRef.current.indexOf(i);
+					return {
+						y: my,
+						rotZ: STATIC_ROTATIONS[currentPos],
+						scale: currentScale,
+						opacity: 1,
+						rotY: 0, x: 0,
+					};
+				});
+			} else {
+				// Released without completing the swipe — spring back to rest
+				api.start(i => {
+					const currentPos = orderRef.current.indexOf(i);
+					return {
+						y: 0,
+						rotZ: STATIC_ROTATIONS[currentPos],
+						scale: 1,
+						opacity: 1,
+						rotY: 0, x: 0,
+						config: { tension: 500, friction: 50 },
+					};
+				});
+			}
 			
 			if (!active) intentRef.current = null;
 			return; 
@@ -220,38 +234,43 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 			return;
 		}
 
-		// Interactive Dragging State (Horizontal)
-		api.start(i => {
-			const currentPos = orderRef.current.indexOf(i);
+		// Interactive dragging: imperative set (no spring re-solve per frame)
+		if (active) {
+			api.set(i => {
+				const currentPos = orderRef.current.indexOf(i);
 
-			if (currentPos === 0) {
-				return {
-					x: active ? mx : 0,
-					y: active ? Math.abs(mx) * 0.1 : 0, 
-					rotZ: active ? (mx / 20) * pivotFactor : 0,
-					rotY: 0, 
-					scale: active ? 1.02 : 1, 
-					config: { friction: 50, tension: active ? 800 : 500 } 
-				};
-			}
+				if (currentPos === 0) {
+					return {
+						x: mx,
+						y: Math.abs(mx) * 0.1,
+						rotZ: (mx / 20) * pivotFactor,
+						rotY: 0,
+						scale: 1.02,
+					};
+				}
 
-			if (active && currentPos < 3) {
+				if (currentPos < 3) {
+					return {
+						rotZ: STATIC_ROTATIONS[currentPos] + (mx / 300),
+						scale: 1,
+					};
+				}
+				return {};
+			});
+		} else {
+			// Released — spring back to rest
+			api.start(i => {
+				const currentPos = orderRef.current.indexOf(i);
 				return {
-					rotZ: STATIC_ROTATIONS[currentPos] + (mx / 300),
-					scale: 1, 
-					config: { friction: 50, tension: 800 }
-				};
-			}
-
-			if (!active) {
-				return {
+					x: 0,
+					y: 0,
 					rotZ: STATIC_ROTATIONS[currentPos],
-					scale: 1, 
-					config: { friction: 50, tension: 500 }
+					rotY: 0,
+					scale: 1,
+					config: { friction: 50, tension: 500 },
 				};
-			}
-			return {};
-		});
+			});
+		}
 		
 		if (!active) intentRef.current = null;
 	}, { filterTaps: true }); // Capture both axes
@@ -287,9 +306,11 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 									zIndex: NUM_PHYSICAL_CARDS - index 
 								}}
 							>
-								<div className="w-full h-full pointer-events-none overflow-hidden rounded-xl">
-									{card}
-								</div>
+								<CardDeckContext.Provider value={{ isTop: false }}>
+									<div className="w-full h-full pointer-events-none overflow-hidden rounded-xl">
+										{card}
+									</div>
+								</CardDeckContext.Provider>
 							</div>
 						);
 					})}
@@ -322,9 +343,11 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 							transformStyle: "preserve-3d"
 						}}
 					>
-						<div className="relative w-full h-full pointer-events-none [&_a]:pointer-events-auto [&_button]:pointer-events-auto overflow-hidden rounded-xl">
-							{cardData}
-						</div>
+						<CardDeckContext.Provider value={{ isTop }}>
+							<div className="relative w-full h-full pointer-events-none [&_a]:pointer-events-auto [&_button]:pointer-events-auto overflow-hidden rounded-xl">
+								{cardData}
+							</div>
+						</CardDeckContext.Provider>
 					</animated.div>
 				);
 			})}

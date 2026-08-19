@@ -43,6 +43,8 @@ export default function RootLayout({
 			>
 				<link rel="preconnect" href="https://medhanshk.me" />
 				<link rel="dns-prefetch" href="https://medhanshk.me" />
+				<link rel="preload" href="/fonts/DSEG7Classic-Bold.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+				<link rel="preload" href="/fonts/DSEG7Classic-Regular.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
 				<ThemeProvider>
 					<div className="min-h-dvh flex flex-col">
 						<Navbar />
