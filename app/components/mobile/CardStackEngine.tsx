@@ -28,6 +28,8 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 		experience: { offset: 0, direction: "next" },
 	});
 	const { offset, direction: dragDirection } = cursors[activeDeckType];
+	const inactiveDeckType = activeDeckType === "projects" ? "experience" : "projects";
+	const inactiveCursor = cursors[inactiveDeckType];
 
 	const patchActiveCursor = (fn: (c: DeckCursor) => DeckCursor) =>
 		setCursors(prev => ({ ...prev, [activeDeckType]: fn(prev[activeDeckType]) }));
@@ -61,13 +63,17 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 
 
 
-	const bind = useDrag(({ args: [index], active, movement: [mx, my], velocity: [vx, vy], initial: [ix, iy], first }) => {
+	const bind = useDrag(({ args: [index], active, movement: [mx, my], velocity: [vx], initial: [, iy] }) => {
 		const pos = orderRef.current.indexOf(index);
 		if (pos !== 0) return; // Only allow grabbing the top card
 
-		// Lock gesture intent instantly to prevent glitching between slide and throw
-		if (first) {
-			intentRef.current = Math.abs(mx) > Math.abs(my) ? "horizontal" : "vertical";
+		// Lock gesture intent once there's enough movement to know the dominant axis
+		if (intentRef.current === null) {
+			if (Math.abs(mx) > 4 || Math.abs(my) > 4) {
+				intentRef.current = Math.abs(mx) > Math.abs(my) ? "horizontal" : "vertical";
+			} else {
+				return; // not enough movement yet — wait for a clearer signal
+			}
 		}
 		
 		const isVertical = intentRef.current === "vertical";
@@ -264,9 +270,7 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 			
 			{/* The Ghost Element: Holds container open securely */}
 			{activeCards.length > 0 && (
-				<div className={`relative invisible pointer-events-none opacity-0 ${ENGINE_SHAPE_CLASSES}`}>
-					{activeCards[0]}
-				</div>
+				<div className={`relative invisible pointer-events-none opacity-0 ${ENGINE_SHAPE_CLASSES}`} />
 			)}
 
 			{/* The Shadow Plate */}
@@ -280,14 +284,17 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 			{/* Rendered physically behind the active deck so when you pull up, you see the actual new deck waiting beneath! */}
 			{inactiveCards.length > 0 && (
 				<div className="absolute inset-0 origin-center pointer-events-none" style={{ zIndex: 0 }}>
-					{inactiveCards.slice(0, 5).map((card, index) => {
+					{Array.from({ length: NUM_PHYSICAL_CARDS }, (_, positionInStack) => {
+						const dataIndex = inactiveCursor.offset + (positionInStack * (inactiveCursor.direction === "prev" ? -1 : 1));
+						const card = getCardData(dataIndex, inactiveCards);
+						if (!card) return null;
 						return (
 							<div
-								key={`inactive-${index}`}
+								key={`inactive-${positionInStack}`}
 								className={`absolute top-0 left-0 right-0 mx-auto origin-center ${ENGINE_SHAPE_CLASSES}`}
-								style={{ 
-									transform: `rotateZ(${STATIC_ROTATIONS[index]}deg)`,
-									zIndex: NUM_PHYSICAL_CARDS - index 
+								style={{
+									transform: `rotateZ(${STATIC_ROTATIONS[positionInStack]}deg)`,
+									zIndex: NUM_PHYSICAL_CARDS - positionInStack
 								}}
 							>
 								<CardDeckContext.Provider value={{ isTop: false }}>
