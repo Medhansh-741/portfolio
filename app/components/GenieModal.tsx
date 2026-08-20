@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { FiExternalLink } from "react-icons/fi";
 import type { Project } from "@/app/data/profile";
-import { YouTubeEmbed } from '@next/third-parties/google';
+import SharedVideoPreview from "./ui/SharedVideoPreview";
 
 interface GenieModalProps {
 	isOpen: boolean;
@@ -32,14 +32,6 @@ export default function GenieModal({
 	}, []);
 
 	if (!mounted) return null;
-
-	// Helper to extract YouTube ID
-	const getYoutubeId = (url: string) => {
-		if (url.includes("youtu.be/")) {
-			return url.split("youtu.be/")[1];
-		}
-		return "";
-	};
 
 	// Compute pixel dimensions dynamically for smooth number-to-number transitions
 	const normalWidth = Math.min(window.innerWidth - 32, 1024);
@@ -112,11 +104,11 @@ export default function GenieModal({
 										initial={{ opacity: 0 }}
 										animate={{ opacity: 1 }}
 										transition={{ delay: 0.2, duration: 0.2 }}
-										className="absolute inset-0 w-full h-full flex items-center justify-center [&_lite-youtube]:!max-w-none [&_lite-youtube]:!w-full [&_lite-youtube]:!h-full"
+										className="absolute inset-0 w-full h-full flex items-center justify-center"
 									>
-										<YouTubeEmbed 
-											videoid={getYoutubeId(project.links.demo)} 
-											params={`loop=1&playlist=${getYoutubeId(project.links.demo)}`} 
+										<SharedVideoPreview
+											projectFileName={project.title.toLowerCase().replace(/\s+/g, '')}
+											className="w-full h-full object-cover"
 										/>
 									</motion.div>
 								</div>
