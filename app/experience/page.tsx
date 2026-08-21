@@ -27,7 +27,7 @@ export default function ExperiencePage() {
 					<p className="text-xs text-accent font-bold uppercase tracking-widest">
 						Where I&apos;ve Worked
 					</p>
-					<h1 className="font-sans text-4xl md:text-5xl font-black text-foreground uppercase tracking-tight">
+					<h1 className="font-sans text-4xl xl:text-5xl font-black text-foreground uppercase tracking-tight">
 						Experience
 					</h1>
 				</div>
@@ -41,9 +41,9 @@ export default function ExperiencePage() {
 							animate="show"
 							custom={i}
 							whileHover={{ y: -3 }}
-							className="bg-card text-card-foreground border-[3px] border-border shadow-md p-6 md:p-8 cursor-default"
+							className="bg-card text-card-foreground border-[3px] border-border shadow-md p-6 xl:p-8 cursor-default"
 						>
-							<div className="flex flex-col md:flex-row md:items-start md:justify-between gap-2 mb-4">
+							<div className="flex flex-col xl:flex-row xl:items-start xl:justify-between gap-2 mb-4">
 								<div>
 									<h2 className="font-sans text-xl font-bold text-foreground uppercase">
 										{exp.company}

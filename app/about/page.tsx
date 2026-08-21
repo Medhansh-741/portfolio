@@ -11,35 +11,11 @@ export default function AboutPage() {
 				<section className="mb-16">
 					<div className="text-center space-y-2 mb-8">
 						<p className="text-xs text-accent font-bold uppercase tracking-widest">
-							About Me
-						</p>
-						<h1 className="font-sans text-4xl md:text-5xl font-black text-foreground uppercase tracking-tight">
-							Driven by code, obsessed with craft.
-						</h1>
-					</div>
-					<div className="space-y-4 max-w-3xl mx-auto">
-						{profile.about.map((para, i) => (
-							<motion.p
-								key={i}
-								initial={{ opacity: 0, y: 16 }}
-								animate={{ opacity: 1, y: 0 }}
-								transition={{ delay: i * 0.2 }}
-								className="text-sm text-muted-foreground leading-relaxed text-center"
-							>
-								{para}
-							</motion.p>
-						))}
-					</div>
-				</section>
-
-				<section className="mb-16">
-					<div className="text-center space-y-2 mb-8">
-						<p className="text-xs text-accent font-bold uppercase tracking-widest">
 							Recognition
 						</p>
-						<h2 className="font-sans text-4xl md:text-5xl font-black text-foreground uppercase tracking-tight">
+						<h1 className="font-sans text-4xl xl:text-5xl font-black text-foreground uppercase tracking-tight">
 							Achievements
-						</h2>
+						</h1>
 					</div>
 					<div className="space-y-6">
 						{profile.achievements.map((ach, i) => (
@@ -79,7 +55,7 @@ export default function AboutPage() {
 						<p className="text-xs text-accent font-bold uppercase tracking-widest">
 							Academic Background
 						</p>
-						<h2 className="font-sans text-4xl md:text-5xl font-black text-foreground uppercase tracking-tight">
+						<h2 className="font-sans text-4xl xl:text-5xl font-black text-foreground uppercase tracking-tight">
 							Education
 						</h2>
 					</div>

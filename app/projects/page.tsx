@@ -22,17 +22,17 @@ const stagger = {
 export default function ProjectsPage() {
 	return (
 		<main className="flex-1 bg-background overflow-x-clip">
-			<div className="w-full max-w-2xl xl:max-w-6xl mx-auto px-6 pt-16 pb-[calc(var(--spacing-fluid-xl)+var(--spacing-fluid-md)+2.75rem)] xl:pb-16 border-x-[3px] xl:border-x-0 border-border grow flex flex-col">
+			<div className="w-full max-w-2xl xl:max-w-4xl mx-auto px-6 pt-16 pb-[calc(var(--spacing-fluid-xl)+var(--spacing-fluid-md)+2.75rem)] xl:pb-16 border-x-[3px] xl:border-x-0 border-border grow flex flex-col">
 				<div className="text-center space-y-2 mb-12">
 					<p className="text-xs text-accent font-bold uppercase tracking-widest">
 						What I&apos;ve Built
 					</p>
-					<h1 className="font-sans text-4xl md:text-5xl font-black text-foreground uppercase tracking-tight">
+					<h1 className="font-sans text-4xl xl:text-5xl font-black text-foreground uppercase tracking-tight">
 						Projects
 					</h1>
 				</div>
 
-				<div className="flex flex-col xl:grid xl:grid-cols-2 gap-8">
+				<div className="space-y-8">
 					{profile.projects.map((proj, i) => (
 						<motion.div
 							key={proj.title}
@@ -41,31 +41,30 @@ export default function ProjectsPage() {
 							animate="show"
 							custom={i}
 							whileHover={{ y: -5 }}
-							className="bg-card text-card-foreground border-[3px] border-border shadow-md p-6 md:p-8 flex flex-col cursor-default"
+							className="bg-card text-card-foreground border-[3px] border-border shadow-md p-6 xl:p-8 flex flex-col cursor-default"
 						>
-							<div className="mb-4">
-								<h2 className="font-sans text-xl font-bold text-foreground uppercase">
-									{proj.title}
-								</h2>
-								<p className="text-xs font-bold text-muted-foreground uppercase tracking-wider mt-0.5">
-									{proj.subtitle}
-								</p>
-								<span className="text-[10px] text-muted-foreground font-semibold uppercase tracking-wider">
-									{proj.period}
-								</span>
+							<div className="flex flex-col xl:flex-row xl:items-start xl:justify-between gap-2 mb-4">
+								<div>
+									<h2 className="font-sans text-xl font-bold text-foreground uppercase">
+										{proj.title}
+									</h2>
+									<p className="text-xs font-bold text-muted-foreground uppercase tracking-wider mt-0.5">
+										{proj.subtitle}
+									</p>
+								</div>
+								<div className="flex items-center gap-3 text-[10px] font-bold text-muted-foreground uppercase tracking-wider whitespace-nowrap">
+									<span>{proj.period}</span>
+									{proj.metrics && (
+										<span className="text-[10px] font-bold uppercase tracking-widest bg-accent-warning text-black px-2 py-1">
+											{proj.metrics}
+										</span>
+									)}
+								</div>
 							</div>
 
-							<p className="text-sm text-muted-foreground mb-4 leading-relaxed">
+							<p className="text-sm text-muted-foreground mb-4 leading-relaxed italic">
 								{proj.description}
 							</p>
-
-							{proj.metrics && (
-								<div className="mb-4">
-									<span className="text-[10px] font-bold uppercase tracking-widest bg-accent-warning text-black px-2 py-1">
-										{proj.metrics}
-									</span>
-								</div>
-							)}
 
 							<div className="flex flex-wrap gap-2 mb-4">
 								{proj.tech.map((t) => (
