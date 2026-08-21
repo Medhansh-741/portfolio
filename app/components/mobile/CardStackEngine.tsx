@@ -82,8 +82,9 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 				const angle = maxAngle - (currentPos * SPREAD_ANGLE);
 				const rad = angle * (Math.PI / 180);
 
-				const Px = -150;
-				const Py = 200;
+				const cardWidth = Math.min(window.innerWidth * 0.916, 384);
+				const Px = -(cardWidth * 0.45);
+				const Py = cardWidth * 0.6;
 				const dx = Px - (Px * Math.cos(rad) - Py * Math.sin(rad));
 				const dy = Py - (Px * Math.sin(rad) + Py * Math.cos(rad));
 
@@ -194,7 +195,7 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 			// Removed deck-wide scale computation (flicker fix)
 
 			// Release Check (Bi-directional support)
-			const isSwipeComplete = !active && dragDistance > 150;
+			const isSwipeComplete = !active && dragDistance > window.innerHeight * 0.18;
 
 			if (isSwipeComplete) {
 				const runLayerSwap = async () => {
@@ -202,7 +203,7 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 					const outPromises = api.start(i => {
 						const currentPos = orderRef.current.indexOf(i);
 						return {
-							y: 800 * (isDown ? 1 : -1),
+							y: window.innerHeight * 1.2 * (isDown ? 1 : -1),
 							opacity: 0,
 							rotZ: STATIC_ROTATIONS[currentPos], // Keep it wonderfully messy as it flies away!
 							scale: 1.05,
@@ -272,7 +273,8 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 			}
 		}
 
-		const isSwipe = !active && (vx > 0.5 || Math.abs(mx) > 100);
+		const cardWidth = Math.min(window.innerWidth * 0.916, 384);
+		const isSwipe = !active && (vx > 0.5 || Math.abs(mx) > cardWidth * 0.3);
 
 		if (isSwipe) {
 			const dir = mx < 0 ? -1 : 1;
@@ -283,8 +285,8 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 
 				if (currentPos === 0) {
 					return {
-						x: 250 * dir, 
-						y: Math.abs(mx) * 0.2 + 100, 
+						x: cardWidth * 0.8 * dir, 
+						y: Math.abs(mx) * 0.2 + (cardWidth * 0.3), 
 						rotZ: (mx / 10) * pivotFactor + (dir * 20 * vx),
 						rotY: dir * 60 * vx, 
 						scale: 0.5, 
