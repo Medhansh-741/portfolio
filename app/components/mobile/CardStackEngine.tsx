@@ -17,10 +17,18 @@ const NUM_PHYSICAL_CARDS = 5;
 const STATIC_ROTATIONS = [0, 2, 1, 0, 0];
 
 export default function CardStackEngine({ projectCards, experienceCards }: CardStackEngineProps) {
-	const [activeDeckType, setActiveDeckType] = useState<"projects" | "experience">("projects");
+	const DECKS = [
+		{ id: "projects" as const, cards: projectCards },
+		{ id: "experience" as const, cards: experienceCards }
+	];
+	const [activeDeckIndex, setActiveDeckIndex] = useState(0);
 	
-	const activeCards = activeDeckType === "projects" ? projectCards : experienceCards;
-	const inactiveCards = activeDeckType === "projects" ? experienceCards : projectCards;
+	const activeDeckType = DECKS[activeDeckIndex].id;
+	const activeCards = DECKS[activeDeckIndex].cards;
+	
+	const inactiveDeckIndex = 1 - activeDeckIndex; // Strictly for 2 decks (peep effect)
+	const inactiveDeckType = DECKS[inactiveDeckIndex].id;
+	const inactiveCards = DECKS[inactiveDeckIndex].cards;
 
 	type DeckCursor = { offset: number; direction: "next" | "prev" };
 	const [cursors, setCursors] = useState<Record<"projects" | "experience", DeckCursor>>({
@@ -28,7 +36,6 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 		experience: { offset: 0, direction: "next" },
 	});
 	const { offset, direction: dragDirection } = cursors[activeDeckType];
-	const inactiveDeckType = activeDeckType === "projects" ? "experience" : "projects";
 	const inactiveCursor = cursors[inactiveDeckType];
 
 	const patchActiveCursor = (fn: (c: DeckCursor) => DeckCursor) =>
@@ -212,8 +219,16 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 					});
 					await Promise.all(Array.isArray(outPromises) ? outPromises : [outPromises]);
 
-					// 2. Trigger React State Swap
-					setActiveDeckType(prev => prev === "projects" ? "experience" : "projects");
+					// 2. Trigger React State Swap (Array Navigation)
+					setActiveDeckIndex(prevIndex => {
+						if (isDown) {
+							// Swipe Down -> Previous Deck
+							return (prevIndex - 1 + DECKS.length) % DECKS.length;
+						} else {
+							// Swipe Up -> Next Deck
+							return (prevIndex + 1) % DECKS.length;
+						}
+					});
 					orderRef.current = [0, 1, 2, 3, 4]; // Reset logical array
 					
 					// 3. Teleport new deck perfectly to the exact resting state of the passive deck
