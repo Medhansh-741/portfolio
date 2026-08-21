@@ -85,8 +85,8 @@ export const profile = {
 				"Assessment Engine: Architected an asynchronous, parallelized scoring engine to evaluate datasets across 15 government-defined quality domains, generating Composite Quality and Privacy Risk scores for automated release eligibility (Open/Controlled/Restricted).",
 				"Integration: Built automated multi-format reporting (JSON/HTML/PDF) and webhook APIs, enabling AIKosh to auto-ingest verified dataset metadata upon assessment completion.",
 			],
-			offerLetter:
-				"https://drive.google.com/file/d/1Cgofwc6_vKuQzqllqIPQNVs77jcuh2yY/view?usp=sharing",
+			offerLetter: "/MEITY-offer-letter.pdf",
+			completionLetter: "/MEITY-completion-letter.pdf",
 		},
 		{
 			company: "ISSA – DRDO",
@@ -108,8 +108,8 @@ export const profile = {
 				"Ingestion Pipelines: Built automated ETL pipelines for vector (Shapefiles to PostGIS with reprojection/indexing) and raster data (GeoTIFFs auto-published via REST), eliminating manual GIS server setups.",
 				"Serving Layer & Infra: Enabled real-time map-tile delivery to browser clients via a containerized 4-service microservices backend, securely deployed on a firewalled RHEL environment for fully offline, classified operations.",
 			],
-			offerLetter:
-				"https://drive.google.com/file/d/1nezLkpd3oL3SE1_Na7hirCbjfAQfT7MQ/view?usp=sharing",
+			offerLetter: "/DRDO-offer-letter.pdf",
+			completionLetter: "/DRDO-completion-letter.pdf",
 		},
 		{
 			company: "Geminid Systems",
@@ -132,10 +132,8 @@ export const profile = {
 				"Benchmarking: Evaluated Vanna.ai, LlamaIndex, LangChain for NL-to-SQL, and audio frameworks (Librosa, PyDub) for feature extraction; identified that agent architecture outweighs model choice for multi-table reasoning.",
 				"Salesforce AI Platform: Built Apex REST services and SOAP integrations; conducted prompt engineering experiments on live CRM data using Einstein AI and Agentforce.",
 			],
-			offerLetter:
-				"https://drive.google.com/file/d/1lYTnTJkTyrEQxvPpDEUys0IicQ8hXsRR/view?usp=sharing",
-			completionLetter:
-				"https://drive.google.com/file/d/1zbMoRUmxyGsiUCIy9RY1wZzFcYG-RgKs/view?usp=sharing",
+			offerLetter: "/Geminid-offer-letter.pdf",
+			completionLetter: "/Geminid-completion-letter.pdf",
 		},
 	],
 	projects: [
@@ -202,15 +200,13 @@ export const profile = {
 			title: "India Innovates '26 — National Finalist",
 			detail:
 				"Winner in Digital Democracy track; presented JanSamadhan live before senior policy leaders at Bharat Mandapam; project forwarded to central ministries.",
-			certificate:
-				"https://drive.google.com/file/d/1q9moT6B-zS8Gpz6VhfLKHbXZnHAJVAzI/view?usp=sharing",
+			certificate: "/India-Innovates.pdf",
 		},
 		{
 			title: "Prayatna 3.0 Hackathon — Finalist",
 			detail:
 				"Built NyayaAI's 5-agent legal AI backend during a 36-hour sprint.",
-			certificate:
-				"https://drive.google.com/file/d/1p1OgIIgURi0Z65zSTpsrdA8R18z1nXyv/view?usp=sharing",
+			certificate: "/Prayatna-3.0.pdf",
 		},
 	],
 	education: [
