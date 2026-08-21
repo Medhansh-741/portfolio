@@ -106,21 +106,33 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 	});
 
 	useEffect(() => {
-		let lastShake = 0;
-		let lastCheck = 0;
-		const SHAKE_THRESHOLD = 15;
+		const SHAKE_HIGH = 15;  // m/s² that starts a shake
+		const REST_LOW = 5;     // m/s² below which the device is "resting"
+		const REST_MS = 400;    // rest time before the next shake counts
+		
+		let shaking = false;
+		let restSince = 0;
 
 		const handleMotion = (e: DeviceMotionEvent) => {
-			const now = Date.now();
-			if (now - lastCheck < 100) return;
-			lastCheck = now;
-
 			const { x, y, z } = e.acceleration || {};
 			if (typeof x !== 'number' || typeof y !== 'number' || typeof z !== 'number') return;
-			const acceleration = Math.sqrt(x * x + y * y + z * z);
-			if (acceleration > SHAKE_THRESHOLD && now - lastShake > 1000) {
-				lastShake = now;
-				togglePokerFanRef.current();
+			const magnitude = Math.sqrt(x * x + y * y + z * z);
+			const now = Date.now();
+
+			if (!shaking) {
+				if (magnitude > SHAKE_HIGH) {
+					shaking = true;
+					togglePokerFanRef.current();
+				}
+			} else if (magnitude < REST_LOW) {
+				if (restSince === 0) {
+					restSince = now;
+				} else if (now - restSince >= REST_MS) {
+					shaking = false;
+					restSince = 0;
+				}
+			} else {
+				restSince = 0;
 			}
 		};
 
