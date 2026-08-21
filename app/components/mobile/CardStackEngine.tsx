@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useRef } from "react";
-import { useSprings, animated } from "@react-spring/web";
+import { useState, useRef, useEffect } from "react";
+import { useSpring, useSprings, animated } from "@react-spring/web";
 import { useDrag } from "@use-gesture/react";
 import { CardDeckContext } from "./CardDeckVideo";
 
@@ -49,6 +49,93 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 		return deck[wrappedIndex];
 	};
 
+	const [bgSpring, bgApi] = useSpring(() => ({
+		scale: 1,
+		opacity: 1,
+		config: { friction: 50, tension: 500 }
+	}));
+
+	const CFG_FAN = { mass: 1, tension: 400, friction: 30 };
+	const isFannedRef = useRef(false);
+
+	const togglePokerFan = () => {
+		isFannedRef.current = !isFannedRef.current;
+		
+		const visibleCount = Math.min(NUM_PHYSICAL_CARDS, activeCards.length);
+		const SPREAD_ANGLE = 15;
+		const maxAngle = ((visibleCount - 1) * SPREAD_ANGLE) / 2;
+
+		if (isFannedRef.current) {
+			bgApi.start({ scale: 0.65, opacity: 0, config: CFG_FAN });
+		} else {
+			bgApi.start({ scale: 1, opacity: 1, config: CFG_FAN });
+		}
+
+		api.start(i => {
+			const currentPos = orderRef.current.indexOf(i);
+			
+			if (isFannedRef.current) {
+				if (currentPos >= visibleCount) {
+					return { opacity: 0, scale: 0, immediate: true };
+				}
+
+				const angle = maxAngle - (currentPos * SPREAD_ANGLE);
+				const rad = angle * (Math.PI / 180);
+
+				const Px = -150;
+				const Py = 200;
+				const dx = Px - (Px * Math.cos(rad) - Py * Math.sin(rad));
+				const dy = Py - (Px * Math.sin(rad) + Py * Math.cos(rad));
+
+				return {
+					x: dx, y: dy, rotZ: angle, scale: 0.65, opacity: 1,
+					config: CFG_FAN
+				};
+			} else {
+				return {
+					x: 0, y: 0, rotZ: STATIC_ROTATIONS[currentPos], scale: 1, opacity: 1,
+					config: { friction: 50, tension: 500 }
+				};
+			}
+		});
+	};
+
+	const togglePokerFanRef = useRef(togglePokerFan);
+	useEffect(() => {
+		togglePokerFanRef.current = togglePokerFan;
+	});
+
+	useEffect(() => {
+		let lastShake = 0;
+		let lastCheck = 0;
+		const SHAKE_THRESHOLD = 15;
+
+		const handleMotion = (e: DeviceMotionEvent) => {
+			const now = Date.now();
+			if (now - lastCheck < 100) return;
+			lastCheck = now;
+
+			const { x, y, z } = e.acceleration || {};
+			if (typeof x !== 'number' || typeof y !== 'number' || typeof z !== 'number') return;
+			const acceleration = Math.sqrt(x * x + y * y + z * z);
+			if (acceleration > SHAKE_THRESHOLD && now - lastShake > 1000) {
+				lastShake = now;
+				togglePokerFanRef.current();
+			}
+		};
+
+		const handleKeyDown = (e: KeyboardEvent) => {
+			if (e.key.toLowerCase() === 's') togglePokerFanRef.current();
+		};
+
+		window.addEventListener('devicemotion', handleMotion);
+		window.addEventListener('keydown', handleKeyDown);
+		return () => {
+			window.removeEventListener('devicemotion', handleMotion);
+			window.removeEventListener('keydown', handleKeyDown);
+		};
+	}, []);
+
 	// 5 Physical Springs representing the active DOM nodes
 	const [springs, api] = useSprings(NUM_PHYSICAL_CARDS, i => {
 		const pos = orderRef.current.indexOf(i);
@@ -64,6 +151,10 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 
 
 	const bind = useDrag(({ args: [index], active, movement: [mx, my], velocity: [vx], initial: [, iy] }) => {
+		if (isFannedRef.current) {
+			togglePokerFanRef.current();
+		}
+
 		const pos = orderRef.current.indexOf(index);
 		if (pos !== 0) return; // Only allow grabbing the top card
 
@@ -275,15 +366,15 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 
 			{/* The Shadow Plate */}
 			{activeCards.length > 0 && (
-				<div className="absolute inset-0 origin-center pointer-events-none" style={{ zIndex: -1 }}>
+				<animated.div className="absolute inset-0 origin-center pointer-events-none" style={{ zIndex: -1, scale: bgSpring.scale, opacity: bgSpring.opacity }}>
 					<div className={`rounded-xl shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] dark:shadow-[0_0_12px_rgba(255,255,255,0.3)] bg-transparent ${ENGINE_SHAPE_CLASSES}`} />
-				</div>
+				</animated.div>
 			)}
 
 			{/* The Passive Inactive Deck (The "Peep" Fix) */}
 			{/* Rendered physically behind the active deck so when you pull up, you see the actual new deck waiting beneath! */}
 			{inactiveCards.length > 0 && (
-				<div className="absolute inset-0 origin-center pointer-events-none" style={{ zIndex: 0 }}>
+				<animated.div className="absolute inset-0 origin-center pointer-events-none" style={{ zIndex: 0, scale: bgSpring.scale, opacity: bgSpring.opacity }}>
 					{Array.from({ length: NUM_PHYSICAL_CARDS }, (_, positionInStack) => {
 						const dataIndex = inactiveCursor.offset + (positionInStack * (inactiveCursor.direction === "prev" ? -1 : 1));
 						const card = getCardData(dataIndex, inactiveCards);
@@ -305,7 +396,7 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 							</div>
 						);
 					})}
-				</div>
+				</animated.div>
 			)}
 
 			{/* The Animated Physical Stack */}
