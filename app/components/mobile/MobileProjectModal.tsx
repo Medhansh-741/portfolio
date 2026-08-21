@@ -3,6 +3,8 @@ import { FiThumbsUp, FiThumbsDown, FiDownload } from "react-icons/fi";
 import SharedVideoPreview from "../ui/SharedVideoPreview";
 import ShareActionButton from "./ShareActionButton";
 import Image from "next/image";
+import Link from "next/link";
+import Logo from "../ui/Logo";
 import ModalNavBar from "./ModalNavBar";
 import MobileActionRow from "./MobileActionRow";
 import { YouTubeEmbed } from '@next/third-parties/google';
@@ -64,10 +66,14 @@ export default function MobileProjectModal({ project, allProjects }: MobileProje
 				<section className="flex items-center justify-between px-fluid-md pb-fluid-md border-b-2 border-border shrink-0">
 					{/* Left: Profile & Subscribe */}
 					<div className="flex items-center gap-fluid-sm shrink-0 min-w-0">
-						<div className="w-10 h-10 rounded-full bg-foreground shrink-0" />
-						<span className="font-sans font-bold capitalize text-caption text-foreground truncate">
-							Medhansh
-						</span>
+						<Link href="/" className="flex items-center gap-fluid-sm shrink-0 min-w-0 group">
+							<div className="w-10 h-10 rounded-full bg-foreground shrink-0 flex items-center justify-center p-2.5 overflow-hidden">
+								<Logo className="w-full h-full text-background group-hover:scale-110 transition-transform duration-300" />
+							</div>
+							<span className="font-sans font-bold capitalize text-caption text-foreground truncate group-hover:text-[var(--color-accent-warning)] transition-colors">
+								Medhansh
+							</span>
+						</Link>
 						<a 
 							href={profile.linkedin}
 							target="_blank"
@@ -89,30 +95,34 @@ export default function MobileProjectModal({ project, allProjects }: MobileProje
 				{/* NEW 5. Other Projects List */}
 				<aside className="flex flex-col gap-fluid-md pt-fluid-md pb-fluid-xl shrink-0">
 					{otherProjects.map((p) => (
-						<article key={p.title} className="flex flex-col min-w-0">
-							{/* Large Static Thumbnail */}
-							<div className="w-full aspect-video bg-muted border-y-2 border-border overflow-hidden relative">
-								<Image
-									src={`/videos/${MOBILE_VIDEO_MAP[p.title.toLowerCase()] || p.title.toLowerCase()}.webp`}
-									alt={`${p.title} thumbnail`}
-									fill
-									sizes="(max-width: 768px) 100vw, 42rem"
-									className="object-cover"
-								/>
-							</div>
-							{/* Title & Desc Underneath */}
-							<div className="flex gap-fluid-sm p-fluid-md pt-fluid-sm min-w-0">
-								<div className="w-10 h-10 rounded-full bg-foreground shrink-0" />
-								<div className="flex flex-col min-w-0">
-									<h5 className="font-sans font-bold uppercase text-small text-foreground truncate">
-										{p.title}
-									</h5>
-									<p className="font-sans text-caption text-muted-foreground truncate">
-										{p.subtitle}
-									</p>
+						<Link key={p.title} href={`/projects/${p.title.toLowerCase()}`} scroll={false} className="flex flex-col min-w-0">
+							<article className="flex flex-col min-w-0">
+								{/* Large Static Thumbnail */}
+								<div className="w-full aspect-video bg-muted border-y-2 border-border overflow-hidden relative">
+									<Image
+										src={`/videos/${MOBILE_VIDEO_MAP[p.title.toLowerCase()] || p.title.toLowerCase()}.webp`}
+										alt={`${p.title} thumbnail`}
+										fill
+										sizes="(max-width: 768px) 100vw, 42rem"
+										className="object-cover"
+									/>
 								</div>
-							</div>
-						</article>
+								{/* Title & Desc Underneath */}
+								<div className="flex gap-fluid-sm p-fluid-md pt-fluid-sm min-w-0">
+									<div className="w-10 h-10 rounded-full bg-foreground shrink-0 flex items-center justify-center p-2.5 overflow-hidden">
+										<Logo className="w-full h-full text-background" />
+									</div>
+									<div className="flex flex-col min-w-0">
+										<h5 className="font-sans font-bold uppercase text-small text-foreground truncate">
+											{p.title}
+										</h5>
+										<p className="font-sans text-caption text-muted-foreground truncate">
+											{p.subtitle}
+										</p>
+									</div>
+								</div>
+							</article>
+						</Link>
 					))}
 				</aside>
 

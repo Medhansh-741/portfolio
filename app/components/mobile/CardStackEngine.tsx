@@ -378,7 +378,7 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 
 			{/* The Shadow Plate */}
 			{activeCards.length > 0 && (
-				<animated.div className="absolute inset-0 origin-center pointer-events-none" style={{ zIndex: -1, scale: bgSpring.scale, opacity: bgSpring.opacity }}>
+				<animated.div className="absolute inset-0 origin-center pointer-events-none" style={{ zIndex: -1, scale: bgSpring.scale, opacity: bgSpring.opacity, willChange: "transform" }}>
 					<div className={`rounded-xl shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] dark:shadow-[0_0_12px_rgba(255,255,255,0.3)] bg-transparent ${ENGINE_SHAPE_CLASSES}`} />
 				</animated.div>
 			)}
@@ -386,7 +386,7 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 			{/* The Passive Inactive Deck (The "Peep" Fix) */}
 			{/* Rendered physically behind the active deck so when you pull up, you see the actual new deck waiting beneath! */}
 			{inactiveCards.length > 0 && (
-				<animated.div className="absolute inset-0 origin-center pointer-events-none" style={{ zIndex: 0, scale: bgSpring.scale, opacity: bgSpring.opacity }}>
+				<animated.div className="absolute inset-0 origin-center pointer-events-none" style={{ zIndex: 0, scale: bgSpring.scale, opacity: bgSpring.opacity, willChange: "transform" }}>
 					{Array.from({ length: NUM_PHYSICAL_CARDS }, (_, positionInStack) => {
 						const dataIndex = inactiveCursor.offset + (positionInStack * (inactiveCursor.direction === "prev" ? -1 : 1));
 						const card = getCardData(dataIndex, inactiveCards);
@@ -431,6 +431,7 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 							zIndex, x, y, scale,
 							rotateZ: rotZ, rotateY: rotY,
 							opacity,
+							willChange: "transform",
 							pointerEvents: isTop ? "auto" : "none",
 							cursor: isTop ? "grab" : "auto",
 							touchAction: "none", // Hijack scroll for the vertical gesture!
