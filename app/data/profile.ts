@@ -6,8 +6,11 @@ export const profile = {
 	email: "medhansh541@gmail.com",
 	phone: "+91 8368680865",
 	location: "Jaipur, India",
-	github: "https://github.com/Medhansh-741/",
+	github: "https://github.com/Medhansh-741",
 	linkedin: "https://www.linkedin.com/in/medhansh-kapoor",
+	x: "https://x.com/medhansh541",
+	instagram: "https://www.instagram.com/medhansh341/",
+	cal: "https://cal.com/medhansh541",
 	resumeUrl: "/resume.pdf",
 	about: [
 		"I build by jumping in headfirst. Every project is an excuse to explore a stack I haven't mastered yet, a problem that feels just out of reach, or an architecture I haven't tried. I think in systems, not features: connecting ideas across AI, infrastructure, and full-stack to build solutions that hold up under pressure. I don't stay comfortable. I learn by doing, I ship fast, and I believe code should scale beyond its first use case.",

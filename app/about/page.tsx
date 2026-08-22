@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import AboutView from "./AboutView";
+import { JsonLd, getProfilePageSchema } from "@/app/lib/jsonld";
 
 export const metadata: Metadata = {
 	title: "About",
@@ -24,5 +25,16 @@ export const metadata: Metadata = {
 };
 
 export default function AboutPage() {
-	return <AboutView />;
+	return (
+		<>
+			<JsonLd
+				data={getProfilePageSchema(
+					"/about",
+					"About — Medhansh Kapoor",
+					"Medhansh Kapoor — AI/ML Engineer & Full-Stack Developer based in Jaipur, India. Engineering philosophy, achievements, and education."
+				)}
+			/>
+			<AboutView />
+		</>
+	);
 }

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import ProjectsView from "./ProjectsView";
+import { JsonLd, getProjectsCollectionSchema } from "@/app/lib/jsonld";
 
 export const metadata: Metadata = {
 	title: "Projects",
@@ -24,5 +25,10 @@ export const metadata: Metadata = {
 };
 
 export default function ProjectsPage() {
-	return <ProjectsView />;
+	return (
+		<>
+			<JsonLd data={getProjectsCollectionSchema()} />
+			<ProjectsView />
+		</>
+	);
 }

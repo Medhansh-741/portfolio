@@ -8,6 +8,7 @@ import Navbar from "./components/Navbar";
 import MobileHeader from "./components/mobile/MobileHeader";
 import MobileBottomBar from "./components/mobile/MobileBottomBar";
 import ThemeProvider from "./components/ThemeProvider";
+import { JsonLd, getRootGraphSchema } from "./lib/jsonld";
 
 const inter = Inter({
 	subsets: ["latin"],
@@ -96,6 +97,7 @@ export default function RootLayout({
 			>
 				<link rel="preconnect" href="https://medhanshk.me" />
 				<link rel="dns-prefetch" href="https://medhanshk.me" />
+				<JsonLd data={getRootGraphSchema()} />
 				<ThemeProvider>
 					<div className="min-h-dvh flex flex-col">
 						<Navbar />

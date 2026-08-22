@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import ExperienceView from "./ExperienceView";
+import { JsonLd, getExperiencePageSchema } from "@/app/lib/jsonld";
 
 export const metadata: Metadata = {
 	title: "Experience",
@@ -24,5 +25,10 @@ export const metadata: Metadata = {
 };
 
 export default function ExperiencePage() {
-	return <ExperienceView />;
+	return (
+		<>
+			<JsonLd data={getExperiencePageSchema()} />
+			<ExperienceView />
+		</>
+	);
 }

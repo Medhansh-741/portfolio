@@ -4,10 +4,12 @@ import DesktopGridSkeleton from "./components/desktop/DesktopGridSkeleton";
 import HeroSection from "./components/HeroSection";
 import MobileHome from "./components/mobile/MobileHome";
 import SkillStrip from "./components/SkillStrip";
+import { JsonLd, getProfilePageSchema } from "./lib/jsonld";
 
 export default function Home() {
 	return (
 		<>
+			<JsonLd data={getProfilePageSchema("", "Medhansh Kapoor — AI/ML Engineer & Full-Stack Developer")} />
 			<main className="hidden xl:flex flex-1 flex-col bg-background overflow-visible">
 				<section className="w-full px-6 md:px-12 pt-3 md:pt-4 xl:pt-6 pb-6 min-h-0 flex-1 flex flex-col justify-center relative overflow-x-hidden">
 					<div className="w-full max-w-[1824px] mx-auto h-auto min-h-0 flex flex-col">
