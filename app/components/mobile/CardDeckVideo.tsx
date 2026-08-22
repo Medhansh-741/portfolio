@@ -16,7 +16,7 @@ export default function CardDeckVideo({ projectFileName, className = "" }: CardD
 	if (!isTop) {
 		return (
 			<Image
-				src={`/videos/${projectFileName}-poster.webp`}
+				src={`/videos/${projectFileName}.webp`}
 				alt={`${projectFileName.replace(/[-_]/g, " ")} — Production AI project video preview and poster`}
 				fill
 				sizes="(max-width: 640px) 100vw, 24rem"
@@ -60,7 +60,7 @@ export default function CardDeckVideo({ projectFileName, className = "" }: CardD
 			muted
 			playsInline
 			preload="none"
-			poster={`/videos/${projectFileName}-poster.webp`}
+			poster={`/videos/${projectFileName}.webp`}
 		>
 			<source src={`/videos/${projectFileName}.webm`} type="video/webm" />
 			<source src={`/videos/${projectFileName}.mp4`} type="video/mp4" />
