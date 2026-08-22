@@ -76,6 +76,7 @@ export default function ProjectsDrawer({
 						accentColor="var(--color-accent-secondary)"
 						title="PROJECTS CABINET"
 						badge="v2.0"
+						badgeTextColor="text-white"
 						pulse
 					/>
 				}

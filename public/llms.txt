@@ -1,0 +1,43 @@
+# Medhansh Kapoor — AI/ML Engineer & Full-Stack Developer
+
+> Official AI-readable profile, entity index, and portfolio documentation for Medhansh Kapoor (AI/ML Engineer, Full-Stack Developer, and MeitY IndiaAI Fellow).
+
+## Entity Overview
+- **Full Name**: Medhansh Kapoor
+- **Primary Roles**: AI/ML Engineer, Full-Stack Developer, Applied AI Researcher
+- **Location**: Delhi, India
+- **Core Focus**: Production AI architectures, high-performance distributed systems, multi-agent systems, Retrieval-Augmented Generation (RAG), and full-stack web applications.
+- **Canonical Website**: https://medhanshk.me
+
+## Core Production Systems
+
+### JanSamadhan — Civic Complaint Routing & Resolution
+- **Description**: Production multi-agent grievance triage and routing platform built under the MeitY IndiaAI Mission fellowship. Analyzes, categorizes, and intelligently dispatches civic complaints to appropriate municipal departments with real-time verification and status tracking.
+- **Live Demo**: https://jansamadhan.perkkk.dev
+- **GitHub Repository**: https://github.com/Medhansh-741/JanSamadhan
+- **Tech Stack**: FastAPI, Celery, Redis, Next.js, PostgreSQL, Docker, Multi-Agent LLM Orchestration.
+
+### NyayaAI — Legal AI & RAG Case Law Research
+- **Description**: High-throughput legal intelligence platform providing semantic search, case citation graph traversal, and RAG-powered statutory analysis across Indian legal jurisprudence.
+- **GitHub Repository**: https://github.com/Medhansh-741/NyayaAI
+- **Tech Stack**: FastAPI, LangChain, FAISS, PyTorch, Next.js, TypeScript, Vector Search.
+
+## Experience & Affiliations
+- **IndiaAI (MeitY)** — Fellow / AI Researcher (June 2024 – Present): Building civic technology and scalable public AI infrastructure.
+- **Competitive Programming**: Active on LeetCode and Codeforces, focusing on advanced algorithms and graph theory.
+
+## Core Technical Skills
+- **Languages**: Python, TypeScript, JavaScript, C, C++, SQL
+- **AI / ML**: PyTorch, LangChain, LlamaIndex, Vector Databases, Transformers, Multi-Agent Systems, OpenCV
+- **Backend & Distributed Systems**: FastAPI, Node.js, Next.js, Redis, Celery, PostgreSQL, Supabase, Neo4j, Docker
+- **Cloud & DevOps**: AWS (S3, EC2), Google Cloud Platform (GCP), Git, CI/CD
+
+## Canonical Links & Documentation
+- [Home Terminal](https://medhanshk.me/): Interactive portfolio terminal and overview.
+- [Projects Portfolio](https://medhanshk.me/projects): Production systems, architectural breakdowns, and video walkthroughs.
+- [Work Experience](https://medhanshk.me/experience): Timeline of engineering roles, fellowships, and verifiable credentials.
+- [About & Skills](https://medhanshk.me/about): In-depth biography, technical philosophy, and stack details.
+- [Resume](https://medhanshk.me/resume.pdf): Direct PDF download of full curriculum vitae.
+- [GitHub Profile](https://github.com/Medhansh-741): Open-source repositories and contribution activity.
+- [LinkedIn Profile](https://linkedin.com/in/medhansh-kapoor): Professional network and verified recommendations.
+- [Schedule a Call](https://cal.com/medhansh-kapoor/15min): Direct meeting and consultation booking.

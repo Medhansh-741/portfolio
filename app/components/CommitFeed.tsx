@@ -49,6 +49,7 @@ export default function CommitFeed({
 						title="LIVE ACTIVITY"
 						badge={<FiGithub size={11} />}
 						badgeHref="https://github.com/Medhansh-741"
+						badgeAriaLabel="View Medhansh Kapoor's GitHub Profile"
 						pulse
 					/>
 				}

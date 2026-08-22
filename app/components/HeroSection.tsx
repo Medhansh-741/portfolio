@@ -67,7 +67,7 @@ export default function HeroSection() {
 				transition={{ delay: 0.3 }}
 				className="text-sm xl:text-[clamp(0.85rem,2.1cqi,1.05rem)] text-muted-foreground leading-relaxed mt-3 xl:mt-[clamp(0.4rem,1.8cqi,0.85rem)] text-justify w-full max-w-prose"
 			>
-				Medhansh Kapoor is an AI/ML engineer and full-stack developer based in Jaipur, India, building production-grade AI agents, geospatial intelligence platforms, and civic-tech systems under IndiaAI Mission (MeitY) and ISSA-DRDO.
+				{profile.intro}
 			</motion.p>
 
 			<motion.div

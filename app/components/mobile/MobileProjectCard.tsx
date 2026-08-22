@@ -53,7 +53,7 @@ export default function MobileProjectCard({ project }: MobileProjectCardProps) {
 						target="_blank"
 						rel="noopener noreferrer"
 						aria-label="View on GitHub"
-						className="flex items-center justify-center w-11 h-11 bg-background border-2 border-border shadow-[2px_2px_0_0_var(--color-border)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-150 text-foreground"
+						className="flex items-center justify-center w-12 h-12 bg-background border-2 border-border shadow-[2px_2px_0_0_var(--color-border)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-150 text-foreground"
 					>
 						<FiGithub size="1.25rem" />
 					</a>
@@ -64,7 +64,7 @@ export default function MobileProjectCard({ project }: MobileProjectCardProps) {
 						href={`/projects/${project.title.toLowerCase()}`}
 						scroll={false}
 						aria-label="View Project Demo"
-						className="flex items-center justify-center w-11 h-11 bg-background border-2 border-border shadow-[2px_2px_0_0_var(--color-border)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-150 text-[var(--color-accent-warning)]"
+						className="flex items-center justify-center w-12 h-12 bg-background border-2 border-border shadow-[2px_2px_0_0_var(--color-border)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-150 text-[var(--color-accent-warning)]"
 					>
 						<FiYoutube size="1.25rem" />
 					</Link>
@@ -73,7 +73,7 @@ export default function MobileProjectCard({ project }: MobileProjectCardProps) {
 				<Link
 					href={`/projects#${project.title.toLowerCase()}`}
 					aria-label="View Project Details"
-					className="flex items-center justify-center w-11 h-11 ml-auto bg-background border-2 border-border shadow-[2px_2px_0_0_var(--color-border)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-150 text-foreground"
+					className="flex items-center justify-center w-12 h-12 ml-auto bg-background border-2 border-border shadow-[2px_2px_0_0_var(--color-border)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-150 text-foreground"
 				>
 					<FiArrowUpRight size="1.25rem" />
 				</Link>

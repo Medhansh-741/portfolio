@@ -8,6 +8,7 @@ interface CardHeaderProps {
 	badge?: ReactNode;
 	badgeTextColor?: string;
 	badgeHref?: string;
+	badgeAriaLabel?: string;
 	pulse?: boolean;
 }
 
@@ -18,6 +19,7 @@ export default function CardHeader({
 	badge,
 	badgeTextColor = "text-black",
 	badgeHref,
+	badgeAriaLabel,
 	pulse = false,
 }: CardHeaderProps) {
 	const iconWrapper = (
@@ -35,6 +37,7 @@ export default function CardHeader({
 				href={badgeHref}
 				target="_blank"
 				rel="noopener noreferrer"
+				aria-label={badgeAriaLabel || (typeof badge === "string" ? badge : title)}
 				className="cursor-pointer leading-none"
 			>
 				<StatusBadge color={accentColor} textColor={badgeTextColor}>
