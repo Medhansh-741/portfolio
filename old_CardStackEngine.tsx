@@ -1,10 +1,9 @@
-"use client";
+﻿"use client";
 
 import { useState, useRef, useEffect } from "react";
 import { useSpring, useSprings, animated } from "@react-spring/web";
 import { useDrag } from "@use-gesture/react";
 import { CardDeckContext } from "./CardDeckVideo";
-import GestureTutorialOverlay from "./GestureTutorialOverlay";
 
 interface CardStackEngineProps {
 	projectCards: React.ReactNode[];
@@ -18,18 +17,10 @@ const NUM_PHYSICAL_CARDS = 5;
 const STATIC_ROTATIONS = [0, 2, 1, 0, 0];
 
 export default function CardStackEngine({ projectCards, experienceCards }: CardStackEngineProps) {
-	const DECKS = [
-		{ id: "projects" as const, cards: projectCards },
-		{ id: "experience" as const, cards: experienceCards }
-	];
-	const [activeDeckIndex, setActiveDeckIndex] = useState(0);
+	const [activeDeckType, setActiveDeckType] = useState<"projects" | "experience">("projects");
 	
-	const activeDeckType = DECKS[activeDeckIndex].id;
-	const activeCards = DECKS[activeDeckIndex].cards;
-	
-	const inactiveDeckIndex = 1 - activeDeckIndex; // Strictly for 2 decks (peep effect)
-	const inactiveDeckType = DECKS[inactiveDeckIndex].id;
-	const inactiveCards = DECKS[inactiveDeckIndex].cards;
+	const activeCards = activeDeckType === "projects" ? projectCards : experienceCards;
+	const inactiveCards = activeDeckType === "projects" ? experienceCards : projectCards;
 
 	type DeckCursor = { offset: number; direction: "next" | "prev" };
 	const [cursors, setCursors] = useState<Record<"projects" | "experience", DeckCursor>>({
@@ -37,6 +28,7 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 		experience: { offset: 0, direction: "next" },
 	});
 	const { offset, direction: dragDirection } = cursors[activeDeckType];
+	const inactiveDeckType = activeDeckType === "projects" ? "experience" : "projects";
 	const inactiveCursor = cursors[inactiveDeckType];
 
 	const patchActiveCursor = (fn: (c: DeckCursor) => DeckCursor) =>
@@ -70,25 +62,11 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 		isFannedRef.current = !isFannedRef.current;
 		
 		const visibleCount = Math.min(NUM_PHYSICAL_CARDS, activeCards.length);
-
-		// Dynamic safe-angle: compute max spread that keeps every card within the viewport
-		const vw = window.innerWidth;
-		const cardW = Math.min(vw * (11 / 12), 384);       // matches w-11/12 max-w-sm
-		const cardH = cardW * (7 / 5);                      // matches aspect-[5/7]
-		const fanScale = 0.5;
-		const halfW = cardW / 2;
-		// D = distance from card center to pivot. Pivot at card bottom edge.
-		const D = cardH * 0.5;  // card center to bottom = half the height
-		const safeMargin = 16;
-		const availableX = (vw / 2) - safeMargin;
-		// Constraint: D * sin(maxAngle) + fanScale * halfW <= availableX
-		const sinLimit = Math.max(0, Math.min(1, (availableX - fanScale * halfW) / D));
-		const maxSafeAngle = Math.asin(sinLimit) * (180 / Math.PI);
-		const SPREAD_ANGLE = Math.min(15, (2 * maxSafeAngle) / (visibleCount - 1));
+		const SPREAD_ANGLE = 15;
 		const maxAngle = ((visibleCount - 1) * SPREAD_ANGLE) / 2;
 
 		if (isFannedRef.current) {
-			bgApi.start({ scale: 0.5, opacity: 0, config: CFG_FAN });
+			bgApi.start({ scale: 0.65, opacity: 0, config: CFG_FAN });
 		} else {
 			bgApi.start({ scale: 1, opacity: 1, config: CFG_FAN });
 		}
@@ -104,12 +82,13 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 				const angle = maxAngle - (currentPos * SPREAD_ANGLE);
 				const rad = angle * (Math.PI / 180);
 
-				// Arc translation: rotate card center around virtual pivot at (0, D) below
-				const arcX = D * Math.sin(rad);
-				const arcY = D * (1 - Math.cos(rad));
+				const Px = -150;
+				const Py = 200;
+				const dx = Px - (Px * Math.cos(rad) - Py * Math.sin(rad));
+				const dy = Py - (Px * Math.sin(rad) + Py * Math.cos(rad));
 
 				return {
-					x: arcX, y: arcY, rotZ: angle, scale: fanScale, opacity: 1,
+					x: dx, y: dy, rotZ: angle, scale: 0.65, opacity: 1,
 					config: CFG_FAN
 				};
 			} else {
@@ -127,8 +106,8 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 	});
 
 	useEffect(() => {
-		const SHAKE_HIGH = 15;  // m/s² that starts a shake
-		const REST_LOW = 5;     // m/s² below which the device is "resting"
+		const SHAKE_HIGH = 15;  // m/s┬▓ that starts a shake
+		const REST_LOW = 5;     // m/s┬▓ below which the device is "resting"
 		const REST_MS = 400;    // rest time before the next shake counts
 		
 		let shaking = false;
@@ -181,58 +160,6 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 		};
 	});
 
-	// ==========================================
-	// TUTORIAL PUPPET LISTENER (100% Decoupled)
-	// ==========================================
-	useEffect(() => {
-		const handleTutorialPeek = (e: Event) => {
-			const customEvent = e as CustomEvent;
-			if (intentRef.current) return; // Ignore if user is already touching/dragging
-
-			const { mx, my, snap } = customEvent.detail;
-
-			if (snap) {
-				api.start(i => {
-					const currentPos = orderRef.current.indexOf(i);
-					return {
-						x: 0, y: 0, rotY: 0,
-						rotZ: STATIC_ROTATIONS[currentPos],
-						scale: 1,
-						config: { friction: 50, tension: 500 },
-					};
-				});
-				return;
-			}
-
-			// We mirror the original useDrag peel logic exactly, but purely externally
-			api.set(i => {
-				const currentPos = orderRef.current.indexOf(i);
-				const pivotFactor = my < 0 ? -1 : 1; 
-
-				// Whole Deck Vertical Swipe
-				if (Math.abs(my) > 0 && Math.abs(mx) === 0) {
-					return { y: my, rotZ: STATIC_ROTATIONS[currentPos], rotY: 0, scale: 1, x: 0 };
-				}
-				
-				// Horizontal Top Card Peel
-				if (currentPos === 0) {
-					if (Math.abs(mx) > 0) {
-						return { x: mx, y: Math.abs(mx) * 0.1, rotZ: (mx / 20) * pivotFactor, rotY: 0, scale: 1.02 };
-					}
-				}
-				
-				// Background card horizontal fan
-				if (currentPos < 3 && Math.abs(mx) > 0) {
-					return { rotZ: STATIC_ROTATIONS[currentPos] + (mx / 300), scale: 1 };
-				}
-				
-				return {};
-			});
-		};
-
-		window.addEventListener("tutorial-peek", handleTutorialPeek);
-		return () => window.removeEventListener("tutorial-peek", handleTutorialPeek);
-	}, [api]);
 
 
 	const bind = useDrag(({ args: [index], active, movement: [mx, my], velocity: [vx], initial: [, iy] }) => {
@@ -248,7 +175,7 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 			if (Math.abs(mx) > 4 || Math.abs(my) > 4) {
 				intentRef.current = Math.abs(mx) > Math.abs(my) ? "horizontal" : "vertical";
 			} else {
-				return; // not enough movement yet — wait for a clearer signal
+				return; // not enough movement yet ΓÇö wait for a clearer signal
 			}
 		}
 		
@@ -267,7 +194,7 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 			// Removed deck-wide scale computation (flicker fix)
 
 			// Release Check (Bi-directional support)
-			const isSwipeComplete = !active && dragDistance > window.innerHeight * 0.18;
+			const isSwipeComplete = !active && dragDistance > 150;
 
 			if (isSwipeComplete) {
 				const runLayerSwap = async () => {
@@ -275,7 +202,7 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 					const outPromises = api.start(i => {
 						const currentPos = orderRef.current.indexOf(i);
 						return {
-							y: window.innerHeight * 1.2 * (isDown ? 1 : -1),
+							y: 800 * (isDown ? 1 : -1),
 							opacity: 0,
 							rotZ: STATIC_ROTATIONS[currentPos], // Keep it wonderfully messy as it flies away!
 							scale: 1.05,
@@ -284,16 +211,8 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 					});
 					await Promise.all(Array.isArray(outPromises) ? outPromises : [outPromises]);
 
-					// 2. Trigger React State Swap (Array Navigation)
-					setActiveDeckIndex(prevIndex => {
-						if (isDown) {
-							// Swipe Down -> Previous Deck
-							return (prevIndex - 1 + DECKS.length) % DECKS.length;
-						} else {
-							// Swipe Up -> Next Deck
-							return (prevIndex + 1) % DECKS.length;
-						}
-					});
+					// 2. Trigger React State Swap
+					setActiveDeckType(prev => prev === "projects" ? "experience" : "projects");
 					orderRef.current = [0, 1, 2, 3, 4]; // Reset logical array
 					
 					// 3. Teleport new deck perfectly to the exact resting state of the passive deck
@@ -325,7 +244,7 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 					};
 				});
 			} else {
-				// Released without completing the swipe — spring back to rest
+				// Released without completing the swipe ΓÇö spring back to rest
 				api.start(i => {
 					const currentPos = orderRef.current.indexOf(i);
 					return {
@@ -353,8 +272,7 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 			}
 		}
 
-		const cardWidth = Math.min(window.innerWidth * 0.916, 384);
-		const isSwipe = !active && (vx > 0.5 || Math.abs(mx) > cardWidth * 0.3);
+		const isSwipe = !active && (vx > 0.5 || Math.abs(mx) > 100);
 
 		if (isSwipe) {
 			const dir = mx < 0 ? -1 : 1;
@@ -365,8 +283,8 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 
 				if (currentPos === 0) {
 					return {
-						x: cardWidth * 0.8 * dir, 
-						y: Math.abs(mx) * 0.2 + (cardWidth * 0.3), 
+						x: 250 * dir, 
+						y: Math.abs(mx) * 0.2 + 100, 
 						rotZ: (mx / 10) * pivotFactor + (dir * 20 * vx),
 						rotY: dir * 60 * vx, 
 						scale: 0.5, 
@@ -433,7 +351,7 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 				return {};
 			});
 		} else {
-			// Released — spring back to rest
+			// Released ΓÇö spring back to rest
 			api.start(i => {
 				const currentPos = orderRef.current.indexOf(i);
 				return {
@@ -451,9 +369,7 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 	}, { filterTaps: true }); // Capture both axes
 
 	return (
-		<div className="card-stack-engine relative w-full mx-auto isolate mb-fluid-md select-none" style={{ perspective: "1500px" }}>
-			
-			<GestureTutorialOverlay />
+		<div className="relative w-full mx-auto isolate mb-fluid-md select-none" style={{ perspective: "1500px" }}>
 			
 			{/* The Ghost Element: Holds container open securely */}
 			{activeCards.length > 0 && (
@@ -462,7 +378,7 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 
 			{/* The Shadow Plate */}
 			{activeCards.length > 0 && (
-				<animated.div className="absolute inset-0 origin-center pointer-events-none" style={{ zIndex: -1, scale: bgSpring.scale, opacity: bgSpring.opacity, willChange: "transform" }}>
+				<animated.div className="absolute inset-0 origin-center pointer-events-none" style={{ zIndex: -1, scale: bgSpring.scale, opacity: bgSpring.opacity }}>
 					<div className={`rounded-xl shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] dark:shadow-[0_0_12px_rgba(255,255,255,0.3)] bg-transparent ${ENGINE_SHAPE_CLASSES}`} />
 				</animated.div>
 			)}
@@ -470,7 +386,7 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 			{/* The Passive Inactive Deck (The "Peep" Fix) */}
 			{/* Rendered physically behind the active deck so when you pull up, you see the actual new deck waiting beneath! */}
 			{inactiveCards.length > 0 && (
-				<animated.div className="absolute inset-0 origin-center pointer-events-none" style={{ zIndex: 0, scale: bgSpring.scale, opacity: bgSpring.opacity, willChange: "transform" }}>
+				<animated.div className="absolute inset-0 origin-center pointer-events-none" style={{ zIndex: 0, scale: bgSpring.scale, opacity: bgSpring.opacity }}>
 					{Array.from({ length: NUM_PHYSICAL_CARDS }, (_, positionInStack) => {
 						const dataIndex = inactiveCursor.offset + (positionInStack * (inactiveCursor.direction === "prev" ? -1 : 1));
 						const card = getCardData(dataIndex, inactiveCards);
@@ -515,7 +431,6 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 							zIndex, x, y, scale,
 							rotateZ: rotZ, rotateY: rotY,
 							opacity,
-							willChange: "transform",
 							pointerEvents: isTop ? "auto" : "none",
 							cursor: isTop ? "grab" : "auto",
 							touchAction: "none", // Hijack scroll for the vertical gesture!
