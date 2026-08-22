@@ -45,11 +45,40 @@ const dseg14 = localFont({
 
 export const metadata: Metadata = {
 	metadataBase: new URL("https://medhanshk.me"),
-	title: "Medhansh Kapoor",
+	title: {
+		default: "Medhansh Kapoor — AI/ML Engineer & Full-Stack Developer",
+		template: "%s | Medhansh Kapoor",
+	},
 	description:
-		"Portfolio of Medhansh Kapoor — AI/ML Engineer and Full-Stack Developer. Building production-grade AI agents, geospatial systems, and full-stack applications.",
+		"Portfolio of Medhansh Kapoor — AI/ML Engineer and Full-Stack Developer based in Jaipur, India. Specializing in AI agents, RAG pipelines, FastAPI, and Next.js.",
 	alternates: {
 		canonical: "/",
+	},
+	openGraph: {
+		title: "Medhansh Kapoor — AI/ML Engineer & Full-Stack Developer",
+		description:
+			"Portfolio of Medhansh Kapoor — AI/ML Engineer and Full-Stack Developer based in Jaipur, India. Specializing in AI agents, RAG pipelines, FastAPI, and Next.js.",
+		url: "https://medhanshk.me",
+		siteName: "Medhansh Kapoor",
+		locale: "en_US",
+		type: "website",
+	},
+	twitter: {
+		card: "summary",
+		title: "Medhansh Kapoor — AI/ML Engineer & Full-Stack Developer",
+		description:
+			"Portfolio of Medhansh Kapoor — AI/ML Engineer and Full-Stack Developer based in Jaipur, India. Specializing in AI agents, RAG pipelines, FastAPI, and Next.js.",
+	},
+	robots: {
+		index: true,
+		follow: true,
+		googleBot: {
+			index: true,
+			follow: true,
+			"max-video-preview": -1,
+			"max-image-preview": "large",
+			"max-snippet": -1,
+		},
 	},
 };
 
