@@ -1,3 +1,4 @@
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
 import { Inter, Pirata_One, Playfair_Display } from "next/font/google";
@@ -72,6 +73,7 @@ export default function RootLayout({
 					</div>
 				</ThemeProvider>
 				<Analytics />
+				<GoogleAnalytics gaId="G-D064XWFM94" />
 			</body>
 		</html>
 	);
