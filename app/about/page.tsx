@@ -4,14 +4,14 @@ import AboutView from "./AboutView";
 export const metadata: Metadata = {
 	title: "About",
 	description:
-		"About Medhansh Kapoor — AI/ML Engineer and Full-Stack Developer. Education at Manipal University Jaipur, national hackathon awards, and core technical skillset.",
+		"Medhansh Kapoor-AI/ML Engineer & Full-Stack Developer in Jaipur, India. Designing end-to-end systems from user problem to architecture.",
 	alternates: {
 		canonical: "/about",
 	},
 	openGraph: {
 		title: "About — Medhansh Kapoor",
 		description:
-			"About Medhansh Kapoor — AI/ML Engineer and Full-Stack Developer. Education at Manipal University Jaipur, national hackathon awards, and core technical skillset.",
+			"Medhansh Kapoor-AI/ML Engineer & Full-Stack Developer in Jaipur, India. Designing end-to-end systems from user problem to architecture.",
 		url: "/about",
 		type: "website",
 	},
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 		card: "summary",
 		title: "About — Medhansh Kapoor",
 		description:
-			"About Medhansh Kapoor — AI/ML Engineer and Full-Stack Developer. Education at Manipal University Jaipur, national hackathon awards, and core technical skillset.",
+			"Medhansh Kapoor-AI/ML Engineer & Full-Stack Developer in Jaipur, India. Designing end-to-end systems from user problem to architecture.",
 	},
 };
 

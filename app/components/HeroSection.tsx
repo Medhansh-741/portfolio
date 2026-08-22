@@ -39,7 +39,7 @@ export default function HeroSection() {
 				initial={{ opacity: 0, y: 16 }}
 				animate={{ opacity: 1, y: 0 }}
 				transition={{ delay: 0.1 }}
-				className="font-gothic text-5xl md:text-7xl xl:text-[clamp(3rem,8cqi,4.5rem)] font-normal tracking-wide text-black dark:text-white leading-[0.9] cursor-default select-none"
+				className="font-gothic text-5xl md:text-7xl xl:text-[clamp(3.25rem,9.5cqi,5.25rem)] font-normal tracking-wide text-black dark:text-white leading-[0.9] cursor-default select-none"
 			>
 				{"Medhansh".split("").map((char, index) => (
 					<span
@@ -55,7 +55,7 @@ export default function HeroSection() {
 				initial={{ opacity: 0, y: 16 }}
 				animate={{ opacity: 1, y: 0 }}
 				transition={{ delay: 0.2 }}
-				className="text-base xl:text-[clamp(0.7rem,1.8cqi,1rem)] font-bold tracking-widest text-muted-foreground uppercase mt-3 xl:mt-[clamp(0.25rem,1.5cqi,0.75rem)]"
+				className="text-base xl:text-[clamp(0.8rem,2cqi,1.1rem)] font-bold tracking-widest text-muted-foreground uppercase mt-3 xl:mt-[clamp(0.4rem,1.8cqi,0.85rem)]"
 			>
 				{profile.tagline}
 			</motion.p>
@@ -64,15 +64,9 @@ export default function HeroSection() {
 				initial={{ opacity: 0, y: 16 }}
 				animate={{ opacity: 1, y: 0 }}
 				transition={{ delay: 0.3 }}
-				className="text-sm xl:text-[clamp(0.7rem,1.8cqi,0.875rem)] text-muted-foreground leading-relaxed mt-3 xl:mt-[clamp(0.25rem,1.5cqi,0.75rem)] text-justify w-full max-w-prose"
+				className="text-sm xl:text-[clamp(0.85rem,2.1cqi,1.05rem)] text-muted-foreground leading-relaxed mt-3 xl:mt-[clamp(0.4rem,1.8cqi,0.85rem)] text-justify w-full max-w-prose"
 			>
-				I build by jumping in headfirst — every project is an excuse to explore
-				a stack I haven&apos;t mastered yet, a problem that feels just out of
-				reach, or an architecture I haven&apos;t tried. I think in systems, not
-				features: connecting ideas across AI, infrastructure, and full-stack to
-				build solutions that hold up under pressure. I don&apos;t stay
-				comfortable. I learn by doing, I ship fast, and I believe code should
-				scale beyond its first use case.
+				{profile.intro}
 			</motion.p>
 
 			<motion.div
