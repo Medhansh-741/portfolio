@@ -54,11 +54,6 @@ export default function ProjectsPage() {
 								</div>
 								<div className="flex items-center gap-3 text-[10px] font-bold text-muted-foreground uppercase tracking-wider whitespace-nowrap">
 									<span>{proj.period}</span>
-									{proj.metrics && (
-										<span className="text-[10px] font-bold uppercase tracking-widest bg-accent-warning text-black px-2 py-1">
-											{proj.metrics}
-										</span>
-									)}
 								</div>
 							</div>
 
