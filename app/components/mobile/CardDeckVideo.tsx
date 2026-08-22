@@ -17,7 +17,7 @@ export default function CardDeckVideo({ projectFileName, className = "" }: CardD
 		return (
 			<Image
 				src={`/videos/${projectFileName}-poster.webp`}
-				alt=""
+				alt={`${projectFileName.replace(/[-_]/g, " ")} — Production AI project video preview and poster`}
 				fill
 				sizes="(max-width: 640px) 100vw, 24rem"
 				className={`object-cover ${className}`}

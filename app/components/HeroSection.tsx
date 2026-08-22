@@ -49,6 +49,7 @@ export default function HeroSection() {
 						{char}
 					</span>
 				))}
+				<span className="sr-only"> Kapoor</span>
 			</motion.h1>
 
 			<motion.p
@@ -66,7 +67,7 @@ export default function HeroSection() {
 				transition={{ delay: 0.3 }}
 				className="text-sm xl:text-[clamp(0.85rem,2.1cqi,1.05rem)] text-muted-foreground leading-relaxed mt-3 xl:mt-[clamp(0.4rem,1.8cqi,0.85rem)] text-justify w-full max-w-prose"
 			>
-				{profile.intro}
+				Medhansh Kapoor is an AI/ML engineer and full-stack developer based in Jaipur, India, building production-grade AI agents, geospatial intelligence platforms, and civic-tech systems under IndiaAI Mission (MeitY) and ISSA-DRDO.
 			</motion.p>
 
 			<motion.div
@@ -79,7 +80,7 @@ export default function HeroSection() {
 					<a
 						href="https://x.com/medhansh541"
 						target="_blank"
-						rel="noopener noreferrer"
+						rel="me noopener noreferrer"
 						title="X (Twitter)"
 						className="group flex items-center justify-center h-[clamp(2.5rem,4cqi,3.5rem)] min-w-[clamp(2.5rem,4cqi,3.5rem)] px-0 hover:px-3 xl:hover:px-4 bg-background text-foreground border-[3px] border-border shadow-sm hover:shadow-[3px_3px_0_0_var(--color-accent-secondary)] hover:-translate-x-[2px] hover:-translate-y-[2px] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-300 select-none cursor-pointer overflow-hidden"
 					>
@@ -93,7 +94,7 @@ export default function HeroSection() {
 					<a
 						href="https://www.instagram.com/medhansh341/"
 						target="_blank"
-						rel="noopener noreferrer"
+						rel="me noopener noreferrer"
 						title="Instagram"
 						className="group flex items-center justify-center h-[clamp(2.5rem,4cqi,3.5rem)] min-w-[clamp(2.5rem,4cqi,3.5rem)] px-0 hover:px-3 xl:hover:px-4 bg-background text-foreground border-[3px] border-border shadow-sm hover:shadow-[3px_3px_0_0_var(--color-accent-secondary)] hover:-translate-x-[2px] hover:-translate-y-[2px] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-300 select-none cursor-pointer overflow-hidden"
 					>
@@ -107,13 +108,27 @@ export default function HeroSection() {
 					<a
 						href={profile.github}
 						target="_blank"
-						rel="noopener noreferrer"
+						rel="me noopener noreferrer"
 						title="GitHub"
 						className="group flex items-center justify-center h-[clamp(2.5rem,4cqi,3.5rem)] min-w-[clamp(2.5rem,4cqi,3.5rem)] px-0 hover:px-3 xl:hover:px-4 bg-background text-foreground border-[3px] border-border shadow-sm hover:shadow-[3px_3px_0_0_var(--color-accent-secondary)] hover:-translate-x-[2px] hover:-translate-y-[2px] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-300 select-none cursor-pointer overflow-hidden"
 					>
 						<FiGithub size={20} className="shrink-0" />
 						<span className="max-w-0 opacity-0 group-hover:max-w-[100px] group-hover:opacity-100 group-hover:ml-2 whitespace-nowrap overflow-hidden transition-all duration-300 font-bold uppercase tracking-widest text-[10px] xl:text-xs">
 							GitHub
+						</span>
+					</a>
+				</MagneticWrap>
+				<MagneticWrap>
+					<a
+						href={profile.linkedin}
+						target="_blank"
+						rel="me noopener noreferrer"
+						title="LinkedIn"
+						className="group flex items-center justify-center h-[clamp(2.5rem,4cqi,3.5rem)] min-w-[clamp(2.5rem,4cqi,3.5rem)] px-0 hover:px-3 xl:hover:px-4 bg-background text-foreground border-[3px] border-border shadow-sm hover:shadow-[3px_3px_0_0_var(--color-accent-secondary)] hover:-translate-x-[2px] hover:-translate-y-[2px] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-300 select-none cursor-pointer overflow-hidden"
+					>
+						<FiLinkedin size={20} className="shrink-0" />
+						<span className="max-w-0 opacity-0 group-hover:max-w-[100px] group-hover:opacity-100 group-hover:ml-2 whitespace-nowrap overflow-hidden transition-all duration-300 font-bold uppercase tracking-widest text-[10px] xl:text-xs">
+							LinkedIn
 						</span>
 					</a>
 				</MagneticWrap>
@@ -139,7 +154,7 @@ export default function HeroSection() {
 					<a
 						href="https://cal.com/medhansh541"
 						target="_blank"
-						rel="noopener noreferrer"
+						rel="me noopener noreferrer"
 						title="Meet"
 						className="group flex items-center justify-center h-[clamp(2.5rem,4cqi,3.5rem)] min-w-[clamp(2.5rem,4cqi,3.5rem)] px-0 hover:px-3 xl:hover:px-4 bg-background text-foreground border-[3px] border-border shadow-sm hover:shadow-[3px_3px_0_0_var(--color-accent-secondary)] hover:-translate-x-[2px] hover:-translate-y-[2px] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-300 select-none cursor-pointer overflow-hidden"
 					>

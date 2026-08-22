@@ -11,13 +11,19 @@ export default function MobileHeroSection() {
 			</div>
 
 			{/* Huge Name with Character Map */}
-			<h1 className="reveal font-gothic text-hero font-normal tracking-wide text-black dark:text-white leading-[0.8] cursor-default select-none -ml-1" style={{ animationDelay: "0.1s" }}>
+			<p
+				role="heading"
+				aria-level={1}
+				className="reveal font-gothic text-hero font-normal tracking-wide text-black dark:text-white leading-[0.8] cursor-default select-none -ml-1"
+				style={{ animationDelay: "0.1s" }}
+			>
 				{"Medhansh".split("").map((char, index) => (
 					<span key={index} className="transition-all duration-300 active:[text-shadow:0_0_15px_rgba(220,38,38,0.55)] dark:active:[text-shadow:0_0_15px_rgba(0,255,65,0.75)]">
 						{char}
 					</span>
 				))}
-			</h1>
+				<span className="sr-only"> Kapoor</span>
+			</p>
 
 			{/* Tagline */}
 			<p className="reveal text-small font-bold tracking-widest text-muted-foreground uppercase mt-3 max-w-prose leading-relaxed" style={{ animationDelay: "0.2s" }}>

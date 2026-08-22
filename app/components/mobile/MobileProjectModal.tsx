@@ -52,9 +52,9 @@ export default function MobileProjectModal({ project, allProjects }: MobileProje
 
 				{/* NEW 2. Dedicated Title Block */}
 				<header className="px-fluid-sm pt-fluid-md pb-fluid-xs shrink-0 min-w-0">
-					<h1 className="font-sans font-bold uppercase text-body text-foreground break-words" style={{ overflowWrap: 'anywhere' }}>
+					<h2 className="font-sans font-bold uppercase text-body text-foreground break-words" style={{ overflowWrap: 'anywhere' }}>
 						{project.title}
-					</h1>
+					</h2>
 					{project.subtitle && (
 						<p className="font-sans text-caption text-muted-foreground mt-fluid-xs">
 							{project.subtitle}
@@ -91,7 +91,7 @@ export default function MobileProjectModal({ project, allProjects }: MobileProje
 								<div className="w-full aspect-video bg-muted border-y-2 border-border overflow-hidden relative">
 									<Image
 										src={`/videos/${MOBILE_VIDEO_MAP[p.title.toLowerCase()] || p.title.toLowerCase()}.webp`}
-										alt={`${p.title} thumbnail`}
+										alt={`${p.title} — ${p.subtitle || 'AI Project Architecture Preview'}`}
 										fill
 										sizes="(max-width: 768px) 100vw, 42rem"
 										className="object-cover"

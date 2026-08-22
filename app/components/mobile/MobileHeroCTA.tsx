@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { FiInstagram, FiGithub, FiMail, FiVideo, FiFileText } from "react-icons/fi";
+import { FiInstagram, FiGithub, FiLinkedin, FiMail, FiVideo, FiFileText } from "react-icons/fi";
 import { FaXTwitter } from "react-icons/fa6";
 import { profile } from "@/app/data/profile";
 import { AnimatePresence, motion } from "framer-motion";
@@ -11,7 +11,7 @@ export default function MobileHeroCTA() {
 	const [copied, setCopied] = useState(false);
 
 	const handleCopy = () => {
-		navigator.clipboard.writeText("medhansh541@gmail.com");
+		navigator.clipboard.writeText(profile.email);
 		setCopied(true);
 		setTimeout(() => setCopied(false), 2000);
 	};
@@ -25,7 +25,7 @@ export default function MobileHeroCTA() {
 				<a
 					href="https://x.com/medhansh541"
 					target="_blank"
-					rel="noopener noreferrer"
+					rel="me noopener noreferrer"
 					className={iconClass}
 					aria-label="X (Twitter)"
 				>
@@ -34,7 +34,7 @@ export default function MobileHeroCTA() {
 				<a
 					href="https://www.instagram.com/medhansh341/"
 					target="_blank"
-					rel="noopener noreferrer"
+					rel="me noopener noreferrer"
 					className={iconClass}
 					aria-label="Instagram"
 				>
@@ -43,11 +43,20 @@ export default function MobileHeroCTA() {
 				<a
 					href={profile.github}
 					target="_blank"
-					rel="noopener noreferrer"
+					rel="me noopener noreferrer"
 					className={iconClass}
 					aria-label="GitHub"
 				>
 					<FiGithub size={20} />
+				</a>
+				<a
+					href={profile.linkedin}
+					target="_blank"
+					rel="me noopener noreferrer"
+					className={iconClass}
+					aria-label="LinkedIn"
+				>
+					<FiLinkedin size={20} />
 				</a>
 				<button
 					onClick={handleCopy}
@@ -59,7 +68,7 @@ export default function MobileHeroCTA() {
 				<a
 					href="https://cal.com/medhansh541"
 					target="_blank"
-					rel="noopener noreferrer"
+					rel="me noopener noreferrer"
 					className={iconClass}
 					aria-label="Meet"
 				>

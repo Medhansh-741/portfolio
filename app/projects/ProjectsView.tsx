@@ -45,7 +45,10 @@ export default function ProjectsView() {
 						>
 							<div className="flex flex-col xl:flex-row xl:items-start xl:justify-between gap-2 mb-4">
 								<div>
-									<h2 className="font-sans text-xl font-bold text-foreground uppercase">
+									<h2
+										id={proj.title.toLowerCase()}
+										className="font-sans text-xl font-bold text-foreground uppercase scroll-mt-24"
+									>
 										{proj.title}
 									</h2>
 									<p className="text-xs font-bold text-muted-foreground uppercase tracking-wider mt-0.5">
@@ -123,6 +126,22 @@ export default function ProjectsView() {
 							</div>
 						</motion.div>
 					))}
+				</div>
+
+				{/* Internal Linking Architecture */}
+				<div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-12 pt-8 border-t-[3px] border-border text-xs font-bold uppercase tracking-wider">
+					<a
+						href="/experience"
+						className="text-muted-foreground hover:text-foreground transition-colors"
+					>
+						← View Professional Experience
+					</a>
+					<a
+						href="/about"
+						className="text-muted-foreground hover:text-foreground transition-colors"
+					>
+						Read Engineering Philosophy & Achievements →
+					</a>
 				</div>
 			</div>
 		</main>

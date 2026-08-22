@@ -91,6 +91,7 @@ export function getProfilePageSchema(path = "", title = "Medhansh Kapoor", descr
 		url: pageUrl,
 		name: title,
 		description,
+		dateModified: "2026-08-23",
 		isPartOf: {
 			"@id": WEBSITE_ID,
 		},
@@ -113,6 +114,7 @@ export function getProjectsCollectionSchema() {
 		name: "Projects — Medhansh Kapoor",
 		description:
 			"Explore production AI systems built by Medhansh Kapoor, including JanSamadhan (autonomous civic surveillance) and NyayaAI (multi-agent legal platform).",
+		dateModified: "2026-08-23",
 		isPartOf: {
 			"@id": WEBSITE_ID,
 		},
@@ -151,6 +153,7 @@ export function getExperiencePageSchema() {
 		name: "Experience — Medhansh Kapoor",
 		description:
 			"Professional engineering experience of Medhansh Kapoor — AI/ML roles at IndiaAI Mission (MeitY), ISSA-DRDO, and Geminid Systems.",
+		dateModified: "2026-08-23",
 		isPartOf: {
 			"@id": WEBSITE_ID,
 		},

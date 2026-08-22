@@ -95,6 +95,22 @@ export default function ExperienceView() {
 						</motion.div>
 					))}
 				</div>
+
+				{/* Internal Linking Architecture */}
+				<div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-12 pt-8 border-t-[3px] border-border text-xs font-bold uppercase tracking-wider">
+					<a
+						href="/projects"
+						className="text-muted-foreground hover:text-foreground transition-colors"
+					>
+						← View AI/ML Projects (JanSamadhan & NyayaAI)
+					</a>
+					<a
+						href="/about"
+						className="text-muted-foreground hover:text-foreground transition-colors"
+					>
+						Read Education & Achievements →
+					</a>
+				</div>
 			</div>
 		</main>
 	);

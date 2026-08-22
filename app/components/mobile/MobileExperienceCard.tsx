@@ -26,9 +26,9 @@ export default function MobileExperienceCard({ experience }: MobileExperienceCar
 
 			{/* Title & Subtitle */}
 			<div className="flex flex-col gap-fluid-xs shrink-0">
-				<h3 className="font-sans font-bold uppercase text-foreground text-body leading-tight">
+				<h2 className="font-sans font-bold uppercase text-foreground text-body leading-tight">
 					{experience.company}
-				</h3>
+				</h2>
 				<p className="text-muted-foreground font-semibold uppercase tracking-wider text-caption">
 					{experience.role}
 				</p>
