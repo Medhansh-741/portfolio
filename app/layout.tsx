@@ -32,7 +32,7 @@ const dseg7 = localFont({
 		{ path: "../public/fonts/DSEG7Classic-Bold.woff2", weight: "700", style: "normal" },
 	],
 	variable: "--font-dseg7",
-	display: "block",
+	display: "swap",
 });
 
 const dseg14 = localFont({
@@ -41,13 +41,13 @@ const dseg14 = localFont({
 		{ path: "../public/fonts/DSEG14Classic-Bold.woff2", weight: "700", style: "normal" },
 	],
 	variable: "--font-dseg14",
-	display: "block",
+	display: "swap",
 });
 
 export const metadata: Metadata = {
 	metadataBase: new URL("https://medhanshk.me"),
 	title: {
-		default: "Medhansh Kapoor — AI/ML Engineer & Full-Stack Developer",
+		default: "Medhansh Kapoor",
 		template: "%s | Medhansh Kapoor",
 	},
 	description:

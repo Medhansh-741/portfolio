@@ -24,14 +24,27 @@ export default function NotFound() {
 					the portfolio directory.
 				</p>
 
-				<div className="mt-8">
+				<div className="mt-8 flex flex-col sm:flex-row items-center gap-3">
 					<Link
 						href="/"
 						className="inline-flex items-center gap-2 px-6 py-3 text-[length:var(--text-fluid-sm)] font-mono font-bold uppercase tracking-widest bg-background text-foreground border-[length:var(--border-fluid)] border-border shadow-md hover:shadow-[3px_3px_0_0_var(--accent)] hover:-translate-x-[1px] hover:-translate-y-[1px] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-200 cursor-pointer"
 					>
 						<FiArrowLeft className="w-[1.2em] h-[1.2em]" />
-						Return to Terminal
+						Home Terminal
 					</Link>
+					<div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-muted-foreground">
+						<Link href="/projects" className="hover:text-foreground underline">
+							Projects
+						</Link>
+						<span>·</span>
+						<Link href="/experience" className="hover:text-foreground underline">
+							Experience
+						</Link>
+						<span>·</span>
+						<Link href="/about" className="hover:text-foreground underline">
+							About
+						</Link>
+					</div>
 				</div>
 			</div>
 		</main>
