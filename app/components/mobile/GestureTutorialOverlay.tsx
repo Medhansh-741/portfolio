@@ -36,12 +36,13 @@ export default function GestureTutorialOverlay() {
 
 	useEffect(() => {
 		let isCancelled = false;
+		let observer: IntersectionObserver;
 
 		const runTutorial = async () => {
 			const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
-			// Give the user 3 seconds to look at the screen before running tutorial
-			await delay(3000);
+			// Give the user 2 seconds to look at the screen before running tutorial
+			await delay(2000);
 
 			while (!isCancelled) {
 				// We derive sizing dynamically at runtime per mobile rulebook (no hardcoded px logic)
@@ -77,8 +78,6 @@ export default function GestureTutorialOverlay() {
 			}
 		};
 
-		runTutorial();
-
 		const cancelTutorial = () => {
 			isCancelled = true;
 			trailApi.start({ opacity: 0, scale: 0, immediate: true });
@@ -90,19 +89,40 @@ export default function GestureTutorialOverlay() {
 			);
 		};
 
-		// If a real human touches the screen, kill the puppet master permanently
-		window.addEventListener("touchstart", cancelTutorial, { passive: true, once: true });
-		window.addEventListener("mousedown", cancelTutorial, { passive: true, once: true });
+		const handleInteraction = (e: Event) => {
+			const target = e.target as HTMLElement;
+			if (target.closest('.card-stack-engine')) {
+				cancelTutorial();
+				// Once cancelled, we no longer need the listeners
+				window.removeEventListener("touchstart", handleInteraction);
+				window.removeEventListener("mousedown", handleInteraction);
+			}
+		};
+
+		const overlayElement = document.getElementById('gesture-tutorial-overlay');
+		if (overlayElement) {
+			observer = new IntersectionObserver((entries) => {
+				if (entries[0].isIntersecting && !isCancelled) {
+					runTutorial();
+					// Only listen for kills once it's on screen
+					window.addEventListener("touchstart", handleInteraction, { passive: true });
+					window.addEventListener("mousedown", handleInteraction, { passive: true });
+					observer.disconnect(); // Only trigger once
+				}
+			}, { threshold: 0.5 });
+			observer.observe(overlayElement);
+		}
 
 		return () => {
 			isCancelled = true;
-			window.removeEventListener("touchstart", cancelTutorial);
-			window.removeEventListener("mousedown", cancelTutorial);
+			if (observer) observer.disconnect();
+			window.removeEventListener("touchstart", handleInteraction);
+			window.removeEventListener("mousedown", handleInteraction);
 		};
 	}, [driverApi, trailApi]);
 
 	return (
-		<div className="absolute inset-0 pointer-events-none z-[100] overflow-visible">
+		<div id="gesture-tutorial-overlay" className="absolute inset-0 pointer-events-none z-[100] overflow-visible">
 			{trail.map((style, i) => (
 				<animated.div
 					key={i}

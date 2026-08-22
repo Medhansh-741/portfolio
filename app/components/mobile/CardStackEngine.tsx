@@ -439,7 +439,7 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 	}, { filterTaps: true }); // Capture both axes
 
 	return (
-		<div className="relative w-full mx-auto isolate mb-fluid-md select-none" style={{ perspective: "1500px" }}>
+		<div className="card-stack-engine relative w-full mx-auto isolate mb-fluid-md select-none" style={{ perspective: "1500px" }}>
 			
 			<GestureTutorialOverlay />
 			
