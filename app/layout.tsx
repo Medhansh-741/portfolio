@@ -44,9 +44,13 @@ const dseg14 = localFont({
 });
 
 export const metadata: Metadata = {
+	metadataBase: new URL("https://medhanshk.me"),
 	title: "Medhansh Kapoor",
 	description:
 		"Portfolio of Medhansh Kapoor — AI/ML Engineer and Full-Stack Developer. Building production-grade AI agents, geospatial systems, and full-stack applications.",
+	alternates: {
+		canonical: "/",
+	},
 };
 
 export default function RootLayout({
