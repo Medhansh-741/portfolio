@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { useSpring, useSprings, animated } from "@react-spring/web";
 import { useDrag } from "@use-gesture/react";
 import { CardDeckContext } from "./CardDeckVideo";
+import GestureTutorialOverlay from "./GestureTutorialOverlay";
 
 interface CardStackEngineProps {
 	projectCards: React.ReactNode[];
@@ -168,6 +169,58 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 		};
 	});
 
+	// ==========================================
+	// TUTORIAL PUPPET LISTENER (100% Decoupled)
+	// ==========================================
+	useEffect(() => {
+		const handleTutorialPeek = (e: Event) => {
+			const customEvent = e as CustomEvent;
+			if (intentRef.current) return; // Ignore if user is already touching/dragging
+
+			const { mx, my, snap } = customEvent.detail;
+
+			if (snap) {
+				api.start(i => {
+					const currentPos = orderRef.current.indexOf(i);
+					return {
+						x: 0, y: 0, rotY: 0,
+						rotZ: STATIC_ROTATIONS[currentPos],
+						scale: 1,
+						config: { friction: 50, tension: 500 },
+					};
+				});
+				return;
+			}
+
+			// We mirror the original useDrag peel logic exactly, but purely externally
+			api.set(i => {
+				const currentPos = orderRef.current.indexOf(i);
+				const pivotFactor = my < 0 ? -1 : 1; 
+
+				// Whole Deck Vertical Swipe
+				if (Math.abs(my) > 0 && Math.abs(mx) === 0) {
+					return { y: my, rotZ: STATIC_ROTATIONS[currentPos], rotY: 0, scale: 1, x: 0 };
+				}
+				
+				// Horizontal Top Card Peel
+				if (currentPos === 0) {
+					if (Math.abs(mx) > 0) {
+						return { x: mx, y: Math.abs(mx) * 0.1, rotZ: (mx / 20) * pivotFactor, rotY: 0, scale: 1.02 };
+					}
+				}
+				
+				// Background card horizontal fan
+				if (currentPos < 3 && Math.abs(mx) > 0) {
+					return { rotZ: STATIC_ROTATIONS[currentPos] + (mx / 300), scale: 1 };
+				}
+				
+				return {};
+			});
+		};
+
+		window.addEventListener("tutorial-peek", handleTutorialPeek);
+		return () => window.removeEventListener("tutorial-peek", handleTutorialPeek);
+	}, [api]);
 
 
 	const bind = useDrag(({ args: [index], active, movement: [mx, my], velocity: [vx], initial: [, iy] }) => {
@@ -387,6 +440,8 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 
 	return (
 		<div className="relative w-full mx-auto isolate mb-fluid-md select-none" style={{ perspective: "1500px" }}>
+			
+			<GestureTutorialOverlay />
 			
 			{/* The Ghost Element: Holds container open securely */}
 			{activeCards.length > 0 && (
