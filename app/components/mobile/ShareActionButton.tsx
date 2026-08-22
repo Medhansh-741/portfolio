@@ -24,7 +24,7 @@ export default function ShareActionButton({ url }: ShareActionButtonProps) {
 		<button
 			onClick={handleShare}
 			aria-label="Share"
-			className="flex items-center justify-center min-w-11 min-h-11 text-foreground transition-all"
+			className="flex items-center justify-center min-w-[var(--spacing-fluid-xl-val)] min-h-[var(--spacing-fluid-xl-val)] text-foreground transition-all"
 			title="Share"
 		>
 			{copied ? <FiCheck size="1.25em" className="text-[var(--color-accent-success)]" /> : <FiShare2 size="1.25em" />}

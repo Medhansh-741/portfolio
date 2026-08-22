@@ -33,7 +33,7 @@ export default function MobileProjectModal({ project, allProjects }: MobileProje
 		<div className="xl:hidden">
 		<div className="fixed inset-0 z-[9999] flex justify-center bg-background/95 backdrop-blur-sm pointer-events-none">
 			{/* Inner Modal Shell (Column Cap) */}
-			<article className="w-full max-w-2xl h-full flex flex-col bg-background shadow-2xl relative pointer-events-auto overflow-y-auto overscroll-contain border-x-2 border-border [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+			<article className="@container w-full max-w-2xl h-full flex flex-col bg-background shadow-2xl relative pointer-events-auto overflow-y-auto overscroll-contain border-x-2 border-border [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
 				
 				{/* 1. Video Player */}
 				<figure 
@@ -51,7 +51,7 @@ export default function MobileProjectModal({ project, allProjects }: MobileProje
 				</figure>
 
 				{/* NEW 2. Dedicated Title Block */}
-				<header className="p-fluid-md pb-fluid-xs shrink-0 min-w-0">
+				<header className="px-fluid-sm pt-fluid-md pb-fluid-xs shrink-0 min-w-0">
 					<h1 className="font-sans font-bold uppercase text-body text-foreground break-words" style={{ overflowWrap: 'anywhere' }}>
 						{project.title}
 					</h1>
@@ -63,26 +63,16 @@ export default function MobileProjectModal({ project, allProjects }: MobileProje
 				</header>
 
 				{/* NEW 3. Channel & Action Row */}
-				<section className="flex items-center justify-between px-fluid-md pb-fluid-md border-b-2 border-border shrink-0">
-					{/* Left: Profile & Subscribe */}
-					<div className="flex items-center gap-fluid-sm shrink-0 min-w-0">
-						<Link href="/" className="flex items-center gap-fluid-sm shrink-0 min-w-0 group">
-							<div className="w-10 h-10 rounded-full bg-foreground shrink-0 flex items-center justify-center p-2.5 overflow-hidden">
-								<Logo className="w-full h-full text-background group-hover:scale-110 transition-transform duration-300" />
-							</div>
-							<span className="font-sans font-bold capitalize text-caption text-foreground truncate group-hover:text-[var(--color-accent-warning)] transition-colors">
-								Medhansh
-							</span>
-						</Link>
-						<a 
-							href={profile.linkedin}
-							target="_blank"
-							rel="noopener noreferrer"
-							className="font-sans font-bold uppercase text-body text-[var(--color-accent-warning)] ml-fluid-xs shrink-0"
-						>
-							Connect
-						</a>
-					</div>
+				<section className="flex items-end justify-between px-fluid-sm pt-fluid-md pb-fluid-xs border-b-2 border-border shrink-0">
+					{/* Left: Profile & Name */}
+					<Link href="/" className="flex items-center gap-fluid-sm min-w-0 group">
+						<div className="w-[var(--spacing-fluid-xl-val)] h-[var(--spacing-fluid-xl-val)] rounded-full bg-foreground shrink-0 flex items-center justify-center p-[var(--spacing-fluid-xs-val)] overflow-hidden">
+							<Logo className="w-full h-full text-background group-hover:scale-110 transition-transform duration-300" />
+						</div>
+						<span className="font-sans capitalize text-small text-foreground truncate min-w-0 group-hover:text-[var(--color-accent-warning)] transition-colors">
+							Medhansh
+						</span>
+					</Link>
 
 					{/* Right: Actions */}
 					<MobileActionRow 
@@ -109,8 +99,8 @@ export default function MobileProjectModal({ project, allProjects }: MobileProje
 								</div>
 								{/* Title & Desc Underneath */}
 								<div className="flex gap-fluid-sm p-fluid-md pt-fluid-sm min-w-0">
-									<div className="w-10 h-10 rounded-full bg-foreground shrink-0 flex items-center justify-center p-2.5 overflow-hidden">
-										<Logo className="w-full h-full text-background" />
+									<div className="w-[var(--spacing-fluid-xl-val)] h-[var(--spacing-fluid-xl-val)] rounded-full bg-foreground shrink-0 flex items-center justify-center p-[var(--spacing-fluid-xs-val)] overflow-hidden">
+										<Logo className="w-full h-full text-background group-hover:scale-110 transition-transform duration-300" />
 									</div>
 									<div className="flex flex-col min-w-0">
 										<h5 className="font-sans font-bold uppercase text-small text-foreground truncate">

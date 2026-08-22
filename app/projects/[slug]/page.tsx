@@ -14,7 +14,9 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 	return (
 		<main className="min-h-dvh flex flex-col items-center justify-center bg-background">
 			{/* Mobile Project Modal (Hidden on Desktop) */}
-			<MobileProjectModal project={project} allProjects={profile.projects} />
+			<div className="xl:hidden w-full flex-1 flex flex-col">
+				<MobileProjectModal project={project} allProjects={profile.projects} />
+			</div>
 			
 			{/* Desktop Fallback (Hidden on Mobile) */}
 			<div className="hidden xl:flex flex-col items-center justify-center text-center p-8 border-2 border-border bg-card">

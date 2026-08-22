@@ -40,7 +40,7 @@ export default function MobileActionRow({ url, projectName, videoFileName }: Mob
 				<button
 					onClick={handleLike}
 					aria-label="Like"
-					className="flex items-center justify-center min-w-11 min-h-11 text-foreground gap-1.5 px-2"
+					className="flex items-center justify-center min-w-[var(--spacing-fluid-xl-val)] min-h-[var(--spacing-fluid-xl-val)] text-foreground gap-1.5 px-[var(--spacing-fluid-xs-val)]"
 				>
 					<FiThumbsUp size="1.25em" className={interaction === "LIKED" ? "fill-foreground" : ""} />
 					<span className="font-sans text-caption font-bold">{likesCount}</span>
@@ -48,7 +48,7 @@ export default function MobileActionRow({ url, projectName, videoFileName }: Mob
 				<button
 					onClick={handleDislike}
 					aria-label="Dislike"
-					className="flex items-center justify-center min-w-11 min-h-11 text-foreground"
+					className="flex items-center justify-center min-w-[var(--spacing-fluid-xl-val)] min-h-[var(--spacing-fluid-xl-val)] text-foreground"
 				>
 					<FiThumbsDown size="1.25em" className={interaction === "DISLIKED" ? "fill-foreground" : ""} />
 				</button>
@@ -60,7 +60,7 @@ export default function MobileActionRow({ url, projectName, videoFileName }: Mob
 					href={`/videos/${videoFileName}.mp4`}
 					download
 					aria-label="Download video"
-					className="flex items-center justify-center min-w-11 min-h-11 text-foreground"
+					className="flex items-center justify-center min-w-[var(--spacing-fluid-xl-val)] min-h-[var(--spacing-fluid-xl-val)] text-foreground"
 					title="Download"
 				>
 					<FiDownload size="1.25em" />

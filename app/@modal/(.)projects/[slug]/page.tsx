@@ -10,5 +10,9 @@ export default async function ProjectModalIntercept({ params }: { params: Promis
 		notFound();
 	}
 
-	return <MobileProjectModal project={project} allProjects={profile.projects} />;
+	return (
+		<div className="xl:hidden">
+			<MobileProjectModal project={project} allProjects={profile.projects} />
+		</div>
+	);
 }
