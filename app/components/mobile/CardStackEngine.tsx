@@ -90,8 +90,9 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 				const angle = maxAngle - (currentPos * SPREAD_ANGLE);
 				const rad = angle * (Math.PI / 180);
 
-				const Px = -150;
-				const Py = 200;
+				const cardWidth = Math.min(window.innerWidth * 0.916, 384);
+				const Px = 0;
+				const Py = cardWidth * 0.75;
 				const dx = Px - (Px * Math.cos(rad) - Py * Math.sin(rad));
 				const dy = Py - (Px * Math.sin(rad) + Py * Math.cos(rad));
 
