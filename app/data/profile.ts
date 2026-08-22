@@ -151,7 +151,7 @@ export const profile = {
 				"PostgreSQL/PostGIS",
 				"Gemini 2.5",
 			],
-			metrics: "70.3% Precision | 57.7% Recall | 0.68 mAP50",
+
 			highlights: [
 				"Model & Inference: Trained YOLOv8 on 4,783 images with 30% engineered negatives and FN-bucketing for recall diagnosis; achieved 20ms ONNX inference on a FastAPI microservice deployed via GCP Cloud Run.",
 				"Auto-Ticketing & Reliability: Engineered a burst-frame extraction pipeline feeding a 4-tier reliability engine and DIGIPIN geospatial deduplication (4m² grid), processing 256 end-to-end complaints in 0.36s per ticket.",
@@ -181,7 +181,7 @@ export const profile = {
 				"Groq",
 				"Gemini",
 			],
-			metrics: "5-Agent Workflow | 11 Legal Domains",
+
 			highlights: [
 				"Orchestration & Intake: Built a stateful 5-stage LangGraph pipeline (Intake → Research → Strategy → Drafting → Explainability) with OCR-aware processing and SHA-256 caching to mitigate LLM hallucinations.",
 				"RAG & Determinism: Indexed 4,582 chunks (7 legal acts) in Qdrant via Sentence Transformers; engineered a diagnostic harness to catch retrieval drift and OCR instability across N-run tests.",
