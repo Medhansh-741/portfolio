@@ -1,34 +1,85 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { profile } from "@/app/data/profile";
 import MobileProjectModal from "@/app/components/mobile/MobileProjectModal";
+import DesktopProjectDirectView from "@/app/components/DesktopProjectDirectView";
+import { JsonLd, getSingleProjectSchema } from "@/app/lib/jsonld";
 
-// This is the direct route, fallback for hard refreshes.
-export default async function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {
+export async function generateStaticParams() {
+	return profile.projects.map((project) => ({
+		slug: project.title.toLowerCase().replace(/\s+/g, "-"),
+	}));
+}
+
+export async function generateMetadata({
+	params,
+}: {
+	params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
 	const resolvedParams = await params;
-	const project = profile.projects.find(p => p.title.toLowerCase() === resolvedParams.slug.toLowerCase());
-	
+	const project = profile.projects.find(
+		(p) =>
+			p.title.toLowerCase() === resolvedParams.slug.toLowerCase() ||
+			p.title.toLowerCase().replace(/\s+/g, "-") === resolvedParams.slug.toLowerCase(),
+	);
+
+	if (!project) return { title: "Project Not Found" };
+
+	const canonicalUrl = `https://medhanshk.me/projects/${resolvedParams.slug}`;
+
+	return {
+		title: `${project.title} — Medhansh Kapoor`,
+		description: project.description,
+		alternates: {
+			canonical: canonicalUrl,
+		},
+		openGraph: {
+			title: `${project.title} — ${project.subtitle} | Medhansh Kapoor`,
+			description: project.description,
+			url: canonicalUrl,
+			siteName: "Medhansh Kapoor",
+			type: "article",
+		},
+		twitter: {
+			card: "summary_large_image",
+			title: `${project.title} — ${project.subtitle} | Medhansh Kapoor`,
+			description: project.description,
+			creator: "@medhansh541",
+		},
+	};
+}
+
+export default async function ProjectPage({
+	params,
+}: {
+	params: Promise<{ slug: string }>;
+}) {
+	const resolvedParams = await params;
+	const project = profile.projects.find(
+		(p) =>
+			p.title.toLowerCase() === resolvedParams.slug.toLowerCase() ||
+			p.title.toLowerCase().replace(/\s+/g, "-") === resolvedParams.slug.toLowerCase(),
+	);
+
 	if (!project) {
 		notFound();
 	}
 
+	const jsonLdData = getSingleProjectSchema(project, resolvedParams.slug);
+
 	return (
 		<main className="min-h-dvh flex flex-col items-center justify-center bg-background">
+			{/* Schema.org ItemPage + SoftwareApplication Structured Data */}
+			<JsonLd data={jsonLdData} />
+
 			{/* Mobile Project Modal (Hidden on Desktop) */}
 			<div className="xl:hidden w-full flex-1 flex flex-col">
 				<MobileProjectModal project={project} allProjects={profile.projects} />
 			</div>
-			
-			{/* Desktop Fallback (Hidden on Mobile) */}
-			<div className="hidden xl:flex flex-col items-center justify-center text-center p-8 border-2 border-border bg-card">
-				<h1 className="font-sans text-3xl font-black uppercase text-foreground mb-4">
-					{project.title}
-				</h1>
-				<p className="text-muted-foreground mb-6">
-					You are viewing this project directly. Return to the projects grid for the full experience.
-				</p>
-				<a href="/projects" className="px-6 py-3 bg-[var(--color-accent)] text-background font-bold uppercase tracking-widest border-[3px] border-border hover:-translate-y-1 transition-transform">
-					Return to Projects
-				</a>
+
+			{/* Desktop Window View (Hidden on Mobile) */}
+			<div className="hidden xl:flex w-full flex-1 items-center justify-center">
+				<DesktopProjectDirectView project={project} />
 			</div>
 		</main>
 	);

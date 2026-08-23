@@ -126,6 +126,7 @@ export default function GenieModal({
 								</div>
 								<Link
 									href={`/projects#${project.title.toLowerCase()}`}
+									prefetch={true}
 									onClick={onClose}
 									className="inline-flex items-center gap-1.5 border-[2px] border-border bg-muted hover:bg-muted/70 px-3 py-1.5 text-[9px] font-black uppercase tracking-widest text-foreground transition-all duration-200 cursor-pointer shadow-xs active:translate-x-0 active:translate-y-0 hover:-translate-x-[1px] hover:-translate-y-[1px] hover:shadow-sm"
 								>

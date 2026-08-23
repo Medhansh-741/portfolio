@@ -1,4 +1,4 @@
-import { profile } from "@/app/data/profile";
+import { profile, type Project } from "@/app/data/profile";
 
 export const SITE_URL = "https://medhanshk.me";
 export const PERSON_ID = `${SITE_URL}/#person`;
@@ -168,6 +168,43 @@ export function getExperiencePageSchema() {
 		},
 		mainEntity: {
 			"@id": PERSON_ID,
+		},
+	};
+}
+
+/**
+ * Generates ItemPage + SoftwareApplication schema for a dedicated project page (/projects/[slug]).
+ */
+export function getSingleProjectSchema(project: Project, slug: string) {
+	const pageUrl = `${SITE_URL}/projects/${slug}`;
+	return {
+		"@context": "https://schema.org",
+		"@type": "ItemPage",
+		"@id": `${pageUrl}/#webpage`,
+		url: pageUrl,
+		name: `${project.title} — Medhansh Kapoor`,
+		description: project.description,
+		dateModified: "2026-08-23",
+		isPartOf: {
+			"@id": WEBSITE_ID,
+		},
+		mainEntity: {
+			"@type": "SoftwareApplication",
+			"@id": `${pageUrl}/#software`,
+			name: project.title,
+			description: project.description,
+			applicationCategory: "AI / Machine Learning Application",
+			operatingSystem: "Web",
+			url: project.links.live,
+			sameAs: [project.links.github, project.links.demo].filter(Boolean),
+			author: {
+				"@id": PERSON_ID,
+			},
+			offers: {
+				"@type": "Offer",
+				price: "0",
+				priceCurrency: "USD",
+			},
 		},
 	};
 }
