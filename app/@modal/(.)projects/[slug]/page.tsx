@@ -23,7 +23,7 @@ export default async function ProjectModalIntercept({
 		<>
 			{/* Mobile Modal Intercept */}
 			<div className="xl:hidden">
-				<MobileProjectModal project={project} allProjects={profile.projects} />
+				<MobileProjectModal project={project} allProjects={profile.projects} isDirect={true} />
 			</div>
 
 			{/* Desktop Modal Intercept */}

@@ -86,7 +86,7 @@ export default async function ProjectPage({
 
 			{/* Mobile Project Modal (Hidden on Desktop) */}
 			<div className="xl:hidden w-full flex-1 flex flex-col">
-				<MobileProjectModal project={project} allProjects={profile.projects} />
+				<MobileProjectModal project={project} allProjects={profile.projects} isDirect={true} />
 			</div>
 
 			{/* Desktop Window View (Hidden on Mobile) */}

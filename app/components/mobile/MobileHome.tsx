@@ -26,9 +26,7 @@ export default function MobileHome() {
 				{/* Work: Playing-Card Stack (Engine Phase 2 UI) */}
 				<div className="px-fluid-sm pt-fluid-lg pb-fluid-sm flex-1 flex flex-col">
 					<CardStackEngine 
-						projectCards={profile.projects.map(proj => (
-							<MobileProjectCard key={proj.title} project={proj} />
-						))}
+						projects={profile.projects}
 						experienceCards={profile.experience.map((exp, idx) => (
 							<MobileExperienceCard key={`exp-${idx}`} experience={exp} />
 						))}

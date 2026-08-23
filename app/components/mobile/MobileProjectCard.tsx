@@ -5,6 +5,7 @@ import CardDeckVideo from "./CardDeckVideo";
 
 interface MobileProjectCardProps {
 	project: Project;
+	onOpenDemo?: (project: Project) => void;
 }
 
 const MOBILE_VIDEO_MAP: Record<string, string> = {
@@ -12,7 +13,7 @@ const MOBILE_VIDEO_MAP: Record<string, string> = {
 	nyayaai: "nyayaai",
 };
 
-export default function MobileProjectCard({ project }: MobileProjectCardProps) {
+export default function MobileProjectCard({ project, onOpenDemo }: MobileProjectCardProps) {
 	return (
 		<div className="w-full h-full flex flex-col justify-between bg-card border border-border/50 rounded-xl shadow-[0_1px_3px_rgba(0,0,0,0.1),0_1px_2px_rgba(0,0,0,0.06)] p-fluid-md gap-fluid-sm relative">
 			{/* Card Header Equivalent */}
@@ -56,14 +57,25 @@ export default function MobileProjectCard({ project }: MobileProjectCardProps) {
 				)}
 				
 				{project.links?.demo && (
-					<Link
-						href={`/projects/${project.title.toLowerCase()}`}
-						scroll={false}
-						aria-label="View Project Demo"
-						className="flex items-center justify-center w-12 h-12 bg-background border-2 border-border shadow-[2px_2px_0_0_var(--color-border)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-150 text-[var(--color-accent-warning)]"
-					>
-						<FiYoutube size="1.25rem" />
-					</Link>
+					onOpenDemo ? (
+						<button
+							type="button"
+							onClick={() => onOpenDemo(project)}
+							aria-label="View Project Demo"
+							className="flex items-center justify-center w-12 h-12 bg-background border-2 border-border shadow-[2px_2px_0_0_var(--color-border)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-150 text-[var(--color-accent-warning)] cursor-pointer"
+						>
+							<FiYoutube size="1.25rem" />
+						</button>
+					) : (
+						<Link
+							href={`/projects/${project.title.toLowerCase()}`}
+							scroll={false}
+							aria-label="View Project Demo"
+							className="flex items-center justify-center w-12 h-12 bg-background border-2 border-border shadow-[2px_2px_0_0_var(--color-border)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-150 text-[var(--color-accent-warning)]"
+						>
+							<FiYoutube size="1.25rem" />
+						</Link>
+					)
 				)}
 
 				<Link

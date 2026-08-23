@@ -1,13 +1,18 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback, useMemo } from "react";
+import { createPortal } from "react-dom";
 import { useSpring, useSprings, animated } from "@react-spring/web";
 import { useDrag } from "@use-gesture/react";
+import type { Project } from "@/app/data/profile";
 import { CardDeckContext } from "./CardDeckVideo";
 import GestureTutorialOverlay from "./GestureTutorialOverlay";
+import MobileProjectCard from "./MobileProjectCard";
+import MobileProjectModal from "./MobileProjectModal";
 
 interface CardStackEngineProps {
-	projectCards: React.ReactNode[];
+	projects?: Project[];
+	projectCards?: React.ReactNode[];
 	experienceCards: React.ReactNode[];
 }
 
@@ -17,12 +22,77 @@ const NUM_PHYSICAL_CARDS = 5;
 // Pre-calculate static visual rotations for the 5 depth slots to prevent hydration jitter.
 const STATIC_ROTATIONS = [0, 2, 1, 0, 0];
 
-export default function CardStackEngine({ projectCards, experienceCards }: CardStackEngineProps) {
-	const DECKS = [
-		{ id: "projects" as const, cards: projectCards },
-		{ id: "experience" as const, cards: experienceCards }
-	];
+export default function CardStackEngine({
+	projects,
+	projectCards,
+	experienceCards,
+}: CardStackEngineProps) {
+	const [activeProject, setActiveProject] = useState<Project | null>(null);
+	const [mounted, setMounted] = useState(false);
+	const prevProjectRef = useRef<Project | null>(null);
+	const isInitialMount = useRef(true);
+
+	useEffect(() => {
+		setMounted(true);
+	}, []);
+
+	// Safely sync activeProject state with browser URL History API
+	useEffect(() => {
+		if (isInitialMount.current) {
+			isInitialMount.current = false;
+			prevProjectRef.current = activeProject;
+			return;
+		}
+
+		if (activeProject) {
+			const targetUrl = `/projects/${activeProject.title.toLowerCase()}`;
+			if (window.location.pathname !== targetUrl) {
+				window.history.pushState({ modal: activeProject.title }, "", targetUrl);
+			}
+		} else if (prevProjectRef.current) {
+			// Only push "/" if a previously open modal in this session was just closed
+			if (window.location.pathname.startsWith("/projects/")) {
+				window.history.pushState({}, "", "/");
+			}
+		}
+
+		prevProjectRef.current = activeProject;
+	}, [activeProject]);
+
+	// Listen to browser back/forward buttons once on mount
+	useEffect(() => {
+		const handlePopState = () => {
+			setActiveProject(null);
+		};
+
+		window.addEventListener("popstate", handlePopState);
+		return () => window.removeEventListener("popstate", handlePopState);
+	}, []);
+
+	const handleOpenDemo = useCallback((p: Project) => {
+		setActiveProject(p);
+	}, []);
+
+	const resolvedProjectCards = useMemo(() => {
+		if (!projects) return projectCards || [];
+		return projects.map((proj) => (
+			<MobileProjectCard
+				key={proj.title}
+				project={proj}
+				onOpenDemo={handleOpenDemo}
+			/>
+		));
+	}, [projects, projectCards, handleOpenDemo]);
+
+	const DECKS = useMemo(
+		() => [
+			{ id: "projects" as const, cards: resolvedProjectCards },
+			{ id: "experience" as const, cards: experienceCards },
+		],
+		[resolvedProjectCards, experienceCards],
+	);
 	const [activeDeckIndex, setActiveDeckIndex] = useState(0);
+
 	
 	const activeDeckType = DECKS[activeDeckIndex].id;
 	const activeCards = DECKS[activeDeckIndex].cards;
@@ -451,9 +521,10 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 	}, { filterTaps: true }); // Capture both axes
 
 	return (
-		<div className="card-stack-engine relative w-full mx-auto isolate mb-fluid-md select-none" style={{ perspective: "1500px" }}>
-			
-			<GestureTutorialOverlay />
+		<>
+			<div className="card-stack-engine relative w-full mx-auto isolate mb-fluid-md select-none" style={{ perspective: "1500px" }}>
+				
+				<GestureTutorialOverlay />
 			
 			{/* The Ghost Element: Holds container open securely */}
 			{activeCards.length > 0 && (
@@ -530,5 +601,20 @@ export default function CardStackEngine({ projectCards, experienceCards }: CardS
 				);
 			})}
 		</div>
+
+		{mounted &&
+			activeProject &&
+			projects &&
+			createPortal(
+				<MobileProjectModal
+					project={activeProject}
+					allProjects={projects}
+					onClose={() => setActiveProject(null)}
+					onSelectProject={(p) => setActiveProject(p)}
+				/>,
+				document.body,
+			)}
+	</>
 	);
 }
+
