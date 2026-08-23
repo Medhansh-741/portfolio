@@ -80,36 +80,44 @@ export default function GestureTutorialOverlay() {
 
 		const cancelTutorial = () => {
 			isCancelled = true;
-			trailApi.start({ opacity: 0, scale: 0, immediate: true });
-			// Ensure engine is commanded to snap back immediately if interrupted
+			// Smoothly glide driver to (0,0) with natural physics
+			driverApi.start({ x: 0, y: 0, config: { tension: 350, friction: 35 } });
+			// Smoothly fade out the visual trail
+			trailApi.start({ opacity: 0, scale: 0, config: { tension: 250, friction: 30 } });
+			// Ensure engine is commanded to smoothly spring back to rest
 			window.dispatchEvent(
 				new CustomEvent("tutorial-peek", {
-					detail: { mx: 0, my: 0, snap: true },
+					detail: { mx: 0, my: 0, snap: true, cancel: true },
 				})
 			);
 		};
 
 		const handleInteraction = (e: Event) => {
 			const target = e.target as HTMLElement;
-			if (target.closest('.card-stack-engine')) {
+			if (target.closest(".card-stack-engine")) {
 				cancelTutorial();
 				// Once cancelled, we no longer need the listeners
 				window.removeEventListener("touchstart", handleInteraction);
 				window.removeEventListener("mousedown", handleInteraction);
+				window.removeEventListener("pointerdown", handleInteraction);
 			}
 		};
 
-		const overlayElement = document.getElementById('gesture-tutorial-overlay');
+		const overlayElement = document.getElementById("gesture-tutorial-overlay");
 		if (overlayElement) {
-			observer = new IntersectionObserver((entries) => {
-				if (entries[0].isIntersecting && !isCancelled) {
-					runTutorial();
-					// Only listen for kills once it's on screen
-					window.addEventListener("touchstart", handleInteraction, { passive: true });
-					window.addEventListener("mousedown", handleInteraction, { passive: true });
-					observer.disconnect(); // Only trigger once
-				}
-			}, { threshold: 0.5 });
+			observer = new IntersectionObserver(
+				(entries) => {
+					if (entries[0].isIntersecting && !isCancelled) {
+						runTutorial();
+						// Only listen for kills once it's on screen
+						window.addEventListener("touchstart", handleInteraction, { passive: true });
+						window.addEventListener("mousedown", handleInteraction, { passive: true });
+						window.addEventListener("pointerdown", handleInteraction, { passive: true });
+						observer.disconnect(); // Only trigger once
+					}
+				},
+				{ threshold: 0.5 },
+			);
 			observer.observe(overlayElement);
 		}
 
@@ -118,6 +126,7 @@ export default function GestureTutorialOverlay() {
 			if (observer) observer.disconnect();
 			window.removeEventListener("touchstart", handleInteraction);
 			window.removeEventListener("mousedown", handleInteraction);
+			window.removeEventListener("pointerdown", handleInteraction);
 		};
 	}, [driverApi, trailApi]);
 

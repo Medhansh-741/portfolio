@@ -257,22 +257,24 @@ export default function CardStackEngine({
 	useEffect(() => {
 		const handleTutorialPeek = (e: Event) => {
 			const customEvent = e as CustomEvent;
-			if (intentRef.current) return; // Ignore if user is already touching/dragging
+			const { mx, my, snap, cancel } = customEvent.detail || {};
 
-			const { mx, my, snap } = customEvent.detail;
-
-			if (snap) {
+			if (snap || cancel) {
 				api.start(i => {
 					const currentPos = orderRef.current.indexOf(i);
 					return {
-						x: 0, y: 0, rotY: 0,
+						x: 0,
+						y: 0,
+						rotY: 0,
 						rotZ: STATIC_ROTATIONS[currentPos],
 						scale: 1,
-						config: { friction: 50, tension: 500 },
+						config: { friction: 32, tension: 380 },
 					};
 				});
 				return;
 			}
+
+			if (intentRef.current) return; // Ignore animated frames if user is actively dragging
 
 			// We mirror the original useDrag peel logic exactly, but purely externally
 			api.set(i => {
@@ -318,6 +320,7 @@ export default function CardStackEngine({
 			if (Math.abs(mx) > 4 || Math.abs(my) > 4) {
 				intentRef.current = Math.abs(mx) > Math.abs(my) ? "horizontal" : "vertical";
 			} else {
+				if (!active) intentRef.current = null;
 				return; // not enough movement yet — wait for a clearer signal
 			}
 		}
