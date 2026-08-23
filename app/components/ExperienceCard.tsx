@@ -29,7 +29,7 @@ export default function ExperienceCard({
 			style={style}
 			header={
 				<CardHeader
-					icon={<FiTerminal size={14} />}
+					icon={<FiTerminal size={14} aria-hidden="true" />}
 					accentColor="var(--color-accent-warning)"
 					title="EXPERIENCE"
 					badge="ONLINE"
@@ -58,9 +58,9 @@ export default function ExperienceCard({
 					>
 						{/* Header */}
 						<div className="flex flex-col">
-							<h3 className="font-bold uppercase text-[length:var(--text-desktop-sm)] text-foreground leading-tight">
+							<h2 className="font-bold uppercase text-[length:var(--text-desktop-sm)] text-foreground leading-tight">
 								{exp.company}
-							</h3>
+							</h2>
 							<span className="text-[length:var(--text-desktop-xs)] text-muted-foreground uppercase font-medium mt-0.5">
 								{exp.role}
 							</span>

@@ -52,18 +52,32 @@ export default function ExperienceView() {
 										{exp.role}
 									</p>
 								</div>
-								<div className="flex items-center gap-3 text-[10px] font-bold text-muted-foreground uppercase tracking-wider whitespace-nowrap">
-									<span>{exp.period}</span>
-									<MagneticWrap>
-										<a
-											href={exp.offerLetter}
-											target="_blank"
-											rel="noopener noreferrer"
-											className="inline-flex items-center gap-1 text-accent-secondary hover:text-foreground transition-colors"
-										>
-											Offer Letter <FiExternalLink size={12} />
-										</a>
-									</MagneticWrap>
+								<div className="flex flex-wrap items-center gap-3 text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
+									<span className="whitespace-nowrap">{exp.period}</span>
+									{exp.offerLetter && (
+										<MagneticWrap>
+											<a
+												href={exp.offerLetter}
+												target="_blank"
+												rel="noopener noreferrer"
+												className="inline-flex items-center gap-1 text-accent-secondary hover:text-foreground transition-colors whitespace-nowrap"
+											>
+												Offer Letter <FiExternalLink size={12} />
+											</a>
+										</MagneticWrap>
+									)}
+									{exp.completionLetter && (
+										<MagneticWrap>
+											<a
+												href={exp.completionLetter}
+												target="_blank"
+												rel="noopener noreferrer"
+												className="inline-flex items-center gap-1 text-accent-secondary hover:text-foreground transition-colors whitespace-nowrap"
+											>
+												Completion Letter <FiExternalLink size={12} />
+											</a>
+										</MagneticWrap>
+									)}
 								</div>
 							</div>
 

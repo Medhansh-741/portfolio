@@ -82,9 +82,10 @@ export default function HeroSection() {
 						target="_blank"
 						rel="me noopener noreferrer"
 						title="X (Twitter)"
+						aria-label="X (Twitter)"
 						className="group flex items-center justify-center h-[clamp(2.5rem,4cqi,3.5rem)] min-w-[clamp(2.5rem,4cqi,3.5rem)] px-0 hover:px-3 xl:hover:px-4 bg-background text-foreground border-[3px] border-border shadow-sm hover:shadow-[3px_3px_0_0_var(--color-accent-secondary)] hover:-translate-x-[2px] hover:-translate-y-[2px] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-300 select-none cursor-pointer overflow-hidden"
 					>
-						<FaXTwitter size={20} className="shrink-0" />
+						<FaXTwitter size={20} className="shrink-0" aria-hidden="true" />
 						<span className="max-w-0 opacity-0 group-hover:max-w-[100px] group-hover:opacity-100 group-hover:ml-2 whitespace-nowrap overflow-hidden transition-all duration-300 font-bold uppercase tracking-widest text-[10px] xl:text-xs">
 							Twitter
 						</span>
@@ -96,9 +97,10 @@ export default function HeroSection() {
 						target="_blank"
 						rel="me noopener noreferrer"
 						title="Instagram"
+						aria-label="Instagram"
 						className="group flex items-center justify-center h-[clamp(2.5rem,4cqi,3.5rem)] min-w-[clamp(2.5rem,4cqi,3.5rem)] px-0 hover:px-3 xl:hover:px-4 bg-background text-foreground border-[3px] border-border shadow-sm hover:shadow-[3px_3px_0_0_var(--color-accent-secondary)] hover:-translate-x-[2px] hover:-translate-y-[2px] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-300 select-none cursor-pointer overflow-hidden"
 					>
-						<FiInstagram size={20} className="shrink-0" />
+						<FiInstagram size={20} className="shrink-0" aria-hidden="true" />
 						<span className="max-w-0 opacity-0 group-hover:max-w-[100px] group-hover:opacity-100 group-hover:ml-2 whitespace-nowrap overflow-hidden transition-all duration-300 font-bold uppercase tracking-widest text-[10px] xl:text-xs">
 							Instagram
 						</span>
@@ -110,9 +112,10 @@ export default function HeroSection() {
 						target="_blank"
 						rel="me noopener noreferrer"
 						title="GitHub"
+						aria-label="GitHub"
 						className="group flex items-center justify-center h-[clamp(2.5rem,4cqi,3.5rem)] min-w-[clamp(2.5rem,4cqi,3.5rem)] px-0 hover:px-3 xl:hover:px-4 bg-background text-foreground border-[3px] border-border shadow-sm hover:shadow-[3px_3px_0_0_var(--color-accent-secondary)] hover:-translate-x-[2px] hover:-translate-y-[2px] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-300 select-none cursor-pointer overflow-hidden"
 					>
-						<FiGithub size={20} className="shrink-0" />
+						<FiGithub size={20} className="shrink-0" aria-hidden="true" />
 						<span className="max-w-0 opacity-0 group-hover:max-w-[100px] group-hover:opacity-100 group-hover:ml-2 whitespace-nowrap overflow-hidden transition-all duration-300 font-bold uppercase tracking-widest text-[10px] xl:text-xs">
 							GitHub
 						</span>
@@ -124,9 +127,10 @@ export default function HeroSection() {
 						target="_blank"
 						rel="me noopener noreferrer"
 						title="LinkedIn"
+						aria-label="LinkedIn"
 						className="group flex items-center justify-center h-[clamp(2.5rem,4cqi,3.5rem)] min-w-[clamp(2.5rem,4cqi,3.5rem)] px-0 hover:px-3 xl:hover:px-4 bg-background text-foreground border-[3px] border-border shadow-sm hover:shadow-[3px_3px_0_0_var(--color-accent-secondary)] hover:-translate-x-[2px] hover:-translate-y-[2px] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-300 select-none cursor-pointer overflow-hidden"
 					>
-						<FiLinkedin size={20} className="shrink-0" />
+						<FiLinkedin size={20} className="shrink-0" aria-hidden="true" />
 						<span className="max-w-0 opacity-0 group-hover:max-w-[100px] group-hover:opacity-100 group-hover:ml-2 whitespace-nowrap overflow-hidden transition-all duration-300 font-bold uppercase tracking-widest text-[10px] xl:text-xs">
 							LinkedIn
 						</span>
@@ -136,14 +140,15 @@ export default function HeroSection() {
 					<button
 						onClick={handleCopy}
 						title={copied ? "Copied!" : "Copy Email"}
+						aria-label={copied ? "Email address copied" : "Copy email address"}
 						className={`group flex items-center justify-center h-[clamp(2.5rem,4cqi,3.5rem)] min-w-[clamp(2.5rem,4cqi,3.5rem)] px-0 hover:px-3 xl:hover:px-4 bg-background ${
 							copied ? "text-green-500" : "text-foreground"
 						} border-[3px] border-border shadow-sm hover:shadow-[3px_3px_0_0_var(--accent)] hover:-translate-x-[2px] hover:-translate-y-[2px] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-300 select-none cursor-pointer overflow-hidden`}
 					>
 						{copied ? (
-							<FiCheck size={20} className="shrink-0" />
+							<FiCheck size={20} className="shrink-0" aria-hidden="true" />
 						) : (
-							<FiMail size={20} className="shrink-0" />
+							<FiMail size={20} className="shrink-0" aria-hidden="true" />
 						)}
 						<span className="max-w-0 opacity-0 group-hover:max-w-[120px] group-hover:opacity-100 group-hover:ml-2 whitespace-nowrap overflow-hidden transition-all duration-300 font-bold uppercase tracking-widest text-[10px] xl:text-xs">
 							{copied ? "Copied" : "Email"}
@@ -156,9 +161,10 @@ export default function HeroSection() {
 						target="_blank"
 						rel="me noopener noreferrer"
 						title="Meet"
+						aria-label="Schedule a meeting"
 						className="group flex items-center justify-center h-[clamp(2.5rem,4cqi,3.5rem)] min-w-[clamp(2.5rem,4cqi,3.5rem)] px-0 hover:px-3 xl:hover:px-4 bg-background text-foreground border-[3px] border-border shadow-sm hover:shadow-[3px_3px_0_0_var(--color-accent-secondary)] hover:-translate-x-[2px] hover:-translate-y-[2px] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-300 select-none cursor-pointer overflow-hidden"
 					>
-						<FiVideo size={20} className="shrink-0" />
+						<FiVideo size={20} className="shrink-0" aria-hidden="true" />
 						<span className="max-w-0 opacity-0 group-hover:max-w-[100px] group-hover:opacity-100 group-hover:ml-2 whitespace-nowrap overflow-hidden transition-all duration-300 font-bold uppercase tracking-widest text-[10px] xl:text-xs">
 							Meet
 						</span>
@@ -170,9 +176,10 @@ export default function HeroSection() {
 						target="_blank"
 						rel="noopener noreferrer"
 						title="Resume"
+						aria-label="Download resume PDF"
 						className="group flex items-center justify-center h-[clamp(2.5rem,4cqi,3.5rem)] min-w-[clamp(2.5rem,4cqi,3.5rem)] px-0 hover:px-3 xl:hover:px-4 bg-background text-foreground border-[3px] border-border shadow-sm hover:shadow-[3px_3px_0_0_var(--color-accent-secondary)] hover:-translate-x-[2px] hover:-translate-y-[2px] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-300 select-none cursor-pointer overflow-hidden"
 					>
-						<FiFileText size={20} className="shrink-0" />
+						<FiFileText size={20} className="shrink-0" aria-hidden="true" />
 						<span className="max-w-0 opacity-0 group-hover:max-w-[100px] group-hover:opacity-100 group-hover:ml-2 whitespace-nowrap overflow-hidden transition-all duration-300 font-bold uppercase tracking-widest text-[10px] xl:text-xs">
 							Resume
 						</span>

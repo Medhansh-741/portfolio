@@ -68,7 +68,7 @@ export default function GithubStatsWidget({
 			style={style}
 			header={
 				<CardHeader
-					icon={<FiGithub size={13} />}
+					icon={<FiGithub size={13} aria-hidden="true" />}
 					accentColor="var(--color-accent-secondary)"
 					title="GIT ARCHIVE"
 					badge="SYNCED"

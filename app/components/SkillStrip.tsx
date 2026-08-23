@@ -102,7 +102,9 @@ export default function SkillStrip() {
 						key={`${skill.name}-${i}`}
 						className="flex items-center gap-2 px-4 py-2 bg-background border-[2px] border-border shadow-sm whitespace-nowrap"
 					>
-						<span className="text-foreground text-lg">{skill.icon}</span>
+						<span className="text-foreground text-lg" aria-hidden="true">
+							{skill.icon}
+						</span>
 						<span className="text-xs font-bold text-foreground uppercase tracking-wider">
 							{skill.name}
 						</span>

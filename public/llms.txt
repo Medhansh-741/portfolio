@@ -1,15 +1,17 @@
 # Medhansh Kapoor
-> AI/ML Engineer | Full-Stack Developer
+> AI/ML Engineer and Full-Stack Developer specializing in AI agents, RAG pipelines, FastAPI, and Next.js. Based in Jaipur, India.
 
-- **Location:** Jaipur, India
-- **Email:** medhansh541@gmail.com
-- **GitHub:** https://github.com/Medhansh-741
-- **LinkedIn:** https://www.linkedin.com/in/medhansh-kapoor
-- **X (Twitter):** https://x.com/medhansh541
-- **Portfolio:** https://medhanshk.me
-- **Experience:** https://medhanshk.me/experience
-- **Projects:** https://medhanshk.me/projects
-- **About:** https://medhanshk.me/about
+## Links & Navigation
+- [Portfolio Homepage](https://medhanshk.me): Official portfolio and interactive desktop/mobile interface
+- [Experience & Internships](https://medhanshk.me/experience): Engineering experience at IndiaAI Mission (MeitY), ISSA – DRDO, and Geminid Systems
+- [Projects Cabinet](https://medhanshk.me/projects): Production AI architectures and system designs
+- [About & Philosophy](https://medhanshk.me/about): Technical philosophy, skills breakdown, and background
+- [Resume PDF](https://medhanshk.me/resume.pdf): Downloadable verified resume
+- [JanSamadhan Project Details](https://medhanshk.me/projects/jansamadhan): Autonomous Civic Surveillance Platform
+- [NyayaAI Project Details](https://medhanshk.me/projects/nyayaai): Multi-Agent Legal Intelligence Platform
+- [GitHub Profile](https://github.com/Medhansh-741): Open-source repositories and code contributions
+- [LinkedIn Profile](https://www.linkedin.com/in/medhansh-kapoor): Professional network and verified achievements
+- [X (Twitter)](https://x.com/medhansh541): Engineering logs and technical updates
 
 ## Professional Summary
 
@@ -49,7 +51,7 @@ PostgreSQL, PostGIS, Qdrant, Neo4j, Redis, SQLite, GDAL, GeoServer, Martin Tile 
 
 ## Production Projects
 
-### JanSamadhan — Autonomous Civic Surveillance Platform (Mar 2026)
+### [JanSamadhan](https://medhanshk.me/projects/jansamadhan) — Autonomous Civic Surveillance Platform (Mar 2026)
 Detects civic issues via CCTV/dashcam, auto-generates complaint tickets, verifies repairs, and retrains itself.
 
 **Technologies:** YOLOv8, ONNX, OpenCV, FastAPI, PostgreSQL/PostGIS, Gemini 2.5
@@ -60,12 +62,12 @@ Detects civic issues via CCTV/dashcam, auto-generates complaint tickets, verifie
 - Verification & Active Learning: Enforced automated post-repair rescans to verify fixes before ticket closure; bucketed field data into labeled classes for continuous baseline-gated retraining.
 - LLM Routing (Seva): Integrated Gemini 2.5 Flash using a 4-step Chain-of-Thought to autonomously route complaints across 42 civic categories, auto-routing 125/256 tickets with zero manual input.
 
-**Links:**
-- Live: https://jansamadhan.perkkk.dev/
-- GitHub: https://github.com/Medhansh-741/ps-crmdev1
-- Video Demo: https://youtu.be/JvkJd1MAV3M
+**External Links:**
+- [Live App](https://jansamadhan.perkkk.dev/)
+- [GitHub Repository](https://github.com/Medhansh-741/ps-crmdev1)
+- [Video Demo](https://youtu.be/JvkJd1MAV3M)
 
-### NyayaAI — Multi-Agent Legal Intelligence Platform (Mar 2026 (36-hr Sprint))
+### [NyayaAI](https://medhanshk.me/projects/nyayaai) — Multi-Agent Legal Intelligence Platform (Mar 2026)
 5-agent pipeline: legal case in — research, strategy, drafted documents, and reasoned explainability out.
 
 **Technologies:** LangGraph, FastAPI, Qdrant, Neo4j, Redis, WebSockets, Celery, Groq, Gemini
@@ -76,10 +78,10 @@ Detects civic issues via CCTV/dashcam, auto-generates complaint tickets, verifie
 - Reliability & Graph: Implemented a triple-engine fallback (Groq → Gemini → offline rules) for zero-downtime generation; built a Neo4j legal knowledge graph (1,410 nodes, 1,837 relationships) for explainable document drafting.
 - Realtime Infrastructure: Developed an event-driven custom Redis Pub/Sub, WebSockets, and Celery backend for live citizen-lawyer negotiation chat, bypassing third-party APIs.
 
-**Links:**
-- Live: https://nyay-ai-liard.vercel.app/
-- GitHub: https://github.com/Medhansh-741/NyayAI
-- Video Demo: https://youtu.be/YwgooAeuRmo
+**External Links:**
+- [Live App](https://nyay-ai-liard.vercel.app/)
+- [GitHub Repository](https://github.com/Medhansh-741/NyayAI)
+- [Video Demo](https://youtu.be/YwgooAeuRmo)
 
 ## Engineering Experience (Internships)
 

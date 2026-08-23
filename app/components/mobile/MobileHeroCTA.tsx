@@ -29,7 +29,7 @@ export default function MobileHeroCTA() {
 					className={iconClass}
 					aria-label="X (Twitter)"
 				>
-					<FaXTwitter size={20} />
+					<FaXTwitter size={20} aria-hidden="true" />
 				</a>
 				<a
 					href="https://www.instagram.com/medhansh341/"
@@ -38,7 +38,7 @@ export default function MobileHeroCTA() {
 					className={iconClass}
 					aria-label="Instagram"
 				>
-					<FiInstagram size={20} />
+					<FiInstagram size={20} aria-hidden="true" />
 				</a>
 				<a
 					href={profile.github}
@@ -47,7 +47,7 @@ export default function MobileHeroCTA() {
 					className={iconClass}
 					aria-label="GitHub"
 				>
-					<FiGithub size={20} />
+					<FiGithub size={20} aria-hidden="true" />
 				</a>
 				<a
 					href={profile.linkedin}
@@ -56,14 +56,14 @@ export default function MobileHeroCTA() {
 					className={iconClass}
 					aria-label="LinkedIn"
 				>
-					<FiLinkedin size={20} />
+					<FiLinkedin size={20} aria-hidden="true" />
 				</a>
 				<button
 					onClick={handleCopy}
 					className={iconClass}
-					aria-label="Copy Email"
+					aria-label={copied ? "Email address copied" : "Copy Email"}
 				>
-					<FiMail size={20} />
+					<FiMail size={20} aria-hidden="true" />
 				</button>
 				<a
 					href="https://cal.com/medhansh541"
@@ -72,7 +72,7 @@ export default function MobileHeroCTA() {
 					className={iconClass}
 					aria-label="Meet"
 				>
-					<FiVideo size={20} />
+					<FiVideo size={20} aria-hidden="true" />
 				</a>
 				<a
 					href="/resume.pdf"
@@ -81,7 +81,7 @@ export default function MobileHeroCTA() {
 					className={iconClass}
 					aria-label="Resume"
 				>
-					<FiFileText size={20} />
+					<FiFileText size={20} aria-hidden="true" />
 				</a>
 			</div>
 

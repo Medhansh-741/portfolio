@@ -101,7 +101,9 @@ export default function MobileSkillStrip() {
 					className="flex items-center justify-center w-10 h-10 shrink-0 bg-background border-[2px] border-border shadow-sm text-foreground text-xl"
 					aria-label={skill.name}
 				>
-					{skill.icon}
+					<span aria-hidden="true" className="flex items-center justify-center">
+						{skill.icon}
+					</span>
 				</div>
 			))}
 		</div>

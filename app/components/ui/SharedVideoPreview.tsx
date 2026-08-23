@@ -1,3 +1,7 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+
 interface SharedVideoPreviewProps {
 	projectFileName: string;
 	className?: string;
@@ -7,21 +11,47 @@ export default function SharedVideoPreview({
 	projectFileName,
 	className = "",
 }: SharedVideoPreviewProps) {
+	const videoRef = useRef<HTMLVideoElement>(null);
+	const [isVisible, setIsVisible] = useState(false);
+
+	useEffect(() => {
+		const video = videoRef.current;
+		if (!video) return;
+
+		const observer = new IntersectionObserver(
+			(entries) => {
+				for (const entry of entries) {
+					if (entry.isIntersecting) {
+						setIsVisible(true);
+						video.play().catch(() => {});
+					} else {
+						video.pause();
+					}
+				}
+			},
+			{ threshold: 0.1, rootMargin: "50px" }
+		);
+
+		observer.observe(video);
+		return () => observer.disconnect();
+	}, []);
+
 	return (
 		<video
+			ref={videoRef}
 			className={`object-cover ${className}`}
-			autoPlay
 			loop
 			muted
 			playsInline
 			preload="none"
 			poster={`/videos/${projectFileName}.webp`}
 		>
-			{/* Load tiny WebM first if browser supports it */}
-			<source src={`/videos/${projectFileName}.webm`} type="video/webm" />
-			{/* Fallback to heavily compressed MP4 */}
-			<source src={`/videos/${projectFileName}.mp4`} type="video/mp4" />
-			{/* Fallback text if both fail */}
+			{isVisible && (
+				<>
+					<source src={`/videos/${projectFileName}.webm`} type="video/webm" />
+					<source src={`/videos/${projectFileName}.mp4`} type="video/mp4" />
+				</>
+			)}
 			Your browser does not support the video tag.
 		</video>
 	);

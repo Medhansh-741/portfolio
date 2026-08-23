@@ -72,7 +72,7 @@ export default function ProjectsDrawer({
 				style={style}
 				header={
 					<CardHeader
-						icon={<FiFolder size={14} />}
+						icon={<FiFolder size={14} aria-hidden="true" />}
 						accentColor="var(--color-accent-secondary)"
 						title="PROJECTS CABINET"
 						badge="v2.0"
@@ -99,9 +99,9 @@ export default function ProjectsDrawer({
 							>
 								{/* Title + Subtitle */}
 								<div>
-									<h4 className="font-sans text-desktop-sm font-bold uppercase text-foreground text-left">
+									<h2 className="font-sans text-desktop-sm font-bold uppercase text-foreground text-left">
 										{proj.title}
-									</h4>
+									</h2>
 									<p className="text-desktop-2xs text-muted-foreground font-semibold uppercase tracking-wider text-left">
 										{proj.subtitle}
 									</p>

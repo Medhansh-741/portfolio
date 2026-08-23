@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { createContext, useContext, useEffect, useRef } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 
 export const CardDeckContext = createContext({ isTop: true });
 
@@ -12,6 +12,31 @@ interface CardDeckVideoProps {
 
 export default function CardDeckVideo({ projectFileName, className = "" }: CardDeckVideoProps) {
 	const { isTop } = useContext(CardDeckContext);
+	const [isVisible, setIsVisible] = useState(false);
+	const videoRef = useRef<HTMLVideoElement>(null);
+
+	useEffect(() => {
+		if (!isTop) return;
+		const video = videoRef.current;
+		if (!video) return;
+
+		const observer = new IntersectionObserver(
+			(entries) => {
+				for (const entry of entries) {
+					if (entry.isIntersecting) {
+						setIsVisible(true);
+						video.play().catch(() => {});
+					} else {
+						video.pause();
+					}
+				}
+			},
+			{ threshold: 0.1 }
+		);
+
+		observer.observe(video);
+		return () => observer.disconnect();
+	}, [isTop]);
 
 	if (!isTop) {
 		return (
@@ -21,37 +46,10 @@ export default function CardDeckVideo({ projectFileName, className = "" }: CardD
 				fill
 				sizes="(max-width: 640px) 100vw, 24rem"
 				className={`object-cover ${className}`}
-				priority={true}
-				fetchPriority="high"
+				priority={false}
 			/>
 		);
 	}
-
-	const videoRef = useRef<HTMLVideoElement>(null);
-
-	useEffect(() => {
-		const video = videoRef.current;
-		if (!video) return;
-
-		const observer = new IntersectionObserver(
-			(entries) => {
-				entries.forEach((entry) => {
-					if (entry.isIntersecting) {
-						// Only play when intersecting to prevent blocking initial page load
-						video.play().catch((err) => {
-							console.warn("Autoplay prevented by browser:", err);
-						});
-					} else {
-						video.pause();
-					}
-				});
-			},
-			{ threshold: 0.1 }
-		);
-
-		observer.observe(video);
-		return () => observer.disconnect();
-	}, []);
 
 	return (
 		<video
@@ -63,8 +61,12 @@ export default function CardDeckVideo({ projectFileName, className = "" }: CardD
 			preload="none"
 			poster={`/videos/${projectFileName}.webp`}
 		>
-			<source src={`/videos/${projectFileName}.webm`} type="video/webm" />
-			<source src={`/videos/${projectFileName}.mp4`} type="video/mp4" />
+			{isVisible && (
+				<>
+					<source src={`/videos/${projectFileName}.webm`} type="video/webm" />
+					<source src={`/videos/${projectFileName}.mp4`} type="video/mp4" />
+				</>
+			)}
 			Your browser does not support the video tag.
 		</video>
 	);
