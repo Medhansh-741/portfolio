@@ -27,24 +27,36 @@ export async function generateMetadata({
 
 	const canonicalUrl = `https://medhanshk.me/projects/${resolvedParams.slug}`;
 
+	const fullTitle = `${project.title} — ${project.subtitle} | Medhansh Kapoor`;
+	const ogImageUrl = `https://medhanshk.me/og/${resolvedParams.slug}.png`;
+
 	return {
-		title: project.title,
+		title: fullTitle,
 		description: project.description,
 		alternates: {
 			canonical: canonicalUrl,
 		},
 		openGraph: {
-			title: project.title,
+			title: fullTitle,
 			description: project.description,
 			url: canonicalUrl,
 			siteName: "Medhansh Kapoor",
 			type: "article",
+			images: [
+				{
+					url: ogImageUrl,
+					width: 1200,
+					height: 630,
+					alt: `${project.title} Preview`,
+				},
+			],
 		},
 		twitter: {
 			card: "summary_large_image",
-			title: project.title,
+			title: fullTitle,
 			description: project.description,
 			creator: "@medhansh541",
+			images: [ogImageUrl],
 		},
 	};
 }
