@@ -14,7 +14,7 @@ export const profile = {
 	resumeUrl: "/resume.pdf",
 	about: [
 		"I build by jumping in headfirst. Every project is an excuse to explore a stack I haven't mastered yet, a problem that feels just out of reach, or an architecture I haven't tried. I think in systems, not features: connecting ideas across AI, infrastructure, and full-stack to build solutions that hold up under pressure. I don't stay comfortable. I learn by doing, I ship fast, and I believe code should scale beyond its first use case.",
-		"AI/ML Engineer and Full-Stack Developer with hands-on experience building production-grade AI agents, geospatial intelligence systems, and civic-tech platforms. Currently working under IndiaAI Mission (MeitY) and ISSA-DRDO on high-impact national projects.",
+		"AI/ML Engineer and Full-Stack Developer with hands-on experience building production-grade AI agents, geospatial intelligence systems, and civic-tech platforms across engineering internships at IndiaAI Mission (MeitY), ISSA-DRDO, and Geminid Systems.",
 		"I specialize in FastAPI, Next.js, PyTorch, LangGraph, and PostgreSQL — with a strong focus on AI agent orchestration, RAG pipelines, real-time systems, and full-stack deployment. I build things that work in the real world, not just in notebooks.",
 	],
 	skills: {
@@ -71,7 +71,7 @@ export const profile = {
 		{
 			company: "IndiaAI Mission (MeitY)",
 			role: "AI/ML Intern",
-			period: "Jun 2026 – Jul 2026",
+			period: "May 2026 – June 2026",
 			description:
 				"Built an automated dataset-quality evaluation toolkit for ICMR.",
 			tech: [
@@ -97,7 +97,7 @@ export const profile = {
 		{
 			company: "ISSA – DRDO",
 			role: "Student Trainee, Ministry of Defence",
-			period: "May 2026 – Jul 2026",
+			period: "May 2026 – June 2026",
 			description:
 				"Developed an air-gapped GIS platform to securely process and visualize offline geospatial data.",
 			tech: [
@@ -120,7 +120,7 @@ export const profile = {
 		{
 			company: "Geminid Systems",
 			role: "Software Development Intern",
-			period: "May 2026 – Jun 2026",
+			period: "May 2026 – June 2026",
 			description:
 				"Evaluated enterprise AI toolchains and shipped integration tests for production Salesforce environments.",
 			tech: [

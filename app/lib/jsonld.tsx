@@ -21,7 +21,7 @@ export function getPersonSchema() {
 		url: SITE_URL,
 		jobTitle: "AI/ML Engineer & Full-Stack Developer",
 		disambiguatingDescription:
-			"AI/ML engineer & full-stack developer based in Jaipur, India, working under IndiaAI Mission (MeitY) and ISSA-DRDO.",
+			"AI/ML Engineer & Full-Stack Developer based in Jaipur, India with completed engineering internships at IndiaAI Mission (MeitY), ISSA-DRDO, and Geminid Systems.",
 		description: profile.intro,
 		email: `mailto:${profile.email}`,
 		telephone: profile.phone,
@@ -41,9 +41,14 @@ export function getPersonSchema() {
 			"@type": "EducationalOrganization",
 			name: edu.institution,
 		})),
-		worksFor: profile.experience.map((exp) => ({
-			"@type": "Organization",
-			name: exp.company,
+		hasOccupation: profile.experience.map((exp) => ({
+			"@type": "Occupation",
+			name: exp.role,
+			description: exp.description,
+			occupationLocation: {
+				"@type": "AdministrativeArea",
+				name: exp.company,
+			},
 		})),
 		knowsAbout: allSkills,
 	};

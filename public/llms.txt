@@ -1,43 +1,113 @@
-# Medhansh Kapoor — AI/ML Engineer & Full-Stack Developer
+# Medhansh Kapoor
+> AI/ML Engineer | Full-Stack Developer
 
-> Official AI-readable profile, entity index, and portfolio documentation for Medhansh Kapoor (AI/ML Engineer, Full-Stack Developer, and MeitY IndiaAI Fellow).
+- **Location:** Jaipur, India
+- **Email:** medhansh541@gmail.com
+- **GitHub:** https://github.com/Medhansh-741
+- **LinkedIn:** https://www.linkedin.com/in/medhansh-kapoor
+- **X (Twitter):** https://x.com/medhansh541
+- **Portfolio:** https://medhanshk.me
 
-## Entity Overview
-- **Full Name**: Medhansh Kapoor
-- **Primary Roles**: AI/ML Engineer, Full-Stack Developer, Applied AI Researcher
-- **Location**: Delhi, India
-- **Core Focus**: Production AI architectures, high-performance distributed systems, multi-agent systems, Retrieval-Augmented Generation (RAG), and full-stack web applications.
-- **Canonical Website**: https://medhanshk.me
+## Professional Summary
 
-## Core Production Systems
+I take problems from the user experience down to technical architecture, building a working first-draft pipeline, learning as the solution demands, and dialing it in checkpoint by checkpoint.
 
-### JanSamadhan — Civic Complaint Routing & Resolution
-- **Description**: Production multi-agent grievance triage and routing platform built under the MeitY IndiaAI Mission fellowship. Analyzes, categorizes, and intelligently dispatches civic complaints to appropriate municipal departments with real-time verification and status tracking.
-- **Live Demo**: https://jansamadhan.perkkk.dev
-- **GitHub Repository**: https://github.com/Medhansh-741/JanSamadhan
-- **Tech Stack**: FastAPI, Celery, Redis, Next.js, PostgreSQL, Docker, Multi-Agent LLM Orchestration.
+## Philosophy & Approach
 
-### NyayaAI — Legal AI & RAG Case Law Research
-- **Description**: High-throughput legal intelligence platform providing semantic search, case citation graph traversal, and RAG-powered statutory analysis across Indian legal jurisprudence.
-- **GitHub Repository**: https://github.com/Medhansh-741/NyayaAI
-- **Tech Stack**: FastAPI, LangChain, FAISS, PyTorch, Next.js, TypeScript, Vector Search.
+I build by jumping in headfirst. Every project is an excuse to explore a stack I haven't mastered yet, a problem that feels just out of reach, or an architecture I haven't tried. I think in systems, not features: connecting ideas across AI, infrastructure, and full-stack to build solutions that hold up under pressure. I don't stay comfortable. I learn by doing, I ship fast, and I believe code should scale beyond its first use case.
 
-## Experience & Affiliations
-- **IndiaAI (MeitY)** — Fellow / AI Researcher (June 2024 – Present): Building civic technology and scalable public AI infrastructure.
-- **Competitive Programming**: Active on LeetCode and Codeforces, focusing on advanced algorithms and graph theory.
+## Technical Skills
 
-## Core Technical Skills
-- **Languages**: Python, TypeScript, JavaScript, C, C++, SQL
-- **AI / ML**: PyTorch, LangChain, LlamaIndex, Vector Databases, Transformers, Multi-Agent Systems, OpenCV
-- **Backend & Distributed Systems**: FastAPI, Node.js, Next.js, Redis, Celery, PostgreSQL, Supabase, Neo4j, Docker
-- **Cloud & DevOps**: AWS (S3, EC2), Google Cloud Platform (GCP), Git, CI/CD
+### Languages
+Python, TypeScript, JavaScript, SQL, C, C++
 
-## Canonical Links & Documentation
-- [Home Terminal](https://medhanshk.me/): Interactive portfolio terminal and overview.
-- [Projects Portfolio](https://medhanshk.me/projects): Production systems, architectural breakdowns, and video walkthroughs.
-- [Work Experience](https://medhanshk.me/experience): Timeline of engineering roles, fellowships, and verifiable credentials.
-- [About & Skills](https://medhanshk.me/about): In-depth biography, technical philosophy, and stack details.
-- [Resume](https://medhanshk.me/resume.pdf): Direct PDF download of full curriculum vitae.
-- [GitHub Profile](https://github.com/Medhansh-741): Open-source repositories and contribution activity.
-- [LinkedIn Profile](https://linkedin.com/in/medhansh-kapoor): Professional network and verified recommendations.
-- [Schedule a Call](https://cal.com/medhansh-kapoor/15min): Direct meeting and consultation booking.
+### Backend / Web
+FastAPI, REST APIs, Next.js, Node.js, WebSockets, Celery, Pydantic, React, Supabase, Git
+
+### Applied AI
+PyTorch, LangGraph, LangChain, LlamaIndex, RAG, AI Agents, Multi-agent Systems, YOLOv8, ONNX, OpenCV, Sentence Transformers, Embeddings, Semantic Search, Prompt Engineering, Function Calling, Multimodal AI, NLP
+
+### Data / Infra / MLOps
+ETL Pipelines, PostgreSQL, PostGIS, Vector/Graph Databases (Qdrant, Neo4j), Redis, SQLite, GDAL, GeoServer, Martin Tile Server, OpenLayers, AWS S3, GCP, Docker/Podman, RHEL/Ubuntu
+
+## Production Projects
+
+### JanSamadhan — Autonomous Civic Surveillance Platform (Mar 2026)
+Detects civic issues via CCTV/dashcam, auto-generates complaint tickets, verifies repairs, and retrains itself.
+
+**Technologies:** YOLOv8, ONNX, OpenCV, FastAPI, PostgreSQL/PostGIS, Gemini 2.5
+
+**Key Architecture & Highlights:**
+- Model & Inference: Trained YOLOv8 on 4,783 images with 30% engineered negatives and FN-bucketing for recall diagnosis; achieved 20ms ONNX inference on a FastAPI microservice deployed via GCP Cloud Run.
+- Auto-Ticketing & Reliability: Engineered a burst-frame extraction pipeline feeding a 4-tier reliability engine and DIGIPIN geospatial deduplication (4m² grid), processing 256 end-to-end complaints in 0.36s per ticket.
+- Verification & Active Learning: Enforced automated post-repair rescans to verify fixes before ticket closure; bucketed field data into labeled classes for continuous baseline-gated retraining.
+- LLM Routing (Seva): Integrated Gemini 2.5 Flash using a 4-step Chain-of-Thought to autonomously route complaints across 42 civic categories, auto-routing 125/256 tickets with zero manual input.
+
+**Links:**
+- Live: https://jansamadhan.perkkk.dev/
+- GitHub: https://github.com/Medhansh-741/ps-crmdev1
+- Video Demo: https://youtu.be/JvkJd1MAV3M
+
+### NyayaAI — Multi-Agent Legal Intelligence Platform (Mar 2026 (36-hr Sprint))
+5-agent pipeline: legal case in — research, strategy, drafted documents, and reasoned explainability out.
+
+**Technologies:** LangGraph, FastAPI, Qdrant, Neo4j, Redis, WebSockets, Celery, Groq, Gemini
+
+**Key Architecture & Highlights:**
+- Orchestration & Intake: Built a stateful 5-stage LangGraph pipeline (Intake → Research → Strategy → Drafting → Explainability) with OCR-aware processing and SHA-256 caching to mitigate LLM hallucinations.
+- RAG & Determinism: Indexed 4,582 chunks (7 legal acts) in Qdrant via Sentence Transformers; engineered a diagnostic harness to catch retrieval drift and OCR instability across N-run tests.
+- Reliability & Graph: Implemented a triple-engine fallback (Groq → Gemini → offline rules) for zero-downtime generation; built a Neo4j legal knowledge graph (1,410 nodes, 1,837 relationships) for explainable document drafting.
+- Realtime Infrastructure: Developed an event-driven custom Redis Pub/Sub, WebSockets, and Celery backend for live citizen-lawyer negotiation chat, bypassing third-party APIs.
+
+**Links:**
+- Live: https://nyay-ai-liard.vercel.app/
+- GitHub: https://github.com/Medhansh-741/NyayAI
+- Video Demo: https://youtu.be/YwgooAeuRmo
+
+## Engineering Experience (Internships)
+
+### AI/ML Intern — IndiaAI Mission (MeitY) (May 2026 – June 2026)
+Built an automated dataset-quality evaluation toolkit for ICMR.
+
+**Technologies:** Next.js, FastAPI, Celery, Redis, Supabase (PostgreSQL), AWS S3, Pydantic, JWT Auth, Jinja2, WeasyPrint
+
+**Key Contributions & Engineering Highlights:**
+- Metadata Intake: Engineered an 8-step wizard with pre-signed URLs for direct-to-storage uploads, bypassing the backend to enhance security and reduce server load.
+- Assessment Engine: Architected an asynchronous, parallelized scoring engine to evaluate datasets across 15 government-defined quality domains, generating Composite Quality and Privacy Risk scores for automated release eligibility (Open/Controlled/Restricted).
+- Integration: Built automated multi-format reporting (JSON/HTML/PDF) and webhook APIs, enabling AIKosh to auto-ingest verified dataset metadata upon assessment completion.
+
+### Student Trainee, Ministry of Defence — ISSA – DRDO (May 2026 – June 2026)
+Developed an air-gapped GIS platform to securely process and visualize offline geospatial data.
+
+**Technologies:** FastAPI, PostGIS, GDAL/ogr2ogr, GeoServer, Martin Tile Server, OpenLayers, Docker/Podman, RHEL
+
+**Key Contributions & Engineering Highlights:**
+- Ingestion Pipelines: Built automated ETL pipelines for vector (Shapefiles to PostGIS with reprojection/indexing) and raster data (GeoTIFFs auto-published via REST), eliminating manual GIS server setups.
+- Serving Layer & Infra: Enabled real-time map-tile delivery to browser clients via a containerized 4-service microservices backend, securely deployed on a firewalled RHEL environment for fully offline, classified operations.
+
+### Software Development Intern — Geminid Systems (May 2026 – June 2026)
+Evaluated enterprise AI toolchains and shipped integration tests for production Salesforce environments.
+
+**Technologies:** Vanna.ai, LlamaIndex, LangChain, Librosa, PyDub, Torchaudio, Salesforce Apex, Einstein AI, Agentforce
+
+**Key Contributions & Engineering Highlights:**
+- Benchmarking: Evaluated Vanna.ai, LlamaIndex, LangChain for NL-to-SQL, and audio frameworks (Librosa, PyDub) for feature extraction; identified that agent architecture outweighs model choice for multi-table reasoning.
+- Salesforce AI Platform: Built Apex REST services and SOAP integrations; conducted prompt engineering experiments on live CRM data using Einstein AI and Agentforce.
+
+## Achievements & Recognition
+
+### India Innovates '26 — National Finalist
+Winner in Digital Democracy track; presented JanSamadhan live before senior policy leaders at Bharat Mandapam; project forwarded to central ministries.
+
+### Prayatna 3.0 Hackathon — Finalist
+Built NyayaAI's 5-agent legal AI backend during a 36-hour sprint.
+
+## Education
+
+### Manipal University Jaipur
+- **Degree:** Bachelor of Technology in Computer Science & Engineering
+- **Period:** Aug 2025 – 2029
+
+### VVDAV Public School, New Delhi
+- **Degree:** CBSE Class XII, PCM + Computer Science
+- **Period:** 2024
