@@ -12,7 +12,10 @@ export function generateLlmsText(): string {
 	sections.push(`- **GitHub:** ${profile.github}`);
 	sections.push(`- **LinkedIn:** ${profile.linkedin}`);
 	sections.push(`- **X (Twitter):** ${profile.x}`);
-	sections.push(`- **Portfolio:** https://medhanshk.me\n`);
+	sections.push(`- **Portfolio:** https://medhanshk.me`);
+	sections.push(`- **Experience:** https://medhanshk.me/experience`);
+	sections.push(`- **Projects:** https://medhanshk.me/projects`);
+	sections.push(`- **About:** https://medhanshk.me/about\n`);
 
 	// Summary & Philosophy
 	sections.push(`## Professional Summary\n`);
