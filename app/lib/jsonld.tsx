@@ -36,6 +36,7 @@ export function getPersonSchema() {
 			profile.x,
 			profile.instagram,
 			profile.cal,
+			"https://www.wikidata.org/wiki/Q141155822",
 		].filter(Boolean),
 		alumniOf: profile.education.map((edu) => ({
 			"@type": "EducationalOrganization",

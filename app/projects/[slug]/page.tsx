@@ -26,8 +26,6 @@ export async function generateMetadata({
 	if (!project) return { title: "Project Not Found" };
 
 	const canonicalUrl = `https://medhanshk.me/projects/${resolvedParams.slug}`;
-	const videoFileName = project.title.toLowerCase().replace(/\s+/g, "");
-	const imageUrl = `https://medhanshk.me/videos/${videoFileName}.webp`;
 
 	return {
 		title: project.title,
@@ -41,21 +39,12 @@ export async function generateMetadata({
 			url: canonicalUrl,
 			siteName: "Medhansh Kapoor",
 			type: "article",
-			images: [
-				{
-					url: imageUrl,
-					width: 1280,
-					height: 720,
-					alt: `${project.title} Preview`,
-				},
-			],
 		},
 		twitter: {
 			card: "summary_large_image",
 			title: project.title,
 			description: project.description,
 			creator: "@medhansh541",
-			images: [imageUrl],
 		},
 	};
 }

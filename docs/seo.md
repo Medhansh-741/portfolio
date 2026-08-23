@@ -298,7 +298,7 @@ Your GitHub profile is a high-DA page that Google indexes well. It's one of the 
 
 | # | Fix | Status | Evidence / where |
 |---|-----|--------|------------------|
-| 9C.1 | **Create a Wikidata item** at `wikidata.org/wiki/Special:NewItem` | **MISSING** | No Wikidata entry exists |
+| 9C.1 | **Create a Wikidata item** at `wikidata.org/wiki/Special:NewItem` | **DONE** | Wikidata entity created: `Q141155822` with official properties |
 
 **Wikidata properties to add:**
 - `instance of` → `human`
@@ -311,8 +311,8 @@ Your GitHub profile is a high-DA page that Google indexes well. It's one of the 
 - `residence` → Jaipur
 
 **After creation:**
-- [ ] Add your Wikidata QID (e.g., `Q123456789`) to your Person schema's `sameAs` array (Phase 4 cross-ref).
-- [ ] This creates a **self-confirming loop**: website → schema → Wikidata → Knowledge Graph → website.
+- [x] Add your Wikidata QID (e.g., `Q141155822`) to your Person schema's `sameAs` array (Phase 4 cross-ref).
+- [x] This creates a **self-confirming loop**: website → schema → Wikidata → Knowledge Graph → website.
 
 **Rules for Wikidata:**
 - Stick to objective, factual statements. No promotional language.
@@ -378,12 +378,12 @@ A Knowledge Panel is **not applied for** — it's earned automatically when Goog
 
 | # | Requirement | Phase | Status |
 |---|-------------|-------|--------|
-| 10A.1 | **Entity Home** = `medhanshk.me` with Person schema + `@id` | Phase 4 | MISSING |
-| 10A.2 | **Wikidata entry** = machine-readable bridge to Knowledge Graph | Phase 9C | MISSING |
-| 10A.3 | **Profile consistency** = identical name/title/bio on ≥5 platforms | Phase 9A | MISSING |
-| 10A.4 | **Third-party corroboration** = mentions on ≥3 independent, authoritative sites | Phase 9D/9E | MISSING |
-| 10A.5 | **Schema `sameAs`** = linking site → all profiles → Wikidata QID | Phase 4 | MISSING |
-| 10A.6 | **Reciprocal `rel="me"` loop** = every profile links back to `medhanshk.me` | Phase 5.2 + 9A | MISSING |
+| 10A.1 | **Entity Home** = `medhanshk.me` with Person schema + `@id` | Phase 4 | DONE |
+| 10A.2 | **Wikidata entry** = machine-readable bridge to Knowledge Graph | Phase 9C | DONE |
+| 10A.3 | **Profile consistency** = identical name/title/bio on ≥5 platforms | Phase 9A | DONE |
+| 10A.4 | **Third-party corroboration** = mentions on ≥3 independent, authoritative sites | Phase 9D/9E | PENDING |
+| 10A.5 | **Schema `sameAs`** = linking site → all profiles → Wikidata QID | Phase 4 | DONE |
+| 10A.6 | **Reciprocal `rel="me"` loop** = every profile links back to `medhanshk.me` | Phase 5.2 + 9A | DONE |
 
 **After the panel appears:**
 - [ ] Use "Claim this knowledge panel" link at the bottom (requires verified Google account linked to one of your official profiles).
