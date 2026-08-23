@@ -109,22 +109,6 @@ export default function AboutView() {
 						</div>
 					</section>
 				</div>
-
-				{/* Internal Linking Architecture */}
-				<div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-12 pt-8 border-t-[3px] border-border text-xs font-bold uppercase tracking-wider">
-					<a
-						href="/projects"
-						className="text-muted-foreground hover:text-foreground transition-colors"
-					>
-						← Explore AI/ML Projects
-					</a>
-					<a
-						href="/experience"
-						className="text-muted-foreground hover:text-foreground transition-colors"
-					>
-						View Professional Work Experience →
-					</a>
-				</div>
 			</div>
 		</main>
 	);

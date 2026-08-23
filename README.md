@@ -68,13 +68,13 @@ I build by jumping in headfirst. Every project is an excuse to explore a stack I
 
 ## Engineering Experience (Internships)
 
-* **AI/ML Intern — IndiaAI Mission (MeitY)** *(May 2026 – June 2026)*  
+* **AI/ML Intern — IndiaAI Mission (MeitY)** *(May 2026 – July 2026)*  
   Built an automated dataset-quality evaluation toolkit for ICMR with asynchronous scoring across 15 government-defined quality domains.
 
-* **Student Trainee, Ministry of Defence — ISSA – DRDO** *(May 2026 – June 2026)*  
+* **Student Trainee, Ministry of Defence — ISSA – DRDO** *(May 2026 – July 2026)*  
   Developed an air-gapped GIS platform to securely process, serve, and visualize offline geospatial data on firewalled RHEL environments.
 
-* **Software Development Intern — Geminid Systems** *(May 2026 – June 2026)*  
+* **Software Development Intern — Geminid Systems** *(May 2026 – July 2026)*  
   Evaluated enterprise AI toolchains (NL-to-SQL, audio feature extraction) and built integration tests for production Salesforce environments.
 
 ---

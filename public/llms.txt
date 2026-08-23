@@ -28,7 +28,7 @@ Medhansh Kapoor is an AI/ML Engineer and Full-Stack Developer based in Jaipur, I
 Medhansh Kapoor has built JanSamadhan, an autonomous civic surveillance platform (YOLOv8, 256 complaints processed at 0.36s/ticket, active-learning verification), and NyayaAI, a multi-agent legal intelligence platform with a GraphRAG pipeline (1,410 Neo4j graph nodes, 4,582 indexed legal chunks, and 5-stage LangGraph orchestration).
 
 ### Where has Medhansh Kapoor interned?
-Medhansh Kapoor completed engineering internships at IndiaAI Mission (MeitY) building an automated dataset-quality evaluation toolkit for ICMR, ISSA – DRDO developing an air-gapped offline GIS platform, and Geminid Systems evaluating enterprise AI toolchains and Salesforce AI platforms (all May 2026 – June 2026).
+Medhansh Kapoor completed engineering internships at IndiaAI Mission (MeitY) building an automated dataset-quality evaluation toolkit for ICMR, ISSA – DRDO developing an air-gapped offline GIS platform, and Geminid Systems evaluating enterprise AI toolchains and Salesforce AI platforms (all May 2026 – July 2026).
 
 ### What technologies and frameworks does Medhansh Kapoor specialize in?
 Medhansh Kapoor specializes in Python, TypeScript, FastAPI, Next.js, PyTorch, LangGraph, LangChain, Celery, Redis, PostgreSQL, PostGIS, Neo4j, Qdrant, Docker, and cloud deployments across AWS and GCP.
@@ -83,7 +83,7 @@ Detects civic issues via CCTV/dashcam, auto-generates complaint tickets, verifie
 
 ## Engineering Experience (Internships)
 
-### AI/ML Intern — IndiaAI Mission (MeitY) (May 2026 – June 2026)
+### AI/ML Intern — IndiaAI Mission (MeitY) (May 2026 – July 2026)
 Built an automated dataset-quality evaluation toolkit for ICMR.
 
 **Technologies:** Next.js, FastAPI, Celery, Redis, Supabase (PostgreSQL), AWS S3, Pydantic, JWT Auth, Jinja2, WeasyPrint
@@ -93,7 +93,7 @@ Built an automated dataset-quality evaluation toolkit for ICMR.
 - Assessment Engine: Architected an asynchronous, parallelized scoring engine to evaluate datasets across 15 government-defined quality domains, generating Composite Quality and Privacy Risk scores for automated release eligibility (Open/Controlled/Restricted).
 - Integration: Built automated multi-format reporting (JSON/HTML/PDF) and webhook APIs, enabling AIKosh to auto-ingest verified dataset metadata upon assessment completion.
 
-### Student Trainee, Ministry of Defence — ISSA – DRDO (May 2026 – June 2026)
+### Student Trainee, Ministry of Defence — ISSA – DRDO (May 2026 – July 2026)
 Developed an air-gapped GIS platform to securely process and visualize offline geospatial data.
 
 **Technologies:** FastAPI, PostGIS, GDAL/ogr2ogr, GeoServer, Martin Tile Server, OpenLayers, Docker/Podman, RHEL
@@ -102,7 +102,7 @@ Developed an air-gapped GIS platform to securely process and visualize offline g
 - Ingestion Pipelines: Built automated ETL pipelines for vector (Shapefiles to PostGIS with reprojection/indexing) and raster data (GeoTIFFs auto-published via REST), eliminating manual GIS server setups.
 - Serving Layer & Infra: Enabled real-time map-tile delivery to browser clients via a containerized 4-service microservices backend, securely deployed on a firewalled RHEL environment for fully offline, classified operations.
 
-### Software Development Intern — Geminid Systems (May 2026 – June 2026)
+### Software Development Intern — Geminid Systems (May 2026 – July 2026)
 Evaluated enterprise AI toolchains and shipped integration tests for production Salesforce environments.
 
 **Technologies:** Vanna.ai, LlamaIndex, LangChain, Librosa, PyDub, Torchaudio, Salesforce Apex, Einstein AI, Agentforce

@@ -100,22 +100,6 @@ export default function ExperienceView() {
 				<div className="mt-8 text-center text-[11px] font-bold text-muted-foreground uppercase tracking-widest">
 					<span>Last Updated: August 2026</span>
 				</div>
-
-				{/* Internal Linking Architecture */}
-				<div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-8 pt-8 border-t-[3px] border-border text-xs font-bold uppercase tracking-wider">
-					<a
-						href="/projects"
-						className="text-muted-foreground hover:text-foreground transition-colors"
-					>
-						← View AI/ML Projects (JanSamadhan & NyayaAI)
-					</a>
-					<a
-						href="/about"
-						className="text-muted-foreground hover:text-foreground transition-colors"
-					>
-						Read Education & Achievements →
-					</a>
-				</div>
 			</div>
 		</main>
 	);

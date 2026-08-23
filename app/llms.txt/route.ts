@@ -35,7 +35,7 @@ export function generateLlmsText(): string {
 	);
 	sections.push(`### Where has Medhansh Kapoor interned?`);
 	sections.push(
-		`Medhansh Kapoor completed engineering internships at IndiaAI Mission (MeitY) building an automated dataset-quality evaluation toolkit for ICMR, ISSA – DRDO developing an air-gapped offline GIS platform, and Geminid Systems evaluating enterprise AI toolchains and Salesforce AI platforms (all May 2026 – June 2026).\n`
+		`Medhansh Kapoor completed engineering internships at IndiaAI Mission (MeitY) building an automated dataset-quality evaluation toolkit for ICMR, ISSA – DRDO developing an air-gapped offline GIS platform, and Geminid Systems evaluating enterprise AI toolchains and Salesforce AI platforms (all May 2026 – July 2026).\n`
 	);
 	sections.push(`### What technologies and frameworks does Medhansh Kapoor specialize in?`);
 	sections.push(

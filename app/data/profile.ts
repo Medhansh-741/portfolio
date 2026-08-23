@@ -62,7 +62,7 @@ export const profile = {
 		{
 			company: "IndiaAI Mission (MeitY)",
 			role: "AI/ML Intern",
-			period: "May 2026 – June 2026",
+			period: "May 2026 – July 2026",
 			description:
 				"Built an automated dataset-quality evaluation toolkit for ICMR.",
 			tech: [
@@ -88,7 +88,7 @@ export const profile = {
 		{
 			company: "ISSA – DRDO",
 			role: "Student Trainee, Ministry of Defence",
-			period: "May 2026 – June 2026",
+			period: "May 2026 – July 2026",
 			description:
 				"Developed an air-gapped GIS platform to securely process and visualize offline geospatial data.",
 			tech: [
@@ -111,7 +111,7 @@ export const profile = {
 		{
 			company: "Geminid Systems",
 			role: "Software Development Intern",
-			period: "May 2026 – June 2026",
+			period: "May 2026 – July 2026",
 			description:
 				"Evaluated enterprise AI toolchains and shipped integration tests for production Salesforce environments.",
 			tech: [

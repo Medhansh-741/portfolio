@@ -127,22 +127,6 @@ export default function ProjectsView() {
 						</motion.div>
 					))}
 				</div>
-
-				{/* Internal Linking Architecture */}
-				<div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-12 pt-8 border-t-[3px] border-border text-xs font-bold uppercase tracking-wider">
-					<a
-						href="/experience"
-						className="text-muted-foreground hover:text-foreground transition-colors"
-					>
-						← View Professional Experience
-					</a>
-					<a
-						href="/about"
-						className="text-muted-foreground hover:text-foreground transition-colors"
-					>
-						Read Engineering Philosophy & Achievements →
-					</a>
-				</div>
 			</div>
 		</main>
 	);
