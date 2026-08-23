@@ -2,7 +2,6 @@ import { Project } from "@/app/data/profile";
 import Link from "next/link";
 import { FiFolder, FiArrowUpRight, FiGithub, FiYoutube } from "react-icons/fi";
 import CardDeckVideo from "./CardDeckVideo";
-import { profile } from "@/app/data/profile";
 
 interface MobileProjectCardProps {
 	project: Project;
@@ -10,7 +9,7 @@ interface MobileProjectCardProps {
 
 const MOBILE_VIDEO_MAP: Record<string, string> = {
 	jansamadhan: "jansamadhan",
-	nyayaai: "nyayaai"
+	nyayaai: "nyayaai",
 };
 
 export default function MobileProjectCard({ project }: MobileProjectCardProps) {
@@ -35,10 +34,7 @@ export default function MobileProjectCard({ project }: MobileProjectCardProps) {
 			</div>
 
 			{/* Video Preview */}
-			<div 
-				className="w-full flex-1 min-h-0 bg-muted border-2 border-border overflow-hidden relative mt-fluid-xs"
-				style={{ viewTransitionName: `project-video-${project.title.toLowerCase().replace(/\s+/g, '-')}` }}
-			>
+			<div className="w-full flex-1 min-h-0 bg-muted border-2 border-border overflow-hidden relative mt-fluid-xs">
 				<CardDeckVideo
 					projectFileName={MOBILE_VIDEO_MAP[project.title.toLowerCase()] || project.title.toLowerCase()}
 					className="w-full h-full object-cover"

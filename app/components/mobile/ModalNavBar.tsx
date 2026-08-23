@@ -17,6 +17,7 @@ export default function ModalNavBar() {
 			<Link
 				href="/projects"
 				prefetch={true}
+				onTouchStart={() => router.prefetch("/projects")}
 				aria-label="Recent apps"
 				className="min-w-[var(--spacing-fluid-xl-val)] min-h-[var(--spacing-fluid-xl-val)] flex items-center justify-center cursor-pointer active:opacity-70"
 			>
@@ -25,6 +26,7 @@ export default function ModalNavBar() {
 			<Link
 				href="/"
 				prefetch={true}
+				onTouchStart={() => router.prefetch("/")}
 				aria-label="Home"
 				className="min-w-[var(--spacing-fluid-xl-val)] min-h-[var(--spacing-fluid-xl-val)] flex items-center justify-center cursor-pointer active:opacity-70"
 			>
@@ -33,6 +35,7 @@ export default function ModalNavBar() {
 			<Link
 				href="/projects"
 				prefetch={true}
+				onTouchStart={() => router.prefetch("/projects")}
 				aria-label="Back"
 				className="min-w-[var(--spacing-fluid-xl-val)] min-h-[var(--spacing-fluid-xl-val)] flex items-center justify-center cursor-pointer active:opacity-70"
 			>

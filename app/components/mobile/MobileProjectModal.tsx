@@ -1,54 +1,36 @@
-import { Project, profile } from "@/app/data/profile";
-import { FiThumbsUp, FiThumbsDown, FiDownload } from "react-icons/fi";
+import { Project } from "@/app/data/profile";
 import SharedVideoPreview from "../ui/SharedVideoPreview";
-import ShareActionButton from "./ShareActionButton";
 import Image from "next/image";
 import Link from "next/link";
 import Logo from "../ui/Logo";
 import ModalNavBar from "./ModalNavBar";
 import MobileActionRow from "./MobileActionRow";
-import { YouTubeEmbed } from '@next/third-parties/google';
 
 interface MobileProjectModalProps {
 	project: Project;
 	allProjects: Project[];
 }
 
-function getYouTubeId(url: string | undefined) {
-	if (!url) return null;
-	const match = url.match(/youtu\.be\/([^?]+)/);
-	return match ? match[1] : null;
-}
-
 const MOBILE_VIDEO_MAP: Record<string, string> = {
 	jansamadhan: "jansamadhan",
-	nyayaai: "nyayaai"
+	nyayaai: "nyayaai",
 };
 
 export default function MobileProjectModal({ project, allProjects }: MobileProjectModalProps) {
-	const videoId = getYouTubeId(project.links?.demo);
-	const otherProjects = allProjects.filter(p => p.title !== project.title);
+	const otherProjects = allProjects.filter((p) => p.title !== project.title);
 
 	return (
 		<div className="xl:hidden">
-		<div className="fixed inset-0 z-[9999] flex justify-center bg-background/95 backdrop-blur-sm pointer-events-none">
-			{/* Inner Modal Shell (Column Cap) */}
-			<article className="@container w-full max-w-2xl h-full flex flex-col bg-background shadow-2xl relative pointer-events-auto overflow-y-auto overscroll-contain border-x-2 border-border [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-				
-				{/* 1. Video Player */}
-				<figure 
-					className="w-full aspect-video bg-muted border-b-2 border-border shrink-0"
-					style={{ viewTransitionName: `project-video-${project.title.toLowerCase().replace(/\s+/g, '-')}` }}
-				>
-				{videoId ? (
-					<YouTubeEmbed videoid={videoId} params="rel=0" />
-				) : (
-					<SharedVideoPreview
-						projectFileName={MOBILE_VIDEO_MAP[project.title.toLowerCase()] || project.title.toLowerCase()}
-						className="w-full h-full object-cover"
-					/>
-				)}
-				</figure>
+			<div className="fixed inset-0 z-[9999] flex justify-center bg-background/95 backdrop-blur-sm pointer-events-none">
+				{/* Inner Modal Shell (Column Cap) */}
+				<article className="@container w-full max-w-2xl h-full flex flex-col bg-background shadow-2xl relative pointer-events-auto overflow-y-auto overscroll-contain border-x-2 border-border [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+					{/* 1. Video Player */}
+					<figure className="w-full aspect-video bg-muted border-b-2 border-border shrink-0">
+						<SharedVideoPreview
+							projectFileName={MOBILE_VIDEO_MAP[project.title.toLowerCase()] || project.title.toLowerCase()}
+							className="w-full h-full object-cover"
+						/>
+					</figure>
 
 				{/* NEW 2. Dedicated Title Block */}
 				<header className="px-fluid-sm pt-fluid-md pb-fluid-xs shrink-0 min-w-0">

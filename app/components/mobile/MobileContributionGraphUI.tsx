@@ -34,9 +34,6 @@ export default function MobileContributionGraphUI({
 		: ["2026", "2025"];
 	const selectedYear = years[0] || "2026"; // Default to most recent year
 
-	const [hoveredDay, setHoveredDay] = useState<ContributionDay | null>(null);
-	const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
-
 	const rawContributions = githubData?.contributions || [];
 
 	const getLevelForCount = (c: number) => {
@@ -203,20 +200,8 @@ export default function MobileContributionGraphUI({
 		return "hover:shadow-[3px_3px_0_0_#3182CE]";
 	};
 
-	const formatDate = (dateStr: string) => {
-		const date = new Date(dateStr);
-		return date.toLocaleDateString("en-US", {
-			month: "short",
-			day: "numeric",
-			year: "numeric",
-		});
-	};
-
 	return (
-		<div 
-			className="w-full flex flex-col gap-3 min-w-0"
-			onClick={() => setHoveredDay(null)}
-		>
+		<div className="w-full flex flex-col gap-3 min-w-0">
 			{/* Header with Title and Platform Toggle */}
 			<div className="flex flex-col gap-2 w-full">
 				<div className="flex justify-between items-center w-full">
@@ -319,17 +304,9 @@ export default function MobileContributionGraphUI({
 												<div
 													key={rowIdx}
 													className={`w-[0.625rem] h-[0.625rem] rounded-[1.5px] border border-black dark:border-white ${
-														isFuture ? "opacity-30 cursor-default" : "cursor-pointer"
+														isFuture ? "opacity-30" : ""
 													}`}
 													style={{ backgroundColor: color }}
-													onClick={(e) => {
-														if (!isFuture) {
-															e.stopPropagation();
-															setHoveredDay(day);
-															const rect = (e.target as HTMLElement).getBoundingClientRect();
-															setTooltipPos({ x: rect.left + rect.width / 2, y: rect.top - 10 });
-														}
-													}}
 												/>
 											);
 										})}
@@ -361,22 +338,6 @@ export default function MobileContributionGraphUI({
 					</div>
 				</div>
 			</div>
-
-			{/* Floating Tooltip Component */}
-			{hoveredDay && (
-				<div
-					className="fixed pointer-events-none z-50 bg-accent-warning text-black text-[10px] font-black py-1.5 px-2.5 border-[2px] border-border shadow-sm -translate-x-1/2 -translate-y-full select-none uppercase tracking-wider"
-					style={{
-						left: `${tooltipPos.x}px`,
-						top: `${tooltipPos.y}px`,
-					}}
-				>
-					{hoveredDay.count === 0
-						? "No activity"
-						: `${hoveredDay.count} ${getMetricLabel()}`}{" "}
-					on {formatDate(hoveredDay.date)}
-				</div>
-			)}
 		</div>
 	);
 }

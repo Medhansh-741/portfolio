@@ -23,24 +23,28 @@ export default function DesktopProjectDirectView({ project }: DesktopProjectDire
 	}, [router]);
 
 	return (
-		<div className="fixed inset-0 bg-background/60 backdrop-blur-md z-50 flex items-center justify-center p-4 xl:p-8">
+		<div
+			onClick={() => router.push("/")}
+			className="fixed inset-0 bg-background/60 backdrop-blur-md z-50 flex items-center justify-center p-0 cursor-zoom-out"
+		>
 			<motion.div
 				initial={{ opacity: 0, scale: 0.95, y: 10 }}
 				animate={{ opacity: 1, scale: 1, y: 0 }}
 				transition={{ duration: 0.2, ease: "easeOut" }}
+				onClick={(e) => e.stopPropagation()}
 				style={{
-					width: isMaximized ? "100vw" : "min(1024px, 92vw)",
-					height: isMaximized ? "100vh" : "min(680px, 85vh)",
+					width: isMaximized ? "100vw" : "min(calc(100vw - 32px), 1024px)",
+					height: isMaximized ? "100vh" : "min(80vh, 680px)",
 				}}
-				className={`bg-card text-card-foreground flex flex-col relative overflow-hidden select-none transition-all duration-200 ${
+				className={`bg-card text-card-foreground flex flex-col cursor-default relative overflow-hidden select-none transition-shadow duration-200 ${
 					isMaximized
-						? "fixed inset-0 border-0 shadow-none"
-						: "border-[3px] border-border shadow-2xl"
+						? "border-0 shadow-none rounded-none"
+						: "border-[3px] border-border shadow-md rounded-none"
 				}`}
 			>
 				{/* Title Bar */}
 				<div className="h-[38px] bg-muted border-b-[3px] border-border flex items-center justify-between px-3 select-none flex-shrink-0 relative z-30">
-					<span className="font-mono text-[10px] font-bold tracking-widest text-muted-foreground uppercase">
+					<span className="font-mono text-[9px] font-bold tracking-widest text-muted-foreground uppercase">
 						📁 C:/PROJECTS/{project.title.toUpperCase()}.EXE
 					</span>
 
@@ -79,29 +83,34 @@ export default function DesktopProjectDirectView({ project }: DesktopProjectDire
 				<div className="p-4 bg-background flex flex-col gap-4 relative z-10 flex-grow h-[calc(100%-38px)] overflow-hidden">
 					{project.links.demo && (
 						<div className="w-full relative bg-black border-[3px] border-border overflow-hidden flex-grow">
-							<div className="absolute inset-0 w-full h-full flex items-center justify-center">
+							<motion.div
+								initial={{ opacity: 0 }}
+								animate={{ opacity: 1 }}
+								transition={{ delay: 0.2, duration: 0.2 }}
+								className="absolute inset-0 w-full h-full flex items-center justify-center"
+							>
 								<SharedVideoPreview
 									projectFileName={project.title.toLowerCase().replace(/\s+/g, "")}
 									className="w-full h-full object-cover"
 								/>
-							</div>
+							</motion.div>
 						</div>
 					)}
 
 					{/* Footer details */}
 					<div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 pt-2 flex-shrink-0">
 						<div>
-							<h3 className="font-sans text-base font-black uppercase text-foreground">
+							<h3 className="font-sans text-sm font-black uppercase text-foreground">
 								{project.title}
 							</h3>
-							<p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">
+							<p className="text-[9px] text-muted-foreground font-semibold uppercase tracking-wider">
 								{project.subtitle}
 							</p>
 						</div>
 						<Link
 							href={`/projects#${project.title.toLowerCase()}`}
 							prefetch={true}
-							className="inline-flex items-center gap-1.5 border-[2px] border-border bg-muted hover:bg-muted/70 px-4 py-2 text-[10px] font-black uppercase tracking-widest text-foreground transition-all duration-200 cursor-pointer shadow-xs active:translate-x-0 active:translate-y-0 hover:-translate-x-[1px] hover:-translate-y-[1px] hover:shadow-sm"
+							className="inline-flex items-center gap-1.5 border-[2px] border-border bg-muted hover:bg-muted/70 px-3 py-1.5 text-[9px] font-black uppercase tracking-widest text-foreground transition-all duration-200 cursor-pointer shadow-xs active:translate-x-0 active:translate-y-0 hover:-translate-x-[1px] hover:-translate-y-[1px] hover:shadow-sm"
 						>
 							Read Documentation <FiExternalLink size={12} />
 						</Link>
