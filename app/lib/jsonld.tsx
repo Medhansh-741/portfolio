@@ -177,12 +177,15 @@ export function getExperiencePageSchema() {
  */
 export function getSingleProjectSchema(project: Project, slug: string) {
 	const pageUrl = `${SITE_URL}/projects/${slug}`;
+	const videoFileName = project.title.toLowerCase().replace(/\s+/g, "");
+	const imageUrl = `${SITE_URL}/videos/${videoFileName}.webp`;
+
 	return {
 		"@context": "https://schema.org",
 		"@type": "ItemPage",
 		"@id": `${pageUrl}/#webpage`,
 		url: pageUrl,
-		name: `${project.title} — Medhansh Kapoor`,
+		name: project.title,
 		description: project.description,
 		dateModified: "2026-08-23",
 		isPartOf: {
@@ -196,6 +199,7 @@ export function getSingleProjectSchema(project: Project, slug: string) {
 			applicationCategory: "AI / Machine Learning Application",
 			operatingSystem: "Web",
 			url: project.links.live,
+			image: imageUrl,
 			sameAs: [project.links.github, project.links.demo].filter(Boolean),
 			author: {
 				"@id": PERSON_ID,

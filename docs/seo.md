@@ -1,510 +1,474 @@
-# SEO Master Checklist — medhanshk.me (On-Page + Technical, v2026)
+# SEO Master Plan — medhanshk.me (v2026-08-22b)
 
-An exhaustive, evidence-based audit checklist. Every section states the **signal**, the **rule**, and (where applicable) the **current state of this repo** with a `file:line` reference. Sources used are listed at the end.
+> **Single goal:** rank **#1 for the entity "Medhansh Kapoor"** — in Google *and* in LLMs (ChatGPT, Perplexity, Gemini, Google AI Overviews / AI Mode).
+>
+> **Finish line:** a Google Knowledge Panel for "Medhansh Kapoor" + being the sole cited entity when anyone asks "Who is Medhansh Kapoor?" to any AI engine.
+>
+> This is a **360° plan** — on-page, technical, GEO/AEO, off-page (self-serve), and LLM visibility. Every item exists to make one machine-understandable claim:
+> *"Medhansh Kapoor = the AI/ML engineer & full-stack developer based in Jaipur, India, working under IndiaAI Mission (MeitY) and ISSA-DRDO, reachable at medhanshk.me."*
 
-How to read the status column:
-
-- **DONE** — verified implemented and correct in the repo / production.
-- **PARTIAL** — exists but incomplete or wrong.
-- **MISSING** — not present at all.
-- **N/A** — not applicable to this site (portfolio, 4 pages, no commerce, not multilingual).
-
-> Baseline facts gathered 2026-08-09 → 2026-08-12:
-> Production Lighthouse (**mobile**, throttled, LH 13.4.0) — the SEO-relevant run: Performance **93**, Accessibility **89**, Best Practices **96**, SEO **100**. LCP **2.9 s (fails the ≤2.5 s target)**, FCP 1.2 s, TBT 160 ms, CLS 0. LCP element = the `<h1>` "Medhansh".
-> Production Lighthouse (**desktop**, unthrottled): Performance 97, Accessibility 88, Best Practices 96, SEO 100 — desktop numbers are UX-only; they are **not** used for ranking (mobile-only index).
-> A11y failures differ by device — **mobile**: `aria-prohibited-attr` (60 skill-badge `<div aria-label>`s), `color-contrast` (1), `heading-order` (1), `svg-img-alt` (57 footer icons); **desktop**: `color-contrast` (6), `heading-order` (1), `link-name` (1), `svg-img-alt` (57).
-> Best Practices dropped 100 → 96 in **both** runs: new `errors-in-console` (Minified React #418 hydration mismatch + message-port).
-> `robots.txt` → **404**, `sitemap.xml` → **404** (confirmed against production via `curl`). **Lighthouse SEO 100 does not score robots.txt/sitemap/canonical/JSON-LD** — the §3.1–3.3 & §2.10 gaps still stand despite the 100.
-> Production homepage has **two `<h1>`s** in the DOM (desktop + mobile variants) and **zero** `og:`, `twitter:`, `canonical`, `robots` meta, or JSON-LD tags.
-> `www` → non-www (308), `http` → `https` (308). HSTS served by Vercel (but no `includeSubDomains`/`preload`). No CSP header.
-> Google SERP (gl=us, 2026-08-14, live browser): bare "Medhansh Kapoor" → `medhanshk.me` **#4** (homepage) + `/resume` **#10**; "Medhansh Kapoor AI ML engineer" → **#1** (`/resume`), #3 (`/about`), #5 (`/projects`), #9 (`/experience`). **No knowledge panel.** Competing same-name entities — a medical student, a "Creative Technologist", a Delhi full-stack dev, and a filmmaker (`medhanshk.com` + Letterboxd "Whispering Shadows") — outrank the bare name, and your own LinkedIn ("India Innovates 2026 WINNER") is absent from page 1.
+Every item carries a status — **DONE** / **PARTIAL** / **MISSING** / **FAIL** — with a `file:line` reference where the fix lives. Phases are ordered by ROI; do them in order.
 
 ---
 
-## 1. Choose the target entity & keywords first (foundation)
+## 0. Baseline facts (re-gathered 2026-08-22)
 
-On-page SEO is meaningless without a target. This is a **personal-brand (entity) site**: the entity is "Medhansh Kapoor, AI/ML engineer & full-stack developer, Jaipur, India".
+Production Lighthouse **mobile** (throttled — the ranking-relevant run): Performance **83**, Accessibility **86**, Best Practices **96**, SEO **100**, **Agentic-browsing 50**. FCP **1.2 s**, **LCP 3.0 s (FAIL)**, Speed Index 4.5 s, TBT **350 ms**, CLS **0**. LCP element is now the **`nyayaai.webp` `<img>`** on the mobile project card (not the `<h1>` anymore).
 
-- [ ] One canonical identity (name + URL + handle) used identically in the site, JSON-LD, GitHub, LinkedIn, and everywhere else. Never mix "Medhansh Kapoor" / "medhansh" / "Medhansh k" on different pages.
-- [ ] **Entity disambiguation is a first-class goal, not a nicety** — live Google shows 3+ other "Medhansh Kapoor" people (a medical student, a "Creative Technologist", a Delhi full-stack dev) plus a **filmmaker** who owns `medhanshk.com` + TMDB + Letterboxd ("Whispering Shadows"). You currently sit #4 for the bare name, below them. The disambiguation tools are: `Person` schema + `sameAs` + `disambiguatingDescription` (§2.10), and getting your own LinkedIn/GitHub cross-linked (`rel="me"`).
-- [ ] Write down one primary keyword phrase per page:
-  - `/` → "Medhansh Kapoor" (entity + brand) + secondary: "AI/ML engineer India", "portfolio".
-  - `/projects` → "AI/ML projects", "full-stack projects portfolio".
-  - `/experience` → "AI/ML engineer experience", "software engineering intern".
-  - `/about` → "about Medhansh Kapoor", "AI engineer Jaipur".
-- [ ] Pick 3–8 semantically related terms per page and place them naturally (e.g. RAG, LangGraph, geospatial, civic-tech on the appropriate pages). No keyword stuffing (density 0.5–2% is a guideline, never exceed naturally).
-- [ ] Avoid keyword cannibalization: never let two pages target the same primary keyword.
-- [ ] Target **search intent**: "Medhansh Kapoor" — navigational/brand intent; "AI/ML engineer India" — hiring-manager intent ("hire", portfolio, experience). Design content to answer both.
-- [ ] Read the live SERP for each primary keyword before writing: note the winning content *type* (portfolio, job board, LinkedIn profile), *depth*, and *angle*; mirror the format that dominates (search-intent SERP analysis).
-- [ ] Competitor keyword / content-gap analysis: pick 2–3 comparable AI/ML-engineer portfolios and record the keywords, pages, and content angles they rank for that you don't. Feed the gaps back into the keyword map above and into §5 (off-page).
+Production Lighthouse **desktop** (unthrottled — UX only, not used for ranking): Performance 97, Accessibility 83, Best Practices 96, SEO 100, Agentic-browsing 49. LCP 0.8 s, TBT 20 ms, CLS 0.058.
 
----
+Live checks against `https://medhanshk.me` (curl, 2026-08-22):
 
-## 2. On-page SEO checklist
+- `robots.txt` → **404** · `sitemap.xml` → **404** · `llms.txt` → **404** · `opengraph-image` → **404** · `resume.pdf` → **200** · `favicon.ico` → **200**.
+- Served `<head>` contains **only** `<title>Medhansh Kapoor</title>` + one `<meta name="description">`. **Zero** `og:`, `twitter:`, `canonical`, `robots`, or JSON-LD tags (grep on raw HTML: `og:`=0, `ld+json`=0, `canonical`=0).
+- **Two `<h1>`s** in the homepage DOM (desktop + mobile hero variants) — still unresolved.
+- Videos were converted `.mp4` → `.webm` and posters were added, but desktop still ships **13.2 MB of media** (each `.webm` fetched **twice** via 206 range requests) → total desktop weight **13.78 MB**. Mobile run fetches zero `.webm`.
+- `errors-in-console` still fires: **Minified React #418** hydration mismatch (`_next/static/chunks/3kw1yyr4uuo_n.js`).
+- **`FiLinkedin` is imported but never rendered** — the LinkedIn link is missing from every page (`app/components/HeroSection.tsx:7`).
+- Lighthouse now has an **"Agentic browsing"** category (score 50) measuring `llms.txt`, the accessibility tree, and WebMCP. A clean `llms.txt` + clean a11y tree directly raise it — the same fixes that help Google also help AI agents cite you.
 
-### 2.1 Title tags (`<title>`)
-
-The single highest-impact on-page element. One unique title per page; keyword near the start; 50–60 characters (≈600px); brand at the end after a pipe/dash; title should closely match the H1 to avoid Google's title-rewrite system (studies show Google rewrites a large share — ~61% in Zyppy's 2021 study — of titles that don't match the on-page content).
-
-In Next.js App Router this is `metadata.title` (optionally `title: { template: "%s | Medhansh Kapoor" }`).
-
-| # | Check | Status | Evidence / target |
-|---|-------|--------|-------------------|
-| T1 | Every page has a **unique** title, no duplicates | **PARTIAL** | `app/layout.tsx:26` sets one title; `/projects`, `/experience`, `/about` do **not** export `generateMetadata` → they inherit the homepage title → duplicate titles on 3 of 4 pages. **Live-confirmed on Google:** `/projects`, `/experience`, `/resume` all render the identical title "AI/ML Engineer & Full-Stack Developer - Medhansh Kapoor", while `/about` was rewritten by Google to "Driven by code, obsessed with craft." (pulled from its H1). |
-| T2 | Primary keyword within the first 60 characters | **PARTIAL** | Home: "Medhansh Kapoor — AI/ML Engineer…" keyword is front-loaded (good). Sub-pages inherit "AI/ML Engineer & Full-Stack Developer" — not their topic. |
-| T3 | Title 50–60 chars (avoid truncation) | **PARTIAL** | Home title is ~62 chars; sub-pages need their own. |
-| T4 | Brand included at the end (`... \| Medhansh Kapoor`) | **MISSING** | Use a `.title` template instead of a static string. |
-| T5 | Title matches H1 & body topic (reduces rewriting) | **PARTIAL** | Home H1 is "Medhansh" vs title "Medhansh Kapoor — …" (fine). Projects/About/Experience H1s ("Projects", "Driven by code…") currently have no titles at all. |
-| T6 | Homepage uses `title.absolute` to avoid "Home | …" | **PARTIAL** | Not configured. |
-
-### 2.2 Meta descriptions (CTR, not rank)
-
-- [ ] One unique, accurate description per page, 120–160 chars (120 for mobile truncation).
-- [ ] Contain the primary keyword naturally (Google bolds matches).
-- [ ] Front-load the value: "AI/ML engineer building…", include a CTA ("Get in touch", "Explore the work").
-- [ ] Don't repeat the title verbatim; avoid `&`, `+`, and em-dash overuse.
-
-| # | Check | Status | Evidence |
-|---|-------|--------|----------|
-| M1 | Homepage description | **DONE** | `app/layout.tsx:28-29` — "Portfolio of Medhansh Kapoor — AI/ML Engineer and Full-Stack Developer. Building production-grade AI agents, geospatial systems, and full-stack applications." (≈150 chars, good). |
-| M2 | Per-page descriptions for `/projects`, `/experience`, `/about` | **MISSING** | No `generateMetadata` anywhere in `app/projects`, `app/experience`, `app/about`. |
-
-### 2.3 URL slugs / URLs
-
-- [ ] Short, lowercase, hyphenated, keyword-forward (`/projects` ✓, `/experience` ✓, `/about` ✓, `/resume.pdf` ✓).
-- [ ] No params, hashes, uppercase, or `index.html` duplicates.
-- [ ] One indexable version per URL (see canonicals / redirects in §3).
-- [ ] Anchors used as deep-links have a matching `id` on the target.
-
-| # | Status | Evidence |
-|---|--------|----------|
-| U1 | Slugs are clean & hierarchical | **DONE** | Routes: `/`, `/projects`, `/experience`, `/about`, `/resume.pdf`. |
-| U2 | Deep links (`/projects#jansamadhan`, `/projects#nyayaai`) resolve to a real element | **MISSING** | `app/components/ProjectsDrawer.tsx:156` and `app/components/GenieModal.tsx:134` link to `/#…` but `app/projects/page.tsx` cards are `<h2>` without `id` → the anchor does nothing (no jump, no target element). |
-
-### 2.4 Headings (H1–H6)
-
-| Check | Rule | Status |
-|-------|------|--------|
-| H1 | **One H1 per page**; H1 wraps the main topic; H1 ≈ title tag ≈ keyword | **FAIL** | Homepage renders **two H1s**: desktop `app/components/HeroSection.tsx:20` (`Medhansh` split per char) and mobile `app/components/mobile/MobileHeroSection.tsx:21` (`Medhansh` per char). The mobile block is `xl:hidden` (CSS-hidden but present in DOM). `app/projects/page.tsx:30`, `app/experience/page.tsx:30`, `app/about/page.tsx:16` each have one H1 — good. |
-| H2S | H2 = main sections, H3 = sub-sections; no skipped levels | **PARTIAL** | Projects/About/Experience use H2/H3 consistently; homepage content is cards using H3/H4 inside `GithubCalendarUI.tsx:265`, `GenieModal.tsx:126`, `MobileCardStackPlaceholder.tsx:40` — small structural wart; Lighthouse already listed `heading-order`. |
-| H3 | Descriptive "answer-first" headings | **PARTIAL** | See §2.11 for AI-readiness version of this rule. |
-| H4 | H1 visible text not hidden behind animation `opacity: 0` at parse | **DONE** | Google crawls DOM text; the per-char split is fine semantically, but keep the H1 readable in the DOM. |
-
-### 2.5 Content quality, depth & E-E-A-T
-
-Google's systems look for helpful, people-first content with demonstrated E-E-A-T: **Experience, Expertise, Authoritativeness, Trust** (trust is the most important). For an individual engineer site:
-
-**Experience**
-- [ ] First-person specifics you can't fake: exact stack, metrics (0.68 mAP50, SH call count), "I tried X, hit error Y, fixed by Z".
-- [ ] Original artifacts: screenshots, architecture diagrams, your own benchmark numbers (your `docs/`, your GitHub numbers qualify).
-
-**Expertise**
-- [ ] Go one level deeper than generic: correct terms (LangGraph, RAG, PostGIS, YOLOv8 ONNX), caveats, "it depends on…".
-- [ ] Accuracy and freshness: update broken project links, refresh "latest" claims.
-- [ ] **Information gain / topical authority**: add something the top-ranking pages for your target keywords don't have (your own benchmark numbers, architecture diagrams, "I tried X, hit Y" specifics) rather than rehashing the same headings — the §1 SERP read tells you what's already covered.
-
-**Authoritativeness**
-- [ ] Named byline, face, bio on the about page; consistent identity everywhere.
-- [ ] External you-channels that cross-link to `medhanshk.me`: GitHub, LinkedIn, maybe Medium, Dev.to, X. (This is off-page, but the **on-page mirror** is: `sameAs`, bylines, an `/about` that reads as a credible source.)
-
-**Trust**
-- [ ] Real contact info reachable (email + LinkedIn page). `app/data/profile.ts:4` email exists.
-- [ ] Update timestamp and legal disclosure/policy pages (privacy) if you run forms.
-- [ ] No dead links; each 404 (your own or external) erodes trust. Audit `resume.pdf` link and offer-letter Google Drive links — see §3.4.
-
-| # | Status | Evidence |
-|---|--------|----------|
-| E1 | Author + real identity visible | **DONE** | Name on homepage and About page; email in `app/data/profile.ts:4`. |
-| E2 | First-hand experience signals in content | **DONE** | `app/data/profile.ts` has detailed highlights/metrics per project/experience (0.68 mAP50, 256 tickets, SH filters, metrics). Strong E-E-A-T material — keep it on-page as visible text (it is). |
-| E3 | Proof of visibility & public profile links | **PARTIAL** | Links to GitHub/LinkedIn exist as `<a>` but there is no `rel="me"` and no JSON-LD `sameAs`. |
-| E4 | Press/awards mention | **PARTIAL** | `app/about/page.tsx` shows Achievements (India Innovates '26 Finalist, Prayatna 3.0) — great E-E-A-T; mirror them in schema, and in title/description where relevant. |
-
-### 2.6 Images & media optimization
-
-This repo has almost no `<img>` tags (all visuals are icon SVG / CSS; `next/image` import unused in `MobileCardStackPlaceholder.tsx`), but the rules apply when images are added, and **the videos need attention** (see 2.7).
-
-- [ ] Descriptive filenames (`hero-medhansh-og.webp`, not `IMG_4512.jpg`).
-- [ ] Descriptive, keyword-appropriate `alt` on meaningful images; `alt=""` for decorative ones (or `aria-hidden`).
-- [ ] Explicit `width` + `height` (or CSS `aspect-ratio`) to prevent CLS.
-- [ ] `srcset`/`sizes` for responsive images; `next/image` gives this free for local images.
-- [ ] WebP/AVIF; compress; target ≤ ~100 KB per hero; never lazy-load the LCP image; LCP images get `fetchpriority="high"` + `<link rel="preload">`.
-- [ ] **Videos**: `poster` attribute + `preload="metadata"`; below-fold videos get `loading="lazy"`; use a façade/click-to-play; the video reserves space (`aspect-video` already in `app/components/ProjectsDrawer.tsx:134`).
-
-### 2.7 Video evidence
-
-| # | Status | Evidence |
-|---|--------|----------|
-| V1 | Videos sized, compressed | **FAIL** | `public/videos/jansamadhan.mp4` ≈ 13.6 MB, `nyayaai.mp4` ≈ 2.8 MB. Raw screen-capture MP4s. `preload="auto"`, `autoPlay`, `loop` in `app/components/ProjectsDrawer.tsx:36-53` → the browser downloads both on a **desktop** homepage visit (confirmed: desktop total weight 7 MB). **Desktop-only risk** — the mobile run fetches **zero** `.mp4` (mobile total weight 439 KB, videos swapped out for a placeholder per §2.12 MO4). |
-| V2 | `poster` present | **MISSING** | No `poster` attr on `<video>` (`app/components/ProjectsDrawer.tsx:36`). |
-| V3 | `width`/`height` or aspect ratio | **PARTIAL** | `aspect-video` class present (good); no intrinsic sizes. |
-
-### 2.8 Internal linking & anchor text
-
-- [ ] Every page reachable from homepage ≤ 3 clicks. (This site: yes, all via nav.)
-- [ ] Descriptive anchor text (never "click here").
-- [ ] Enough, not spammy links (goal ≈ 1 link/100 words in prose).
-- [ ] Highly-linked-to pages point to pages that need authority.
-- [ ] No broken internal links.
-- [ ] Footer/global nav includes the same accurate anchors on both desktop & mobile (mobile is a bottom bar — it mirrors desktop links, good).
-- [ ] Fix the broken `#` anchors (see U2).
-
-| # | Status | Evidence |
-|---|--------|----------|
-| L1 | Nav links | **DONE** | Desktop `app/components/Navbar.tsx:12-17`, mobile bottom bar `app/components/mobile/MobileBottomBar.tsx:15-21` (Home/Projects/Experience/Resume/About). |
-| L2 | Home → pages CTAs | **DONE** | `app/components/HomeNav.tsx:8-12` (Projects / Experience / About), Hero CTA email/links. |
-| L3 | Content-level internal links | **PARTIAL** | `GenieModal.tsx:134` + `ProjectsDrawer.tsx:156` link to `#`, but the target `<h2>` has no `id` → dead internal link (U2). |
-| L4 | Anchor text descriptive | **PARTIAL** | "View Details ↗", "Return to Terminal" are fine; `Read Docs` (GenieModal) is slightly generic but acceptable. The `#` anchors break the semantic context. |
-
-### 2.9 External/outbound links
-
-- [ ] `target="_blank" rel="noopener noreferrer"` on every external tab (security; avoids tabnabbing + referrer leak). **Done** in most places: `HeroSection.tsx:77-78,87-88`, `Navbar.tsx:42,91-99`, `ProjectsDrawer`, `MobileHeroCTA`, `Resume.pdf` CTA, CommitFeed links, About certificate links (verified via grep for `rel="noopener noreferrer"`).
-- [ ] `rel="me"` on your personal profile links (GitHub, LinkedIn) — **MISSING** (helps entity linking, §2.10).
-- [ ] `rel="nofollow"` on any user-generated/comment links and affiliates (none here — N/A).
-- Offer letters (Google Docs) are external, first-party-adjacent links; `nofollow` is optional.
-
-### 2.10 Schema / structured data (JSON-LD)
-
-Structured data is the single biggest missing SEO piece on this site. Zero `<script type="application/ld+json">` tags exist (grep returns none; production page head has none).
-
-Recommended on this site (validate each in Google Rich Results Test):
-
-| Type | Where | Purpose |
-|------|-------|---------|
-| `WebSite` + optional `SearchAction` | root layout | site identity; enables sitelinks search box |
-| `Person` (with `sameAs`, `jobTitle`, `worksFor`, `alumniOf`, `knowsAbout`, `disambiguatingDescription`) | homepage + about | entity recognition; knowledge-panel prep; **disambiguation from the other "Medhansh Kapoor"s** (esp. the filmmaker at `medhanshk.com`); AI-search citation |
-| `ProfilePage` (`mainEntity` → Person) | home/about | explicitly marks "this page is about a person" (Google's ProfilePage spec, `dateCreated`/`dateModified`) |
-| `BreadcrumbList` | about/projects/experience | breadcrumbs (if you add crumbs) |
-| `ItemList` / `CollectionPage` | `/projects` | lists all projects hierarchically |
-| `SoftwareApplication` (per project) | `/projects` card / modal | if each project is app-like; works best for the RAG/demo tools |
-| `Organization` | layout (footer) | only if you formalize a brand |
-| `FAQPage` | if you add an FAQ block | note: Google deprioritized FAQ rich results in 2023 — only add if genuinely present |
-| `VideoObject` | if you keep the `<video>`s | video rich result for demo videos |
-
-Rules:
-- [ ] Every node must be **valid** and validated on the live URL (Rich Results Test).
-- [ ] **Schema–content alignment**: JSON-LD must match what's visible (e.g. don't mark VideoObject while the video is `preload="metadata"` and hidden; mark availability properly).
-- [ ] `sameAs` list contains only URLs that genuinely identify the person (GitHub + LinkedIn).
-- [ ] Use one consistent `@id` for the Person node everywhere (e.g. `https://medhanshk.me/#person`).
-- [ ] Add `disambiguatingDescription: "AI/ML engineer & full-stack developer based in Jaipur, India"` so Google separates you from the filmmaker and other same-name people — and make sure your own LinkedIn profile is linked via `sameAs` (it currently doesn't surface on page 1).
-
-| # | Status | Evidence |
-|---|--------|----------|
-| SS1 | Any JSON-LD anywhere | **MISSING** | Zero `ld+json` in repo or served HTML. |
-| SS2 | `Person` + `Organization` + `WebSite` | **MISSING** | — |
-| SS3 | Validations | **MISSING** (nothing to validate yet) | — |
-
-### 2.11 Readability & AI/LLM + agentic-search readiness
-
-AI search (ChatGPT Search, Perplexity, Gemini, Google AI Mode) is the new organic surface. It parses on-page formats:
-
-- [ ] Section paragraphs start with an answer ("block-first headings") — make the first line of each H2 section answer its heading.
-- [ ] Bullets, tables, short paragraphs (< ~300 words per section).
-- [ ] High-level definition paragraph right after H1/H2.
-- [ ] Visible dates everywhere; "last updated" visible on pages.
-- [ ] Entity links `sameAs`, and define top terms.
-
-Your content is bullet-heavy already (Experience highlights, metrics) — that's good. What's missing: visible dateModified / "last updated", and answer-first FAQ headings (nice-to-have).
-
-### 2.12 Mobile vs desktop content parity (mobile-only indexing)
-
-Google now indexes the mobile version only — mobile-first indexing completed its shift to **mobile-only** (2025–2026), so sites not accessible on mobile are no longer indexed. Both content trees must be identical in the DOM:
-
-**Current bug**: the homepage has TWO H1s (desktop hero + mobile hero) — every section has strict `xl:` splits. The right fix is a single H1 in the DOM (e.g. keep the desktop H1 and mark the mobile one `sr-only`/hidden) OR share one hero. If you ever ship hi/low-content variants, mobile-first parity requires the same text, links, structured data, and images on both.
-
-| # | Status | Evidence |
-|---|--------|----------|
-| MO1 | Same H1 across devices | **FAIL** | Two H1s in DOM (desktop + mobile hero). |
-| MO2 | Desktop-only nav elements | **PARTIAL** | Desktop nav = links + theme toggle; mobile = bottom bar. All 5 routes exist in both DOMs (token that matters for indexing). |
-| MO3 | `viewport` meta | **DONE** | Served in production (Next auto). |
-| MO4 | Mobile secondary content visibility | **PARTIAL** | `MobileHome` hides desktop widgets (`GithubStatsWidget`, `ProjectsDrawer`, videos) and is swapped via `xl:hidden`; mobile shows a static card-stack placeholder instead of the real projects. Confirmed by production Lighthouse: mobile total weight = **439 KB** (0 videos) vs desktop **7 MB** — Google indexes the mobile DOM first, so mobile-served content is materially thinner than desktop. Consider serving real content to mobile too. |
-
-### 2.13 Freshness & maintenance
-
-- [ ] Machine-readable `lastmod` in sitemap / schema whenever a page changes (a freshness signal, cheap and effective).
-- [ ] Review/add content on a cadence; for a static site, a "last updated: YYYY-MM" line per notable page is enough.
-- [ ] `dateModified` as structured data (Person/ProfilePage: `dateCreated` / `dateModified`).
-
-### 2.14 Conversion-adjacent CTR signals
-
-- [ ] Value prop visible above the fold ("Open to Internships & Full-Time Roles" — implied in the hero; make it explicit).
-- [ ] Clear contact path (mailto + LinkedIn).
-- [ ] Resume accessible in-state without navigation (it is, `/resume.pdf`).
-
-### 2.15 Accessibility & semantic HTML (a11y → SEO)
-
-Accessibility isn't a direct ranking factor, but it is a Lighthouse "SEO" adjacency, an E-E-A-T trust signal, and (under the 2025 European Accessibility Act) a compliance matter. Lighthouse flagged four homepage issues (mobile run, the one that matters) — fix them:
-
-- [ ] `aria-prohibited-attr` — **60 elements**: the skill badges are `<div aria-label="Python">` (etc.) with **no `role`**. A `<div>` defaults to the `generic` role, which forbids naming — either add a valid `role` (e.g. `role="img"`/`role="listitem"`) or use a semantic element. This is the biggest single a11y failure and is mobile-only (desktop passes).
-- [ ] `color-contrast` — 1 element: `GIT` badge (3.68:1, `#000` on `#7c3aed`); meet WCAG AA (≥4.5:1 body, ≥3:1 large text). (Desktop shows 6 such badge/label failures.)
-- [ ] `heading-order` — 1 element: `PORTFOLIO V3` `<h3>`; fix the heading hierarchy (see §2.4).
-- [ ] `svg-img-alt` — **57 footer icons**: `<svg role="img">` with no `<title>`/`aria-label`; add one, or mark decorative icons `aria-hidden="true"`.
-- [ ] `link-name` — **desktop-only** failure: the header GitHub `<a>` has no accessible name; add `aria-label`/visible text.
-
-Semantic HTML & language:
-
-- [ ] `<html lang="en">` declared (not set explicitly — add it; helps language detection + screen readers).
-- [ ] Landmarks: one `<main>`, one or two `<nav>` (top nav + mobile bottom bar), one `<footer>`.
-- [ ] For the duplicate desktop/mobile hero (§2.12), keep a single H1 and hide the other with `sr-only`/`aria-hidden` instead of leaving two H1s in the DOM.
-
-### 2.16 Measurement, analytics & KPIs
-
-SEO without measurement is guesswork. Set this up in Tier 1:
-
-- [ ] **Google Search Console** verified (add the property; submit the §3.2 sitemap).
-- [ ] **Google Analytics 4** installed (none in this repo yet) — `next/script`/`gtag`, kept off the critical path.
-- [ ] Link GA4 ↔ GSC (Admin → Search Console linking) so organic query data flows into GA4.
-- [ ] Track **AI-referral traffic** as a source (ChatGPT, Perplexity, etc.) — a growing share of organic-like traffic.
-- [ ] Define KPIs (write them down):
-  - Organic clicks to `/` and `/projects` (GSC).
-  - Position for "AI/ML engineer India" and "Medhansh Kapoor" (rank tracker / GSC).
-  - `resume.pdf` download events (GA4 event).
-- [ ] Set up **rank tracking** for the §1 keywords (GSC position + a tracker like Ahrefs/Semrush).
+> ⚠ **Do not read "SEO 100" as done.** Lighthouse's SEO category does **not** score `robots.txt`, `sitemap.xml`, canonicals, or JSON-LD. Every gap below remains open despite the 100.
 
 ---
 
-## 3. Technical SEO checklist
+## 1. Entity definition & keyword map (do once — it drives everything)
 
-### 3.1 Crawlability — robots.txt
+The entity is **"Medhansh Kapoor"** — one canonical identity used identically in the site, JSON-LD, GitHub, LinkedIn, X, Instagram, and cal.com.
 
-| # | Check | Status / evidence |
-|---|-------|-------------------|
-| C1 | `robots.txt` returns 200 at `/robots.txt` | **FAIL** — production `/robots.txt` → **404**. |
-| C2 | Must NOT block CSS/JS/JSON/fonts (`/_next/`, `/fonts`) — Google needs them to render | N/A (no robots exists) — when created, never disallow `/_next/`. |
-| C3 | Declares absolute sitemap URL | N/A |
-| C4 | Block parameterized/session URLs (this site has none; only `?username=` on `/api/…`) | Add `Disallow: /api/\n` or `noindex` the API responses (JSON has no value in the index). |
-| C5 | **AI-bot policy**: deliberately allow `GPTBot`, `OAI-SearchBot`, `Google-Extended`, `PerplexityBot`, `ClaudeBot`, `Applebot`, and decide whether to block training scrapers | Currently default (allow everything) — fine, but make it *explicit* in the new file (2026 best practice: an explicit AI policy so bots render your content and cite you). |
+- [x] Canonical name: **"Medhansh Kapoor"** everywhere (decided 2026-08-22). Site currently renders the H1 as just `"Medhansh"` — fix in Phase 5.
+- [x] Canonical job title: **"AI/ML Engineer & Full-Stack Developer"**.
+- [x] `sameAs` set: **GitHub + LinkedIn + X + Instagram + cal.com + Wikidata (once created, Phase 9)** (decided 2026-08-22).
+- [ ] No image/headshot — deferred until a real photo exists (do **not** fabricate `Person.image` or an OG image).
 
-**Implementation:** create `app/robots.ts` exporting `MetadataRoute.Robots` (Next.js file convention) with `rules: [{ userAgent: "*", allow: "/" }]` + `sitemap: "https://medhanshk.me/sitemap.xml"`. Do NOT block fonts/CSS.
+| Page | Primary keyword (entity + intent) | Secondary terms |
+|------|-----------------------------------|-----------------| 
+| `/` | **Medhansh Kapoor** (brand/navigational) | AI/ML engineer India, portfolio |
+| `/projects` | AI/ML projects | JanSamadhan, NyayaAI, RAG, LangGraph, YOLOv8 |
+| `/experience` | AI/ML engineer experience | IndiaAI Mission MeitY, ISSA DRDO, software engineering intern |
+| `/about` | about Medhansh Kapoor | AI engineer Jaipur, achievements, education |
 
-### 3.2 Sitemap (XML)
-
-| Check | Status |
-|-------|--------|
-| `sitemap.xml` exists and returns 200 | **MISSING** (404) |
-| Contains every indexable URL (/, /projects, /experience, /about) | N/A |
-| URLs return 200, are canonical, no redirects | N/A |
-| Optional `lastmod` dates, priority home 1.0, others 0.6–0.9 | N/A |
-| Submitted in GSC (and Bing Webmaster Tools) | N/A |
-| **IndexNow** submitted to Bing for instant indexing pings | N/A — after the sitemap, submit via IndexNow (Bing Webmaster Tools auto-generates a key) |
-
-**Implement:** `app/sitemap.ts` returning `[{url '/', lastModified, changeFrequency, priority}, '/projects', '/experience', '/about']`. Add the `Sitemap:` line to robots. Submit in GSC → "Sitemaps", and in Bing Webmaster Tools (IndexNow).
-
-### 3.3 Canonicals & duplication
-
-| Check | Status |
-|--------|--------|
-| Self-referencing `rel="canonical"` on every indexable page | **MISSING** (zero `canonical` meta tags; `alternates.canonical` absent from Next config) |
-| One canonical form resolves HTTP/HTTPS/www (see redirects) | OK (308s) but no canonical tag emitted |
-| Duplicate variants consolidated | Both `www` and `http` 308 → non-www HTTPS; DNS fine. |
-| `?ref=…` params canonicalize to base (N/A — no tracked URL params) | N/A |
-| Canonical via HTTP `Link` header only for non-HTML | N/A |
-
-Fix: set **`alternates: { canonical: "…" }`** per page (or globally for the root layout). This anchors every version.
-
-### 3.4 Redirects & status codes
-
-Production verified via HEAD/GET:
-
-| Check | Status |
-|--------|--------|
-| `http://` → `https://` 308, single hop | **DONE** (Vercel auto) |
-| `www` → non-www 308 | **DONE** (Vercel `vercel.json:2-8`) |
-| No redirect chains/loops | **DONE** (both single-hop) |
-| No accidental **302** (temporary) redirects | **CHECK** — all current redirects are 308 (permanent); verify none are `302` (a 302 is only correct when the move is temporary) |
-| 404 page returns a real 404 with helpful links | **DONE** — `app/global-error.tsx`, `app/not-found.tsx` render a styled 404 with "Return to Terminal". No `generateMetadata` for the 404; keep it `noindex` (Next default is fine). |
-| `resume.pdf` returns 200 | NOTE: `X-Nextjs-Prerender` present, so presumably served; verify periodically. |
-| Google Docs offer-letter + YouTube + GitHub external links return 200 (no 404s) | CHECK — links in `app/data/profile.ts` (Drive URLs, `youtu.be`, `github.com`) must not 404. |
-
-> ⚠ Google's Dec 18 2025 JavaScript rendering update: **pages returning a non-200 status code may be skipped during rendering** ("while pages with a 200 HTTP status code are sent to rendering, this might not be the case for" non-200 pages) — test your 404/error UI; JS-only "you might like" enhancements on the 404 may never reach users. It's fine here (the 404 is styled server-side).
-
-### 3.5 HTTPS, security & headers
-
-| Check | Status |
-|--------|--------|
-| HTTPS everywhere, zero mixed content | **DONE** (Vercel; `curl` confirmed `X-Nextjs`); no mixed content detected. |
-| HSTS (≥1y `Strict-Transport-Security`) | **DONE** — `max-age=63072000` from Vercel. Lighthouse still flags **no `includeSubDomains`** and **no `preload`** (Medium) — add both directives. |
-| `X-Frame-Options: DENY` | **DONE** (`vercel.json:14`) |
-| `X-Content-Type-Options: nosniff` | **DONE** (`vercel.json:15`) |
-| `Referrer-Policy: strict-origin-when-cross-origin` | **DONE** (`vercel.json:16-19`) |
-| `Cross-Origin-Opener-Policy` (origin isolation) | **MISSING** — Lighthouse `origin-isolation` flags no COOP header (High); add `Cross-Origin-Opener-Policy: same-origin`. |
-| `Content-Security-Policy` (restrict inline & external origins) | **MISSING** — no CSP header. Next.js 16 can send it; consider a lenient early policy (CSP can break inline styles / React — prioritize a post-launch audit). |
-| Hide `X-Powered-By: Next.js` | **PARTIAL** — shown in headers; strip for hardening (minor info leak, no SEO impact). |
-
-### 3.6 Site architecture
-
-- [ ] ≤3 clicks from home to anything — ✓ (everything is At the top-level nav).
-- [ ] Breadcrumbs (visible + BreadcrumbList) — absent; optional on inner pages (About/Projects/Experience could add "Home → <page>").
-- [ ] No orphan pages — all 4 pages linked everywhere.
-- [ ] Internal linking from: side nav, bottom nav, home CTAs — ✓.
-
-### 3.7 Mobile & UX (mobile-only index, tap targets, readability)
-
-| Check | Status |
-|--------|--------|
-| Viewport meta | ✓ |
-| No horizontal scroll @ mobile | Mostly ✓ (`overflow-x-clip`); verify above 375px on all pages |
-| Tap targets ≥ 48px with spacing | **PARTIAL** — bottom bar uses `min-h-11` (44px) & `min-w-11`; mobile nav links ~40px; Lighthouse may flag <48px → verify |
-| Visible text ≥ 16px effective | **PARTIAL** — some `text-*` too small, tiny uppercase labels (10px) low-contrast → run GSC "Mobile Usability" + Lighthouse |
-| No horizontal scroll | mostly ✓ (clip + Tailwind) |
-
-### 3.8 JavaScript / rendering & SEO
-
-For a Next.js site, content is server-rendered then hydrated — crawlers see the full HTML. Still verify:
-
-| Check | Status |
-|--------|--------|
-| Primary text present in raw HTML | ✓ (Next SSR; homepage HTML shows H1 + description). Verify each render with `view-source`. |
-| All nav/link anchors real `<a>` with real `href` | **PARTIAL** — some links are `<motion.button>` open-a-modal (project cards, theme toggle) — functional, not navigational, fine; the page graph itself is `<a>`-based. |
-| No soft-404s (unknown routes return 200 with empty content) | ✓ (unknown routes return a real 404) |
-| JSON/API content served with 200 + `Cache-Control` | ✓ — `revalidate` + `s-maxage` present in `app/api/*`. Consider disallowing `/api/*` in robots (JSON data; not harmful). Secrets server-side, not on client. |
-| No hydration errors (`errors-in-console`) | **FAIL** — production logs `Minified React error #418` (hydration mismatch) in `_next/static/chunks/1ua5armwfph8o.js`, dropping Best Practices to 96. A severe mismatch makes React discard the server HTML and re-render client-side; Googlebot may read the pre-hydration markup. Fix with `suppressHydrationWarning` or SSR-safe values (no `Date.now()`/`Math.random()`/`window` reads during render). |
-| Streaming-specific metadata | N/A (static site, all prerendered) |
-
-### 3.9 Performance / Core Web Vitals (LCP, INP, CLS)
-
-Top perf facts from production HTML + production Lighthouse (2026-08-12):
-
-**Measured (mobile, throttled — the ranking-relevant run):** FCP 1.2 s · **LCP 2.9 s (FAIL)** · TBT 160 ms · CLS **0** · Speed Index 1.3 s · TTI 3.2 s. Desktop (unthrottled) is not comparable: LCP 0.8 s, TBT 0 ms.
-
-| Metric | Target (p75 mobile) | Top repo risk |
-|--------|---------------------|---------------|
-| **LCP** | ≤ 2.5 s | Measured **2.9 s**. LCP element = the `<h1>` "Medhansh" on mobile (intro `<p>` on desktop); render delay ≈ 708 ms (framer-motion entrance) vs TTFB 64 ms — the animation, not network, dominates. Videos (13.6 MB + 2.8 MB) are a **desktop-only** weight risk (not fetched on mobile). |
-| **INP** | ≤ 200 ms | Framer-motion entrance animations on every page; heavy client JS; double-fired `/api` calls (dedupe); possible long tasks from chart widgets (GitHub calendar / contribution SVG cells). Lab TBT 160 ms (proxy). |
-| **CLS** | ≤ 0.1 | Measured **0** (pass). Still flagged: DSEG `@font-face` has **no `font-display`** (`font-display-insight` est. 140 ms invisible-text savings; not a CLS issue but an FCP/LCP visibility one). |
-
-Checklist to implement (each row already pre-validated above):
-- [ ] Resize/compress/convert videos (aim < 2–3 MB each, or AV1/VP9; set `poster` + `preload="metadata"`) — desktop-only fix, but keeps desktop LCP/weight sane.
-- [ ] Add `font-display: swap` (+ size-bearing metrics via `font-size-adjust`) to the DSEG `@font-face` in `app/globals.css`.
-- [ ] Reduce the LCP element's render delay: the framer-motion entrance on the H1/hero is the main LCP cost (708 ms) — cut it or disable it on first paint.
-- [ ] Coalesce/dedupe the four `/api/*` calls client-side (each widget fetches independently; on the dev server APIs fire up to 8× per page).
-- [ ] Reduce below-fold motion-animation cost (INP).
-- [ ] LCP font preload: `next/font` already preloads the 3 woff builds — leave as-is.
-- [ ] Keep main JS under ~200–250 KB gzipped; monitor with Lighthouse CI.
-
-### 3.10 Internationalization / hreflang
-
-**N/A** (single language, no region targeting). If you ever add it: reciprocal hreflang, `x-default`, ISO-639-1 + 3166 codes (e.g. `en-IN`).
-
-**Local SEO — N/A with a caveat:** no storefront, so no Google Business Profile. But because "Jaipur" is a target keyword (§1), if you want local knowledge-panel hints add `homeLocation` / `addressLocality: "Jaipur"` (optionally `addressCountry: "IN"`) to the `Person` schema (§2.10). Otherwise mark local SEO explicitly out of scope.
-
-### 3.11 Structured data validation & rich results
-
-- [ ] Add schema (§2.10) then validate the live URL in Rich Results Test.
-- [ ] Monitor GSC "Enhancements" once live.
-- [ ] No illegal/rejected schema patterns (FAQ moderation noted above).
-- [ ] ⚠ **Don't read the Lighthouse SEO score as "done."** Production scores SEO **100** even though `robots.txt` → 404, no `sitemap.xml`, no `canonical`, and zero JSON-LD. Lighthouse's SEO category does **not** score robots.txt presence (only 5XX/invalid syntax), sitemap, canonical, or structured data (structured-data is manual and unscored). The §3.1–3.3 & §2.10 gaps remain open regardless of the 100.
-
-### 3.12 AI crawlers & GEO (Generative Engine Optimization)
-
-- [ ] Define an explicit robots policy for: `GPTBot` (train vs retrieve — recommend allowing both, or at least `OAI-SearchBot` for ChatGPT Search), `PerplexityBot`, `ClaudeBot`, `Google-Extended`, `Bingbot`, `Applebot`.
-- [ ] Content in HTML (not images/JS) — you are ✓.
-- [ ] Answer-first structure, visible dates, frequent cross-links, `sameAs`.
-- [ ] You're currently indexable to all bots (no robots.txt = allow everything) — correct default; make it intentional.
-- [ ] Create an **`llms.txt`** at `/llms.txt` (§3.12): a plain-text file describing Medhansh Kapoor, his role, and linking to `/`, `/projects`, `/experience`, `/about`, plus GitHub/LinkedIn. This helps LLMs and agents understand and cite you.
-
-### 3.13 Monitoring & maintenance cadence
-
-| Check | Tool | Cadence |
-|-------|------|---------|
-| GSC verification + Coverage + Core Web Vitals report | Search Console | Weekly |
-| Sitemap submission & green status | GSC | Until green |
-| Field CrUX / PageSpeed Insights | pagespeed.web.dev / PSI | Monthly |
-| Lighthouse CI with budgets | Lighthouse + CI (Vercel/GitHub Actions) | Every commit |
-| Rich Results Test (each schema) | Google | On change |
-| Uptime + index health | Uptime monitor + GSC | Continuous |
-| Manual actions check (Security & Manual Actions) | GSC | Monthly |
-| Keyword position tracking for §1 targets | GSC / Ahrefs / Semrush | Weekly |
+- [ ] **Cannibalization validation**: verify that home (`/`) and about (`/about`) do not compete for the same "Medhansh Kapoor" query. Home = brand/navigational entity; about = biographical/informational intent. If they compete, differentiate the title tags + H1s further (e.g., about → "About Medhansh Kapoor — Background, Education & Achievements").
+- [ ] The bare-name query "Medhansh Kapoor" is contested (a filmmaker owns `medhanshk.com`; other same-name people on LinkedIn). **Entity disambiguation is the whole game** — the winning move is `Person` schema + `sameAs` + `disambiguatingDescription` (Phase 4) + a live LinkedIn cross-link (Phase 5) + Wikidata entry (Phase 9) + Knowledge Panel (Phase 10).
 
 ---
 
-## 4. Next.js-specific SEO recipes (this repo)
+## Phase 1 — Measurement & verification (set up before you fix)
 
-Next App Router — apply exactly these:
-
-1. **Root metadata** in `app/layout.tsx` `metadata`:
-   - `metadataBase: new URL("https://medhanshk.me")`
-   - `title: { default: "Medhansh Kapoor — AI/ML Engineer & Full-Stack Developer", template: "%s | Medhansh Kapoor" }`
-   - `description` (keep the good one)
-   - `alternates: { canonical: "/" }`
-   - `openGraph: { type: "website", locale: "en_IN", url: "…", siteName: "…", images: ["/opengraph-image"] }`
-   - `twitter: { card: "summary_large_image" }`
-   - `robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-video-preview": "-1", "max-image-preview": "large" } }`
-   - `manifest` (only if you add a web app manifest).
-2. **Per-page metadata**: add `metadata`/`generateMetadata` to `app/projects/page.tsx`, `app/experience/page.tsx`, `app/about/page.tsx`. Crawlers rely on server-side metadata — the pages are `"use client"` components, so **move the metadata export into a colocated `metadata.ts` server module (or convert the pages to Server Components with client islands)**, because Next only reads `metadata` from Server Components. Real constraint to respect.
-3. **`app/sitemap.ts`** + **`app/robots.ts`**.
-4. **`app/opengraph-image.tsx`** (`ImageResponse`) for a 1200×630 OG card (+ optional per-page variants, e.g. `app/about/opengraph-image.tsx`).
-5. **Icons**: `app/favicon.ico` exists; add `apple-icon.png` (180×180) + `icon.png`.
-6. **JSON-LD**: inject `<script type="application/ld+json">` in the root layout and About (server components) with `Person` + `WebSite` + `ProfilePage`, stable `@id`, `sameAs` = GitHub + LinkedIn only.
-7. **Canonical sanity**: `alternates.canonical` on every page.
+- [x] **Google Search Console** — verified `medhanshk.me`. Sitemaps submitted (`5 discovered URLs`). (Completed 2026-08-22).
+- [x] **Bing Webmaster Tools** — imported from GSC, IndexNow key file (`public/4acab0b6b1664896bf7d6705e9b0908f.txt`) configured and sitemap submitted (`5 discovered URLs`). (Completed 2026-08-22).
+- [x] **GA4** — Measurement ID `G-D064XWFM94` added to `app/layout.tsx` via `@next/third-parties/google` with automatic `file_download` tracking for `/resume.pdf`. (Completed 2026-08-22).
+- [x] Write down KPIs: position for "Medhansh Kapoor" / "AI/ML engineer India" / "AI engineer Jaipur"; organic clicks to `/`; `resume.pdf` download events. (Completed 2026-08-22).
+- [x] Rank tracking via GSC position (+ a paid tracker later; none owned yet — GSC is enough to start). (Completed 2026-08-22).
+- [x] Track **AI-referral traffic** in GA4 (referrers `chatgpt.com`, `perplexity.ai`, `gemini.google.com`). (Completed 2026-08-22).
+- [x] **Google Alerts** — skipped / not needed for personal dev workflows.
+- [x] **Manual AI citation baseline** — completed on 2026-08-22 across Google Search, ChatGPT, and Perplexity:
+  - **Google Featured Snippet**: Ranks #1 with direct citation of `medhanshk.me/about`.
+  - **ChatGPT & Perplexity**: Cites `medhanshk.me` and GitHub `Medhansh-741`, but conflates entity with other Medhansh Kapoors (filmmaker at `medhanshk.com` & school records).
+  - **Key Disambiguation Takeaway**: Proves Phase 4 (JSON-LD `Person` schema with `sameAs`) & Phase 5 (live LinkedIn reciprocal link) are strictly required.
 
 ---
 
-## 5. Off-page (brief — relevant)
+## Phase 2 — Indexability & crawlability (P0 — nothing else matters if Google can't crawl you)
 
-Backlinks are part of SEO; only paid ads sit outside its umbrella. For a personal brand:
+| # | Fix | Status | Evidence / where |
+|---|-----|--------|------------------|
+| 2.1 | Create `app/robots.ts` — allow all public + explicit AI-bot policy, `Disallow: /api/`, point to sitemap, **never** block `/_next/` | **DONE** | `app/robots.ts` serving `/robots.txt` |
+| 2.2 | Create `app/sitemap.ts` — list `/`, `/projects`, `/experience`, `/about`, `/resume.pdf` with `lastModified` | **DONE** | `app/sitemap.ts` serving `/sitemap.xml` |
+| 2.3 | Submit sitemap in GSC + Bing, enable IndexNow | **DONE** | GSC & Bing verified (5 discovered URLs, 0 errors) |
+| 2.4 | Self-referencing `rel="canonical"` on every indexable page (`alternates.canonical`) | **DONE** | Server Component metadata exports on `/`, `/projects`, `/experience`, `/about` |
+| 2.5 | `metadataBase` set so relative OG/canonical URLs resolve | **DONE** | `metadataBase: new URL("https://medhanshk.me")` in `app/layout.tsx:47` |
 
-- [ ] Consistency: every profile's website/link field = `https://medhanshk.me`.
-- [ ] Add `rel="me"` on GitHub/LinkedIn outgoing links (and verify profile links point back).
-- [ ] Awareness: mention the portfolio in your actual writing, replies, repos; ask credible pages (university, team profiles, hackathon pages for Prayatna/India Innovates) to cite the domain.
-- [ ] If anyone blogs about your projects, make sure they link to `medhanshk.me`, not just the GitHub repo.
-- [ ] Competitor backlink analysis / backlink-gap audit: find sites linking to comparable AI/ML-engineer profiles but not to you; request a link (directory, roundup, university, hackathon pages).
-- [ ] Turn unlinked brand mentions into links: find "Medhansh Kapoor" mentions with no link and politely ask for one.
-- [ ] Realistic expectations (measured, gl=us): bare "Medhansh Kapoor" → **#4** (behind three same-name LinkedIn profiles + Instagram); "Medhansh Kapoor AI ML engineer" → **#1/#3/#5/#9** (your `/resume`, `/about`, `/projects`, `/experience` already own it). The remaining lifts are (a) winning the bare name via entity disambiguation (§2.10) and (b) ranking for "AI engineer India" / "full-stack engineer Jaipur", which currently return nothing for you.
+**Implementation:** `app/robots.ts` → `MetadataRoute.Robots` with `rules: [{ userAgent: "*", allow: "/", disallow: "/api/" }]` + `sitemap: "https://medhanshk.me/sitemap.xml"`. `app/sitemap.ts` → `MetadataRoute.Sitemap` with the 4 routes + `/resume.pdf`. Both are Next.js file conventions served automatically at `/robots.txt` and `/sitemap.xml`.
 
----
-
-## 6. Complete prioritized checklist (one box at a time)
-
-Order matters — fix **Indexability → Crawlability → Perf → On-page → AI → Measuring**, because fixing the wrong layer bleeds ROI (most-cited 2026 audit lesson).
-
-### Tier 1 (P0 — blocking; do first)
-- [ ] Create `app/robots.ts` — allow all public, disallow `/api/`, point to sitemap; never disallow `/_next/`.
-- [ ] Create `app/sitemap.ts` + submit to GSC.
-- [ ] Fix homepage double-H1 (one H1 in DOM for desktop + mobile slots).
-- [ ] Fix deep links: add `id` to project cards.
-- [ ] Canonical on every page (`alternates`).
-- [ ] `metadataBase` + full root `metadata` (OG/twitter/robots).
-- [ ] Set up GA4 + GSC, link them, define KPIs (§2.16).
-
-### Tier 2 (P1 — visible result)
-- [ ] Sub-page `metadata` / `generateMetadata` (must be server-side — colocate as `metadata.ts`).
-- [ ] JSON-LD: `Person` + `WebSite` + `ProfilePage` on home/about.
-- [ ] `opengraph-image` + `apple-touch-icon` + `icon.png`.
-- [ ] Compress de-videos (13.6 MB → < 2–3 MB), add `poster`, `preload="metadata"`.
-- [ ] `font-display: swap` + metrics override for DSEG fonts.
-- [ ] Privacy/contact trust signals (About + footer) — optional.
-- [ ] Lighthouse CI budgets (LCP < 2.5 s, INP < 200 ms, CLS < 0.1).
-- [ ] `llms.txt` at `/llms.txt` (§3.12).
-- [ ] Fix the 4 a11y Lighthouse failures + `<html lang>` + landmarks (§2.15).
-
-### Tier 3 (P2 — polish/E-E-A/GEO)
-- [ ] Mirror platforms/awards/stats in schema + visible text.
-- [ ] Answer-first headings & (optional) FAQ block.
-- [ ] `rel="me"` on profile links; `sameAs` = GitHub + LinkedIn only.
-- [ ] Visible "last updated" on notable pages.
-- [ ] Monitor CrUX monthly, re-run Lighthouse quarterly, re-crawl after every deploy.
-- [ ] Competitor keyword/content-gap + backlink-gap analysis (§1, §5).
-- [ ] Local-schema note if "Jaipur" is targeted (§3.10).
-
-### Verify tools
-- [ ] Google Rich Results Test (after adding schema).
-- [ ] URL Inspection ("Test live URL", "View tested page").
-- [ ] Mobile-Friendly Test.
-- [ ] PageSpeed Insights (mobile) + Chrome DevTools Performance (4× CPU, Slow 4G).
-- [ ] Screaming Frog (free ≤ 500 URLs) or Sitebulb for a final full crawl.
-- [ ] GA4 realtime + event debugger (verify `resume.pdf` download events fire).
-- [ ] Rank tracker (GSC + Ahrefs/Semrush) for the §1 keywords.
+**AI-bot policy in `robots.ts`** (Phase 8 cross-ref): explicitly **allow** `OAI-SearchBot`, `ChatGPT-User`, `GPTBot`, `ClaudeBot`, `Claude-SearchBot`, `PerplexityBot`, `Perplexity-User`, `Google-Extended`, `Bingbot`, `Applebot`, `CCBot`. Blocking retrieval bots = invisible to AI answers.
 
 ---
 
-## 7. Evidence sources (research condensed)
+## Phase 3 — On-page metadata (titles, descriptions, OG/twitter)
 
-This checklist synthesizes 2026 guidance from: Google Search Central (Title/Meta/OG, Core Web Vitals, robots, hreflang, helpful-content, E-E-A-T, ProfilePage/Article schema), Core Web Vitals guidance (2.5 s / 200 ms / 0.1 @ p75), the Dec 18 2025 Google rendering update (non-200 pages may be skipped during rendering), on-page SEO checklists (Ahrefs, Semrush, Backlinko, Similarweb, SEOptimer, HubSpot, WordStream), technical-SEO audits (ThatDevPro, ECOSIRE 47-point, SiteGlow 32-point audits), Next.js App Router official docs (Metadata API, `sitemap`/`robots` file conventions, `generateMetadata`, `ImageResponse`), and entity/E-E-A/GEO guides for personal sites.
+The single highest-impact on-page element is a **unique, keyword-front-loaded `<title>` per page**. Today 3 of 4 pages inherit the homepage title.
 
-Specifically: `app/layout.tsx:26-30` (global metadata only), `app/components/HeroSection.tsx:20` + `app/components/mobile/MobileHeroSection.tsx:21` (double H1 in DOM), `app/projects/page.tsx:30-33` (H1 "Projects", no `id` on cards), `app/components/ProjectsDrawer.tsx:156` + `app/components/GenieModal.tsx:134` (dangling `#` links), `app/components/ProjectsDrawer.tsx:36-53` (video `preload="auto"` + autoplay), `app/globals.css:1-27` (`@font-face` without `font-display`), `app/favicon.ico` (only icon asset), `vercel.json` (security headers + www redirect), `app/api/*` (`revalidate` + `s-maxage` present), `app/not-found.tsx` + `app/global-error.tsx` (404/error pages OK), `app/data/profile.ts` (E-E-A source of truth). Production checks via `curl` replicated the evidence above.
+| # | Fix | Status | Evidence / where |
+|---|-----|--------|------------------|
+| 3.1 | Root metadata: `metadataBase`, `title.template`, full `description`, `openGraph`, `twitter`, `robots` | **DONE** | `app/layout.tsx:47-75` |
+| 3.2 | `generateMetadata` (or colocated `metadata.ts`) for `/projects`, `/experience`, `/about` | **DONE** | Server Component metadata exports on `/projects`, `/experience`, `/about` |
+| 3.3 | Homepage title front-loads "Medhansh Kapoor — AI/ML Engineer…" (currently bare "Medhansh Kapoor") | **DONE** | `title.default` in `app/layout.tsx` |
+| 3.4 | Implement `og:title`, `og:description`, `og:url`, `og:type`, `twitter:card`, `twitter:title`, `twitter:description` on **every page** — these do NOT need an image | **DONE** | Full OG and Twitter card tags rendered on `/`, `/projects`, `/experience`, `/about` |
+| 3.5 | `og:image` + `twitter:image` — **deferred** until a real photo/logo exists (decided) | **DEFERRED** | `opengraph-image` → 404 |
 
-Cross-checked against Google's official SEO Starter Guide, Ahrefs' SEO checklist, Backlinko's complete SEO checklist (Jan 2026), and Semrush's 43-point 2026 checklist. The Dec 18 2025 Google JavaScript-rendering update (non-200 pages may be skipped during rendering) and the mobile-only indexing shift (2025–2026) are reflected in §2.12 / §3.4.
+> ⚠ **Note on Formally Created About Section:** The `/about` page now formally features the "How I Build" engineering philosophy, Achievements, and Education sections with tailored project-agnostic metadata in `app/about/page.tsx`.
 
-Production evidence: `docs/lighthouse.json` (desktop, unthrottled) and `docs/lighthousemobile.json` (mobile, throttled — the ranking-relevant run), both Lighthouse 13.4.0 against `https://medhanshk.me/` on 2026-08-12. Mobile: Perf 93 / A11y 89 / BP 96 / SEO 100, LCP 2.9 s, FCP 1.2 s, TBT 160 ms, CLS 0; a11y failures `aria-prohibited-attr` (60), `color-contrast` (1), `heading-order` (1), `svg-img-alt` (57). Desktop: Perf 97 / A11y 88 / BP 96 / SEO 100; failures `color-contrast` (6), `heading-order` (1), `link-name` (1), `svg-img-alt` (57). Both runs log `errors-in-console` (React #418 hydration mismatch). The `aria-prohibited-attr` (60) finding follows the WAI-ARIA `generic`-role rule: `aria-label` is prohibited on a `<div>` without a role (MDN/ARIA 1.2).
+**Key Next.js constraint:** metadata exports only work in **Server Components**. `/projects`, `/experience`, `/about` are `"use client"`, so put `metadata`/`generateMetadata` in a colocated `app/*/metadata.ts` server module, or convert the pages to Server Components with client islands.
 
-Live SERP evidence (Google, gl=us, 2026-08-14, headless-browser): bare "Medhansh Kapoor" → `medhanshk.me` #4 + `/resume` #10; "Medhansh Kapoor AI ML engineer" → #1 `/resume`, #3 `/about`, #5 `/projects`, #9 `/experience`; no knowledge panel; competing same-name entities (incl. the filmmaker `medhanshk.com`/Letterboxd) outrank `medhanshk.me`.
+**Recommended values** (single source of truth = `app/data/profile.ts`):
+
+- Home: `Medhansh Kapoor — AI/ML Engineer & Full-Stack Developer`
+- Projects: `Projects — Medhansh Kapoor`
+- Experience: `Experience — Medhansh Kapoor`
+- About: `About — Medhansh Kapoor`
+- Template: `%s | Medhansh Kapoor`; keep each description 120–160 chars with the primary keyword + a CTA.
+
+---
+
+## Phase 4 — Structured data (JSON-LD) — the disambiguation lever
+
+Comprehensive, linked Schema.org structured data (JSON-LD) implemented across all server routes via `app/lib/jsonld.tsx`, establishing a distinct machine-readable entity for **"Medhansh Kapoor"** tied to `@id: "https://medhanshk.me/#person"`.
+
+| Schema | Where | Status | Evidence / where |
+|--------|-------|--------|------------------|
+| `Person` (+ `sameAs`, `jobTitle`, `worksFor`, `alumniOf`, `knowsAbout`, `disambiguatingDescription`) | root graph (`layout.tsx`) | **DONE** | `app/lib/jsonld.tsx` & `app/layout.tsx:100` |
+| `WebSite` (publisher/author → `#person`) | root graph (`layout.tsx`) | **DONE** | `app/lib/jsonld.tsx` & `app/layout.tsx:100` |
+| `ProfilePage` (`mainEntity` → `#person`) | `/` & `/about` | **DONE** | `app/page.tsx` & `app/about/page.tsx` |
+| `CollectionPage` + `ItemList` (`SoftwareApplication` for JanSamadhan & NyayaAI) | `/projects` | **DONE** | `app/projects/page.tsx` |
+| `WebPage` (`mainEntity` → `#person`) | `/experience` | **DONE** | `app/experience/page.tsx` |
+| `FAQPage` | home/about | **PENDING** | Scheduled with Phase 8.1 FAQ content creation |
+
+**Rules & Implementation Status:**
+- [x] One stable `@id` for the Person node everywhere: `https://medhanshk.me/#person`.
+- [x] `sameAs` = the 5 verified profiles (GitHub `https://github.com/Medhansh-741`, LinkedIn `https://www.linkedin.com/in/medhansh-kapoor`, X `https://x.com/medhansh541`, Instagram `https://www.instagram.com/medhansh341/`, cal.com `https://cal.com/medhansh541`). Ready for Wikidata QID in Phase 9.3.
+- [x] `disambiguatingDescription: "AI/ML engineer & full-stack developer based in Jaipur, India, working under IndiaAI Mission (MeitY) and ISSA-DRDO."`
+- [x] `jobTitle: "AI/ML Engineer & Full-Stack Developer"`, `worksFor: ["IndiaAI Mission (MeitY)", "ISSA – DRDO", "Geminid Systems"]`, `alumniOf: ["Manipal University Jaipur", "VVDAV Public School, New Delhi"]`, `addressLocality: "Jaipur"`.
+- [x] `knowsAbout`: Dynamic flattening of all 42+ technical skills from `app/data/profile.ts`.
+- [x] XSS-safe serialization (`\u003c`) directly injected into Next.js Server Components.
+
+---
+
+## Phase 5 — Entity & content signals (make the claim visible on-page)
+
+| # | Fix | Status | Evidence / where |
+|---|-----|--------|------------------|
+| 5.1 | **One H1 per page**; homepage H1 = "Medhansh Kapoor" (desktop + mobile normalized, single semantic H1 in DOM) | **DONE** | `app/components/HeroSection.tsx:38-52` & `app/components/mobile/MobileHeroSection.tsx:14-25` |
+| 5.2 | **Render the LinkedIn link** + `rel="me"` on GitHub/LinkedIn/X/Instagram/cal | **DONE** | `app/components/HeroSection.tsx` & `app/components/mobile/MobileHeroCTA.tsx` |
+| 5.3 | Fix GitHub URL inconsistency (`Medhansh-741/` vs `Medhansh-741`) | **DONE** | `app/data/profile.ts:7` & `app/lib/jsonld.tsx` |
+| 5.4 | Fix dangling `#` deep-links (project cards have `id` targets) | **DONE** | `app/projects/ProjectsView.tsx:48` |
+| 5.5 | Fix heading order — ensure `<h2>` hierarchy under `<h1>` without level skips | **DONE** | `app/components/mobile/MobileExperienceCard.tsx:29` & `app/components/mobile/MobileProjectModal.tsx:55` |
+| 5.6 | Add visible "last updated" + machine `dateModified` (freshness signal LLMs + Google weight) | **DONE** | `app/lib/jsonld.tsx` (Schema `dateModified: 2026-08-23`) |
+| 5.7 | Answer-first content: one-sentence "Medhansh Kapoor is…" definition right under the H1 (40–50 words, self-contained, speakable-ready). | **DONE** | `app/components/HeroSection.tsx:68-70` |
+| 5.8 | **Image alt text audit**: every `<img>` (project posters, screenshots, modals) has descriptive, contextual alt text. | **DONE** | `app/components/mobile/CardDeckVideo.tsx:20` & `app/components/mobile/MobileProjectModal.tsx:93` |
+| 5.9 | **Internal linking strategy**: cross-link all pages with descriptive anchor text. | **DONE** | Cross-navigation footers on `/projects`, `/experience`, `/about` |
+| 5.10 | **E-E-A-T signals**: add visible credentials/bio snippet, contact endpoints, verified social links | **DONE** | `app/components/HeroSection.tsx` & `app/about/AboutView.tsx` |
+| 5.11 | **URL slug acknowledgment**: clean lowercase slugs with primary keywords | **OK** | Slugs `/`, `/projects`, `/experience`, `/about` |
+
+**The H1 fix (5.1) is the highest-priority content change.** Options: keep the desktop H1 and mark the mobile one `aria-hidden`/`sr-only`, or share one hero. Mobile-only indexing means the DOM must contain exactly one H1.
+
+**5.2 is the strongest disambiguation signal available to you** — a visible LinkedIn link with `rel="me"` (and the LinkedIn profile linking back to `medhanshk.me`) is how Google resolves you vs. the other Medhansh Kapoors. The `rel="me"` must be a **reciprocal loop** — your site links to LinkedIn with `rel="me"`, AND your LinkedIn "Website" field points back to `medhanshk.me`. Same for GitHub, X, Instagram, cal.com.
+
+**5.8 image alt text guidelines:**
+- Describe what the image *communicates*, not just what it shows (e.g., "NyayaAI — RAG-based legal research tool showing case search results" not "screenshot of app").
+- Keep 80–140 characters. Don't start with "Image of" or "Picture of" (screen readers already announce it).
+- Only include keywords if they fit naturally.
+- Decorative images (dividers, background flourishes) → `alt=""`.
+- LCP image (`nyayaai-poster.webp`) alt text matters for SEO — Google weights it.
+
+**5.9 internal linking map:**
+
+| From | To | Anchor text example |
+|------|----|-------------------|
+| `/` (hero/projects section) | `/projects` | "View all AI/ML projects" |
+| `/` (experience section) | `/experience` | "Full work experience" |
+| `/projects` (JanSamadhan card) | `/experience` | "Built during IndiaAI Mission (MeitY)" |
+| `/projects` (NyayaAI card) | `/about` | "Read about the tech stack" |
+| `/experience` (IndiaAI role) | `/projects` | "See JanSamadhan — the civic complaint platform" |
+| `/about` (skills section) | `/projects` | "Projects built with these technologies" |
+| `/about` | `/experience` | "Professional experience timeline" |
+| All sub-pages (footer/nav) | `/` | "Medhansh Kapoor — Home" |
+
+---
+
+## Phase 6 — Performance & Core Web Vitals (LCP 3.0s must come down)
+
+| # | Fix | Status | Evidence / where |
+|---|-----|--------|------------------|
+| 6.1 | Shrink videos: `jansamadhan` & `nyayaai` video assets compressed with `-an` audio stripped & `+faststart` streaming | **DONE** | `public/videos/` (`.mp4` / `.webm` re-encoded) |
+| 6.2 | Stop double-fetch: `preload="none"` on video components prevents double range requests | **DONE** | `app/components/ui/SharedVideoPreview.tsx:17` & `app/components/mobile/CardDeckVideo.tsx:62` |
+| 6.3 | LCP element (`nyayaai.webp`): `priority={true}` & `fetchPriority="high"` on LCP `<img>` | **DONE** | `app/components/mobile/CardDeckVideo.tsx:24-25` |
+| 6.4 | Fix React #418 hydration mismatch (prevent pre-hydration render drift) | **DONE** | Resolved hydration attributes across root layouts and views |
+| 6.5 | Reduce framer-motion entrance cost (minimize LCP render delay) | **DONE** | `HeroSection.tsx` & optimized stagger animations |
+| 6.6 | Add `font-display: "swap"` to DSEG `@font-face` (eliminate FOIT) | **DONE** | `app/layout.tsx:35,43` (`display: "swap"`) |
+| 6.7 | **Security headers** (HSTS, CSP, Permissions-Policy): configure A+ security headers | **DONE** | `next.config.ts:7-34` & `vercel.json:14-25` |
+| 6.8 | **Favicon quality audit**: verify `favicon.ico` output size (48×48 Google SERP compliance) | **DONE** | `app/favicon.ico/route.tsx:35-36` (`48x48`) |
+| 6.9 | **Custom 404 page**: create `app/not-found.tsx` with navigation back to main content (home, projects, experience, about) | **DONE** | `app/not-found.tsx:28-46` (with section recovery links) |
+
+**Targets (mobile p75):** LCP ≤ 2.5 s (aim ≤ 2.0 s — some 2026 guidance cites a lowered 2.0 s threshold; be safe), INP ≤ 200 ms, CLS ≤ 0.1, FCP < 0.4 s (FCP matters most for AI citations). Convert videos to ~1–2 MB each, add `preload="none"`, and serve optimized `.webp` previews.
+
+**Security headers implementation:**
+```ts
+// next.config.ts headers
+{
+  key: "Strict-Transport-Security",
+  value: "max-age=63072000; includeSubDomains; preload"
+}
+```
+
+---
+
+## Phase 7 — Accessibility & "agentic browsing" (same fixes lift the AI-agent score)
+
+Lighthouse's new **Agentic-browsing** category scores the accessibility tree + `llms.txt`. The a11y failures below are *also* what make you hard for AI agents to parse — fix once, benefit twice.
+
+| # | Fix | Status | Evidence / where |
+|---|-----|--------|------------------|
+| 7.1 | `aria-prohibited-attr` (60): skill badges are `<div aria-label={skill.name}>` with no role → add `role="img"` or use a semantic element | **DONE** | `app/components/mobile/MobileSkillStrip.tsx:63` (`role="img"`) |
+| 7.2 | `svg-img-alt` (57): `<svg role="img">` with no `<title>`/`aria-label` → add one, or `aria-hidden` decorative icons | **DONE** | Decorative SVG & icon aria-labels across views |
+| 7.3 | `color-contrast` (1 mobile / 6 desktop): `GIT` badge + `V2.0` = 3.68:1 (`#000` on `#7c3aed`) → meet ≥4.5:1 | **DONE** | `ProjectsDrawer.tsx:79` (`badgeTextColor="text-white"`) |
+| 7.4 | `link-name` (desktop): header GitHub `<a>` has no accessible name → add `aria-label` | **DONE** | `CardHeader.tsx:36` & `CommitFeed.tsx:52,82` (`badgeAriaLabel`) |
+| 7.5 | `target-size` (6 mobile / 1 desktop): CTA/offer-letter links < 48px → increase hit area/spacing | **DONE** | `MobileExperienceCard.tsx:50,61,72` & `MobileProjectCard.tsx:56,67,76` (`w-12 h-12`) |
+| 7.6 | Create `/llms.txt` (Markdown, ≥1 H1) describing Medhansh Kapoor + linking `/`, `/projects`, `/experience`, `/about`, GitHub, LinkedIn | **DONE** | `public/llms.txt` created with 2026 standard spec |
+
+**Note on `llms.txt`:** Google Search does **not** consume it (official 2026 guidance), but other AI tools/agents do, and Lighthouse now scores it. Treat it as cheap, optional infrastructure — never as a substitute for crawlable HTML + schema.
+
+---
+
+## Phase 8 — AI / GEO / AEO (Generative & Answer Engine Optimization)
+
+> **Why this phase is now expanded:** The original 7-bullet version was too thin. GEO/AEO is a co-equal pillar alongside on-page SEO for the "Medhansh Kapoor" query — AI engines are increasingly the *primary* way people discover entities. This phase covers everything needed to be cited by AI, not just crawled.
+
+### 8A — Technical foundation for AI visibility
+
+| # | Fix | Status | Evidence / where |
+|---|-----|--------|------------------|
+| 8A.1 | Explicit AI-bot policy in `robots.txt` (Phase 2 cross-ref): **allow** `OAI-SearchBot`, `ChatGPT-User`, `GPTBot`, `ClaudeBot`, `Claude-SearchBot`, `PerplexityBot`, `Perplexity-User`, `Google-Extended`, `Bingbot`, `Applebot`, `CCBot` | **DONE** | `app/robots.ts` configured with explicit rules for all major AI crawlers |
+| 8A.2 | Content in server-rendered HTML (already ✓ — Next SSR; primary text is in raw HTML) | **DONE** | Next.js Server Components serve raw semantic HTML payload |
+| 8A.3 | `llms.txt` (Phase 7.6 cross-ref) + valid `Person`/`Organization`/`WebSite` schema (Phase 4 cross-ref) | **DONE** | `public/llms.txt` served; JSON-LD graph with Person, WebSite, ProfilePage in `app/lib/jsonld.tsx` |
+| 8A.4 | Visible `dateModified` / "last updated" (Phase 5.6 cross-ref) — retrieval-first engines (Perplexity) weight recency hard | **DONE** | `dateModified: "2026-08-23"` injected in JSON-LD schemas and page headers |
+
+### 8B — Content architecture for AI extraction
+
+| # | Fix | Status | Evidence / where |
+|---|-----|--------|------------------|
+| 8B.1 | **FAQ section + `FAQPage` schema**: add a visible Q&A section to home or about page. Minimum questions: "Who is Medhansh Kapoor?", "What has Medhansh Kapoor built?", "Where does Medhansh Kapoor work?", "What technologies does Medhansh Kapoor use?" — with concise 40–60 word answers. Implement `FAQPage` JSON-LD matching the visible Q&A exactly. | **DONE** | `app/about/AboutView.tsx` renders 4 canonical Q&A cards; `getFaqPageSchema()` injected in `app/about/page.tsx` |
+| 8B.2 | **Answer-first definition** (Phase 5.7 cross-ref): "Medhansh Kapoor is…" 40–50 word entity definition under the H1. This is the passage LLMs lift. Must be self-contained, speakable-ready, and work when extracted out of context. | **DONE** | `#entity-definition` section in `app/about/AboutView.tsx` and JSON-LD speakable markup |
+| 8B.3 | **Modular / "chunkable" content**: every section on every page must stand alone when "lifted" by an AI. No "as mentioned above" or "see the previous section" references. Each paragraph should make sense in isolation. This is the key insight from GEO research (Aggarwal et al. 2024). | **DONE** | All FAQ answers and project highlights formatted as self-contained atomic passages |
+| 8B.4 | **Question-based H2/H3 headings** on sub-pages: mirror how people query AI assistants (e.g., "What projects has Medhansh built?" instead of just "Projects"). At minimum, use question-format headings in the FAQ section. | **DONE** | Interrogative `<h3>` headings in `app/about/AboutView.tsx` FAQ section |
+| 8B.5 | **Citable metrics kept visible**: your numbers (0.68 mAP50, 70.3% precision, 256 tickets, 4,582 chunks, 1,410 Neo4j nodes) are exactly the "specific, attributed numbers" LLMs cite. They're already in `app/data/profile.ts` — keep them visible and in-context on-page. | **DONE** | Exact statistics rendered in both project cards and FAQ answers |
+| 8B.6 | **Comparison / positioning content**: project descriptions should briefly position against alternatives (e.g., "Unlike generic legal chatbots, NyayaAI uses a GraphRAG pipeline with 1,410 Neo4j nodes…"). AI engines frequently pull from comparison-style content for "best X for Y" queries. | **DONE** | Included in `profile.faqs` comparing GraphRAG & multi-agent routing to generic chatbots |
+
+### 8C — Voice & speakable (low priority but easy)
+
+| # | Fix | Status | Evidence / where |
+|---|-----|--------|------------------|
+| 8C.1 | **Speakable schema** (`Speakable` property on `WebPage` or `Article`): mark the answer-first definition (5.7) and FAQ answers as speakable. Helps voice assistants (Google Assistant, Siri) read your entity definition aloud. Low-effort, low-priority. | **DONE** | `SpeakableSpecification` added in `getProfilePageSchema` pointing to `#entity-definition` and `#faq-section` |
+
+### 8D — Anti-patterns (don't do these)
+
+- [x] Don't over-optimize: no artificial "chunking", no fake mentions, no keyword stuffing.
+- [x] Don't create thin pages just for SEO — every page must have unique, substantial content.
+- [x] Google's own AI guidance: solid SEO + unique, helpful, people-first content is the GEO foundation.
+
+---
+
+## Phase 9 — Off-page SEO (self-serve — everything you can do yourself)
+
+> **Why this phase is now expanded:** The original 4 bullets covered ~20% of what you can do on your own. For the specific problem of competing with a filmmaker named Medhansh Kapoor, **off-page corroboration is the decisive factor**. No amount of on-page perfection wins entity disambiguation alone — Google needs multiple independent sources agreeing on who you are.
+
+### 9A — Profile & entity consistency (the foundation)
+
+| # | Fix | Status | Evidence / where |
+|---|-----|--------|------------------|
+| 9A.1 | **Full profile audit** — every platform must say the exact same name + title + `medhanshk.me` link. One inconsistency = Google can't consolidate your entity. | **DONE** | Verified identical name, title, bio, and URL across all 5 active platforms |
+
+**Platform-by-platform checklist:**
+
+| Platform | Name | Title | Website | Bio matches site? | `rel="me"` loop? |
+|----------|------|-------|---------|--------------------|-------------------|
+| **LinkedIn** | Medhansh Kapoor | AI/ML Engineer & Full-Stack Developer | `https://medhanshk.me` | [x] | [x] site→LinkedIn + LinkedIn→site |
+| **GitHub** | Medhansh Kapoor | — | `https://medhanshk.me` | [x] | [x] site→GitHub + GitHub→site |
+| **X (Twitter)** | Medhansh Kapoor | — | `https://medhanshk.me` | [x] | [x] site→X + X→site |
+| **Instagram** | Medhansh Kapoor | — | `https://medhanshk.me` | [x] | [x] site→Instagram + Instagram→site |
+| **cal.com** | Medhansh Kapoor | — | — | [x] | [x] site→cal |
+
+**The rule:** Identical `Name + Title + Link` across every platform. Google's entity disambiguation algorithm flags inconsistencies as low-confidence signals.
+
+| # | Fix | Status | Evidence / where |
+|---|-----|--------|------------------|
+| 9A.2 | **LinkedIn profile** specifically: link to `medhanshk.me`, match name/job title wording exactly ("Medhansh Kapoor", "AI/ML Engineer & Full-Stack Developer"). LinkedIn is the strongest disambiguation signal for professional entities — it's where Google resolves you vs. the filmmaker. | **DONE** | LinkedIn profile configured with exact title and website link |
+
+### 9B — GitHub optimization (high-authority, self-serve)
+
+Your GitHub profile is a high-DA page that Google indexes well. It's one of the few high-authority pages you fully control.
+
+| # | Fix | Status | Evidence / where |
+|---|-----|--------|------------------|
+| 9B.1 | **Profile README** (`Medhansh-741/Medhansh-741/README.md`): must contain "Medhansh Kapoor — AI/ML Engineer & Full-Stack Developer" as the first line + link to `medhanshk.me` + brief bio matching the site's answer-first definition | **DONE** | Profile README configured with exact bio, badges, and medhanshk.me link |
+| 9B.2 | **Pinned repos**: JanSamadhan and NyayaAI with excellent READMEs — one-sentence value prop, badges (build status, license), demo links back to your site, and your name in the README | **DONE** | Pinned repos JanSamadhan and NyayaAI with full documentation and live demo links |
+| 9B.3 | **Website field**: set to `https://medhanshk.me` | **DONE** | Website field set to `https://medhanshk.me` |
+### 9C — Wikidata entity creation (the Knowledge Graph bridge)
+
+> ⚠ **This is the most impactful off-page action you can take yourself.** Wikidata is the machine-readable bridge to Google's Knowledge Graph. Your doc covers `sameAs` pointing to social profiles but never mentions creating a Wikidata entry.
+
+| # | Fix | Status | Evidence / where |
+|---|-----|--------|------------------|
+| 9C.1 | **Create a Wikidata item** at `wikidata.org/wiki/Special:NewItem` | **MISSING** | No Wikidata entry exists |
+
+**Wikidata properties to add:**
+- `instance of` → `human`
+- `occupation` → `software engineer` / `machine learning engineer`
+- `employer` → `IndiaAI Mission (MeitY)` (create item if needed)
+- `educated at` → `Manipal University Jaipur`
+- `official website` → `https://medhanshk.me`
+- `social media links` → GitHub, LinkedIn, X
+- `country of citizenship` → India
+- `residence` → Jaipur
+
+**After creation:**
+- [ ] Add your Wikidata QID (e.g., `Q123456789`) to your Person schema's `sameAs` array (Phase 4 cross-ref).
+- [ ] This creates a **self-confirming loop**: website → schema → Wikidata → Knowledge Graph → website.
+
+**Rules for Wikidata:**
+- Stick to objective, factual statements. No promotional language.
+- Add references: link to `medhanshk.me`, LinkedIn, IndiaAI Mission official page, hackathon results pages.
+- Don't add unverifiable claims.
+
+### 9D — Content creation (self-serve backlinks + LLM training data)
+
+> Every piece of content you publish on a high-crawl platform = a backlink to `medhanshk.me` + topical authority in Google's eyes + training data for future LLM updates.
+
+| # | Fix | Status | Evidence / where |
+|---|-----|--------|------------------|
+| 9D.1 | **Technical blog posts** (2–3 to start): write on Dev.to, Medium, or Hashnode with `canonical_url` pointing to your site if you host on your own domain later | **MISSING** | No blog posts exist |
+
+**Blog topic ideas (each links back to your site):**
+- "How I built NyayaAI: A GraphRAG system for Indian law" → links to `/projects`
+- "YOLOv8 + PostGIS for real-time civic complaint routing at IndiaAI Mission" → links to `/experience`
+- "Building AI apps under India's IndiaAI Mission — what I learned" → unique angle no one else has
+- "Comparing RAG architectures: 4,582 chunks vs. GraphRAG with 1,410 Neo4j nodes" → positions your work
+
+**Platform priority:**
+| Platform | Why |
+|----------|-----|
+| **Dev.to** | High DA, indexed fast, you control the content, `canonical_url` support |
+| **Medium** | High DA, good for non-dev audiences, great for LinkedIn sharing |
+| **Hashnode** | Custom domain support (`blog.medhanshk.me` possible) |
+| **Your own `/blog` page** (later) | Ultimate control — but needs time to build authority; do external first |
+
+| # | Fix | Status | Evidence / where |
+|---|-----|--------|------------------|
+| 9D.2 | **Submit projects to directories**: DevPost (for hackathon projects), Product Hunt (for tools), Hacker News Show HN | **MISSING** | Not submitted anywhere |
+| 9D.3 | **Open-source contributions**: PRs to notable repos get you mentioned in changelogs/contributor lists = backlinks + entity mentions | **MISSING** | No notable contributions tracked |
+
+### 9E — Backlink recovery & outreach (self-serve)
+
+| # | Fix | Status | Evidence / where |
+|---|-----|--------|------------------|
+| 9E.1 | **Unlinked brand mention recovery**: when Google Alerts (Phase 1) catches "Medhansh Kapoor" mentioned without a link, reach out and request a link to `medhanshk.me`. Free, high-quality backlinks. | **MISSING** | Google Alerts not set up yet |
+| 9E.2 | **Ask credible pages** (university pages, hackathon pages for India Innovates/Prayatna, IndiaAI Mission press releases) to link to `medhanshk.me` | **MISSING** | — |
+| 9E.3 | **Hackathon/event recaps**: write a blog post about each hackathon you've won (on your site or Dev.to) and link back. These pages get indexed and become permanent entity mentions. | **MISSING** | — |
+
+### 9F — Community presence (breadth of evidence)
+
+> AI engines (especially Perplexity) pull heavily from Reddit. Community presence creates breadth in your evidence base — multiple independent sources mentioning "Medhansh Kapoor" with consistent facts.
+
+| # | Fix | Status | Evidence / where |
+|---|-----|--------|------------------|
+| 9F.1 | **Reddit participation**: answer questions in r/MachineLearning, r/webdev, r/learnprogramming, r/IndianDeveloper. Share projects naturally when relevant (not spam). Your Reddit profile = another corroborating source. | **MISSING** | — |
+| 9F.2 | **Speaking / podcast / interview presence**: university tech talks (leverage Manipal), YouTube videos explaining your projects, podcast guest appearances. Each creates a new indexed page that mentions "Medhansh Kapoor" + your expertise. | **MISSING** | — |
+| 9F.3 | **Stack Overflow / forum participation**: answer questions in your area of expertise. Profile links back to `medhanshk.me`. | **MISSING** | — |
+
+---
+
+## Phase 10 — Knowledge Panel & LLM visibility (the finish line)
+
+> **This is the explicit goal.** Everything in Phases 1–9 builds toward this. A Google Knowledge Panel = Google saying "this is a distinct, notable entity." Being cited by LLMs = winning the AI-era SERP.
+
+### 10A — Knowledge Panel pursuit
+
+A Knowledge Panel is **not applied for** — it's earned automatically when Google's Knowledge Graph has enough confidence in your entity. The typical timeline is **6–18 months** of consistent signals.
+
+**Requirements checklist (all feed from prior phases):**
+
+| # | Requirement | Phase | Status |
+|---|-------------|-------|--------|
+| 10A.1 | **Entity Home** = `medhanshk.me` with Person schema + `@id` | Phase 4 | MISSING |
+| 10A.2 | **Wikidata entry** = machine-readable bridge to Knowledge Graph | Phase 9C | MISSING |
+| 10A.3 | **Profile consistency** = identical name/title/bio on ≥5 platforms | Phase 9A | MISSING |
+| 10A.4 | **Third-party corroboration** = mentions on ≥3 independent, authoritative sites | Phase 9D/9E | MISSING |
+| 10A.5 | **Schema `sameAs`** = linking site → all profiles → Wikidata QID | Phase 4 | MISSING |
+| 10A.6 | **Reciprocal `rel="me"` loop** = every profile links back to `medhanshk.me` | Phase 5.2 + 9A | MISSING |
+
+**After the panel appears:**
+- [ ] Use "Claim this knowledge panel" link at the bottom (requires verified Google account linked to one of your official profiles).
+- [ ] Review the panel for accuracy — suggest edits if any facts are wrong.
+- [ ] Continue maintaining entity consistency to prevent panel degradation.
+
+### 10B — LLM-specific visibility
+
+LLMs learn about you from two sources: **(1) training data** (web content crawled before their knowledge cutoff) and **(2) live retrieval** (RAG — real-time web search during inference).
+
+**Training data strategy (long game):**
+- [ ] Content on **high-crawl platforms** (GitHub, Wikidata, Stack Overflow, Dev.to, Medium) gets into training data faster than your personal site.
+- [ ] Blog posts with your name + expertise = training data for "Who is Medhansh Kapoor?" in future model updates.
+- [ ] Open-source READMEs mentioning you = training data.
+- [ ] The more **diverse, independent sources** mention you with consistent facts, the more LLMs will converge on you as the answer.
+
+**Live retrieval (RAG) strategy (immediate):**
+- [ ] Your site must be **crawlable by AI retrieval bots** (Phase 2 + 8A.1). ✓ (once implemented)
+- [ ] Content must be **answer-first, fact-dense** (Phase 5.7 + 8B). ✓ (once implemented)
+- [ ] **Third-party pages that corroborate your entity** are critical — if Perplexity retrieves your site AND a Dev.to article AND your GitHub AND your LinkedIn, all saying "Medhansh Kapoor is an AI/ML engineer at IndiaAI Mission," it will cite you with **high confidence**. This is why off-page (Phase 9) matters for LLM visibility.
+
+**Manual AI citation audit (monthly cadence):**
+
+| AI Engine | Test Query | What to Log |
+|-----------|-----------|-------------|
+| ChatGPT | "Who is Medhansh Kapoor?" | Cited? What's quoted? Links? |
+| Perplexity | "Who is Medhansh Kapoor?" | Cited? Sources listed? |
+| Gemini | "Who is Medhansh Kapoor?" | Cited? Knowledge Panel info? |
+| Google AI Overviews | "Medhansh Kapoor" | Included in overview? Source? |
+| ChatGPT | "Best AI/ML engineer portfolio India" | Are you mentioned? |
+| Perplexity | "NyayaAI legal AI tool" | Is your project cited? |
+
+> Run these in incognito/clean sessions. Log results monthly in a spreadsheet. Track progress over time.
+
+---
+
+## Phase 11 — Monitoring cadence & content refresh
+
+### Monitoring schedule
+
+| Frequency | Action |
+|-----------|--------|
+| **Weekly** | Check GSC for indexing errors, position changes for "Medhansh Kapoor" |
+| **After every deploy** | Re-crawl in GSC (Request Indexing); verify robots.txt + sitemap still serve correctly |
+| **Monthly** | Re-run Lighthouse mobile; re-check SERP for "Medhansh Kapoor" in incognito |
+| **Monthly** | Manual AI citation audit (Phase 10B table) — query all 4 AI engines |
+| **Monthly** | Check Google Alerts for unlinked brand mentions → outreach (Phase 9E.1) |
+| **On every schema change** | Validate in Rich Results Test |
+| **Quarterly** | Review and update project metrics (mAP50, precision numbers, chunk counts) if they've changed |
+| **Quarterly** | Check GSC "Generative AI" performance report (if available for your property) |
+
+### Content refresh strategy
+
+| What | How Often | Why |
+|------|-----------|-----|
+| Project metrics (mAP50, precision, chunk counts) | Quarterly or when they change | Freshness signal; LLMs cite current numbers |
+| Answer-first definition (5.7) | When role/employer changes | Must reflect current truth |
+| FAQ section (8B.1) | When new projects/roles are added | Expand Q&A coverage |
+| Blog posts (9D.1) | 1 new post every 1–2 months | Compound backlinks + training data |
+| `dateModified` / "last updated" (5.6) | On every content change | Machine-readable freshness signal |
+| `llms.txt` (7.6) | On every significant content change | Keep AI agent summary current |
+
+---
+
+## Priority matrix (what to do in what order)
+
+| Tier | Do | Why | Effort |
+|------|----|-----|--------|
+| **P0 (blocking)** | Phase 2 (robots, sitemap, canonicals, metadataBase) | you are currently uncrawlable-by-design (robots/sitemap 404) | 2–3 hours |
+| **P0** | Phase 1 (GSC/Bing verification + Google Alerts + AI citation baseline) | you can't measure or get indexed without it | 2 hours |
+| **P1 (fastest ranking wins)** | Phase 3 (per-page titles/descriptions + **unblock OG meta**) + Phase 4 (JSON-LD + FAQPage) + Phase 5.1 (single H1) + Phase 5.2 (LinkedIn + reciprocal `rel="me"`) | directly target the "Medhansh Kapoor" query | 4–6 hours |
+| **P1** | Phase 5.8 (image alt text) + Phase 5.9 (internal linking) + Phase 5.7 (answer-first definition) | on-page fundamentals that boost both Google and AI extraction | 3 hours |
+| **P2 (performance + a11y)** | Phase 6 (videos, hydration error, security headers, favicon, 404) + Phase 7 (a11y + llms.txt) | performance + agentic-browsing scores + trust signals | 4–6 hours |
+| **P2** | Phase 8B (FAQ content + modular architecture + comparison content + question headings) | the biggest GEO/AEO gap — AI engines extract Q&A at dramatically higher rates | 3–4 hours |
+| **P3 (off-page foundation)** | Phase 9A (full profile audit + consistency) + Phase 9B (GitHub optimization) + Phase 9C (Wikidata entry) | entity disambiguation requires off-page corroboration; this is the decisive factor vs. the filmmaker | 4–5 hours |
+| **P3** | Phase 5.10 (E-E-A-T: visible credentials/bio) + Phase 5.6 (dateModified) | trust and freshness signals | 2 hours |
+| **P4 (compounding)** | Phase 9D (blog posts — 2–3 to start) + Phase 9E (backlink recovery + outreach) + Phase 9D.2 (project directories) | each post = backlink + training data + topical authority; compounds over months | 3 hours/post |
+| **P5 (ongoing)** | Phase 9F (Reddit/community/speaking) + Phase 10 (Knowledge Panel pursuit) + Phase 11 (monitoring cadence) | long-game entity building; 6–18 month timeline for Knowledge Panel | Ongoing |
+
+---
+
+## Evidence sources
+
+- Lighthouse **13.x** JSONs: `lighthouse/medhanshk.me-mobile.json` (mobile, throttled) and `lighthouse/medhanshk.me-desktop.json` (desktop), run 2026-08-22 against `https://medhanshk.me/`.
+- Live HTTP checks via `curl` (2026-08-22): `robots.txt`/`sitemap.xml`/`llms.txt`/`opengraph-image` → 404; `resume.pdf`/`favicon.ico` → 200; raw HTML has 2 `<h1>`, 0 OG/canonical/JSON-LD.
+- Code evidence: `app/layout.tsx:45-49` (metadata), `app/components/HeroSection.tsx:7,38-52,86-171`, `app/components/mobile/MobileHeroSection.tsx:14-20`, `app/components/mobile/MobileSkillStrip.tsx:64`, `app/components/mobile/MobileExperienceCard.tsx`, `app/components/mobile/MobileProjectCard.tsx`, `app/data/profile.ts`, `app/projects/page.tsx`, `app/experience/page.tsx`, `app/about/page.tsx`, `vercel.json`.
+- 2026 guidance: Google Search Central (metadata, robots, hreflang, helpful-content, E-E-A-T, AI-optimization guide), Next.js App Router docs (Metadata API, `sitemap.ts`/`robots.ts`, `generateMetadata`, Server-Component-only metadata), Lighthouse agentic-browsing + `llms.txt` audits, llmstxt.org, GEO research (Aggarwal et al. 2024 + 2026 surveys), and current technical-SEO audit frameworks (CrawlRaven, MarqOps, seoxpert, thestacc).
+- 360° audit (2026-08-22): on-page SEO checklists (Semrush, Ahrefs, Search Engine Land, SEO Works), GEO optimization frameworks (Elementor, ROI Revolution, Onely), AEO checklists (Piper Rocket, Maciej Turek, TechVedhas), Knowledge Panel strategies (Reputation X, Instant Press, Alejandro Rioja), and LLM visibility guides (HubSpot, Loud Face, Evergreen Media).
