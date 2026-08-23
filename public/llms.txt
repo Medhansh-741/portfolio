@@ -16,19 +16,33 @@ I take problems from the user experience down to technical architecture, buildin
 
 I build by jumping in headfirst. Every project is an excuse to explore a stack I haven't mastered yet, a problem that feels just out of reach, or an architecture I haven't tried. I think in systems, not features: connecting ideas across AI, infrastructure, and full-stack to build solutions that hold up under pressure. I don't stay comfortable. I learn by doing, I ship fast, and I believe code should scale beyond its first use case.
 
+## Frequently Asked Questions (Entity Q&A)
+
+### Who is Medhansh Kapoor?
+Medhansh Kapoor is an AI/ML Engineer and Full-Stack Developer based in Jaipur, India. I take problems from the user experience down to technical architecture, building a working first-draft pipeline, learning as the solution demands, and dialing it in checkpoint by checkpoint.
+
+### What production AI systems has Medhansh Kapoor built?
+Medhansh Kapoor has built JanSamadhan, an autonomous civic surveillance platform (YOLOv8, 256 complaints processed at 0.36s/ticket, active-learning verification), and NyayaAI, a multi-agent legal intelligence platform with a GraphRAG pipeline (1,410 Neo4j graph nodes, 4,582 indexed legal chunks, and 5-stage LangGraph orchestration).
+
+### Where has Medhansh Kapoor interned?
+Medhansh Kapoor completed engineering internships at IndiaAI Mission (MeitY) building an automated dataset-quality evaluation toolkit for ICMR, ISSA – DRDO developing an air-gapped offline GIS platform, and Geminid Systems evaluating enterprise AI toolchains and Salesforce AI platforms (all May 2026 – June 2026).
+
+### What technologies and frameworks does Medhansh Kapoor specialize in?
+Medhansh Kapoor specializes in Python, TypeScript, FastAPI, Next.js, PyTorch, LangGraph, LangChain, Celery, Redis, PostgreSQL, PostGIS, Neo4j, Qdrant, Docker, and cloud deployments across AWS and GCP.
+
 ## Technical Skills
 
 ### Languages
 Python, TypeScript, JavaScript, SQL, C, C++
 
 ### Backend / Web
-FastAPI, REST APIs, Next.js, Node.js, WebSockets, Celery, Pydantic, React, Supabase, Git
+FastAPI, Next.js, Node.js, React, Celery, Pydantic, Supabase, Git
 
 ### Applied AI
-PyTorch, LangGraph, LangChain, LlamaIndex, RAG, AI Agents, Multi-agent Systems, YOLOv8, ONNX, OpenCV, Sentence Transformers, Embeddings, Semantic Search, Prompt Engineering, Function Calling, Multimodal AI, NLP
+PyTorch, LangGraph, LangChain, LlamaIndex, YOLOv8, ONNX, OpenCV, Sentence Transformers
 
 ### Data / Infra / MLOps
-ETL Pipelines, PostgreSQL, PostGIS, Vector/Graph Databases (Qdrant, Neo4j), Redis, SQLite, GDAL, GeoServer, Martin Tile Server, OpenLayers, AWS S3, GCP, Docker/Podman, RHEL/Ubuntu
+PostgreSQL, PostGIS, Qdrant, Neo4j, Redis, SQLite, GDAL, GeoServer, Martin Tile Server, OpenLayers, AWS S3, GCP, Docker, Podman, RHEL, Ubuntu
 
 ## Production Projects
 

@@ -1,5 +1,6 @@
 "use client";
 
+import { profile } from "@/app/data/profile";
 import {
 	SiC,
 	SiCelery,
@@ -9,53 +10,89 @@ import {
 	SiGit,
 	SiGooglecloud,
 	SiJavascript,
+	SiLangchain,
 	SiNeo4J,
 	SiNextdotjs,
 	SiNodedotjs,
+	SiOnnx,
 	SiOpencv,
+	SiOpenlayers,
+	SiPodman,
 	SiPostgresql,
+	SiPydantic,
 	SiPython,
 	SiPytorch,
+	SiQdrant,
 	SiReact,
+	SiRedhat,
 	SiRedis,
+	SiSqlite,
 	SiSupabase,
 	SiTypescript,
+	SiUbuntu,
 } from "react-icons/si";
 import { FaAws } from "react-icons/fa";
+import {
+	TbBrain,
+	TbMapPinCode,
+	TbScan,
+	TbServer2,
+	TbSql,
+	TbTransform,
+	TbWorldLatitude,
+	TbWorldPin,
+} from "react-icons/tb";
 
-type SkillItem = {
-	name: string;
-	icon: React.ReactNode;
+const skillIconMap: Record<string, React.ReactNode> = {
+	Python: <SiPython />,
+	TypeScript: <SiTypescript />,
+	JavaScript: <SiJavascript />,
+	SQL: <TbSql />,
+	C: <SiC />,
+	"C++": <SiCplusplus />,
+	FastAPI: <SiFastapi />,
+	"Next.js": <SiNextdotjs />,
+	"Node.js": <SiNodedotjs />,
+	React: <SiReact />,
+	Celery: <SiCelery />,
+	Pydantic: <SiPydantic />,
+	Supabase: <SiSupabase />,
+	Git: <SiGit />,
+	PyTorch: <SiPytorch />,
+	LangGraph: <SiLangchain />,
+	LangChain: <SiLangchain />,
+	LlamaIndex: <TbBrain />,
+	YOLOv8: <TbScan />,
+	ONNX: <SiOnnx />,
+	OpenCV: <SiOpencv />,
+	"Sentence Transformers": <TbTransform />,
+	PostgreSQL: <SiPostgresql />,
+	PostGIS: <TbMapPinCode />,
+	Qdrant: <SiQdrant />,
+	Neo4j: <SiNeo4J />,
+	Redis: <SiRedis />,
+	SQLite: <SiSqlite />,
+	GDAL: <TbWorldPin />,
+	GeoServer: <TbWorldLatitude />,
+	"Martin Tile Server": <TbServer2 />,
+	OpenLayers: <SiOpenlayers />,
+	"AWS S3": <FaAws />,
+	GCP: <SiGooglecloud />,
+	Docker: <SiDocker />,
+	Podman: <SiPodman />,
+	RHEL: <SiRedhat />,
+	Ubuntu: <SiUbuntu />,
 };
 
-const skills: SkillItem[] = [
-	{ name: "Python", icon: <SiPython /> },
-	{ name: "TypeScript", icon: <SiTypescript /> },
-	{ name: "JavaScript", icon: <SiJavascript /> },
-	{ name: "C", icon: <SiC /> },
-	{ name: "C++", icon: <SiCplusplus /> },
-	{ name: "FastAPI", icon: <SiFastapi /> },
-	{ name: "Next.js", icon: <SiNextdotjs /> },
-	{ name: "Node.js", icon: <SiNodedotjs /> },
-	{ name: "React", icon: <SiReact /> },
-	{ name: "PyTorch", icon: <SiPytorch /> },
-	{ name: "PostgreSQL", icon: <SiPostgresql /> },
-	{ name: "Redis", icon: <SiRedis /> },
-	{ name: "Docker", icon: <SiDocker /> },
-	{ name: "Supabase", icon: <SiSupabase /> },
-	{ name: "Git", icon: <SiGit /> },
-	{
-		name: "AWS S3",
-		icon: <FaAws />,
-	},
-	{ name: "GCP", icon: <SiGooglecloud /> },
-	{ name: "Neo4j", icon: <SiNeo4J /> },
-	{ name: "Celery", icon: <SiCelery /> },
-	{ name: "OpenCV", icon: <SiOpencv /> },
-];
+const allSkills = Object.values(profile.skills)
+	.flat()
+	.map((name) => ({
+		name,
+		icon: skillIconMap[name] ?? null,
+	}));
 
 export default function SkillStrip() {
-	const duplicated = [...skills, ...skills, ...skills];
+	const duplicated = [...allSkills, ...allSkills];
 
 	return (
 		<div className="w-full overflow-hidden border-y-[3px] border-border bg-muted py-3">

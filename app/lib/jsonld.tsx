@@ -103,6 +103,10 @@ export function getProfilePageSchema(path = "", title = "Medhansh Kapoor", descr
 		mainEntity: {
 			"@id": PERSON_ID,
 		},
+		speakable: {
+			"@type": "SpeakableSpecification",
+			cssSelector: ["h1", "p"],
+		},
 	};
 }
 

@@ -20,6 +20,25 @@ export function generateLlmsText(): string {
 	sections.push(`## Philosophy & Approach\n`);
 	sections.push(`${profile.about[0]}\n`);
 
+	// Frequently Asked Questions (Entity Q&A)
+	sections.push(`## Frequently Asked Questions (Entity Q&A)\n`);
+	sections.push(`### Who is Medhansh Kapoor?`);
+	sections.push(
+		`Medhansh Kapoor is an AI/ML Engineer and Full-Stack Developer based in Jaipur, India. ${profile.intro}\n`
+	);
+	sections.push(`### What production AI systems has Medhansh Kapoor built?`);
+	sections.push(
+		`Medhansh Kapoor has built JanSamadhan, an autonomous civic surveillance platform (YOLOv8, 256 complaints processed at 0.36s/ticket, active-learning verification), and NyayaAI, a multi-agent legal intelligence platform with a GraphRAG pipeline (1,410 Neo4j graph nodes, 4,582 indexed legal chunks, and 5-stage LangGraph orchestration).\n`
+	);
+	sections.push(`### Where has Medhansh Kapoor interned?`);
+	sections.push(
+		`Medhansh Kapoor completed engineering internships at IndiaAI Mission (MeitY) building an automated dataset-quality evaluation toolkit for ICMR, ISSA – DRDO developing an air-gapped offline GIS platform, and Geminid Systems evaluating enterprise AI toolchains and Salesforce AI platforms (all May 2026 – June 2026).\n`
+	);
+	sections.push(`### What technologies and frameworks does Medhansh Kapoor specialize in?`);
+	sections.push(
+		`Medhansh Kapoor specializes in Python, TypeScript, FastAPI, Next.js, PyTorch, LangGraph, LangChain, Celery, Redis, PostgreSQL, PostGIS, Neo4j, Qdrant, Docker, and cloud deployments across AWS and GCP.\n`
+	);
+
 	// Skills
 	sections.push(`## Technical Skills\n`);
 	for (const [category, skills] of Object.entries(profile.skills)) {
