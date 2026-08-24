@@ -50,6 +50,7 @@ export default function CardDeckVideo({ projectFileName, className = "" }: CardD
 				sizes="(max-width: 640px) 100vw, 24rem"
 				className={`object-cover ${className}`}
 				priority={true}
+				unoptimized={true}
 				fetchPriority={isTop ? "high" : "auto"}
 			/>
 
