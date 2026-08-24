@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { Project } from "@/app/data/profile";
+import { getYouTubeEmbedUrl } from "@/app/lib/youtube";
 import SharedVideoPreview from "../ui/SharedVideoPreview";
 import Logo from "../ui/Logo";
 import ModalNavBar from "./ModalNavBar";
@@ -32,6 +33,7 @@ export default function MobileProjectModal({
 }: MobileProjectModalProps) {
 	const router = useRouter();
 	const otherProjects = allProjects.filter((p) => p.title !== project.title);
+	const youtubeEmbedUrl = getYouTubeEmbedUrl(project.links.demo);
 
 	// Proactively prefetch destination routes into memory on mount for instant navigation
 	useEffect(() => {
@@ -58,10 +60,20 @@ export default function MobileProjectModal({
 				>
 					{/* 1. Video Player */}
 					<figure className="w-full aspect-video bg-muted border-b-2 border-border shrink-0">
-						<SharedVideoPreview
-							projectFileName={MOBILE_VIDEO_MAP[project.title.toLowerCase()] || project.title.toLowerCase()}
-							className="w-full h-full object-cover"
-						/>
+						{youtubeEmbedUrl ? (
+							<iframe
+								src={youtubeEmbedUrl}
+								title={`${project.title} Video Demonstration`}
+								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+								allowFullScreen
+								className="w-full h-full border-0"
+							/>
+						) : (
+							<SharedVideoPreview
+								projectFileName={MOBILE_VIDEO_MAP[project.title.toLowerCase()] || project.title.toLowerCase()}
+								className="w-full h-full object-cover"
+							/>
+						)}
 					</figure>
 
 					{/* 2. Dedicated Title Block */}

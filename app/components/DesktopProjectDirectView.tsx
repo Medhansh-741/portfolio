@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FiExternalLink } from "react-icons/fi";
 import type { Project } from "@/app/data/profile";
+import { getYouTubeEmbedUrl } from "@/app/lib/youtube";
 import SharedVideoPreview from "./ui/SharedVideoPreview";
 
 interface DesktopProjectDirectViewProps {
@@ -15,6 +16,7 @@ interface DesktopProjectDirectViewProps {
 export default function DesktopProjectDirectView({ project }: DesktopProjectDirectViewProps) {
 	const router = useRouter();
 	const [isMaximized, setIsMaximized] = useState(false);
+	const youtubeEmbedUrl = getYouTubeEmbedUrl(project.links.demo);
 
 	// Proactively prefetch destination routes into memory on mount for instant navigation
 	useEffect(() => {
@@ -89,10 +91,20 @@ export default function DesktopProjectDirectView({ project }: DesktopProjectDire
 								transition={{ delay: 0.2, duration: 0.2 }}
 								className="absolute inset-0 w-full h-full flex items-center justify-center"
 							>
-								<SharedVideoPreview
-									projectFileName={project.title.toLowerCase().replace(/\s+/g, "")}
-									className="w-full h-full object-cover"
-								/>
+								{youtubeEmbedUrl ? (
+									<iframe
+										src={youtubeEmbedUrl}
+										title={`${project.title} Video Demonstration`}
+										allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+										allowFullScreen
+										className="w-full h-full border-0"
+									/>
+								) : (
+									<SharedVideoPreview
+										projectFileName={project.title.toLowerCase().replace(/\s+/g, "")}
+										className="w-full h-full object-cover"
+									/>
+								)}
 							</motion.div>
 						</div>
 					)}
