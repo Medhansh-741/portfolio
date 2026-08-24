@@ -1,9 +1,10 @@
-import { GoogleAnalytics } from "@next/third-parties/google";
+import GoogleAnalyticsDeferred from "./components/GoogleAnalyticsDeferred";
 import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
 import { Inter, Pirata_One, Playfair_Display } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
+import DesktopOnly from "./components/desktop/DesktopOnly";
 import Navbar from "./components/Navbar";
 import MobileHeader from "./components/mobile/MobileHeader";
 import MobileBottomBar from "./components/mobile/MobileBottomBar";
@@ -98,7 +99,9 @@ export default function RootLayout({
 				<JsonLd data={getRootGraphSchema()} />
 				<ThemeProvider>
 					<div className="min-h-dvh flex flex-col">
-						<Navbar />
+						<DesktopOnly>
+							<Navbar />
+						</DesktopOnly>
 						<MobileHeader />
 						{children}
 						{modal}
@@ -106,7 +109,7 @@ export default function RootLayout({
 					</div>
 				</ThemeProvider>
 				<Analytics />
-				<GoogleAnalytics gaId="G-D064XWFM94" />
+				<GoogleAnalyticsDeferred gaId="G-D064XWFM94" />
 			</body>
 		</html>
 	);
