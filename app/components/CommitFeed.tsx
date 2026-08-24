@@ -74,11 +74,12 @@ export default function CommitFeed({
 			style={style}
 			header={
 				<CardHeader
-					icon={<FiGitCommit size={14} />}
+					icon={<FiGitCommit size={14} aria-hidden="true" />}
 					accentColor="var(--color-accent)"
 					title="LIVE ACTIVITY"
-					badge={<FiGithub size={11} />}
+					badge={<FiGithub size={11} aria-hidden="true" />}
 					badgeHref="https://github.com/Medhansh-741"
+					badgeAriaLabel="View Medhansh Kapoor's GitHub Profile"
 					pulse
 				/>
 			}
@@ -110,9 +111,9 @@ export default function CommitFeed({
 								<p className="text-desktop-2xs font-black uppercase tracking-wider text-muted-foreground truncate leading-none mb-1">
 									{cleanRepoName(commit.repo)}
 								</p>
-								<h4 className="text-desktop-xs font-bold leading-tight text-foreground truncate group-hover:text-accent-secondary group-hover:underline">
+								<p className="text-desktop-xs font-bold leading-tight text-foreground truncate group-hover:text-accent-secondary group-hover:underline">
 									{commit.message}
-								</h4>
+								</p>
 							</div>
 						</a>
 					))}

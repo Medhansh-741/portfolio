@@ -270,9 +270,9 @@ export default function GithubCalendarUI({
 				<div className="flex items-center gap-1 bg-muted border border-border p-0.5 rounded-[1px] font-mono text-[length:var(--text-desktop-2xs)] font-bold">
 					<button
 						onClick={() => setPlatform("github")}
-						className={`px-1.5 py-0.5 rounded-[1px] cursor-pointer transition-colors uppercase ${platform === "github"
+						className={`px-1.5 py-0.5 rounded-[1px] cursor-pointer transition-colors uppercase font-extrabold ${platform === "github"
 								? "bg-[var(--color-accent-secondary)] text-black"
-								: "text-muted-foreground hover:text-foreground"
+								: "text-foreground/80 dark:text-foreground/90 hover:text-foreground"
 							}`}
 					>
 						GIT
@@ -280,9 +280,9 @@ export default function GithubCalendarUI({
 					<span className="text-border/40 select-none">|</span>
 					<button
 						onClick={() => setPlatform("leetcode")}
-						className={`px-1.5 py-0.5 rounded-[1px] cursor-pointer transition-colors uppercase ${platform === "leetcode"
+						className={`px-1.5 py-0.5 rounded-[1px] cursor-pointer transition-colors uppercase font-extrabold ${platform === "leetcode"
 								? "bg-[#FFA116] text-black"
-								: "text-muted-foreground hover:text-foreground"
+								: "text-foreground/80 dark:text-foreground/90 hover:text-foreground"
 							}`}
 					>
 						LC
@@ -290,9 +290,9 @@ export default function GithubCalendarUI({
 					<span className="text-border/40 select-none">|</span>
 					<button
 						onClick={() => setPlatform("codeforces")}
-						className={`px-1.5 py-0.5 rounded-[1px] cursor-pointer transition-colors uppercase ${platform === "codeforces"
+						className={`px-1.5 py-0.5 rounded-[1px] cursor-pointer transition-colors uppercase font-extrabold ${platform === "codeforces"
 								? "bg-[#3182CE] text-white"
-								: "text-muted-foreground hover:text-foreground"
+								: "text-foreground/80 dark:text-foreground/90 hover:text-foreground"
 							}`}
 					>
 						CF

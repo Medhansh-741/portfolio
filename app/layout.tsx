@@ -95,8 +95,6 @@ export default function RootLayout({
 			<body
 				className={`${inter.variable} ${playfair.variable} ${pirataOne.variable} ${dseg7.variable} ${dseg14.variable} antialiased bg-background text-foreground font-sans`}
 			>
-				<link rel="preconnect" href="https://medhanshk.me" />
-				<link rel="dns-prefetch" href="https://medhanshk.me" />
 				<JsonLd data={getRootGraphSchema()} />
 				<ThemeProvider>
 					<div className="min-h-dvh flex flex-col">

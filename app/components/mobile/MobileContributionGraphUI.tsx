@@ -213,10 +213,10 @@ export default function MobileContributionGraphUI({
 					<div className="flex items-center gap-1 bg-muted border-[1.5px] border-border p-[0.125rem] rounded-[1px] font-mono text-[0.5rem] font-bold h-7">
 						<button
 							onClick={() => setPlatform("github")}
-							className={`h-full px-2 rounded-[1px] transition-colors uppercase flex items-center justify-center ${
+							className={`h-full px-2 rounded-[1px] transition-colors uppercase flex items-center justify-center font-extrabold ${
 								platform === "github"
 									? "bg-[var(--color-accent-secondary)] text-black"
-									: "text-muted-foreground"
+									: "text-foreground/80 dark:text-foreground/90"
 							}`}
 						>
 							GIT
@@ -224,10 +224,10 @@ export default function MobileContributionGraphUI({
 						<span className="text-border/40 select-none">|</span>
 						<button
 							onClick={() => setPlatform("leetcode")}
-							className={`h-full px-2 rounded-[1px] transition-colors uppercase flex items-center justify-center ${
+							className={`h-full px-2 rounded-[1px] transition-colors uppercase flex items-center justify-center font-extrabold ${
 								platform === "leetcode"
 									? "bg-[#FFA116] text-black"
-									: "text-muted-foreground"
+									: "text-foreground/80 dark:text-foreground/90"
 							}`}
 						>
 							LC
@@ -235,10 +235,10 @@ export default function MobileContributionGraphUI({
 						<span className="text-border/40 select-none">|</span>
 						<button
 							onClick={() => setPlatform("codeforces")}
-							className={`h-full px-2 rounded-[1px] transition-colors uppercase flex items-center justify-center ${
+							className={`h-full px-2 rounded-[1px] transition-colors uppercase flex items-center justify-center font-extrabold ${
 								platform === "codeforces"
 									? "bg-[#3182CE] text-white"
-									: "text-muted-foreground"
+									: "text-foreground/80 dark:text-foreground/90"
 							}`}
 						>
 							CF

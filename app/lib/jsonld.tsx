@@ -131,22 +131,26 @@ export function getProjectsCollectionSchema() {
 		},
 		mainEntity: {
 			"@type": "ItemList",
-			itemListElement: profile.projects.map((proj, index) => ({
-				"@type": "ListItem",
-				position: index + 1,
-				item: {
-					"@type": "SoftwareApplication",
-					name: proj.title,
-					description: proj.description,
-					applicationCategory: "AI / Machine Learning Application",
-					operatingSystem: "Web",
-					url: proj.links.live,
-					sameAs: proj.links.github,
-					author: {
-						"@id": PERSON_ID,
+			itemListElement: profile.projects.map((proj, index) => {
+				const projSlug = proj.title.toLowerCase().replace(/\s+/g, "");
+				return {
+					"@type": "ListItem",
+					position: index + 1,
+					item: {
+						"@type": "SoftwareApplication",
+						name: proj.title,
+						description: proj.description,
+						applicationCategory: "AI / Machine Learning Application",
+						operatingSystem: "Web",
+						url: proj.links.live,
+						image: `${SITE_URL}/og/${projSlug}.png`,
+						sameAs: [proj.links.github, proj.links.demo].filter(Boolean),
+						author: {
+							"@id": PERSON_ID,
+						},
 					},
-				},
-			})),
+				};
+			}),
 		},
 	};
 }
@@ -179,8 +183,7 @@ export function getExperiencePageSchema() {
  */
 export function getSingleProjectSchema(project: Project, slug: string) {
 	const pageUrl = `${SITE_URL}/projects/${slug}`;
-	const videoFileName = project.title.toLowerCase().replace(/\s+/g, "");
-	const imageUrl = `${SITE_URL}/videos/${videoFileName}.webp`;
+	const ogImageUrl = `${SITE_URL}/og/${slug}.png`;
 
 	return {
 		"@context": "https://schema.org",
@@ -190,6 +193,12 @@ export function getSingleProjectSchema(project: Project, slug: string) {
 		name: project.title,
 		description: project.description,
 		dateModified: ISO_DATE,
+		primaryImageOfPage: {
+			"@type": "ImageObject",
+			url: ogImageUrl,
+			contentUrl: ogImageUrl,
+			caption: `${project.title} Preview`,
+		},
 		isPartOf: {
 			"@id": WEBSITE_ID,
 		},
@@ -201,7 +210,7 @@ export function getSingleProjectSchema(project: Project, slug: string) {
 			applicationCategory: "AI / Machine Learning Application",
 			operatingSystem: "Web",
 			url: project.links.live,
-			image: imageUrl,
+			image: ogImageUrl,
 			sameAs: [project.links.github, project.links.demo].filter(Boolean),
 			author: {
 				"@id": PERSON_ID,

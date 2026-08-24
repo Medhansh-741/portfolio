@@ -27,11 +27,11 @@ export async function generateMetadata({
 
 	const canonicalUrl = `https://medhanshk.me/projects/${resolvedParams.slug}`;
 
-	const fullTitle = `${project.title} — ${project.subtitle} | Medhansh Kapoor`;
+	const fullTitle = `${project.title} | Medhansh Kapoor`;
 	const ogImageUrl = `https://medhanshk.me/og/${resolvedParams.slug}.png`;
 
 	return {
-		title: fullTitle,
+		title: project.title,
 		description: project.description,
 		alternates: {
 			canonical: canonicalUrl,
