@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useTheme } from "../ThemeProvider";
 
 // These types match the desktop version
@@ -20,6 +20,39 @@ interface MobileContributionGraphUIProps {
 	codeforcesData: Record<string, number>;
 }
 
+// Group into weeks helper
+const groupContributionsIntoWeeks = (days: ContributionDay[]) => {
+	const sorted = [...days].sort((a, b) => a.date.localeCompare(b.date));
+	if (sorted.length === 0) return [];
+
+	const weeks: (ContributionDay | null)[][] = [];
+	let currentWeek: (ContributionDay | null)[] = [];
+
+	const firstDate = new Date(sorted[0].date);
+	const firstDayOfWeek = firstDate.getDay();
+
+	for (let i = 0; i < firstDayOfWeek; i++) {
+		currentWeek.push(null);
+	}
+
+	sorted.forEach((day) => {
+		currentWeek.push(day);
+		if (currentWeek.length === 7) {
+			weeks.push(currentWeek);
+			currentWeek = [];
+		}
+	});
+
+	if (currentWeek.length > 0) {
+		while (currentWeek.length < 7) {
+			currentWeek.push(null);
+		}
+		weeks.push(currentWeek);
+	}
+
+	return weeks;
+};
+
 export default function MobileContributionGraphUI({
 	githubData,
 	leetcodeData,
@@ -29,9 +62,11 @@ export default function MobileContributionGraphUI({
 	const isDark = theme === "dark";
 
 	const [platform, setPlatform] = useState<"github" | "leetcode" | "codeforces">("github");
-	const years = githubData?.total
-		? Object.keys(githubData.total).sort((a, b) => b.localeCompare(a))
-		: ["2026", "2025"];
+	const years = useMemo(() => {
+		return githubData?.total
+			? Object.keys(githubData.total).sort((a, b) => b.localeCompare(a))
+			: ["2026", "2025"];
+	}, [githubData?.total]);
 	const selectedYear = years[0] || "2026"; // Default to most recent year
 
 	const rawContributions = githubData?.contributions || [];
@@ -44,86 +79,65 @@ export default function MobileContributionGraphUI({
 		return 4;
 	};
 
-	const yearContributions = rawContributions
-		.filter((c) => c.date.startsWith(selectedYear))
-		.map((c) => {
-			if (platform === "github") {
-				return c;
-			} else if (platform === "leetcode") {
-				const count = leetcodeData[c.date] || 0;
-				return {
-					date: c.date,
-					level: getLevelForCount(count),
-					count,
-				};
-			} else {
-				const count = codeforcesData[c.date] || 0;
-				return {
-					date: c.date,
-					level: getLevelForCount(count),
-					count,
-				};
-			}
-		});
+	const yearContributions = useMemo(() => {
+		return rawContributions
+			.filter((c) => c.date.startsWith(selectedYear))
+			.map((c) => {
+				if (platform === "github") {
+					return c;
+				} else if (platform === "leetcode") {
+					const count = leetcodeData[c.date] || 0;
+					return {
+						date: c.date,
+						level: getLevelForCount(count),
+						count,
+					};
+				} else {
+					const count = codeforcesData[c.date] || 0;
+					return {
+						date: c.date,
+						level: getLevelForCount(count),
+						count,
+					};
+				}
+			});
+	}, [rawContributions, selectedYear, platform, leetcodeData, codeforcesData]);
 
-	const platformTotal = yearContributions.reduce((acc, curr) => acc + curr.count, 0);
+	const platformTotal = useMemo(
+		() => yearContributions.reduce((acc, curr) => acc + curr.count, 0),
+		[yearContributions]
+	);
 
-	// Group into weeks
-	const groupContributionsIntoWeeks = (days: ContributionDay[]) => {
-		const sorted = [...days].sort((a, b) => a.date.localeCompare(b.date));
-		if (sorted.length === 0) return [];
-
-		const weeks: (ContributionDay | null)[][] = [];
-		let currentWeek: (ContributionDay | null)[] = [];
-
-		const firstDate = new Date(sorted[0].date);
-		const firstDayOfWeek = firstDate.getDay();
-
-		for (let i = 0; i < firstDayOfWeek; i++) {
-			currentWeek.push(null);
-		}
-
-		sorted.forEach((day) => {
-			currentWeek.push(day);
-			if (currentWeek.length === 7) {
-				weeks.push(currentWeek);
-				currentWeek = [];
-			}
-		});
-
-		if (currentWeek.length > 0) {
-			while (currentWeek.length < 7) {
-				currentWeek.push(null);
-			}
-			weeks.push(currentWeek);
-		}
-
-		return weeks;
-	};
-
-	const weeks = groupContributionsIntoWeeks(yearContributions);
+	const weeks = useMemo(
+		() => groupContributionsIntoWeeks(yearContributions),
+		[yearContributions]
+	);
 
 	// Month labels
-	const monthLabels: { label: string; colIndex: number }[] = [];
-	let prevMonth = -1;
+	const monthLabels = useMemo(() => {
+		const labels: { label: string; colIndex: number }[] = [];
+		let prevMonth = -1;
 
-	weeks.forEach((week, colIdx) => {
-		const firstNonNullDay = week.find((d) => d !== null);
-		if (firstNonNullDay) {
-			const date = new Date(firstNonNullDay.date);
-			const month = date.getMonth();
-			if (month !== prevMonth) {
-				const label = date.toLocaleString("default", { month: "short" });
-				if (
-					monthLabels.length === 0 ||
-					colIdx - monthLabels[monthLabels.length - 1].colIndex > 2
-				) {
-					monthLabels.push({ label, colIndex: colIdx });
-					prevMonth = month;
+		weeks.forEach((week, colIdx) => {
+			const firstNonNullDay = week.find((d) => d !== null);
+			if (firstNonNullDay) {
+				const date = new Date(firstNonNullDay.date);
+				const month = date.getMonth();
+				if (month !== prevMonth) {
+					const label = date.toLocaleString("default", { month: "short" });
+					if (
+						labels.length === 0 ||
+						colIdx - labels[labels.length - 1].colIndex > 2
+					) {
+						labels.push({ label, colIndex: colIdx });
+						prevMonth = month;
+					}
 				}
 			}
-		}
-	});
+		});
+
+		return labels;
+	}, [weeks]);
 
 	// Exact colors from desktop widget
 	const getSquareStyle = (level: number) => {

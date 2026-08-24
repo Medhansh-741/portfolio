@@ -1,22 +1,25 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
+import { useMatchMedia } from "@/app/lib/use-match-media";
 import LcdClockFace, { LCDCell } from "./mobile/LcdClockFace";
 
 export default function HeaderClock() {
+	const isDesktop = useMatchMedia("(min-width: 1280px)");
 	const [time, setTime] = useState<Date | null>(null);
 
 	useEffect(() => {
+		if (isDesktop !== true) return;
+
 		// eslint-disable-next-line react-hooks/set-state-in-effect -- initial time must be set client-side to avoid hydration mismatch
 		setTime(new Date());
 		const interval = setInterval(() => {
 			setTime(new Date());
 		}, 1000);
 		return () => clearInterval(interval);
-	}, []);
+	}, [isDesktop]);
 
-	if (!time) {
+	if (isDesktop !== true || !time) {
 		return <HeaderClockSkeleton />;
 	}
 
