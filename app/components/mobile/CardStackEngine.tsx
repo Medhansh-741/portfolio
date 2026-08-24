@@ -8,7 +8,9 @@ import type { Project } from "@/app/data/profile";
 import { CardDeckContext } from "./CardDeckVideo";
 import GestureTutorialOverlay from "./GestureTutorialOverlay";
 import MobileProjectCard from "./MobileProjectCard";
-import MobileProjectModal from "./MobileProjectModal";
+import dynamic from "next/dynamic";
+
+const MobileProjectModal = dynamic(() => import("./MobileProjectModal"), { ssr: false });
 
 interface CardStackEngineProps {
 	projects?: Project[];
@@ -137,6 +139,7 @@ export default function CardStackEngine({
 	const isFannedRef = useRef(false);
 
 	const togglePokerFan = () => {
+		window.dispatchEvent(new CustomEvent("tutorial-cancel"));
 		isFannedRef.current = !isFannedRef.current;
 		
 		const visibleCount = Math.min(NUM_PHYSICAL_CARDS, activeCards.length);
@@ -231,11 +234,34 @@ export default function CardStackEngine({
 			if (e.key.toLowerCase() === 's') togglePokerFanRef.current();
 		};
 
-		window.addEventListener('devicemotion', handleMotion);
 		window.addEventListener('keydown', handleKeyDown);
+
+		let isUnmounted = false;
+		const attachMotion = () => {
+			if (!isUnmounted) {
+				window.addEventListener('devicemotion', handleMotion, { passive: true });
+			}
+		};
+
+		let timerId: ReturnType<typeof setTimeout> | undefined;
+		let idleId: number | undefined;
+
+		if (typeof window !== "undefined" && "requestIdleCallback" in window) {
+			idleId = (window as Window & { requestIdleCallback: (cb: () => void, opt?: { timeout: number }) => number }).requestIdleCallback(attachMotion, { timeout: 2000 });
+		} else {
+			timerId = setTimeout(attachMotion, 1000);
+		}
+
 		return () => {
-			window.removeEventListener('devicemotion', handleMotion);
+			isUnmounted = true;
 			window.removeEventListener('keydown', handleKeyDown);
+			window.removeEventListener('devicemotion', handleMotion);
+			if (idleId && typeof window !== "undefined" && "cancelIdleCallback" in window) {
+				(window as Window & { cancelIdleCallback: (id: number) => void }).cancelIdleCallback(idleId);
+			}
+			if (timerId) {
+				clearTimeout(timerId);
+			}
 		};
 	}, []);
 

@@ -114,6 +114,13 @@ export default function GestureTutorialOverlay() {
 		};
 
 		const overlayElement = document.getElementById("gesture-tutorial-overlay");
+		const handleTutorialCancel = () => {
+			cancelTutorial();
+		};
+
+		window.addEventListener("tutorial-cancel", handleTutorialCancel, { once: true });
+		window.addEventListener("keydown", handleTutorialCancel, { once: true, passive: true });
+
 		if (overlayElement) {
 			observer = new IntersectionObserver(
 				(entries) => {
@@ -133,6 +140,8 @@ export default function GestureTutorialOverlay() {
 
 		return () => {
 			isCancelled = true;
+			window.removeEventListener("tutorial-cancel", handleTutorialCancel);
+			window.removeEventListener("keydown", handleTutorialCancel);
 			if (observer) observer.disconnect();
 			window.removeEventListener("touchstart", handleInteraction);
 			window.removeEventListener("mousedown", handleInteraction);
