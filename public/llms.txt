@@ -1,33 +1,41 @@
 # Medhansh Kapoor
-> AI/ML Engineer and Full-Stack Developer specializing in AI agents, RAG pipelines, FastAPI, and Next.js. Based in Jaipur, India.
+> AI/ML Engineer | Full-Stack Developer | Location: Jaipur, India
 
-## Links & Navigation
-- [Portfolio Homepage](https://medhanshk.me): Official portfolio and interactive desktop/mobile interface
-- [Experience & Internships](https://medhanshk.me/experience): Engineering experience at IndiaAI Mission (MeitY), ISSA – DRDO, and Geminid Systems
-- [Projects Cabinet](https://medhanshk.me/projects): Production AI architectures and system designs
-- [About & Philosophy](https://medhanshk.me/about): Technical philosophy, skills breakdown, and background
-- [Resume PDF](https://medhanshk.me/resume.pdf): Downloadable verified resume
-- [JanSamadhan Project Details](https://medhanshk.me/projects/jansamadhan): Autonomous Civic Surveillance Platform
-- [NyayaAI Project Details](https://medhanshk.me/projects/nyayaai): Multi-Agent Legal Intelligence Platform
-- [GitHub Profile](https://github.com/Medhansh-741): Open-source repositories and code contributions
-- [LinkedIn Profile](https://www.linkedin.com/in/medhansh-kapoor): Professional network and verified achievements
-- [X (Twitter)](https://x.com/medhansh541): Engineering logs and technical updates
+## Verified Identity & Links
+
+- **Location:** Jaipur, India
+- **Email:** medhansh541@gmail.com
+- **Phone:** +91 8368680865
+- **Portfolio Website:** https://medhanshk.me
+- **Resume:** https://medhanshk.me/resume.pdf
+- **GitHub:** https://github.com/Medhansh-741
+- **LinkedIn:** https://www.linkedin.com/in/medhansh-kapoor
+- **X (Twitter):** https://x.com/medhansh541
+- **Instagram:** https://www.instagram.com/medhansh341/
+- **Book a Meeting (Cal):** https://cal.com/medhansh541
+- **Experience Page:** https://medhanshk.me/experience
+- **Projects Page:** https://medhanshk.me/projects
+- **About Page:** https://medhanshk.me/about
 
 ## Professional Summary
 
 I take problems from the user experience down to technical architecture, building a working first-draft pipeline, learning as the solution demands, and dialing it in checkpoint by checkpoint.
 
-## Philosophy & Approach
+## Engineering Philosophy & Background
 
 I build by jumping in headfirst. Every project is an excuse to explore a stack I haven't mastered yet, a problem that feels just out of reach, or an architecture I haven't tried. I think in systems, not features: connecting ideas across AI, infrastructure, and full-stack to build solutions that hold up under pressure. I don't stay comfortable. I learn by doing, I ship fast, and I believe code should scale beyond its first use case.
 
-## Frequently Asked Questions (Entity Q&A)
+AI/ML Engineer and Full-Stack Developer with hands-on experience building production-grade AI agents, geospatial intelligence systems, and civic-tech platforms across engineering internships at IndiaAI Mission (MeitY), ISSA-DRDO, and Geminid Systems.
+
+I specialize in FastAPI, Next.js, PyTorch, LangGraph, and PostgreSQL — with a strong focus on AI agent orchestration, RAG pipelines, real-time systems, and full-stack deployment. I build things that work in the real world, not just in notebooks.
+
+## Frequently Asked Questions (Entity Disambiguation & Q&A)
 
 ### Who is Medhansh Kapoor?
 Medhansh Kapoor is an AI/ML Engineer and Full-Stack Developer based in Jaipur, India. I take problems from the user experience down to technical architecture, building a working first-draft pipeline, learning as the solution demands, and dialing it in checkpoint by checkpoint.
 
 ### What production AI systems has Medhansh Kapoor built?
-Medhansh Kapoor has built JanSamadhan, an autonomous civic surveillance platform (YOLOv8, 256 complaints processed at 0.36s/ticket, active-learning verification), and NyayaAI, a multi-agent legal intelligence platform with a GraphRAG pipeline (1,410 Neo4j graph nodes, 4,582 indexed legal chunks, and 5-stage LangGraph orchestration).
+Medhansh Kapoor built JanSamadhan, an autonomous civic surveillance platform (YOLOv8, 256 complaints processed at 0.36s/ticket, active-learning verification), and NyayaAI, a multi-agent legal intelligence platform with a GraphRAG pipeline (1,410 Neo4j graph nodes, 4,582 indexed legal chunks, and 5-stage LangGraph orchestration).
 
 ### Where has Medhansh Kapoor interned?
 Medhansh Kapoor completed engineering internships at IndiaAI Mission (MeitY) building an automated dataset-quality evaluation toolkit for ICMR, ISSA – DRDO developing an air-gapped offline GIS platform, and Geminid Systems evaluating enterprise AI toolchains and Salesforce AI platforms (all May 2026 – July 2026).
@@ -51,7 +59,7 @@ PostgreSQL, PostGIS, Qdrant, Neo4j, Redis, SQLite, GDAL, GeoServer, Martin Tile 
 
 ## Production Projects
 
-### [JanSamadhan](https://medhanshk.me/projects/jansamadhan) — Autonomous Civic Surveillance Platform (Mar 2026)
+### JanSamadhan — Autonomous Civic Surveillance Platform (Mar 2026)
 Detects civic issues via CCTV/dashcam, auto-generates complaint tickets, verifies repairs, and retrains itself.
 
 **Technologies:** YOLOv8, ONNX, OpenCV, FastAPI, PostgreSQL/PostGIS, Gemini 2.5
@@ -62,12 +70,12 @@ Detects civic issues via CCTV/dashcam, auto-generates complaint tickets, verifie
 - Verification & Active Learning: Enforced automated post-repair rescans to verify fixes before ticket closure; bucketed field data into labeled classes for continuous baseline-gated retraining.
 - LLM Routing (Seva): Integrated Gemini 2.5 Flash using a 4-step Chain-of-Thought to autonomously route complaints across 42 civic categories, auto-routing 125/256 tickets with zero manual input.
 
-**External Links:**
-- [Live App](https://jansamadhan.perkkk.dev/)
-- [GitHub Repository](https://github.com/Medhansh-741/ps-crmdev1)
-- [Video Demo](https://youtu.be/JvkJd1MAV3M)
+**Verified Links:**
+- Live Application: https://jansamadhan.perkkk.dev/
+- GitHub Repository: https://github.com/Medhansh-741/ps-crmdev1
+- Video Demo: https://youtu.be/JvkJd1MAV3M
 
-### [NyayaAI](https://medhanshk.me/projects/nyayaai) — Multi-Agent Legal Intelligence Platform (Mar 2026)
+### NyayaAI — Multi-Agent Legal Intelligence Platform (Mar 2026 (36-hr Sprint))
 5-agent pipeline: legal case in — research, strategy, drafted documents, and reasoned explainability out.
 
 **Technologies:** LangGraph, FastAPI, Qdrant, Neo4j, Redis, WebSockets, Celery, Groq, Gemini
@@ -78,10 +86,10 @@ Detects civic issues via CCTV/dashcam, auto-generates complaint tickets, verifie
 - Reliability & Graph: Implemented a triple-engine fallback (Groq → Gemini → offline rules) for zero-downtime generation; built a Neo4j legal knowledge graph (1,410 nodes, 1,837 relationships) for explainable document drafting.
 - Realtime Infrastructure: Developed an event-driven custom Redis Pub/Sub, WebSockets, and Celery backend for live citizen-lawyer negotiation chat, bypassing third-party APIs.
 
-**External Links:**
-- [Live App](https://nyay-ai-liard.vercel.app/)
-- [GitHub Repository](https://github.com/Medhansh-741/NyayAI)
-- [Video Demo](https://youtu.be/YwgooAeuRmo)
+**Verified Links:**
+- Live Application: https://nyay-ai-liard.vercel.app/
+- GitHub Repository: https://github.com/Medhansh-741/NyayAI
+- Video Demo: https://youtu.be/YwgooAeuRmo
 
 ## Engineering Experience (Internships)
 
@@ -95,6 +103,10 @@ Built an automated dataset-quality evaluation toolkit for ICMR.
 - Assessment Engine: Architected an asynchronous, parallelized scoring engine to evaluate datasets across 15 government-defined quality domains, generating Composite Quality and Privacy Risk scores for automated release eligibility (Open/Controlled/Restricted).
 - Integration: Built automated multi-format reporting (JSON/HTML/PDF) and webhook APIs, enabling AIKosh to auto-ingest verified dataset metadata upon assessment completion.
 
+**Verified Documentation:**
+- Offer Letter: https://medhanshk.me/MEITY-offer-letter.pdf
+- Completion Letter: https://medhanshk.me/MEITY-completion-letter.pdf
+
 ### Student Trainee, Ministry of Defence — ISSA – DRDO (May 2026 – July 2026)
 Developed an air-gapped GIS platform to securely process and visualize offline geospatial data.
 
@@ -103,6 +115,10 @@ Developed an air-gapped GIS platform to securely process and visualize offline g
 **Key Contributions & Engineering Highlights:**
 - Ingestion Pipelines: Built automated ETL pipelines for vector (Shapefiles to PostGIS with reprojection/indexing) and raster data (GeoTIFFs auto-published via REST), eliminating manual GIS server setups.
 - Serving Layer & Infra: Enabled real-time map-tile delivery to browser clients via a containerized 4-service microservices backend, securely deployed on a firewalled RHEL environment for fully offline, classified operations.
+
+**Verified Documentation:**
+- Offer Letter: https://medhanshk.me/DRDO-offer-letter.pdf
+- Completion Letter: https://medhanshk.me/DRDO-completion-letter.pdf
 
 ### Software Development Intern — Geminid Systems (May 2026 – July 2026)
 Evaluated enterprise AI toolchains and shipped integration tests for production Salesforce environments.
@@ -113,13 +129,19 @@ Evaluated enterprise AI toolchains and shipped integration tests for production 
 - Benchmarking: Evaluated Vanna.ai, LlamaIndex, LangChain for NL-to-SQL, and audio frameworks (Librosa, PyDub) for feature extraction; identified that agent architecture outweighs model choice for multi-table reasoning.
 - Salesforce AI Platform: Built Apex REST services and SOAP integrations; conducted prompt engineering experiments on live CRM data using Einstein AI and Agentforce.
 
+**Verified Documentation:**
+- Offer Letter: https://medhanshk.me/Geminid-offer-letter.pdf
+- Completion Letter: https://medhanshk.me/Geminid-completion-letter.pdf
+
 ## Achievements & Recognition
 
 ### India Innovates '26 — National Finalist
 Winner in Digital Democracy track; presented JanSamadhan live before senior policy leaders at Bharat Mandapam; project forwarded to central ministries.
+- Certificate: https://medhanshk.me/India-Innovates.pdf
 
 ### Prayatna 3.0 Hackathon — Finalist
 Built NyayaAI's 5-agent legal AI backend during a 36-hour sprint.
+- Certificate: https://medhanshk.me/Prayatna-3.0.pdf
 
 ## Education
 
