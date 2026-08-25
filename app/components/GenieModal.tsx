@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { FiExternalLink } from "react-icons/fi";
 import type { Project } from "@/app/data/profile";
+import { getYouTubeEmbedUrl } from "@/app/lib/youtube";
 import SharedVideoPreview from "./ui/SharedVideoPreview";
 
 interface GenieModalProps {
@@ -25,6 +26,7 @@ export default function GenieModal({
 	project,
 }: GenieModalProps) {
 	const [mounted, setMounted] = useState(false);
+	const youtubeEmbedUrl = project ? getYouTubeEmbedUrl(project.links.demo) : null;
 
 	useEffect(() => {
 		// eslint-disable-next-line react-hooks/set-state-in-effect -- mounted gate prevents portal/hydration mismatch
@@ -106,10 +108,20 @@ export default function GenieModal({
 										transition={{ delay: 0.2, duration: 0.2 }}
 										className="absolute inset-0 w-full h-full flex items-center justify-center"
 									>
-										<SharedVideoPreview
-											projectFileName={project.title.toLowerCase().replace(/\s+/g, '')}
-											className="w-full h-full object-cover"
-										/>
+										{youtubeEmbedUrl ? (
+											<iframe
+												src={youtubeEmbedUrl}
+												title={`${project.title} Video Demonstration`}
+												allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+												allowFullScreen
+												className="w-full h-full border-0"
+											/>
+										) : (
+											<SharedVideoPreview
+												projectFileName={project.title.toLowerCase().replace(/\s+/g, '')}
+												className="w-full h-full object-cover"
+											/>
+										)}
 									</motion.div>
 								</div>
 							)}
