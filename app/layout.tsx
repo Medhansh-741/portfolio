@@ -4,12 +4,13 @@ import type { Metadata } from "next";
 import { Inter, Pirata_One, Playfair_Display } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
-import DesktopOnly from "./components/desktop/DesktopOnly";
 import Navbar from "./components/Navbar";
 import MobileHeader from "./components/mobile/MobileHeader";
 import MobileBottomBar from "./components/mobile/MobileBottomBar";
 import ThemeProvider from "./components/ThemeProvider";
 import { JsonLd, getRootGraphSchema } from "./lib/jsonld";
+
+import { profile } from "./data/profile";
 
 const inter = Inter({
 	subsets: ["latin"],
@@ -48,28 +49,31 @@ const dseg14 = localFont({
 export const metadata: Metadata = {
 	metadataBase: new URL("https://medhanshk.me"),
 	title: {
-		default: "Medhansh Kapoor",
-		template: "%s | Medhansh Kapoor",
+		default: profile.name,
+		template: `%s | ${profile.name}`,
 	},
 	description:
-		"Portfolio of Medhansh Kapoor — AI/ML Engineer and Full-Stack Developer based in Jaipur, India. Specializing in AI agents, RAG pipelines, FastAPI, and Next.js.",
+		`Portfolio of ${profile.name} — AI/ML Engineer and Full-Stack Developer based in ${profile.location}. Specializing in AI agents, RAG pipelines, FastAPI, and Next.js.`,
+	authors: [{ name: profile.name, url: "https://medhanshk.me" }],
+	creator: profile.name,
 	alternates: {
 		canonical: "/",
 	},
 	openGraph: {
-		title: "Medhansh Kapoor — AI/ML Engineer & Full-Stack Developer",
+		title: `${profile.name} — AI/ML Engineer & Full-Stack Developer`,
 		description:
-			"Portfolio of Medhansh Kapoor — AI/ML Engineer and Full-Stack Developer based in Jaipur, India. Specializing in AI agents, RAG pipelines, FastAPI, and Next.js.",
+			`Portfolio of ${profile.name} — AI/ML Engineer and Full-Stack Developer based in ${profile.location}. Specializing in AI agents, RAG pipelines, FastAPI, and Next.js.`,
 		url: "https://medhanshk.me",
-		siteName: "Medhansh Kapoor",
+		siteName: profile.name,
 		locale: "en_US",
 		type: "website",
 	},
 	twitter: {
 		card: "summary",
-		title: "Medhansh Kapoor — AI/ML Engineer & Full-Stack Developer",
+		creator: "@medhansh541",
+		title: `${profile.name} — AI/ML Engineer & Full-Stack Developer`,
 		description:
-			"Portfolio of Medhansh Kapoor — AI/ML Engineer and Full-Stack Developer based in Jaipur, India. Specializing in AI agents, RAG pipelines, FastAPI, and Next.js.",
+			`Portfolio of ${profile.name} — AI/ML Engineer and Full-Stack Developer based in ${profile.location}. Specializing in AI agents, RAG pipelines, FastAPI, and Next.js.`,
 	},
 	robots: {
 		index: true,
@@ -99,9 +103,7 @@ export default function RootLayout({
 				<JsonLd data={getRootGraphSchema()} />
 				<ThemeProvider>
 					<div className="min-h-dvh flex flex-col">
-						<DesktopOnly>
-							<Navbar />
-						</DesktopOnly>
+						<Navbar />
 						<MobileHeader />
 						{children}
 						{modal}

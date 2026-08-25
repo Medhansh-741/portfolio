@@ -5,15 +5,20 @@ import DesktopGridSkeleton from "./DesktopGridSkeleton";
 
 interface DesktopOnlyProps {
 	children: React.ReactNode;
+	fallback?: React.ReactNode;
 }
 
-export default function DesktopOnly({ children }: DesktopOnlyProps) {
+export default function DesktopOnly({
+	children,
+	fallback = <DesktopGridSkeleton />,
+}: DesktopOnlyProps) {
 	const isDesktop = useMatchMedia("(min-width: 1280px)");
 
-	// On mobile (< 1280px) or pre-hydration, skip hydrating the 8 heavy desktop widgets
+	// On mobile (< 1280px) or pre-hydration, render the fallback to skip hydrating heavy desktop widgets
 	if (isDesktop !== true) {
-		return <DesktopGridSkeleton />;
+		return <>{fallback}</>;
 	}
 
 	return <>{children}</>;
 }
+
