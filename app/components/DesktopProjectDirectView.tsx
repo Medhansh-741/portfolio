@@ -112,9 +112,9 @@ export default function DesktopProjectDirectView({ project }: DesktopProjectDire
 					{/* Footer details */}
 					<div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 pt-2 flex-shrink-0">
 						<div>
-							<h3 className="font-sans text-sm font-black uppercase text-foreground">
+							<h1 className="font-sans text-sm font-black uppercase text-foreground">
 								{project.title}
-							</h3>
+							</h1>
 							<p className="text-[9px] text-muted-foreground font-semibold uppercase tracking-wider">
 								{project.subtitle}
 							</p>

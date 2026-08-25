@@ -11,9 +11,7 @@ export default function MobileHeroSection() {
 			</div>
 
 			{/* Huge Name with Character Map */}
-			<p
-				role="heading"
-				aria-level={1}
+			<h1
 				className="reveal font-gothic text-hero font-normal tracking-wide text-black dark:text-white leading-[0.8] cursor-default select-none -ml-1"
 				style={{ animationDelay: "0.1s" }}
 			>
@@ -23,7 +21,7 @@ export default function MobileHeroSection() {
 					</span>
 				))}
 				<span className="sr-only"> Kapoor</span>
-			</p>
+			</h1>
 
 			{/* Tagline */}
 			<p className="reveal text-small font-bold tracking-widest text-muted-foreground uppercase mt-3 max-w-prose leading-relaxed" style={{ animationDelay: "0.2s" }}>

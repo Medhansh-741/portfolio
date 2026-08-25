@@ -78,12 +78,12 @@ export default function MobileProjectModal({
 
 					{/* 2. Dedicated Title Block */}
 					<header className="px-fluid-sm pt-fluid-md pb-fluid-xs shrink-0 min-w-0">
-						<h2
+						<h1
 							className="font-sans font-bold uppercase text-body text-foreground break-words"
 							style={{ overflowWrap: "anywhere" }}
 						>
 							{project.title}
-						</h2>
+						</h1>
 						{project.subtitle && (
 							<p className="font-sans text-caption text-muted-foreground mt-fluid-xs">
 								{project.subtitle}
