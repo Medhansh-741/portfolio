@@ -1,7 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
-import { FiExternalLink, FiGithub, FiYoutube } from "react-icons/fi";
+import { FiExternalLink, FiGithub, FiYoutube, FiArrowUpRight } from "react-icons/fi";
 import MagneticWrap from "@/app/components/MagneticWrap";
 import { profile } from "@/app/data/profile";
 
@@ -33,99 +34,125 @@ export default function ProjectsView() {
 				</div>
 
 				<div className="space-y-8">
-					{profile.projects.map((proj, i) => (
-						<motion.div
-							key={proj.title}
-							variants={stagger}
-							initial="hidden"
-							animate="show"
-							custom={i}
-							whileHover={{ y: -5 }}
-							className="bg-card text-card-foreground border-[3px] border-border shadow-md p-6 xl:p-8 flex flex-col cursor-default"
-						>
-							<div className="flex flex-col xl:flex-row xl:items-start xl:justify-between gap-2 mb-4">
-								<div>
-									<h2
-										id={proj.title.toLowerCase()}
-										className="font-sans text-xl font-bold text-foreground uppercase scroll-mt-24"
-									>
-										{proj.title}
-									</h2>
-									<p className="text-xs font-bold text-muted-foreground uppercase tracking-wider mt-0.5">
-										{proj.subtitle}
-									</p>
+					{profile.projects.map((proj, i) => {
+						const slug = proj.title.toLowerCase().replace(/\s+/g, "-");
+						const projectPath = `/projects/${slug}`;
+
+						return (
+							<motion.div
+								key={proj.title}
+								variants={stagger}
+								initial="hidden"
+								animate="show"
+								custom={i}
+								whileHover={{ y: -5 }}
+								className="bg-card text-card-foreground border-[3px] border-border shadow-md p-6 xl:p-8 flex flex-col cursor-default"
+							>
+								<div className="flex flex-col xl:flex-row xl:items-start xl:justify-between gap-2 mb-4">
+									<div>
+										<Link
+											href={projectPath}
+											className="group inline-flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+											title={`View ${proj.title} dedicated project page`}
+										>
+											<h2
+												id={slug}
+												className="font-sans text-xl font-bold text-foreground uppercase scroll-mt-24 group-hover:text-accent-secondary transition-colors"
+											>
+												{proj.title}
+											</h2>
+											<FiArrowUpRight
+												size={18}
+												className="text-muted-foreground group-hover:text-accent-secondary group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"
+												aria-hidden="true"
+											/>
+										</Link>
+										<p className="text-xs font-bold text-muted-foreground uppercase tracking-wider mt-0.5">
+											{proj.subtitle}
+										</p>
+									</div>
+									<div className="flex items-center gap-3 text-[10px] font-bold text-muted-foreground uppercase tracking-wider whitespace-nowrap">
+										<span>{proj.period}</span>
+									</div>
 								</div>
-								<div className="flex items-center gap-3 text-[10px] font-bold text-muted-foreground uppercase tracking-wider whitespace-nowrap">
-									<span>{proj.period}</span>
+
+								<p className="text-sm text-muted-foreground mb-4 leading-relaxed italic">
+									{proj.description}
+								</p>
+
+								<div className="flex flex-wrap gap-2 mb-4">
+									{proj.tech.map((t) => (
+										<span
+											key={t}
+											className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider bg-muted text-muted-foreground border-[2px] border-border"
+										>
+											{t}
+										</span>
+									))}
 								</div>
-							</div>
 
-							<p className="text-sm text-muted-foreground mb-4 leading-relaxed italic">
-								{proj.description}
-							</p>
-
-							<div className="flex flex-wrap gap-2 mb-4">
-								{proj.tech.map((t) => (
-									<span
-										key={t}
-										className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider bg-muted text-muted-foreground border-[2px] border-border"
-									>
-										{t}
-									</span>
-								))}
-							</div>
-
-							<ul className="space-y-2 mb-6 flex-1">
-								{proj.highlights.map((h, j) => (
-									<li
-										key={j}
-										className="text-sm text-muted-foreground leading-relaxed pl-4 border-l-[3px] border-border"
-									>
-										{h}
-									</li>
-								))}
-							</ul>
-
-							<div className="flex flex-wrap gap-4 pt-4 border-t-[3px] border-border">
-								{proj.links.live && (
-									<MagneticWrap>
-										<a
-											href={proj.links.live}
-											target="_blank"
-											rel="noopener noreferrer"
-											className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-widest text-foreground hover:text-accent-secondary transition-colors"
+								<ul className="space-y-2 mb-6 flex-1">
+									{proj.highlights.map((h, j) => (
+										<li
+											key={j}
+											className="text-sm text-muted-foreground leading-relaxed pl-4 border-l-[3px] border-border"
 										>
-											<FiExternalLink size={14} /> Live
-										</a>
-									</MagneticWrap>
-								)}
-								{proj.links.github && (
+											{h}
+										</li>
+									))}
+								</ul>
+
+								<div className="flex flex-wrap items-center gap-4 pt-4 border-t-[3px] border-border">
 									<MagneticWrap>
-										<a
-											href={proj.links.github}
-											target="_blank"
-											rel="noopener noreferrer"
-											className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-widest text-foreground hover:text-accent-secondary transition-colors"
+										<Link
+											href={projectPath}
+											className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-widest text-accent-secondary hover:text-accent transition-colors"
+											title={`Direct link to ${proj.title}`}
 										>
-											<FiGithub size={14} /> GitHub
-										</a>
+											<FiArrowUpRight size={14} /> Details
+										</Link>
 									</MagneticWrap>
-								)}
-								{proj.links.demo && (
-									<MagneticWrap>
-										<a
-											href={proj.links.demo}
-											target="_blank"
-											rel="noopener noreferrer"
-											className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-widest text-foreground hover:text-accent-secondary transition-colors"
-										>
-											<FiYoutube size={14} /> Demo
-										</a>
-									</MagneticWrap>
-								)}
-							</div>
-						</motion.div>
-					))}
+
+									{proj.links.live && (
+										<MagneticWrap>
+											<a
+												href={proj.links.live}
+												target="_blank"
+												rel="noopener noreferrer"
+												className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-widest text-foreground hover:text-accent-secondary transition-colors"
+											>
+												<FiExternalLink size={14} /> Live
+											</a>
+										</MagneticWrap>
+									)}
+									{proj.links.github && (
+										<MagneticWrap>
+											<a
+												href={proj.links.github}
+												target="_blank"
+												rel="noopener noreferrer"
+												className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-widest text-foreground hover:text-accent-secondary transition-colors"
+											>
+												<FiGithub size={14} /> GitHub
+											</a>
+										</MagneticWrap>
+									)}
+									{proj.links.demo && (
+										<MagneticWrap>
+											<a
+												href={proj.links.demo}
+												target="_blank"
+												rel="noopener noreferrer"
+												className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-widest text-foreground hover:text-accent-secondary transition-colors"
+											>
+												<FiYoutube size={14} /> Demo
+											</a>
+										</MagneticWrap>
+									)}
+								</div>
+							</motion.div>
+						);
+					})}
 				</div>
 			</div>
 		</main>

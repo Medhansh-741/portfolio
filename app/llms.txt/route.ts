@@ -62,6 +62,7 @@ export function generateLlmsText(): string {
 	// 6. Production Projects
 	sections.push(`## Production Projects\n`);
 	for (const project of profile.projects) {
+		const slug = project.title.toLowerCase().replace(/\s+/g, "-");
 		sections.push(`### ${project.title} — ${project.subtitle} (${project.period})`);
 		sections.push(`${project.description}\n`);
 		sections.push(`**Technologies:** ${project.tech.join(", ")}\n`);
@@ -70,6 +71,7 @@ export function generateLlmsText(): string {
 			sections.push(`- ${highlight}`);
 		}
 		sections.push(`\n**Verified Links:**`);
+		sections.push(`- Dedicated Page: https://medhanshk.me/projects/${slug}`);
 		if (project.links.live) sections.push(`- Live Application: ${project.links.live}`);
 		if (project.links.github) sections.push(`- GitHub Repository: ${project.links.github}`);
 		if (project.links.demo) sections.push(`- Video Demo: ${project.links.demo}`);

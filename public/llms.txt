@@ -71,6 +71,7 @@ Detects civic issues via CCTV/dashcam, auto-generates complaint tickets, verifie
 - LLM Routing (Seva): Integrated Gemini 2.5 Flash using a 4-step Chain-of-Thought to autonomously route complaints across 42 civic categories, auto-routing 125/256 tickets with zero manual input.
 
 **Verified Links:**
+- Dedicated Page: https://medhanshk.me/projects/jansamadhan
 - Live Application: https://jansamadhan.perkkk.dev/
 - GitHub Repository: https://github.com/Medhansh-741/ps-crmdev1
 - Video Demo: https://youtu.be/JvkJd1MAV3M
@@ -87,6 +88,7 @@ Detects civic issues via CCTV/dashcam, auto-generates complaint tickets, verifie
 - Realtime Infrastructure: Developed an event-driven custom Redis Pub/Sub, WebSockets, and Celery backend for live citizen-lawyer negotiation chat, bypassing third-party APIs.
 
 **Verified Links:**
+- Dedicated Page: https://medhanshk.me/projects/nyayaai
 - Live Application: https://nyay-ai-liard.vercel.app/
 - GitHub Repository: https://github.com/Medhansh-741/NyayAI
 - Video Demo: https://youtu.be/YwgooAeuRmo

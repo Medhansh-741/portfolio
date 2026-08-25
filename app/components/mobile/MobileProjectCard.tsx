@@ -26,9 +26,15 @@ export default function MobileProjectCard({ project, onOpenDemo }: MobileProject
 
 			{/* Title & Subtitle */}
 			<div className="flex flex-col gap-fluid-xs">
-				<h3 className="font-sans font-bold uppercase text-foreground text-body leading-tight">
-					{project.title}
-				</h3>
+				<Link
+					href={`/projects/${project.title.toLowerCase().replace(/\s+/g, "-")}`}
+					className="focus-visible:outline-none"
+					title={`View ${project.title}`}
+				>
+					<h3 className="font-sans font-bold uppercase text-foreground text-body leading-tight">
+						{project.title}
+					</h3>
+				</Link>
 				<p className="text-muted-foreground font-semibold uppercase tracking-wider text-caption">
 					{project.subtitle}
 				</p>
@@ -68,7 +74,7 @@ export default function MobileProjectCard({ project, onOpenDemo }: MobileProject
 						</button>
 					) : (
 						<Link
-							href={`/projects/${project.title.toLowerCase()}`}
+							href={`/projects/${project.title.toLowerCase().replace(/\s+/g, "-")}`}
 							scroll={false}
 							aria-label="View Project Demo"
 							className="flex items-center justify-center w-12 h-12 bg-background border-2 border-border shadow-[2px_2px_0_0_var(--color-border)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-150 text-[var(--color-accent-warning)]"
@@ -79,8 +85,8 @@ export default function MobileProjectCard({ project, onOpenDemo }: MobileProject
 				)}
 
 				<Link
-					href={`/projects#${project.title.toLowerCase()}`}
-					aria-label="View Project Details"
+					href={`/projects/${project.title.toLowerCase().replace(/\s+/g, "-")}`}
+					aria-label={`View ${project.title} Details`}
 					className="flex items-center justify-center w-12 h-12 ml-auto bg-background border-2 border-border shadow-[2px_2px_0_0_var(--color-border)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-150 text-foreground"
 				>
 					<FiArrowUpRight size="1.25rem" />

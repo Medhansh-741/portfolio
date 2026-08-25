@@ -91,6 +91,8 @@ export default function ProjectsDrawer({
 				<div className="mt-3 flex flex-col gap-4 relative z-10 w-full">
 					{profile.projects.map((proj) => {
 						const videoId = getYoutubeId(proj.links.demo || "");
+						const slug = proj.title.toLowerCase().replace(/\s+/g, "-");
+						const projectPath = `/projects/${slug}`;
 
 						return (
 							<div
@@ -99,9 +101,20 @@ export default function ProjectsDrawer({
 							>
 								{/* Title + Subtitle */}
 								<div>
-									<h2 className="font-sans text-desktop-sm font-bold uppercase text-foreground text-left">
-										{proj.title}
-									</h2>
+									<Link
+										href={projectPath}
+										onClick={(e) => {
+											e.preventDefault();
+											setActiveProject(proj);
+											setIsMaximized(false);
+										}}
+										className="group inline-block"
+										title={`Open ${proj.title}`}
+									>
+										<h2 className="font-sans text-desktop-sm font-bold uppercase text-foreground text-left group-hover:text-[var(--color-accent-secondary)] transition-colors">
+											{proj.title}
+										</h2>
+									</Link>
 									<p className="text-desktop-2xs text-muted-foreground font-semibold uppercase tracking-wider text-left">
 										{proj.subtitle}
 									</p>
@@ -138,8 +151,9 @@ export default function ProjectsDrawer({
 								{/* View Details link — bottom right */}
 								<div className="flex justify-end">
 									<Link
-										href={`/projects#${proj.title.toLowerCase()}`}
+										href={projectPath}
 										className="inline-flex items-center gap-0.5 text-desktop-2xs font-bold uppercase tracking-widest text-muted-foreground hover:text-[var(--color-accent-secondary)] transition-colors"
+										title={`View ${proj.title} project details`}
 									>
 										View Details ↗
 									</Link>
