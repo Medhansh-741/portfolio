@@ -103,16 +103,6 @@ export default function ProjectsView() {
 								</ul>
 
 								<div className="flex flex-wrap items-center gap-4 pt-4 border-t-[3px] border-border">
-									<MagneticWrap>
-										<Link
-											href={projectPath}
-											className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-widest text-accent-secondary hover:text-accent transition-colors"
-											title={`Direct link to ${proj.title}`}
-										>
-											<FiArrowUpRight size={14} /> Details
-										</Link>
-									</MagneticWrap>
-
 									{proj.links.live && (
 										<MagneticWrap>
 											<a
