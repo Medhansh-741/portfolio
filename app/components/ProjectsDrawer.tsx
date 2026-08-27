@@ -2,7 +2,8 @@
 
 import { arc, motion } from "framer-motion";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useState, useEffect, useRef } from "react";
 import { FiFolder } from "react-icons/fi";
 import { type Project, profile } from "@/app/data/profile";
 import GenieModal from "./GenieModal";
@@ -10,8 +11,6 @@ import CardFooter from "./ui/CardFooter";
 import CardHeader from "./ui/CardHeader";
 import RetroCard from "./ui/RetroCard";
 import SharedVideoPreview from "./ui/SharedVideoPreview";
-
-
 
 interface ProjectsDrawerProps {
 	className?: string;
@@ -24,9 +23,18 @@ export default function ProjectsDrawer({
 	delay = 0.6,
 	style,
 }: ProjectsDrawerProps) {
+	const router = useRouter();
 	const [activeProject, setActiveProject] = useState<Project | null>(null);
 	const [isMaximized, setIsMaximized] = useState(false);
 	const [triggerRect, setTriggerRect] = useState<DOMRect | null>(null);
+	const prevProjectRef = useRef<Project | null>(null);
+	const isInitialMount = useRef(true);
+
+	// Proactively prefetch destination routes into memory on mount for instant navigation
+	useEffect(() => {
+		router.prefetch("/");
+		router.prefetch("/projects");
+	}, [router]);
 
 	// Helper to extract YouTube ID from standard URL
 	const getYoutubeId = (url: string) => {
@@ -36,28 +44,39 @@ export default function ProjectsDrawer({
 		return "";
 	};
 
-	// OPTION B: Sync desktop GenieModal state with URL History API
+	// Safely sync desktop activeProject state with browser URL History API
 	useEffect(() => {
+		if (isInitialMount.current) {
+			isInitialMount.current = false;
+			prevProjectRef.current = activeProject;
+			return;
+		}
+
 		if (activeProject) {
 			const targetUrl = `/projects/${activeProject.title.toLowerCase()}`;
 			if (window.location.pathname !== targetUrl) {
 				window.history.pushState({ modal: activeProject.title }, "", targetUrl);
 			}
-		} else {
+		} else if (prevProjectRef.current) {
+			// Only push "/" if a previously open modal in this session was just closed
 			if (window.location.pathname.startsWith("/projects/")) {
-				window.history.pushState({}, "", "/projects");
+				window.history.pushState({}, "", "/");
 			}
 		}
 
+		prevProjectRef.current = activeProject;
+	}, [activeProject]);
+
+	// Listen to browser back/forward buttons once on mount
+	useEffect(() => {
 		const handlePopState = () => {
-			// If user presses back, close the modal
 			setActiveProject(null);
 			setTriggerRect(null);
 		};
 
 		window.addEventListener("popstate", handlePopState);
 		return () => window.removeEventListener("popstate", handlePopState);
-	}, [activeProject]);
+	}, []);
 
 
 	return (

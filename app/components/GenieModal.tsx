@@ -76,21 +76,24 @@ export default function GenieModal({
 							<div className="flex items-center gap-2">
 								<button
 									onClick={onClose}
-									title="Minimize"
+									title="Minimize to Home"
+									aria-label="Minimize Window to Home"
 									className="w-6 h-6 border-[2px] border-border bg-[var(--color-accent-secondary)] flex items-center justify-center font-black text-xs text-border hover:-translate-y-[1px] hover:shadow-[1px_1px_0_0_#000000] active:translate-y-0 active:shadow-none transition-all cursor-pointer"
 								>
 									-
 								</button>
 								<button
 									onClick={() => setIsMaximized(!isMaximized)}
-									title={isMaximized ? "Restore Window" : "Maximize"}
+									title={isMaximized ? "Restore Window" : "Maximize Window"}
+									aria-label={isMaximized ? "Restore Window" : "Maximize Window"}
 									className="w-6 h-6 border-[2px] border-border bg-[var(--color-accent-warning)] flex items-center justify-center font-black text-xs text-border hover:-translate-y-[1px] hover:shadow-[1px_1px_0_0_#000000] active:translate-y-0 active:shadow-none transition-all cursor-pointer"
 								>
 									▢
 								</button>
 								<button
 									onClick={onClose}
-									title="Close"
+									title="Close Window"
+									aria-label="Close Window to Home"
 									className="w-6 h-6 border-[2px] border-border bg-[var(--color-accent)] flex items-center justify-center font-black text-xs text-border hover:-translate-y-[1px] hover:shadow-[1px_1px_0_0_#000000] active:translate-y-0 active:shadow-none transition-all cursor-pointer"
 								>
 									✕
