@@ -92,7 +92,7 @@ export default function MobileHeroCTA() {
 						initial={{ opacity: 0, y: 10, scale: 0.95 }}
 						animate={{ opacity: 1, y: 0, scale: 1 }}
 						exit={{ opacity: 0, y: 10, scale: 0.95 }}
-						className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 px-fluid-md py-fluid-sm bg-accent text-accent-foreground font-bold uppercase tracking-widest text-small border-[3px] border-border shadow-[4px_4px_0_0_#000] dark:shadow-[4px_4px_0_0_rgba(0,243,166,0.3)] whitespace-nowrap min-h-11"
+						className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 px-fluid-md py-fluid-sm bg-accent text-accent-foreground font-bold uppercase tracking-widest text-small border-[3px] border-border shadow-[4px_4px_0_0_#000] whitespace-nowrap min-h-11"
 					>
 						Copied to Clipboard!
 					</motion.div>

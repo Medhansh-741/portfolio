@@ -21,7 +21,7 @@ export function LCDCell({
 		>
 			{/* Ghost Background Segment */}
 			<span
-				className={`row-start-1 col-start-1 opacity-[0.04] text-[#1a251d] dark:text-[#00f3a6] text-center select-none pointer-events-none z-0 ${className}`}
+				className={`row-start-1 col-start-1 opacity-[0.04] text-[#1a251d] text-center select-none pointer-events-none z-0 ${className}`}
 				style={style}
 			>
 				{shadowChar}
@@ -60,7 +60,7 @@ export default function LcdClockFace({
 			<LCDCell
 				char=":"
 				shadowChar=":"
-				className="animate-pulse text-[#1a251d]/60 dark:text-[#00f3a6]/60"
+				className="animate-pulse text-[#1a251d]/60"
 				widthClass={colonWidthClass}
 			/>
 			{minutes.split("").map((c, i) => (
@@ -71,7 +71,7 @@ export default function LcdClockFace({
 					<LCDCell
 						char=":"
 						shadowChar=":"
-						className="animate-pulse text-[#1a251d]/60 dark:text-[#00f3a6]/60"
+						className="animate-pulse text-[#1a251d]/60"
 						widthClass={colonWidthClass}
 					/>
 					{seconds.split("").map((c, i) => (

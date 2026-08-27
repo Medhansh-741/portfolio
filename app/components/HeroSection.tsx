@@ -39,12 +39,12 @@ export default function HeroSection() {
 				initial={{ opacity: 0, y: 16 }}
 				animate={{ opacity: 1, y: 0 }}
 				transition={{ delay: 0.1 }}
-				className="font-gothic text-5xl md:text-7xl xl:text-[clamp(3.25rem,9.5cqi,5.25rem)] font-normal tracking-wide text-black dark:text-white leading-[0.9] cursor-default select-none"
+				className="font-gothic text-5xl md:text-7xl xl:text-[clamp(3.25rem,9.5cqi,5.25rem)] font-normal tracking-wide text-black leading-[0.9] cursor-default select-none"
 			>
 				{"Medhansh".split("").map((char, index) => (
 					<span
 						key={index}
-						className="transition-all duration-300 hover:[text-shadow:0_0_15px_rgba(220,38,38,0.55)] dark:hover:[text-shadow:0_0_15px_rgba(0,255,65,0.75)]"
+						className="transition-all duration-300 hover:[text-shadow:0_0_15px_rgba(220,38,38,0.55)]"
 					>
 						{char}
 					</span>

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useTheme } from "./ThemeProvider";
 
 interface ContributionDay {
 	date: string;
@@ -25,9 +24,6 @@ export default function GithubCalendarUI({
 	leetcodeData,
 	codeforcesData,
 }: GithubCalendarUIProps) {
-	const { theme } = useTheme();
-	const isDark = theme === "dark";
-
 	const [platform, setPlatform] = useState<
 		"github" | "leetcode" | "codeforces"
 	>("github");
@@ -132,99 +128,50 @@ export default function GithubCalendarUI({
 	});
 
 	const getSquareStyle = (level: number) => {
-		if (isDark) {
-			if (platform === "github") {
-				switch (level) {
-					case 0:
-						return "#161b22";
-					case 1:
-						return "#0e4429";
-					case 2:
-						return "#006d32";
-					case 3:
-						return "#26a641";
-					case 4:
-						return "#39d353";
-					default:
-						return "#161b22";
-				}
-			} else if (platform === "leetcode") {
-				switch (level) {
-					case 0:
-						return "#161b22";
-					case 1:
-						return "#2c1b02";
-					case 2:
-						return "#5c3d0b";
-					case 3:
-						return "#b57b1e";
-					case 4:
-						return "#ffa116";
-					default:
-						return "#161b22";
-				}
-			} else {
-				switch (level) {
-					case 0:
-						return "#161b22";
-					case 1:
-						return "#021a30";
-					case 2:
-						return "#0b3a63";
-					case 3:
-						return "#1d68a4";
-					case 4:
-						return "#3182ce";
-					default:
-						return "#161b22";
-				}
+		if (platform === "github") {
+			switch (level) {
+				case 0:
+					return "#ebedf0";
+				case 1:
+					return "#9be9a8";
+				case 2:
+					return "#40c463";
+				case 3:
+					return "#30a14e";
+				case 4:
+					return "#216e39";
+				default:
+					return "#ebedf0";
+			}
+		} else if (platform === "leetcode") {
+			switch (level) {
+				case 0:
+					return "#ebedf0";
+				case 1:
+					return "#ffe8cc";
+				case 2:
+					return "#ffa116";
+				case 3:
+					return "#e68a00";
+				case 4:
+					return "#b36b00";
+				default:
+					return "#ebedf0";
 			}
 		} else {
-			if (platform === "github") {
-				switch (level) {
-					case 0:
-						return "#ebedf0";
-					case 1:
-						return "#9be9a8";
-					case 2:
-						return "#40c463";
-					case 3:
-						return "#30a14e";
-					case 4:
-						return "#216e39";
-					default:
-						return "#ebedf0";
-				}
-			} else if (platform === "leetcode") {
-				switch (level) {
-					case 0:
-						return "#ebedf0";
-					case 1:
-						return "#ffe8cc";
-					case 2:
-						return "#ffa116";
-					case 3:
-						return "#e68a00";
-					case 4:
-						return "#b36b00";
-					default:
-						return "#ebedf0";
-				}
-			} else {
-				switch (level) {
-					case 0:
-						return "#ebedf0";
-					case 1:
-						return "#d2e9ff";
-					case 2:
-						return "#63b3ed";
-					case 3:
-						return "#3182ce";
-					case 4:
-						return "#2b6cb0";
-					default:
-						return "#ebedf0";
-				}
+			switch (level) {
+				case 0:
+					return "#ebedf0";
+				case 1:
+					return "#d2e9ff";
+				case 2:
+					return "#63b3ed";
+				case 3:
+					return "#3182ce";
+				case 4:
+					return "#2b6cb0";
+				default:
+					return "#ebedf0";
 			}
 		}
 	};
@@ -272,7 +219,7 @@ export default function GithubCalendarUI({
 						onClick={() => setPlatform("github")}
 						className={`px-1.5 py-0.5 rounded-[1px] cursor-pointer transition-colors uppercase font-extrabold ${platform === "github"
 								? "bg-[var(--color-accent-secondary)] text-black"
-								: "text-foreground/80 dark:text-foreground/90 hover:text-foreground"
+								: "text-foreground/80 hover:text-foreground"
 							}`}
 					>
 						GIT
@@ -282,7 +229,7 @@ export default function GithubCalendarUI({
 						onClick={() => setPlatform("leetcode")}
 						className={`px-1.5 py-0.5 rounded-[1px] cursor-pointer transition-colors uppercase font-extrabold ${platform === "leetcode"
 								? "bg-[#FFA116] text-black"
-								: "text-foreground/80 dark:text-foreground/90 hover:text-foreground"
+								: "text-foreground/80 hover:text-foreground"
 							}`}
 					>
 						LC
@@ -292,7 +239,7 @@ export default function GithubCalendarUI({
 						onClick={() => setPlatform("codeforces")}
 						className={`px-1.5 py-0.5 rounded-[1px] cursor-pointer transition-colors uppercase font-extrabold ${platform === "codeforces"
 								? "bg-[#3182CE] text-white"
-								: "text-foreground/80 dark:text-foreground/90 hover:text-foreground"
+								: "text-foreground/80 hover:text-foreground"
 							}`}
 					>
 						CF
@@ -359,7 +306,7 @@ export default function GithubCalendarUI({
 													return (
 														<div
 															key={rowIdx}
-															className={`w-[10px] h-[10px] rounded-[1.5px] border border-black dark:border-white ${isFuture
+															className={`w-[10px] h-[10px] rounded-[1.5px] border border-black ${isFuture
 																	? "cursor-default opacity-30"
 																	: "cursor-pointer transition-transform hover:scale-[1.3] hover:z-10"
 																}`}
@@ -398,7 +345,7 @@ export default function GithubCalendarUI({
 								{[0, 1, 2, 3, 4].map((lvl) => (
 									<div
 										key={lvl}
-										className="w-[10px] h-[10px] rounded-[1.5px] border border-black dark:border-white"
+										className="w-[10px] h-[10px] rounded-[1.5px] border border-black"
 										style={{ backgroundColor: getSquareStyle(lvl) }}
 									/>
 								))}
@@ -447,8 +394,8 @@ export default function GithubCalendarUI({
 	);
 }
 
-export function CalendarSkeleton({ isDark = false }: { isDark?: boolean }) {
-	const getSkeletonColor = () => (isDark ? "#1f242c" : "#ebedf0");
+export function CalendarSkeleton() {
+	const getSkeletonColor = () => "#ebedf0";
 
 	return (
 		<div className="mt-2 xl:mt-[clamp(0.125rem,0.75vh,0.375rem)] select-none w-full max-w-full h-full flex flex-col min-h-0 animate-pulse">

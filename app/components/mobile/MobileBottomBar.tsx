@@ -31,7 +31,7 @@ export default function MobileBottomBar() {
         backdrop-blur-xl + saturate-200: Max refraction engine for vibrant, deep blurs
         ring-inset: Specular highlight (rim lighting) mimicking the glass edge
       */}
-      <nav className="bg-gradient-to-br from-white/20 to-white/5 dark:from-black/30 dark:to-black/10 backdrop-blur-xl backdrop-saturate-200 border-[3px] border-border rounded-2xl ring-1 ring-inset ring-white/50 dark:ring-white/20 drop-shadow-md">
+      <nav className="bg-gradient-to-br from-white/20 to-white/5 backdrop-blur-xl backdrop-saturate-200 border-[3px] border-border rounded-2xl ring-1 ring-inset ring-white/50 drop-shadow-md">
         <ul className="flex justify-between items-center w-full px-[var(--spacing-fluid-sm)] py-[var(--spacing-fluid-xs)]">
           {NAVIGATION_ROUTES.map((route) => {
             const isActive = currentPath === route.path;

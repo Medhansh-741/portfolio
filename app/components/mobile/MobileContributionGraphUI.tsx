@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { useTheme } from "../ThemeProvider";
 
 // These types match the desktop version
 interface ContributionDay {
@@ -58,9 +57,6 @@ export default function MobileContributionGraphUI({
 	leetcodeData,
 	codeforcesData,
 }: MobileContributionGraphUIProps) {
-	const { theme } = useTheme();
-	const isDark = theme === "dark";
-
 	const [platform, setPlatform] = useState<"github" | "leetcode" | "codeforces">("github");
 	const years = useMemo(() => {
 		return githubData?.total
@@ -141,63 +137,32 @@ export default function MobileContributionGraphUI({
 
 	// Exact colors from desktop widget
 	const getSquareStyle = (level: number) => {
-		if (isDark) {
-			if (platform === "github") {
-				switch (level) {
-					case 0: return "#161b22";
-					case 1: return "#0e4429";
-					case 2: return "#006d32";
-					case 3: return "#26a641";
-					case 4: return "#39d353";
-					default: return "#161b22";
-				}
-			} else if (platform === "leetcode") {
-				switch (level) {
-					case 0: return "#161b22";
-					case 1: return "#2c1b02";
-					case 2: return "#5c3d0b";
-					case 3: return "#b57b1e";
-					case 4: return "#ffa116";
-					default: return "#161b22";
-				}
-			} else {
-				switch (level) {
-					case 0: return "#161b22";
-					case 1: return "#021a30";
-					case 2: return "#0b3a63";
-					case 3: return "#1d68a4";
-					case 4: return "#3182ce";
-					default: return "#161b22";
-				}
+		if (platform === "github") {
+			switch (level) {
+				case 0: return "#ebedf0";
+				case 1: return "#9be9a8";
+				case 2: return "#40c463";
+				case 3: return "#30a14e";
+				case 4: return "#216e39";
+				default: return "#ebedf0";
+			}
+		} else if (platform === "leetcode") {
+			switch (level) {
+				case 0: return "#ebedf0";
+				case 1: return "#ffe8cc";
+				case 2: return "#ffa116";
+				case 3: return "#e68a00";
+				case 4: return "#b36b00";
+				default: return "#ebedf0";
 			}
 		} else {
-			if (platform === "github") {
-				switch (level) {
-					case 0: return "#ebedf0";
-					case 1: return "#9be9a8";
-					case 2: return "#40c463";
-					case 3: return "#30a14e";
-					case 4: return "#216e39";
-					default: return "#ebedf0";
-				}
-			} else if (platform === "leetcode") {
-				switch (level) {
-					case 0: return "#ebedf0";
-					case 1: return "#ffe8cc";
-					case 2: return "#ffa116";
-					case 3: return "#e68a00";
-					case 4: return "#b36b00";
-					default: return "#ebedf0";
-				}
-			} else {
-				switch (level) {
-					case 0: return "#ebedf0";
-					case 1: return "#d2e9ff";
-					case 2: return "#63b3ed";
-					case 3: return "#3182ce";
-					case 4: return "#2b6cb0";
-					default: return "#ebedf0";
-				}
+			switch (level) {
+				case 0: return "#ebedf0";
+				case 1: return "#d2e9ff";
+				case 2: return "#63b3ed";
+				case 3: return "#3182ce";
+				case 4: return "#2b6cb0";
+				default: return "#ebedf0";
 			}
 		}
 	};
@@ -230,7 +195,7 @@ export default function MobileContributionGraphUI({
 							className={`h-full px-2 rounded-[1px] transition-colors uppercase flex items-center justify-center font-extrabold ${
 								platform === "github"
 									? "bg-[var(--color-accent-secondary)] text-black"
-									: "text-foreground/80 dark:text-foreground/90"
+									: "text-foreground/80"
 							}`}
 						>
 							GIT
@@ -241,7 +206,7 @@ export default function MobileContributionGraphUI({
 							className={`h-full px-2 rounded-[1px] transition-colors uppercase flex items-center justify-center font-extrabold ${
 								platform === "leetcode"
 									? "bg-[#FFA116] text-black"
-									: "text-foreground/80 dark:text-foreground/90"
+									: "text-foreground/80"
 							}`}
 						>
 							LC
@@ -252,7 +217,7 @@ export default function MobileContributionGraphUI({
 							className={`h-full px-2 rounded-[1px] transition-colors uppercase flex items-center justify-center font-extrabold ${
 								platform === "codeforces"
 									? "bg-[#3182CE] text-white"
-									: "text-foreground/80 dark:text-foreground/90"
+									: "text-foreground/80"
 							}`}
 						>
 							CF
@@ -317,7 +282,7 @@ export default function MobileContributionGraphUI({
 											return (
 												<div
 													key={rowIdx}
-													className={`w-[0.625rem] h-[0.625rem] rounded-[1.5px] border border-black dark:border-white ${
+													className={`w-[0.625rem] h-[0.625rem] rounded-[1.5px] border border-black ${
 														isFuture ? "opacity-30" : ""
 													}`}
 													style={{ backgroundColor: color }}
@@ -343,7 +308,7 @@ export default function MobileContributionGraphUI({
 							{[0, 1, 2, 3, 4].map((lvl) => (
 								<div
 									key={lvl}
-									className="w-[0.625rem] h-[0.625rem] rounded-[1.5px] border border-black dark:border-white"
+									className="w-[0.625rem] h-[0.625rem] rounded-[1.5px] border border-black"
 									style={{ backgroundColor: getSquareStyle(lvl) }}
 								/>
 							))}

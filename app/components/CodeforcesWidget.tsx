@@ -21,12 +21,12 @@ const formatRank = (r: string) => {
 const getRankColorClass = (r: string) => {
 	const norm = r.toLowerCase();
 	if (norm === "unrated") return "text-muted-foreground";
-	if (norm === "newbie") return "text-gray-600 dark:text-gray-400";
-	if (norm === "pupil") return "text-emerald-700 dark:text-emerald-400";
-	if (norm === "specialist") return "text-[#02847a] dark:text-[#03a89e]";
-	if (norm === "expert") return "text-blue-700 dark:text-blue-400";
-	if (norm === "candidate master") return "text-violet-700 dark:text-violet-400";
-	return "text-rose-700 dark:text-rose-400";
+	if (norm === "newbie") return "text-gray-600";
+	if (norm === "pupil") return "text-emerald-700";
+	if (norm === "specialist") return "text-[#02847a]";
+	if (norm === "expert") return "text-blue-700";
+	if (norm === "candidate master") return "text-violet-700";
+	return "text-rose-700";
 };
 
 export default function CodeforcesWidget({

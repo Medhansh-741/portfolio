@@ -1,16 +1,20 @@
 import GoogleAnalyticsDeferred from "./components/GoogleAnalyticsDeferred";
 import { Analytics } from "@vercel/analytics/react";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Pirata_One, Playfair_Display } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import MobileHeader from "./components/mobile/MobileHeader";
 import MobileBottomBar from "./components/mobile/MobileBottomBar";
-import ThemeProvider from "./components/ThemeProvider";
 import { JsonLd, getRootGraphSchema } from "./lib/jsonld";
 
 import { profile } from "./data/profile";
+
+export const viewport: Viewport = {
+	themeColor: "#FFFFFF",
+	colorScheme: "only light" as "light",
+};
 
 const inter = Inter({
 	subsets: ["latin"],
@@ -97,19 +101,21 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en" suppressHydrationWarning>
+			<head>
+				<meta name="color-scheme" content="only light" />
+				<meta name="theme-color" content="#FFFFFF" />
+			</head>
 			<body
 				className={`${inter.variable} ${playfair.variable} ${pirataOne.variable} ${dseg7.variable} ${dseg14.variable} antialiased bg-background text-foreground font-sans`}
 			>
 				<JsonLd data={getRootGraphSchema()} />
-				<ThemeProvider>
-					<div className="min-h-dvh flex flex-col">
-						<Navbar />
-						<MobileHeader />
-						{children}
-						{modal}
-						<MobileBottomBar />
-					</div>
-				</ThemeProvider>
+				<div className="min-h-dvh flex flex-col">
+					<Navbar />
+					<MobileHeader />
+					{children}
+					{modal}
+					<MobileBottomBar />
+				</div>
 				<Analytics />
 				<GoogleAnalyticsDeferred gaId="G-D064XWFM94" />
 			</body>

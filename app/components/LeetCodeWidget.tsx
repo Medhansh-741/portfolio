@@ -117,10 +117,10 @@ export default function LeetCodeWidget({
 				<div className="flex flex-col gap-1.5 text-desktop-2xs font-bold">
 					{/* Easy */}
 					<div className="flex items-center gap-2">
-						<span className="w-8 text-emerald-700 dark:text-emerald-400 uppercase">EASY</span>
+						<span className="w-8 text-emerald-700 uppercase">EASY</span>
 						<div className="flex-grow h-2 bg-muted border border-border/20 relative overflow-hidden">
 							<div
-								className="absolute top-0 left-0 bottom-0 bg-emerald-600 dark:bg-emerald-500"
+								className="absolute top-0 left-0 bottom-0 bg-emerald-600"
 								style={{ width: getWidthPercent(easy) }}
 							/>
 						</div>
@@ -128,10 +128,10 @@ export default function LeetCodeWidget({
 					</div>
 					{/* Medium */}
 					<div className="flex items-center gap-2">
-						<span className="w-8 text-amber-700 dark:text-amber-400 uppercase">MED</span>
+						<span className="w-8 text-amber-700 uppercase">MED</span>
 						<div className="flex-grow h-2 bg-muted border border-border/20 relative overflow-hidden">
 							<div
-								className="absolute top-0 left-0 bottom-0 bg-amber-600 dark:bg-amber-500"
+								className="absolute top-0 left-0 bottom-0 bg-amber-600"
 								style={{ width: getWidthPercent(medium) }}
 							/>
 						</div>
@@ -139,10 +139,10 @@ export default function LeetCodeWidget({
 					</div>
 					{/* Hard */}
 					<div className="flex items-center gap-2">
-						<span className="w-8 text-rose-700 dark:text-rose-400 uppercase">HARD</span>
+						<span className="w-8 text-rose-700 uppercase">HARD</span>
 						<div className="flex-grow h-2 bg-muted border border-border/20 relative overflow-hidden">
 							<div
-								className="absolute top-0 left-0 bottom-0 bg-rose-600 dark:bg-rose-500"
+								className="absolute top-0 left-0 bottom-0 bg-rose-600"
 								style={{ width: getWidthPercent(hard) }}
 							/>
 						</div>

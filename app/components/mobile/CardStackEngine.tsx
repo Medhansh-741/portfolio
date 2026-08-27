@@ -563,7 +563,7 @@ export default function CardStackEngine({
 			{/* The Shadow Plate */}
 			{activeCards.length > 0 && (
 				<animated.div className="absolute inset-0 origin-center pointer-events-none" style={{ zIndex: -1, scale: bgSpring.scale, opacity: bgSpring.opacity, willChange: "transform" }}>
-					<div className={`rounded-xl shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] dark:shadow-[0_0_12px_rgba(255,255,255,0.3)] bg-transparent ${ENGINE_SHAPE_CLASSES}`} />
+					<div className={`rounded-xl shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] bg-transparent ${ENGINE_SHAPE_CLASSES}`} />
 				</animated.div>
 			)}
 

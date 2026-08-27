@@ -2,11 +2,10 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
-import { FiMenu, FiMoon, FiSun, FiX } from "react-icons/fi";
+import { useState } from "react";
+import { FiMenu, FiX } from "react-icons/fi";
 import HeaderClock from "./HeaderClock";
 import MagneticWrap from "./MagneticWrap";
-import { useTheme } from "./ThemeProvider";
 
 const links = [
 	{ href: "/projects", label: "Projects" },
@@ -17,13 +16,7 @@ const links = [
 
 export default function Navbar() {
 	const [open, setOpen] = useState(false);
-	const [mounted, setMounted] = useState(false);
 	const pathname = usePathname();
-	const { theme, toggle } = useTheme();
-
-	useEffect(() => {
-		setMounted(true);
-	}, []);
 
 	return (
 		<nav className="hidden xl:block sticky top-0 z-50 w-full bg-background border-b-[3px] border-border px-6 md:px-12 py-4">
@@ -59,41 +52,9 @@ export default function Navbar() {
 							</MagneticWrap>
 						);
 					})}
-					<MagneticWrap>
-						<button
-							onClick={toggle}
-							className="p-2 border-2 border-border shadow-sm hover:shadow-[3px_3px_0_0_var(--color-accent-secondary)] transition-all duration-200 text-accent-secondary cursor-pointer bg-background"
-							aria-label="Toggle theme"
-						>
-							{mounted ? (
-								theme === "light" ? (
-									<FiMoon size={16} aria-hidden="true" />
-								) : (
-									<FiSun size={16} aria-hidden="true" />
-								)
-							) : (
-								<FiMoon size={16} aria-hidden="true" className="opacity-0" />
-							)}
-						</button>
-					</MagneticWrap>
 				</div>
 
 				<div className="md:hidden flex items-center gap-3">
-					<button
-						onClick={toggle}
-						className="p-2 border-2 border-border text-accent"
-						aria-label="Toggle theme"
-					>
-						{mounted ? (
-							theme === "light" ? (
-								<FiMoon size={16} aria-hidden="true" />
-							) : (
-								<FiSun size={16} aria-hidden="true" />
-							)
-						) : (
-							<FiMoon size={16} aria-hidden="true" className="opacity-0" />
-						)}
-					</button>
 					<button
 						onClick={() => setOpen(!open)}
 						className="text-foreground focus:outline-none p-1"

@@ -1,6 +1,5 @@
 import Link from "next/link";
 import MobileClock from "./MobileClock";
-import MobileThemeToggle from "./MobileThemeToggle";
 
 export default function MobileHeader() {
 	return (
@@ -15,7 +14,6 @@ export default function MobileHeader() {
 						medhansh<span className="text-accent">.kapoor</span>
 					</Link>
 				</div>
-				<MobileThemeToggle />
 			</header>
 		</div>
 	);
