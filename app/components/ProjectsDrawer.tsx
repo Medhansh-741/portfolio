@@ -29,6 +29,7 @@ export default function ProjectsDrawer({
 	const [triggerRect, setTriggerRect] = useState<DOMRect | null>(null);
 	const prevProjectRef = useRef<Project | null>(null);
 	const isInitialMount = useRef(true);
+	const isNavigatingAway = useRef(false);
 
 	// Proactively prefetch destination routes into memory on mount for instant navigation
 	useEffect(() => {
@@ -53,11 +54,12 @@ export default function ProjectsDrawer({
 		}
 
 		if (activeProject) {
-			const targetUrl = `/projects/${activeProject.title.toLowerCase()}`;
+			isNavigatingAway.current = false;
+			const targetUrl = `/projects/${activeProject.title.toLowerCase().replace(/\s+/g, "-")}`;
 			if (window.location.pathname !== targetUrl) {
 				window.history.pushState({ modal: activeProject.title }, "", targetUrl);
 			}
-		} else if (prevProjectRef.current) {
+		} else if (prevProjectRef.current && !isNavigatingAway.current) {
 			// Only push "/" if a previously open modal in this session was just closed
 			if (window.location.pathname.startsWith("/projects/")) {
 				window.history.pushState({}, "", "/");
@@ -170,7 +172,7 @@ export default function ProjectsDrawer({
 								{/* View Details link — bottom right */}
 								<div className="flex justify-end">
 									<Link
-										href={projectPath}
+										href={`/projects#${slug}`}
 										className="inline-flex items-center gap-0.5 text-desktop-2xs font-bold uppercase tracking-widest text-muted-foreground hover:text-[var(--color-accent-secondary)] transition-colors"
 										title={`View ${proj.title} project details`}
 									>
@@ -187,7 +189,8 @@ export default function ProjectsDrawer({
 			<GenieModal
 				isOpen={!!activeProject}
 				triggerRect={triggerRect}
-				onClose={() => {
+				onClose={(navigating?: boolean) => {
+					if (navigating) isNavigatingAway.current = true;
 					setActiveProject(null);
 					setTriggerRect(null);
 				}}

@@ -85,7 +85,7 @@ export default function MobileProjectCard({ project, onOpenDemo }: MobileProject
 				)}
 
 				<Link
-					href={`/projects/${project.title.toLowerCase().replace(/\s+/g, "-")}`}
+					href={`/projects#${project.title.toLowerCase().replace(/\s+/g, "-")}`}
 					aria-label={`View ${project.title} Details`}
 					className="flex items-center justify-center w-12 h-12 ml-auto bg-background border-2 border-border shadow-[2px_2px_0_0_var(--color-border)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-150 text-foreground"
 				>

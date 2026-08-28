@@ -120,7 +120,7 @@ export default function DesktopProjectDirectView({ project }: DesktopProjectDire
 							</p>
 						</div>
 						<Link
-							href={`/projects#${project.title.toLowerCase()}`}
+							href={`/projects#${project.title.toLowerCase().replace(/\s+/g, "-")}`}
 							prefetch={true}
 							className="inline-flex items-center gap-1.5 border-[2px] border-border bg-muted hover:bg-muted/70 px-3 py-1.5 text-[9px] font-black uppercase tracking-widest text-foreground transition-all duration-200 cursor-pointer shadow-xs active:translate-x-0 active:translate-y-0 hover:-translate-x-[1px] hover:-translate-y-[1px] hover:shadow-sm"
 						>

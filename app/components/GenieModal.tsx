@@ -12,7 +12,7 @@ import SharedVideoPreview from "./ui/SharedVideoPreview";
 interface GenieModalProps {
 	isOpen: boolean;
 	triggerRect: DOMRect | null;
-	onClose: () => void;
+	onClose: (navigating?: boolean) => void;
 	isMaximized: boolean;
 	setIsMaximized: (val: boolean) => void;
 	project: Project | null;
@@ -47,7 +47,7 @@ export default function GenieModal({
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}
 					exit={{ opacity: 0 }}
-					onClick={onClose}
+					onClick={() => onClose()}
 					className="fixed inset-0 bg-background/60 backdrop-blur-md z-50 flex items-center justify-center p-0 cursor-zoom-out"
 				>
 					<motion.div
@@ -75,7 +75,7 @@ export default function GenieModal({
 							{/* Controls */}
 							<div className="flex items-center gap-2">
 								<button
-									onClick={onClose}
+									onClick={() => onClose()}
 									title="Minimize to Home"
 									aria-label="Minimize Window to Home"
 									className="w-6 h-6 border-[2px] border-border bg-[var(--color-accent-secondary)] flex items-center justify-center font-black text-xs text-border hover:-translate-y-[1px] hover:shadow-[1px_1px_0_0_#000000] active:translate-y-0 active:shadow-none transition-all cursor-pointer"
@@ -91,7 +91,7 @@ export default function GenieModal({
 									▢
 								</button>
 								<button
-									onClick={onClose}
+									onClick={() => onClose()}
 									title="Close Window"
 									aria-label="Close Window to Home"
 									className="w-6 h-6 border-[2px] border-border bg-[var(--color-accent)] flex items-center justify-center font-black text-xs text-border hover:-translate-y-[1px] hover:shadow-[1px_1px_0_0_#000000] active:translate-y-0 active:shadow-none transition-all cursor-pointer"
@@ -140,9 +140,9 @@ export default function GenieModal({
 									</p>
 								</div>
 								<Link
-									href={`/projects#${project.title.toLowerCase()}`}
+									href={`/projects#${project.title.toLowerCase().replace(/\s+/g, "-")}`}
 									prefetch={true}
-									onClick={onClose}
+									onClick={() => onClose(true)}
 									className="inline-flex items-center gap-1.5 border-[2px] border-border bg-muted hover:bg-muted/70 px-3 py-1.5 text-[9px] font-black uppercase tracking-widest text-foreground transition-all duration-200 cursor-pointer shadow-xs active:translate-x-0 active:translate-y-0 hover:-translate-x-[1px] hover:-translate-y-[1px] hover:shadow-sm"
 								>
 									Read Documentation <FiExternalLink size={12} />

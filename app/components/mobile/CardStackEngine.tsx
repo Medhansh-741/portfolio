@@ -33,6 +33,7 @@ export default function CardStackEngine({
 	const [mounted, setMounted] = useState(false);
 	const prevProjectRef = useRef<Project | null>(null);
 	const isInitialMount = useRef(true);
+	const isNavigatingAway = useRef(false);
 
 	useEffect(() => {
 		setMounted(true);
@@ -47,11 +48,12 @@ export default function CardStackEngine({
 		}
 
 		if (activeProject) {
-			const targetUrl = `/projects/${activeProject.title.toLowerCase()}`;
+			isNavigatingAway.current = false;
+			const targetUrl = `/projects/${activeProject.title.toLowerCase().replace(/\s+/g, "-")}`;
 			if (window.location.pathname !== targetUrl) {
 				window.history.pushState({ modal: activeProject.title }, "", targetUrl);
 			}
-		} else if (prevProjectRef.current) {
+		} else if (prevProjectRef.current && !isNavigatingAway.current) {
 			// Only push "/" if a previously open modal in this session was just closed
 			if (window.location.pathname.startsWith("/projects/")) {
 				window.history.pushState({}, "", "/");

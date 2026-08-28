@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { FiExternalLink, FiGithub, FiYoutube, FiArrowUpRight } from "react-icons/fi";
@@ -21,6 +22,28 @@ const stagger = {
 };
 
 export default function ProjectsView() {
+	useEffect(() => {
+		const scrollToHash = () => {
+			const hash = window.location.hash.replace("#", "");
+			if (!hash) return;
+			const el = document.getElementById(hash);
+			if (el) {
+				el.scrollIntoView({ behavior: "smooth", block: "start" });
+			}
+		};
+
+		// Scroll immediately if present, and retry slightly after framer-motion staggered mount
+		scrollToHash();
+		const t1 = setTimeout(scrollToHash, 100);
+		const t2 = setTimeout(scrollToHash, 350);
+
+		window.addEventListener("hashchange", scrollToHash);
+		return () => {
+			clearTimeout(t1);
+			clearTimeout(t2);
+			window.removeEventListener("hashchange", scrollToHash);
+		};
+	}, []);
 	return (
 		<main className="flex-1 bg-background overflow-x-clip">
 			<div className="w-full max-w-2xl xl:max-w-4xl mx-auto px-6 pt-16 pb-[calc(var(--spacing-fluid-xl)+var(--spacing-fluid-md)+2.75rem)] xl:pb-16 border-x-[3px] xl:border-x-0 border-border grow flex flex-col">
