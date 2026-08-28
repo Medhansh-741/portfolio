@@ -1,26 +1,39 @@
 import type { Metadata } from "next";
 import ProjectsView from "./ProjectsView";
 import { JsonLd, getProjectsCollectionSchema } from "@/app/lib/jsonld";
+import { profile, staticRoutes } from "@/app/data/profile";
+
+const projectsRoute = staticRoutes.find((r) => r.path === "/projects");
+const pageTitle = `Projects — ${profile.name}`;
+const pageDescription =
+	projectsRoute?.description ||
+	`Explore production AI systems built by ${profile.name}, including JanSamadhan and NyayaAI.`;
 
 export const metadata: Metadata = {
 	title: "Projects",
-	description:
-		"Explore production AI systems built by Medhansh Kapoor, including JanSamadhan (autonomous civic surveillance) and NyayaAI (multi-agent legal platform).",
+	description: pageDescription,
 	alternates: {
 		canonical: "/projects",
 	},
 	openGraph: {
-		title: "Projects — Medhansh Kapoor",
-		description:
-			"Explore production AI systems built by Medhansh Kapoor, including JanSamadhan (autonomous civic surveillance) and NyayaAI (multi-agent legal platform).",
+		title: pageTitle,
+		description: pageDescription,
 		url: "/projects",
 		type: "website",
+		images: [
+			{
+				url: "/og/projects.png",
+				width: 1200,
+				height: 630,
+				alt: pageTitle,
+			},
+		],
 	},
 	twitter: {
-		card: "summary",
-		title: "Projects — Medhansh Kapoor",
-		description:
-			"Explore production AI systems built by Medhansh Kapoor, including JanSamadhan (autonomous civic surveillance) and NyayaAI (multi-agent legal platform).",
+		card: "summary_large_image",
+		title: pageTitle,
+		description: pageDescription,
+		images: ["/og/projects.png"],
 	},
 };
 

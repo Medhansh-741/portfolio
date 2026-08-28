@@ -35,10 +35,12 @@ export default function HeroSection() {
 				Open to Internships & Full-Time Roles
 			</motion.div>
 
-			<motion.h1
+			<motion.div
 				initial={{ opacity: 0, y: 16 }}
 				animate={{ opacity: 1, y: 0 }}
 				transition={{ delay: 0.1 }}
+				role="presentation"
+				aria-hidden="true"
 				className="font-gothic text-5xl md:text-7xl xl:text-[clamp(3.25rem,9.5cqi,5.25rem)] font-normal tracking-wide text-black leading-[0.9] cursor-default select-none"
 			>
 				{"Medhansh".split("").map((char, index) => (
@@ -49,8 +51,7 @@ export default function HeroSection() {
 						{char}
 					</span>
 				))}
-				<span className="sr-only"> Kapoor</span>
-			</motion.h1>
+			</motion.div>
 
 			<motion.p
 				initial={{ opacity: 0, y: 16 }}

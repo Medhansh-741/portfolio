@@ -1,5 +1,41 @@
 import { NextResponse } from "next/server";
-import { profile } from "@/app/data/profile";
+import { profile, getDisambiguatingDescription } from "@/app/data/profile";
+
+export function generateDynamicFaqs(): { question: string; answer: string }[] {
+	const allSkills = Object.values(profile.skills).flat();
+	const topSkills = Array.from(new Set(allSkills)).slice(0, 15).join(", ");
+	const disambiguationText = getDisambiguatingDescription();
+	const projectSummaries = profile.projects
+		.map((p) => `${p.title} (${p.subtitle}, utilizing ${p.tech.slice(0, 4).join(", ")})`)
+		.join("; ");
+
+	return [
+		{
+			question: `Who is ${profile.name}?`,
+			answer: `${profile.name} is an ${disambiguationText}. ${profile.intro}`,
+		},
+		{
+			question: `What production AI systems has ${profile.name} built?`,
+			answer: `${profile.name} has designed and deployed: ${projectSummaries}.`,
+		},
+		{
+			question: `Where has ${profile.name} worked or interned?`,
+			answer: `${profile.name} has completed engineering roles at: ${profile.experience.map((e) => `${e.company} (${e.role}, ${e.period}) — ${e.description}`).join("; ")}.`,
+		},
+		{
+			question: `What technologies and frameworks does ${profile.name} specialize in?`,
+			answer: `${profile.name} specializes in ${topSkills}, with deep expertise across ${Object.keys(profile.skills).join(", ")}.`,
+		},
+		{
+			question: `What are ${profile.name}'s key achievements and recognition?`,
+			answer: profile.achievements.map((a) => `${a.title}: ${a.detail}`).join(" "),
+		},
+		{
+			question: `What is ${profile.name}'s educational background?`,
+			answer: profile.education.map((edu) => `${edu.degree} from ${edu.institution} (${edu.period})`).join("; "),
+		},
+	];
+}
 
 export function generateLlmsText(): string {
 	const sections: string[] = [];
@@ -8,12 +44,13 @@ export function generateLlmsText(): string {
 	sections.push(`# ${profile.name}`);
 	sections.push(`> ${profile.tagline} | Location: ${profile.location}\n`);
 
-	// 2. Verified Links & Contact Details
+	// 2. Verified Identity & Links
 	sections.push(`## Verified Identity & Links\n`);
 	sections.push(`- **Location:** ${profile.location}`);
 	sections.push(`- **Email:** ${profile.email}`);
 	sections.push(`- **Phone:** ${profile.phone}`);
 	sections.push(`- **Portfolio Website:** https://medhanshk.me`);
+	sections.push(`- **Full LLM Knowledge Dump:** https://medhanshk.me/llms-full.txt`);
 	sections.push(`- **Resume:** https://medhanshk.me${profile.resumeUrl}`);
 	sections.push(`- **GitHub:** ${profile.github}`);
 	sections.push(`- **LinkedIn:** ${profile.linkedin}`);
@@ -24,7 +61,13 @@ export function generateLlmsText(): string {
 	sections.push(`- **Projects Page:** https://medhanshk.me/projects`);
 	sections.push(`- **About Page:** https://medhanshk.me/about\n`);
 
-	// 3. Professional Summary & Philosophy
+	// 3. Explicit Entity Disambiguation
+	sections.push(`## Entity Disambiguation & Canonical Identity\n`);
+	sections.push(
+		`Medhansh Kapoor is an ${getDisambiguatingDescription()}. Official canonical website: https://medhanshk.me.\n`
+	);
+
+	// 4. Professional Summary & Philosophy
 	sections.push(`## Professional Summary\n`);
 	sections.push(`${profile.intro}\n`);
 
@@ -33,33 +76,22 @@ export function generateLlmsText(): string {
 		sections.push(`${para}\n`);
 	}
 
-	// 4. Entity Disambiguation & Frequently Asked Questions (Entity Q&A)
+	// 5. Entity Disambiguation & Frequently Asked Questions (Dynamically Derived)
 	sections.push(`## Frequently Asked Questions (Entity Disambiguation & Q&A)\n`);
-	sections.push(`### Who is Medhansh Kapoor?`);
-	sections.push(
-		`Medhansh Kapoor is an AI/ML Engineer and Full-Stack Developer based in Jaipur, India. ${profile.intro}\n`
-	);
-	sections.push(`### What production AI systems has Medhansh Kapoor built?`);
-	sections.push(
-		`Medhansh Kapoor built JanSamadhan, an autonomous civic surveillance platform (YOLOv8, 256 complaints processed at 0.36s/ticket, active-learning verification), and NyayaAI, a multi-agent legal intelligence platform with a GraphRAG pipeline (1,410 Neo4j graph nodes, 4,582 indexed legal chunks, and 5-stage LangGraph orchestration).\n`
-	);
-	sections.push(`### Where has Medhansh Kapoor interned?`);
-	sections.push(
-		`Medhansh Kapoor completed engineering internships at IndiaAI Mission (MeitY) building an automated dataset-quality evaluation toolkit for ICMR, ISSA – DRDO developing an air-gapped offline GIS platform, and Geminid Systems evaluating enterprise AI toolchains and Salesforce AI platforms (all May 2026 – July 2026).\n`
-	);
-	sections.push(`### What technologies and frameworks does Medhansh Kapoor specialize in?`);
-	sections.push(
-		`Medhansh Kapoor specializes in Python, TypeScript, FastAPI, Next.js, PyTorch, LangGraph, LangChain, Celery, Redis, PostgreSQL, PostGIS, Neo4j, Qdrant, Docker, and cloud deployments across AWS and GCP.\n`
-	);
+	const faqs = generateDynamicFaqs();
+	for (const faq of faqs) {
+		sections.push(`### ${faq.question}`);
+		sections.push(`${faq.answer}\n`);
+	}
 
-	// 5. Technical Skills
+	// 6. Technical Skills
 	sections.push(`## Technical Skills\n`);
 	for (const [category, skills] of Object.entries(profile.skills)) {
 		sections.push(`### ${category}`);
 		sections.push(`${skills.join(", ")}\n`);
 	}
 
-	// 6. Production Projects
+	// 7. Production Projects
 	sections.push(`## Production Projects\n`);
 	for (const project of profile.projects) {
 		const slug = project.title.toLowerCase().replace(/\s+/g, "-");
@@ -78,7 +110,7 @@ export function generateLlmsText(): string {
 		sections.push(``);
 	}
 
-	// 7. Engineering Experience (Internships)
+	// 8. Engineering Experience (Internships)
 	sections.push(`## Engineering Experience (Internships)\n`);
 	for (const exp of profile.experience) {
 		sections.push(`### ${exp.role} — ${exp.company} (${exp.period})`);
@@ -94,7 +126,7 @@ export function generateLlmsText(): string {
 		sections.push(``);
 	}
 
-	// 8. Achievements & Recognition
+	// 9. Achievements & Recognition
 	sections.push(`## Achievements & Recognition\n`);
 	for (const ach of profile.achievements) {
 		sections.push(`### ${ach.title}`);
@@ -105,7 +137,7 @@ export function generateLlmsText(): string {
 		sections.push(``);
 	}
 
-	// 9. Education
+	// 10. Education
 	sections.push(`## Education\n`);
 	for (const edu of profile.education) {
 		sections.push(`### ${edu.institution}`);

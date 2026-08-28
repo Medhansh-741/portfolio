@@ -71,13 +71,22 @@ export const metadata: Metadata = {
 		siteName: profile.name,
 		locale: "en_US",
 		type: "website",
+		images: [
+			{
+				url: "/og/og-image.png",
+				width: 1200,
+				height: 630,
+				alt: `${profile.name} — AI/ML Engineer & Full-Stack Developer`,
+			},
+		],
 	},
 	twitter: {
-		card: "summary",
+		card: "summary_large_image",
 		creator: "@medhansh541",
 		title: `${profile.name} — AI/ML Engineer & Full-Stack Developer`,
 		description:
 			`Portfolio of ${profile.name} — AI/ML Engineer and Full-Stack Developer based in ${profile.location}. Specializing in AI agents, RAG pipelines, FastAPI, and Next.js.`,
+		images: ["/og/og-image.png"],
 	},
 	robots: {
 		index: true,

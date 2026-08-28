@@ -12,15 +12,18 @@ export default function MobileHeroSection() {
 
 			{/* Huge Name with Character Map */}
 			<h1
+				aria-label={profile.name}
 				className="reveal font-gothic text-hero font-normal tracking-wide text-black leading-[0.8] cursor-default select-none -ml-1"
 				style={{ animationDelay: "0.1s" }}
 			>
-				{"Medhansh".split("").map((char, index) => (
-					<span key={index} className="transition-all duration-300 active:[text-shadow:0_0_15px_rgba(220,38,38,0.55)]">
-						{char}
-					</span>
-				))}
-				<span className="sr-only"> Kapoor</span>
+				<span className="sr-only">{profile.name}</span>
+				<span aria-hidden="true">
+					{"Medhansh".split("").map((char, index) => (
+						<span key={index} className="transition-all duration-300 active:[text-shadow:0_0_15px_rgba(220,38,38,0.55)]">
+							{char}
+						</span>
+					))}
+				</span>
 			</h1>
 
 			{/* Tagline */}

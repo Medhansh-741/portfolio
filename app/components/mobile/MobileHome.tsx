@@ -9,7 +9,7 @@ import CardStackEngine from "./CardStackEngine";
 
 export default function MobileHome() {
 	return (
-		<main className="xl:hidden flex-1 flex flex-col bg-background overflow-x-clip">
+		<div className="xl:hidden flex-1 flex flex-col bg-background overflow-x-clip">
 			{/* Main Content Column */}
 			<div className="@container mx-auto w-full max-w-2xl grow border-x-[3px] border-border flex flex-col pb-[calc(var(--spacing-fluid-xl)+var(--spacing-fluid-md)+2.75rem)] xl:pb-0">
 				
@@ -53,6 +53,6 @@ export default function MobileHome() {
 				</div>
 
 			</div>
-		</main>
+		</div>
 	);
 }

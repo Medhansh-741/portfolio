@@ -1,6 +1,8 @@
 export const profile = {
 	name: "Medhansh Kapoor",
 	tagline: "AI/ML Engineer | Full-Stack Developer",
+	disambiguation:
+		"Distinct from other individuals of the same name, including the filmmaker/photographer at medhanshk.com and medical professionals.",
 	intro:
 		"I take problems from the user experience down to technical architecture, building a working first-draft pipeline, learning as the solution demands, and dialing it in checkpoint by checkpoint.",
 	email: "medhansh541@gmail.com",
@@ -221,3 +223,55 @@ export const profile = {
 };
 
 export type Project = (typeof profile)["projects"][number];
+
+/**
+ * Canonical helper to derive consistent project URL slugs from titles.
+ */
+export function getProjectSlug(title: string): string {
+	return title.toLowerCase().replace(/\s+/g, "-");
+}
+
+export interface NavRoute {
+	name: string;
+	path: string;
+	description: string;
+}
+
+/**
+ * Centralized static navigation routes derived for Sitelinks, Sitemaps, and Breadcrumbs.
+ */
+export const staticRoutes: NavRoute[] = [
+	{
+		name: "Projects",
+		path: "/projects",
+		description:
+			"Explore production AI systems built by Medhansh Kapoor, including JanSamadhan and NyayaAI.",
+	},
+	{
+		name: "Experience",
+		path: "/experience",
+		description:
+			"Professional AI/ML engineering experience at IndiaAI Mission (MeitY), ISSA-DRDO, and Geminid Systems.",
+	},
+	{
+		name: "About",
+		path: "/about",
+		description:
+			"Engineering background, technical philosophy, and education of Medhansh Kapoor.",
+	},
+	{
+		name: "Resume",
+		path: profile.resumeUrl,
+		description:
+			"Official Curriculum Vitae & Resume of Medhansh Kapoor (PDF).",
+	},
+];
+
+/**
+ * Dynamically synthesizes the canonical disambiguation description from profile data.
+ */
+export function getDisambiguatingDescription(p = profile): string {
+	const projectsList = p.projects.map((proj) => proj.title).join(" and ");
+	const companiesList = p.experience.map((exp) => exp.company).join(", ");
+	return `${p.tagline} based in ${p.location} (creator of ${projectsList}, with completed engineering internships at ${companiesList}; ${p.disambiguation || ""})`.trim();
+}

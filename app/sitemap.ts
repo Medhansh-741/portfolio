@@ -1,36 +1,26 @@
 import type { MetadataRoute } from "next";
-import { profile } from "@/app/data/profile";
+import { profile, staticRoutes, getProjectSlug } from "@/app/data/profile";
 
 export default function sitemap(): MetadataRoute.Sitemap {
 	const baseUrl = "https://medhanshk.me";
 	const now = new Date();
 
+	const staticRouteUrls: MetadataRoute.Sitemap = staticRoutes.map((route) => ({
+		url: route.path.startsWith("http") ? route.path : `${baseUrl}${route.path}`,
+		lastModified: now,
+	}));
+
 	const projectUrls: MetadataRoute.Sitemap = profile.projects.map((p) => ({
-		url: `${baseUrl}/projects/${p.title.toLowerCase().replace(/\s+/g, "-")}`,
+		url: `${baseUrl}/projects/${getProjectSlug(p.title)}`,
 		lastModified: now,
 	}));
 
 	return [
 		{
-			url: `${baseUrl}`,
+			url: baseUrl,
 			lastModified: now,
 		},
-		{
-			url: `${baseUrl}/projects`,
-			lastModified: now,
-		},
+		...staticRouteUrls,
 		...projectUrls,
-		{
-			url: `${baseUrl}/experience`,
-			lastModified: now,
-		},
-		{
-			url: `${baseUrl}/about`,
-			lastModified: now,
-		},
-		{
-			url: `${baseUrl}/resume.pdf`,
-			lastModified: now,
-		},
 	];
 }

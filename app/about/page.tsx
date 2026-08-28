@@ -1,26 +1,39 @@
 import type { Metadata } from "next";
 import AboutView from "./AboutView";
 import { JsonLd, getProfilePageSchema } from "@/app/lib/jsonld";
+import { profile, staticRoutes } from "@/app/data/profile";
+
+const aboutRoute = staticRoutes.find((r) => r.path === "/about");
+const pageTitle = `About — ${profile.name}`;
+const pageDescription =
+	aboutRoute?.description ||
+	`Engineering background, technical philosophy, and education of ${profile.name}.`;
 
 export const metadata: Metadata = {
 	title: "About",
-	description:
-		"Medhansh Kapoor-AI/ML Engineer & Full-Stack Developer in Jaipur, India. Designing end-to-end systems from user problem to architecture.",
+	description: pageDescription,
 	alternates: {
 		canonical: "/about",
 	},
 	openGraph: {
-		title: "About — Medhansh Kapoor",
-		description:
-			"Medhansh Kapoor-AI/ML Engineer & Full-Stack Developer in Jaipur, India. Designing end-to-end systems from user problem to architecture.",
+		title: pageTitle,
+		description: pageDescription,
 		url: "/about",
 		type: "website",
+		images: [
+			{
+				url: "/og/about.png",
+				width: 1200,
+				height: 630,
+				alt: pageTitle,
+			},
+		],
 	},
 	twitter: {
-		card: "summary",
-		title: "About — Medhansh Kapoor",
-		description:
-			"Medhansh Kapoor-AI/ML Engineer & Full-Stack Developer in Jaipur, India. Designing end-to-end systems from user problem to architecture.",
+		card: "summary_large_image",
+		title: pageTitle,
+		description: pageDescription,
+		images: ["/og/about.png"],
 	},
 };
 

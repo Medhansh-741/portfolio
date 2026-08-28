@@ -1,26 +1,38 @@
 import { NextResponse } from "next/server";
+import { profile, staticRoutes, getProjectSlug } from "@/app/data/profile";
 
 const HOST = "medhanshk.me";
+const BASE_URL = `https://${HOST}`;
 const KEY = "4acab0b6b1664896bf7d6705e9b0908f";
-const KEY_LOCATION = `https://${HOST}/${KEY}.txt`;
+const KEY_LOCATION = `${BASE_URL}/${KEY}.txt`;
 
-const URL_LIST = [
-	`https://${HOST}/`,
-	`https://${HOST}/about`,
-	`https://${HOST}/projects`,
-	`https://${HOST}/experience`,
-	`https://${HOST}/projects/jansamadhan`,
-	`https://${HOST}/projects/nyayaai`,
-	`https://${HOST}/llms.txt`,
-	`https://${HOST}/sitemap.xml`,
-];
+function getIndexNowUrls(): string[] {
+	const staticUrls = staticRoutes.map((r) =>
+		r.path.startsWith("http") ? r.path : `${BASE_URL}${r.path}`
+	);
+	const projectUrls = profile.projects.map(
+		(p) => `${BASE_URL}/projects/${getProjectSlug(p.title)}`
+	);
+
+	const coreUrls = [
+		`${BASE_URL}/`,
+		...staticUrls,
+		...projectUrls,
+		`${BASE_URL}/llms.txt`,
+		`${BASE_URL}/sitemap.xml`,
+	];
+
+	return Array.from(new Set(coreUrls));
+}
 
 export async function GET() {
+	const urlList = getIndexNowUrls();
+
 	const payload = {
 		host: HOST,
 		key: KEY,
 		keyLocation: KEY_LOCATION,
-		urlList: URL_LIST,
+		urlList,
 	};
 
 	try {
@@ -35,7 +47,8 @@ export async function GET() {
 		return NextResponse.json({
 			success: response.ok || response.status === 202,
 			status: response.status,
-			submittedUrls: URL_LIST.length,
+			submittedUrls: urlList.length,
+			urlList,
 			timestamp: new Date().toISOString(),
 		});
 	} catch (error: unknown) {
