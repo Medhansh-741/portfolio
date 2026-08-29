@@ -4,6 +4,15 @@ const nextConfig: NextConfig = {
 	experimental: {
 		viewTransition: true,
 	},
+	async redirects() {
+		return [
+			{
+				source: "/resume",
+				destination: "/resume.pdf",
+				permanent: true,
+			},
+		];
+	},
 	async headers() {
 		return [
 			{

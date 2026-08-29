@@ -44,6 +44,7 @@ export default function MobileBottomBar() {
                 {/* Phase 3, 5, & 7: Touch Targets, Vertical Rhythm, Active State Dot, and 100% Opacity Icons */}
                 <LinkComponent 
                   href={route.path}
+                  title={route.name}
                   {...externalProps}
                   className="flex flex-col justify-center items-center gap-1 min-h-11 min-w-11 transition-transform active:scale-95 text-foreground"
                   aria-label={route.name}

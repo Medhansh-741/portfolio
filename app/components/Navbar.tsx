@@ -40,6 +40,7 @@ export default function Navbar() {
 							<MagneticWrap key={l.href}>
 								<LinkComponent
 									href={l.href}
+									title={l.label}
 									{...externalProps}
 									className={`px-4 py-2 text-[11px] font-bold uppercase tracking-widest border-[3px] transition-all duration-200 select-none cursor-pointer ${
 										active
@@ -78,6 +79,7 @@ export default function Navbar() {
 							<LinkComponent
 								key={l.href}
 								href={l.href}
+								title={l.label}
 								onClick={() => setOpen(false)}
 								{...externalProps}
 								className={`block px-4 py-2 text-[11px] font-bold uppercase tracking-widest border-[3px] transition-all duration-200 ${

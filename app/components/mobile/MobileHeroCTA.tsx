@@ -79,6 +79,7 @@ export default function MobileHeroCTA() {
 					target="_blank"
 					rel="noopener noreferrer"
 					className={iconClass}
+					title="Resume"
 					aria-label="Resume"
 				>
 					<FiFileText size={20} aria-hidden="true" />
