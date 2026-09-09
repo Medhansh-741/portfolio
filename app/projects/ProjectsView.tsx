@@ -1,9 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
-import Link from "next/link";
 import { motion } from "framer-motion";
-import { FiExternalLink, FiGithub, FiYoutube, FiArrowUpRight } from "react-icons/fi";
+import { FiExternalLink, FiGithub, FiYoutube } from "react-icons/fi";
 import MagneticWrap from "@/app/components/MagneticWrap";
 import { profile } from "@/app/data/profile";
 
@@ -24,9 +23,23 @@ const stagger = {
 export default function ProjectsView() {
 	useEffect(() => {
 		const scrollToHash = () => {
-			const hash = window.location.hash.replace("#", "");
-			if (!hash) return;
-			const el = document.getElementById(hash);
+			const rawHash = window.location.hash.replace("#", "").toLowerCase();
+			if (!rawHash) return;
+
+			// Direct ID match
+			let el = document.getElementById(rawHash);
+
+			// Dynamic fallback match (e.g. #jansamadhan, #nyaya)
+			if (!el) {
+				const elements = document.querySelectorAll<HTMLElement>("[id]");
+				for (const element of elements) {
+					if (element.id && (element.id.includes(rawHash) || rawHash.includes(element.id))) {
+						el = element;
+						break;
+					}
+				}
+			}
+
 			if (el) {
 				el.scrollIntoView({ behavior: "smooth", block: "start" });
 			}
@@ -59,37 +72,23 @@ export default function ProjectsView() {
 				<div className="space-y-8">
 					{profile.projects.map((proj, i) => {
 						const slug = proj.title.toLowerCase().replace(/\s+/g, "-");
-						const projectPath = `/projects/${slug}`;
 
 						return (
 							<motion.div
 								key={proj.title}
+								id={slug}
 								variants={stagger}
 								initial="hidden"
 								animate="show"
 								custom={i}
 								whileHover={{ y: -5 }}
-								className="bg-card text-card-foreground border-[3px] border-border shadow-md p-6 xl:p-8 flex flex-col cursor-default"
+								className="bg-card text-card-foreground border-[3px] border-border shadow-md p-6 xl:p-8 flex flex-col cursor-default scroll-mt-24"
 							>
 								<div className="flex flex-col xl:flex-row xl:items-start xl:justify-between gap-2 mb-4">
 									<div>
-										<Link
-											href={projectPath}
-											className="group inline-flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-											title={`View ${proj.title} dedicated project page`}
-										>
-											<h2
-												id={slug}
-												className="font-sans text-xl font-bold text-foreground uppercase scroll-mt-24 group-hover:text-accent-secondary transition-colors"
-											>
-												{proj.title}
-											</h2>
-											<FiArrowUpRight
-												size={18}
-												className="text-muted-foreground group-hover:text-accent-secondary group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"
-												aria-hidden="true"
-											/>
-										</Link>
+										<h2 className="font-sans text-xl font-bold text-foreground uppercase">
+											{proj.title}
+										</h2>
 										<p className="text-xs font-bold text-muted-foreground uppercase tracking-wider mt-0.5">
 											{proj.subtitle}
 										</p>

@@ -26,15 +26,9 @@ export default function MobileProjectCard({ project, onOpenDemo }: MobileProject
 
 			{/* Title & Subtitle */}
 			<div className="flex flex-col gap-fluid-xs">
-				<Link
-					href={`/projects/${project.title.toLowerCase().replace(/\s+/g, "-")}`}
-					className="focus-visible:outline-none"
-					title={`View ${project.title}`}
-				>
-					<h3 className="font-sans font-bold uppercase text-foreground text-body leading-tight">
-						{project.title}
-					</h3>
-				</Link>
+				<h3 className="font-sans font-bold uppercase text-foreground text-body leading-tight">
+					{project.title}
+				</h3>
 				<p className="text-muted-foreground font-semibold uppercase tracking-wider text-caption">
 					{project.subtitle}
 				</p>

@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { FiExternalLink } from "react-icons/fi";
 import MagneticWrap from "@/app/components/MagneticWrap";
@@ -20,6 +21,43 @@ const stagger = {
 };
 
 export default function ExperienceView() {
+	useEffect(() => {
+		const scrollToHash = () => {
+			const rawHash = window.location.hash.replace("#", "").toLowerCase();
+			if (!rawHash) return;
+
+			// Direct ID match
+			let el = document.getElementById(rawHash);
+
+			// Dynamic fallback match (e.g. #drdo matching #issa-drdo or #meity matching #indiaai-mission-meity)
+			if (!el) {
+				const elements = document.querySelectorAll<HTMLElement>("[id]");
+				for (const element of elements) {
+					if (element.id && (element.id.includes(rawHash) || rawHash.includes(element.id))) {
+						el = element;
+						break;
+					}
+				}
+			}
+
+			if (el) {
+				el.scrollIntoView({ behavior: "smooth", block: "start" });
+			}
+		};
+
+		// Scroll immediately if present, and retry slightly after framer-motion staggered mount
+		scrollToHash();
+		const t1 = setTimeout(scrollToHash, 100);
+		const t2 = setTimeout(scrollToHash, 350);
+
+		window.addEventListener("hashchange", scrollToHash);
+		return () => {
+			clearTimeout(t1);
+			clearTimeout(t2);
+			window.removeEventListener("hashchange", scrollToHash);
+		};
+	}, []);
+
 	return (
 		<main className="flex-1 bg-background overflow-x-clip">
 			<div className="w-full max-w-2xl xl:max-w-4xl mx-auto px-6 pt-16 pb-[calc(var(--spacing-fluid-xl)+var(--spacing-fluid-md)+2.75rem)] xl:pb-16 border-x-[3px] xl:border-x-0 border-border grow flex flex-col">
@@ -33,21 +71,25 @@ export default function ExperienceView() {
 				</div>
 
 				<div className="space-y-8">
-					{profile.experience.map((exp, i) => (
-						<motion.div
-							key={exp.company}
-							variants={stagger}
-							initial="hidden"
-							animate="show"
-							custom={i}
-							whileHover={{ y: -3 }}
-							className="bg-card text-card-foreground border-[3px] border-border shadow-md p-6 xl:p-8 cursor-default"
-						>
-							<div className="flex flex-col xl:flex-row xl:items-start xl:justify-between gap-2 mb-4">
-								<div>
-									<h2 className="font-sans text-xl font-bold text-foreground uppercase">
-										{exp.company}
-									</h2>
+					{profile.experience.map((exp, i) => {
+						const slug = exp.company.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+
+						return (
+							<motion.div
+								key={exp.company}
+								id={slug}
+								variants={stagger}
+								initial="hidden"
+								animate="show"
+								custom={i}
+								whileHover={{ y: -3 }}
+								className="bg-card text-card-foreground border-[3px] border-border shadow-md p-6 xl:p-8 cursor-default scroll-mt-24"
+							>
+								<div className="flex flex-col xl:flex-row xl:items-start xl:justify-between gap-2 mb-4">
+									<div>
+										<h2 className="font-sans text-xl font-bold text-foreground uppercase">
+											{exp.company}
+										</h2>
 									<p className="text-xs font-bold text-muted-foreground uppercase tracking-wider mt-0.5">
 										{exp.role}
 									</p>
@@ -107,7 +149,8 @@ export default function ExperienceView() {
 								))}
 							</ul>
 						</motion.div>
-					))}
+					);
+				})}
 				</div>
 
 				{/* Visible Date Modified for AI & Search Recency (Phase 5.6) */}
