@@ -14,6 +14,24 @@ export default function Home() {
 
 	return (
 		<>
+			<div
+				aria-hidden="true"
+				style={{
+					position: "fixed",
+					top: 0,
+					left: 0,
+					right: 0,
+					zIndex: 9999,
+					background: "#DC2626",
+					color: "#FFFFFF",
+					textAlign: "center",
+					fontFamily: "monospace",
+					fontSize: "14px",
+					padding: "6px",
+				}}
+			>
+				shiroDiff test — visual change
+			</div>
 			<link rel="preload" as="image" href="/videos/jansamadhan.webp" type="image/webp" fetchPriority="high" />
 			<link rel="preload" as="image" href="/videos/nyayaai.webp" type="image/webp" fetchPriority="high" />
 			<JsonLd data={getProfilePageSchema("", "Medhansh Kapoor — AI/ML Engineer & Full-Stack Developer")} />
