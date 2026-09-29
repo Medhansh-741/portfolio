@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 interface ContributionDay {
 	date: string;
@@ -34,6 +34,7 @@ export default function GithubCalendarUI({
 
 	const [hoveredDay, setHoveredDay] = useState<ContributionDay | null>(null);
 	const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
+	const tooltipRef = useRef<HTMLDivElement>(null);
 
 	const rawContributions = githubData?.contributions || [];
 
@@ -198,8 +199,30 @@ export default function GithubCalendarUI({
 		});
 	};
 
+	const updateTooltipPos = (clientX: number, clientY: number) => {
+		const padding = 16;
+		const tooltipWidth = tooltipRef.current?.offsetWidth || 240;
+		const halfWidth = tooltipWidth / 2;
+
+		let x = clientX;
+		if (typeof window !== "undefined") {
+			if (x - halfWidth < padding) {
+				x = padding + halfWidth;
+			} else if (x + halfWidth > window.innerWidth - padding) {
+				x = window.innerWidth - padding - halfWidth;
+			}
+		}
+
+		let y = clientY - 42;
+		if (y < 80) {
+			y = clientY + 22;
+		}
+
+		setTooltipPos({ x, y });
+	};
+
 	const handleMouseMove = (e: React.MouseEvent) => {
-		setTooltipPos({ x: e.clientX, y: e.clientY - 40 });
+		updateTooltipPos(e.clientX, e.clientY);
 	};
 
 	return (
@@ -311,7 +334,12 @@ export default function GithubCalendarUI({
 																	: "cursor-pointer transition-transform hover:scale-[1.3] hover:z-10"
 																}`}
 															style={{ backgroundColor: color }}
-															onMouseEnter={() => !isFuture && setHoveredDay(day)}
+															onMouseEnter={(e) => {
+																if (!isFuture) {
+																	setHoveredDay(day);
+																	updateTooltipPos(e.clientX, e.clientY);
+																}
+															}}
 															onMouseLeave={() =>
 																!isFuture && setHoveredDay(null)
 															}
@@ -319,7 +347,7 @@ export default function GithubCalendarUI({
 																if (!isFuture) {
 																	e.stopPropagation();
 																	setHoveredDay(day);
-																	setTooltipPos({ x: e.clientX, y: e.clientY - 40 });
+																	updateTooltipPos(e.clientX, e.clientY);
 																}
 															}}
 														/>
@@ -378,7 +406,8 @@ export default function GithubCalendarUI({
 			{/* Floating Tooltip Component */}
 			{hoveredDay && (
 				<div
-					className="fixed pointer-events-none z-50 bg-accent-warning text-black text-[length:var(--text-desktop-2xs)] font-black py-1.5 px-2.5 border-[2px] border-border shadow-sm -translate-x-1/2 select-none uppercase tracking-wider"
+					ref={tooltipRef}
+					className="fixed pointer-events-none z-[100] bg-accent-warning text-black text-[length:var(--text-desktop-2xs)] font-black py-1.5 px-2.5 border-[2px] border-border shadow-sm -translate-x-1/2 select-none uppercase tracking-wider whitespace-nowrap"
 					style={{
 						left: `${tooltipPos.x}px`,
 						top: `${tooltipPos.y}px`,
