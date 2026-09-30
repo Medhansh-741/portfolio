@@ -1,5 +1,6 @@
 import { profile } from "@/app/data/profile";
 import Link from "next/link";
+import { memo } from "react";
 import { FiTerminal, FiFileText, FiAward, FiArrowUpRight } from "react-icons/fi";
 
 type Experience = typeof profile.experience[0];
@@ -8,7 +9,7 @@ interface MobileExperienceCardProps {
 	experience: Experience;
 }
 
-export default function MobileExperienceCard({ experience }: MobileExperienceCardProps) {
+function MobileExperienceCard({ experience }: MobileExperienceCardProps) {
 	// Determine how many buttons exist to calculate grid columns
 	const hasOffer = !!experience.offerLetter;
 	const hasCompletion = !!experience.completionLetter;
@@ -76,3 +77,5 @@ export default function MobileExperienceCard({ experience }: MobileExperienceCar
 		</div>
 	);
 }
+
+export default memo(MobileExperienceCard);

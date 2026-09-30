@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback, useMemo } from "react";
-import { createPortal } from "react-dom";
+import { useState, useRef, useEffect, useCallback, useMemo, isValidElement, cloneElement } from "react";
+import { createPortal, flushSync } from "react-dom";
 import { useSpring, useSprings, animated } from "@react-spring/web";
 import { useDrag } from "@use-gesture/react";
 import type { Project } from "@/app/data/profile";
-import { CardDeckContext } from "./CardDeckVideo";
+import { CardDeckContext, TOP_CARD_CONTEXT, INACTIVE_CARD_CONTEXT } from "./CardDeckVideo";
 import GestureTutorialOverlay from "./GestureTutorialOverlay";
 import MobileProjectCard from "./MobileProjectCard";
 import dynamic from "next/dynamic";
@@ -23,6 +23,13 @@ const NUM_PHYSICAL_CARDS = 5;
 
 // Pre-calculate static visual rotations for the 5 depth slots to prevent hydration jitter.
 const STATIC_ROTATIONS = [0, 2, 1, 0, 0];
+
+// Resolves the exact data to render for a given virtual index, wrapping around the array infinitely
+function getCardData(dataIndex: number, deck: React.ReactNode[]) {
+	if (!deck || deck.length === 0) return null;
+	const wrappedIndex = ((dataIndex % deck.length) + deck.length) % deck.length;
+	return deck[wrappedIndex];
+}
 
 export default function CardStackEngine({
 	projects,
@@ -96,14 +103,14 @@ export default function CardStackEngine({
 		[resolvedProjectCards, experienceCards],
 	);
 	const [activeDeckIndex, setActiveDeckIndex] = useState(0);
-
+	const [inactiveDeckIndex, setInactiveDeckIndex] = useState(1); // Decoupled to eliminate 1-frame swap flicker
 	
 	const activeDeckType = DECKS[activeDeckIndex].id;
 	const activeCards = DECKS[activeDeckIndex].cards;
 	
-	const inactiveDeckIndex = 1 - activeDeckIndex; // Strictly for 2 decks (peep effect)
 	const inactiveDeckType = DECKS[inactiveDeckIndex].id;
 	const inactiveCards = DECKS[inactiveDeckIndex].cards;
+
 
 	type DeckCursor = { offset: number; direction: "next" | "prev" };
 	const [cursors, setCursors] = useState<Record<"projects" | "experience", DeckCursor>>({
@@ -122,20 +129,12 @@ export default function CardStackEngine({
 	// Lock gesture intent so dragging diagonally doesn't jitter
 	const intentRef = useRef<"horizontal" | "vertical" | null>(null);
 
-
-
-	// Resolves the exact data to render for a given virtual index, wrapping around the array infinitely
-	const getCardData = (dataIndex: number, deck: React.ReactNode[]) => {
-		if (!deck || deck.length === 0) return null;
-		const wrappedIndex = ((dataIndex % deck.length) + deck.length) % deck.length;
-		return deck[wrappedIndex];
-	};
-
 	const [bgSpring, bgApi] = useSpring(() => ({
 		scale: 1,
 		opacity: 1,
 		config: { friction: 50, tension: 500 }
 	}));
+
 
 	const CFG_FAN = { mass: 1, tension: 400, friction: 30 };
 	const isFannedRef = useRef(false);
@@ -335,7 +334,7 @@ export default function CardStackEngine({
 	}, [api]);
 
 
-	const bind = useDrag(({ args: [index], active, movement: [mx, my], velocity: [vx], initial: [, iy] }) => {
+	const bind = useDrag(({ args: [index], active, movement: [mx, my], velocity: [vx, vy], initial: [, iy] }) => {
 		if (isFannedRef.current) {
 			togglePokerFanRef.current();
 		}
@@ -367,8 +366,8 @@ export default function CardStackEngine({
 			// Phase 1: Lifting the deck (0 to 150px drag)
 			// Removed deck-wide scale computation (flicker fix)
 
-			// Release Check (Bi-directional support)
-			const isSwipeComplete = !active && dragDistance > window.innerHeight * 0.18;
+			// Release Check (Bi-directional support with balanced flick detection)
+			const isSwipeComplete = !active && (dragDistance > window.innerHeight * 0.14 || (vy > 0.45 && dragDistance > 35));
 
 			if (isSwipeComplete) {
 				const runLayerSwap = async () => {
@@ -385,27 +384,33 @@ export default function CardStackEngine({
 					});
 					await Promise.all(Array.isArray(outPromises) ? outPromises : [outPromises]);
 
-					// 2. Trigger React State Swap (Array Navigation)
-					setActiveDeckIndex(prevIndex => {
-						if (isDown) {
-							// Swipe Down -> Previous Deck
-							return (prevIndex - 1 + DECKS.length) % DECKS.length;
-						} else {
-							// Swipe Up -> Next Deck
-							return (prevIndex + 1) % DECKS.length;
-						}
+					const nextActiveIndex = isDown
+						? (activeDeckIndex - 1 + DECKS.length) % DECKS.length
+						: (activeDeckIndex + 1) % DECKS.length;
+
+					// 2. Synchronously mount the new active deck.
+					// CRITICAL: inactiveDeckIndex remains unchanged during this flushSync tick so the passive deck
+					// continues to display the incoming target deck (e.g. MeitY) underneath, completely preventing
+					// any 1-frame flashback of the old deck (e.g. NyayaAI)!
+					flushSync(() => {
+						setActiveDeckIndex(nextActiveIndex);
+						orderRef.current = [0, 1, 2, 3, 4]; // Reset logical array
 					});
-					orderRef.current = [0, 1, 2, 3, 4]; // Reset logical array
 					
-					// 3. Teleport new deck perfectly to the exact resting state of the passive deck
-					// We use scale 1.0 so there is no visual bouncing or shrinking when it takes focus. It is perfectly seamless!
-					api.start(j => ({
+					// 3. The new deck is now mounted in the DOM! Immediately set its resting springs
+					api.set(j => ({
 						x: 0, y: 0, rotY: 0,
 						rotZ: STATIC_ROTATIONS[j], 
 						scale: 1, opacity: 1,
 						zIndex: NUM_PHYSICAL_CARDS - j,
-						immediate: true
 					}));
+
+					// 4. Handshake complete: Active deck is fully mounted, opaque and covering the stage at (0,0).
+					// Now quietly update inactive deck in the background for the next interaction.
+					requestAnimationFrame(() => {
+						const nextInactiveIndex = 1 - nextActiveIndex;
+						setInactiveDeckIndex(nextInactiveIndex);
+					});
 				};
 				
 				runLayerSwap();
@@ -549,7 +554,7 @@ export default function CardStackEngine({
 		}
 		
 		if (!active) intentRef.current = null;
-	}, { filterTaps: true }); // Capture both axes
+	}, { filterTaps: true, axis: "lock" });
 
 	return (
 		<>
@@ -562,10 +567,22 @@ export default function CardStackEngine({
 				<div className={`relative invisible pointer-events-none opacity-0 ${ENGINE_SHAPE_CLASSES}`} />
 			)}
 
-			{/* The Shadow Plate */}
+			{/* The Shadow Plate (Hardware-isolated grounded stage shadow) */}
 			{activeCards.length > 0 && (
-				<animated.div className="absolute inset-0 origin-center pointer-events-none" style={{ zIndex: -1, scale: bgSpring.scale, opacity: bgSpring.opacity, willChange: "transform" }}>
-					<div className={`rounded-xl shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] bg-transparent ${ENGINE_SHAPE_CLASSES}`} />
+				<animated.div
+					className="absolute inset-0 origin-center pointer-events-none"
+					style={{
+						zIndex: -1,
+						scale: bgSpring.scale,
+						opacity: bgSpring.opacity,
+						transform: "translateZ(0)",
+						willChange: "transform, opacity",
+					}}
+				>
+					<div
+						className={`rounded-xl shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] bg-transparent ${ENGINE_SHAPE_CLASSES}`}
+						style={{ contain: "paint layout" }}
+					/>
 				</animated.div>
 			)}
 
@@ -586,9 +603,9 @@ export default function CardStackEngine({
 									zIndex: NUM_PHYSICAL_CARDS - positionInStack
 								}}
 							>
-								<CardDeckContext.Provider value={{ isTop: false }}>
+								<CardDeckContext.Provider value={INACTIVE_CARD_CONTEXT}>
 									<div className="w-full h-full pointer-events-none overflow-hidden rounded-xl">
-										{card}
+										{isValidElement(card) ? cloneElement(card, { key: `inactive-slot-${positionInStack}` }) : card}
 									</div>
 								</CardDeckContext.Provider>
 							</div>
@@ -623,9 +640,9 @@ export default function CardStackEngine({
 							touchAction: "none", // Hijack scroll for the vertical gesture!
 						}}
 					>
-						<CardDeckContext.Provider value={{ isTop }}>
+						<CardDeckContext.Provider value={isTop ? TOP_CARD_CONTEXT : INACTIVE_CARD_CONTEXT}>
 							<div className="relative w-full h-full pointer-events-none [&_a]:pointer-events-auto [&_button]:pointer-events-auto overflow-hidden rounded-xl">
-								{cardData}
+								{isValidElement(cardData) ? cloneElement(cardData, { key: `active-slot-${i}` }) : cardData}
 							</div>
 						</CardDeckContext.Provider>
 					</animated.div>

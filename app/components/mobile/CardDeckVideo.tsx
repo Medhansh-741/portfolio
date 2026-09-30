@@ -1,18 +1,27 @@
 "use client";
 
 import Image from "next/image";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState, memo } from "react";
 
-export const CardDeckContext = createContext({ isTop: true });
+export interface CardDeckContextType {
+	isTop: boolean;
+}
+
+export const TOP_CARD_CONTEXT: CardDeckContextType = Object.freeze({ isTop: true });
+export const INACTIVE_CARD_CONTEXT: CardDeckContextType = Object.freeze({ isTop: false });
+export const CardDeckContext = createContext<CardDeckContextType>(TOP_CARD_CONTEXT);
+
+// Module-level interaction state: once user touches/scrolls once, incoming top cards autoplay immediately
+let hasUserInteracted = false;
 
 interface CardDeckVideoProps {
 	projectFileName: string;
 	className?: string;
 }
 
-export default function CardDeckVideo({ projectFileName, className = "" }: CardDeckVideoProps) {
+function CardDeckVideo({ projectFileName, className = "" }: CardDeckVideoProps) {
 	const { isTop } = useContext(CardDeckContext);
-	const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
+	const [shouldLoadVideo, setShouldLoadVideo] = useState(() => isTop && hasUserInteracted);
 	const [isVideoPlaying, setIsVideoPlaying] = useState(false);
 
 	useEffect(() => {
@@ -22,7 +31,13 @@ export default function CardDeckVideo({ projectFileName, className = "" }: CardD
 			return;
 		}
 
+		if (hasUserInteracted) {
+			setShouldLoadVideo(true);
+			return;
+		}
+
 		const enableVideo = () => {
+			hasUserInteracted = true;
 			setShouldLoadVideo(true);
 		};
 
@@ -75,3 +90,5 @@ export default function CardDeckVideo({ projectFileName, className = "" }: CardD
 		</div>
 	);
 }
+
+export default memo(CardDeckVideo);

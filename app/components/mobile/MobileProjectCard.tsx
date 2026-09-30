@@ -1,5 +1,6 @@
 import { Project } from "@/app/data/profile";
 import Link from "next/link";
+import { memo } from "react";
 import { FiFolder, FiArrowUpRight, FiGithub, FiYoutube } from "react-icons/fi";
 import CardDeckVideo from "./CardDeckVideo";
 
@@ -13,7 +14,7 @@ const MOBILE_VIDEO_MAP: Record<string, string> = {
 	nyayaai: "nyayaai",
 };
 
-export default function MobileProjectCard({ project, onOpenDemo }: MobileProjectCardProps) {
+function MobileProjectCard({ project, onOpenDemo }: MobileProjectCardProps) {
 	return (
 		<div className="w-full h-full flex flex-col justify-between bg-card border border-border/50 rounded-xl shadow-[0_1px_3px_rgba(0,0,0,0.1),0_1px_2px_rgba(0,0,0,0.06)] p-fluid-md gap-fluid-sm relative">
 			{/* Card Header Equivalent */}
@@ -90,3 +91,5 @@ export default function MobileProjectCard({ project, onOpenDemo }: MobileProject
 		</div>
 	);
 }
+
+export default memo(MobileProjectCard);

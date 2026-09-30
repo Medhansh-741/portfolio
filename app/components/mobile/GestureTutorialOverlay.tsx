@@ -13,15 +13,12 @@ export default function GestureTutorialOverlay() {
 		y: 0,
 		config: { mass: 1, tension: 170, friction: 40 },
 		onChange: ({ value }) => {
-			// Broadcast the position exactly to the engine
+			// Broadcast the position directly to the engine
 			window.dispatchEvent(
 				new CustomEvent("tutorial-peek", {
 					detail: { mx: value.x, my: value.y, snap: value.x === 0 && value.y === 0 },
 				})
 			);
-			
-			// Command the visual trail to chase this coordinate
-			trailApi.start({ x: value.x, y: value.y });
 		},
 	}));
 
@@ -53,6 +50,8 @@ export default function GestureTutorialOverlay() {
 			// We derive sizing dynamically at runtime per mobile rulebook (no hardcoded px logic)
 			const peekX = window.innerWidth * 0.28; 
 			const peekY = window.innerHeight * 0.15;
+			const cfgPeek = { tension: 170, friction: 40 };
+			const cfgSnap = { tension: 400, friction: 30 };
 
 			// Phase 1: Fade in the touch indicator
 			trailApi.start({ opacity: 0.7, scale: 1 });
@@ -60,22 +59,26 @@ export default function GestureTutorialOverlay() {
 
 			if (isCancelled) return;
 			// Phase 2: Swipe Right (Horizontal Peek)
-			driverApi.start({ x: peekX, y: 0, config: { tension: 170, friction: 40 } });
+			driverApi.start({ x: peekX, y: 0, config: cfgPeek });
+			trailApi.start({ x: peekX, y: 0, config: cfgPeek });
 			await delay(1200);
 
 			if (isCancelled) return;
 			// Phase 3: Snap Back
-			driverApi.start({ x: 0, y: 0, config: { tension: 400, friction: 30 } });
+			driverApi.start({ x: 0, y: 0, config: cfgSnap });
+			trailApi.start({ x: 0, y: 0, config: cfgSnap });
 			await delay(800);
 
 			if (isCancelled) return;
 			// Phase 4: Swipe Down (Vertical Peep)
-			driverApi.start({ x: 0, y: peekY, config: { tension: 170, friction: 40 } });
+			driverApi.start({ x: 0, y: peekY, config: cfgPeek });
+			trailApi.start({ x: 0, y: peekY, config: cfgPeek });
 			await delay(1200);
 
 			if (isCancelled) return;
 			// Phase 5: Snap Back
-			driverApi.start({ x: 0, y: 0, config: { tension: 400, friction: 30 } });
+			driverApi.start({ x: 0, y: 0, config: cfgSnap });
+			trailApi.start({ x: 0, y: 0, config: cfgSnap });
 			await delay(600);
 			
 			// Phase 6: Fade out and complete single cycle
@@ -92,7 +95,7 @@ export default function GestureTutorialOverlay() {
 			// Smoothly glide driver to (0,0) with natural physics
 			driverApi.start({ x: 0, y: 0, config: { tension: 350, friction: 35 } });
 			// Smoothly fade out the visual trail
-			trailApi.start({ opacity: 0, scale: 0, config: { tension: 250, friction: 30 } });
+			trailApi.start({ x: 0, y: 0, opacity: 0, scale: 0, config: { tension: 250, friction: 30 } });
 			// Ensure engine is commanded to smoothly spring back to rest
 			window.dispatchEvent(
 				new CustomEvent("tutorial-peek", {
