@@ -33,22 +33,55 @@ for (const trigger of document.querySelectorAll("[data-embed]")) {
 }
 
 for (const gallery of document.querySelectorAll("[data-gallery]")) {
-	const photos = gallery.querySelectorAll("img");
-	const previous = gallery.querySelector("[data-gallery-previous]");
-	const next = gallery.querySelector("[data-gallery-next]");
+	const track = gallery.querySelector("[data-gallery-track]");
+	const dots = gallery.querySelectorAll(".gallery-dots span");
 	const status = gallery.querySelector("[data-gallery-status]");
+	const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 	let current = 0;
+	let drag = null;
 
-	function showPhoto(offset) {
-		photos[current].hidden = true;
-		current = (current + offset + photos.length) % photos.length;
-		const photo = photos[current];
-		photo.hidden = false;
-		status.textContent = `Photo ${current + 1} of ${photos.length}: ${photo.alt}`;
+	function photoIndex() {
+		return Math.min(dots.length - 1, Math.max(0, Math.round(track.scrollLeft / track.clientWidth)));
 	}
 
-	previous.addEventListener("click", () => showPhoto(-1));
-	next.addEventListener("click", () => showPhoto(1));
-	previous.hidden = false;
-	next.hidden = false;
+	function goToPhoto(index) {
+		track.scrollTo({ left: index * track.clientWidth, behavior: reducedMotion.matches ? "auto" : "smooth" });
+	}
+
+	track.addEventListener("scroll", () => {
+		const index = photoIndex();
+		if (index === current) return;
+		dots[current].removeAttribute("data-current");
+		dots[index].setAttribute("data-current", "");
+		current = index;
+		status.textContent = `Photo ${current + 1} of ${dots.length}`;
+	}, { passive: true });
+
+	track.addEventListener("keydown", (event) => {
+		if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
+		if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+		event.preventDefault();
+		goToPhoto(current + (event.key === "ArrowRight" ? 1 : -1));
+	});
+
+	track.addEventListener("pointerdown", (event) => {
+		if (event.pointerType !== "mouse" || event.button !== 0) return;
+		drag = { x: event.clientX, left: track.scrollLeft, index: photoIndex() };
+		track.setPointerCapture(event.pointerId);
+		track.dataset.dragging = "";
+	});
+
+	track.addEventListener("pointermove", (event) => {
+		if (!drag || event.pointerType !== "mouse") return;
+		track.scrollLeft = drag.left + drag.x - event.clientX;
+	});
+
+	track.addEventListener("lostpointercapture", () => {
+		if (!drag) return;
+		const distance = track.scrollLeft - drag.left;
+		const index = Math.abs(distance) > track.clientWidth * 0.2 ? drag.index + Math.sign(distance) : drag.index;
+		drag = null;
+		delete track.dataset.dragging;
+		goToPhoto(index);
+	});
 }

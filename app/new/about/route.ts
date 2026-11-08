@@ -1,17 +1,16 @@
 import { profile } from "@/app/data/profile";
-import { escapeHtml, icon, portfolioResponse } from "../portfolio-page";
+import { escapeHtml, portfolioResponse } from "../portfolio-page";
 
 const achievements = profile.achievements.map(({ title, detail, certificate, eventUrl, images = [] }) => {
 	const displayTitle = escapeHtml(title);
 	const carousel = images.length > 1;
 	const photos = images.map(({ src, alt, width, height }, index) =>
-		`<img class="achievement-photo" src="${escapeHtml(src)}" alt="${escapeHtml(alt)}" width="${width}" height="${height}"${index ? ' hidden fetchpriority="low"' : carousel ? "" : ' loading="lazy"'}>`
+		`<img class="achievement-photo" src="${escapeHtml(src)}" alt="${escapeHtml(alt)}" width="${width}" height="${height}"${carousel ? ' draggable="false"' : ' loading="lazy"'}${index ? ' fetchpriority="low"' : ""}>`
 	).join("");
-	const media = carousel ? `<div class="achievement-gallery" role="group" aria-label="${displayTitle} photos" data-gallery>
-		${photos}
-		<button type="button" data-gallery-previous aria-label="Previous photo" hidden>${icon("previous")}</button>
-		<button type="button" data-gallery-next aria-label="Next photo" hidden>${icon("next")}</button>
-		<p class="sr-only" data-gallery-status role="status"></p>
+	const media = carousel ? `<div class="achievement-gallery" data-gallery>
+		<div class="gallery-track" data-gallery-track tabindex="0" role="group" aria-label="${displayTitle} photos. Swipe or use the arrow keys to browse.">${photos}</div>
+		<div class="gallery-dots" aria-hidden="true">${images.map((_, index) => `<span${index === 0 ? " data-current" : ""}></span>`).join("")}</div>
+		<p class="sr-only" data-gallery-status role="status">Photo 1 of ${images.length}</p>
 	</div>` : photos;
 
 	return `
