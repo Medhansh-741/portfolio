@@ -120,8 +120,12 @@ main { flex: 1; padding: 0 var(--gutter) 1rem; }
 .contact-links svg { display: none; }
 
 @container (width < 21rem) {
-	.contact-links { gap: 0.25rem; }
-	.contact-links li { flex: 0 1 var(--tap); min-width: 0; }
+	.contact-links {
+		display: grid;
+		grid-auto-flow: column;
+		grid-auto-columns: minmax(0, 1fr);
+		gap: 0;
+	}
 	.contact-links a { justify-content: center; width: 100%; }
 	.contact-links span { display: none; }
 	.contact-links svg { display: block; width: min(100%, 1.125rem); height: 1.125rem; }
@@ -164,7 +168,11 @@ main { flex: 1; padding: 0 var(--gutter) 1rem; }
 /* Inactive items still size the shared grid track at the current width. */
 .deck-item[inert] { visibility: hidden; }
 .deck-item[data-swipe-preview] { visibility: visible; }
-.deck-item[data-project] { display: grid; grid-template-rows: auto auto 1fr; }
+.deck-item[data-project] {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	grid-template-rows: auto auto 1fr;
+}
 .deck-item[data-project] .demo-stage { align-self: center; }
 .deck-heading { display: flex; flex-wrap: wrap; align-items: center; min-height: var(--tap); padding-inline-end: var(--paging-width); }
 h2 { font-size: 1.0625rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.25; }
