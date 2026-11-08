@@ -9,36 +9,12 @@ export default function AboutView() {
 	return (
 		<main className="flex-1 bg-background overflow-x-clip">
 			<div className="w-full max-w-2xl xl:max-w-4xl mx-auto px-6 pt-16 pb-[calc(var(--spacing-fluid-xl)+var(--spacing-fluid-md)+2.75rem)] xl:pb-16 border-x-[3px] xl:border-x-0 border-border grow flex flex-col">
-				<div className="text-center space-y-2 mb-fluid-md xl:mb-10">
-					<p className="text-xs text-accent font-bold uppercase tracking-widest">
-						How I Build
-					</p>
-					<h1 className="font-sans text-4xl xl:text-5xl font-black text-foreground uppercase tracking-tight">
-						About
-					</h1>
-				</div>
-
 				<div className="space-y-12 xl:space-y-16">
 					<section>
-						<motion.div
-							initial={{ opacity: 0, y: 16 }}
-							animate={{ opacity: 1, y: 0 }}
-							className="bg-card text-card-foreground border-[3px] border-border shadow-md p-6 xl:p-8"
-						>
-							<p className="text-sm xl:text-base text-muted-foreground leading-relaxed">
-								{profile.about[0]}
-							</p>
-						</motion.div>
-					</section>
-
-					<section>
-						<div className="text-center space-y-2 mb-8">
-							<p className="text-xs text-accent font-bold uppercase tracking-widest">
-								Recognition
-							</p>
-							<h2 className="font-sans text-4xl xl:text-5xl font-black text-foreground uppercase tracking-tight">
+						<div className="text-center mb-8">
+							<h1 className="font-sans text-4xl xl:text-5xl font-black text-foreground uppercase tracking-tight">
 								Achievements
-							</h2>
+							</h1>
 						</div>
 						<div className="space-y-6">
 							{profile.achievements.map(({ title, detail, certificate, eventUrl, images }, i) => (
