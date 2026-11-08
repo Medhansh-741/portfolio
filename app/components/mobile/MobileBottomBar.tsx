@@ -2,12 +2,12 @@
 
 import React from 'react';
 import { usePathname } from 'next/navigation';
-import { 
-  HiOutlineHome, HiHome, 
-  HiOutlineFolder, HiFolder, 
-  HiOutlineBriefcase, HiBriefcase, 
-  HiOutlineDocumentText, HiDocumentText, 
-  HiOutlineUser, HiUser 
+import {
+  HiOutlineHome, HiHome,
+  HiOutlineFolder, HiFolder,
+  HiOutlineBriefcase, HiBriefcase,
+  HiOutlineDocumentText, HiDocumentText,
+  HiOutlineUser, HiUser
 } from 'react-icons/hi2';
 import Link from 'next/link';
 
@@ -38,11 +38,11 @@ export default function MobileBottomBar() {
             const Icon = isActive ? route.solidIcon : route.outlineIcon;
             const LinkComponent = route.external ? 'a' : Link;
             const externalProps = route.external ? { target: '_blank', rel: 'noopener noreferrer' } : {};
-            
+
             return (
               <li key={route.name} className="flex-1 flex justify-center">
                 {/* Phase 3, 5, & 7: Touch Targets, Vertical Rhythm, Active State Dot, and 100% Opacity Icons */}
-                <LinkComponent 
+                <LinkComponent
                   href={route.path}
                   title={route.name}
                   {...externalProps}
@@ -51,10 +51,9 @@ export default function MobileBottomBar() {
                 >
                   <Icon className="text-h2" />
                   {/* Active State Dot - Present in DOM for rhythm, visible only when active */}
-                  <span 
-                    className={`w-[var(--spacing-fluid-xs)] h-[var(--spacing-fluid-xs)] rounded-full transition-opacity ${
-                      isActive ? 'bg-accent opacity-100' : 'bg-transparent opacity-0'
-                    }`} 
+                  <span
+                    className={`w-[var(--spacing-fluid-xs)] h-[var(--spacing-fluid-xs)] rounded-full transition-opacity ${isActive ? 'bg-accent opacity-100' : 'bg-transparent opacity-0'
+                      }`}
                   />
                 </LinkComponent>
               </li>

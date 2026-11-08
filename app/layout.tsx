@@ -73,7 +73,7 @@ export const metadata: Metadata = {
 		type: "website",
 		images: [
 			{
-				url: "/og/og-image.png",
+				url: "/og/og-image.png?v=2",
 				width: 1200,
 				height: 630,
 				alt: `${profile.name} — AI/ML Engineer & Full-Stack Developer`,
@@ -86,7 +86,7 @@ export const metadata: Metadata = {
 		title: `${profile.name} — AI/ML Engineer & Full-Stack Developer`,
 		description:
 			`Portfolio of ${profile.name} — AI/ML Engineer and Full-Stack Developer based in ${profile.location}. Specializing in AI agents, RAG pipelines, FastAPI, and Next.js.`,
-		images: ["/og/og-image.png"],
+		images: ["/og/og-image.png?v=2"],
 	},
 	robots: {
 		index: true,
