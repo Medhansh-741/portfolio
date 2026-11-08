@@ -127,17 +127,6 @@ export default function ExperienceView() {
 								{exp.description}
 							</p>
 
-							<div className="flex flex-wrap gap-2 mb-4">
-								{exp.tech.map((t) => (
-									<span
-										key={t}
-										className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider bg-muted text-muted-foreground border-[2px] border-border"
-									>
-										{t}
-									</span>
-								))}
-							</div>
-
 							<ul className="space-y-2">
 								{exp.highlights.map((h, j) => (
 									<li

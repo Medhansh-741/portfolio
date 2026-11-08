@@ -50,9 +50,17 @@ const experience = profile.experience.map((item) => `
 			<p class="experience-role">${escapeHtml(item.role)}</p>
 			<p class="experience-period">${escapeHtml(item.period)}</p>
 			<p>${escapeHtml(item.description)}</p>
-			<p class="experience-stack">${escapeHtml(item.tech.join(" · "))}</p>
 		</div>
 	</div>`).join("");
+
+const achievements = profile.achievements.map(({ title, homeImage, images }) => {
+	const photo = homeImage ?? images?.[0];
+	if (!photo) return "";
+	return `<div class="deck-item" data-achievement inert>
+		<div class="deck-heading"><h2>${escapeHtml(title)}</h2></div>
+		<img class="achievement-photo deck-achievement-photo" src="${escapeHtml(photo.src)}" alt="${escapeHtml(photo.alt)}" width="${photo.width}" height="${photo.height}" loading="lazy">
+	</div>`;
+}).join("");
 
 const content = `
 			<section class="intro" aria-label="Profile">
@@ -72,12 +80,14 @@ const content = `
 				<div class="deck-track" id="deck-content">
 					${projects}
 					${experience}
+					${achievements}
 				</div>
 				<p class="sr-only" data-deck-status role="status"></p>
 				<div class="deck-footer">
 					<div class="deck-categories" role="group" aria-label="Work category" data-categories hidden>
 						<button type="button" data-category="projects" aria-pressed="true" aria-controls="deck-content">Projects</button>
 						<button type="button" data-category="experience" aria-pressed="false" aria-controls="deck-content">Experience</button>
+						<button type="button" data-category="achievements" aria-pressed="false" aria-controls="deck-content">Achievements</button>
 					</div>
 					<div class="deck-pagination" data-pagination hidden>
 						<button type="button" data-previous aria-label="Previous project">${icon("previous")}</button>

@@ -1,10 +1,13 @@
+type AchievementImage = { src: string; alt: string; width: number; height: number };
+
 type Achievement = {
 	title: string;
 	detail?: string;
 	award?: true;
 	certificate?: string;
 	eventUrl?: string;
-	images?: readonly { src: string; alt: string; width: number; height: number }[];
+	images?: readonly AchievementImage[];
+	homeImage?: AchievementImage;
 };
 
 const achievements: readonly Achievement[] = [
@@ -31,6 +34,7 @@ const achievements: readonly Achievement[] = [
 		title: "India Innovates '26, National Finalist",
 		detail: "Winner in Digital Democracy track; presented JanSamadhan live before senior policy leaders at Bharat Mandapam; project forwarded to central ministries.",
 		certificate: "/India-Innovates.pdf",
+		homeImage: { src: "/new-portfolio/india-innovates.webp", alt: "Medhansh Kapoor receiving his India Innovates certificate at Manipal University Jaipur", width: 800, height: 648 },
 	},
 	{
 		title: "Prayatna 3.0 Hackathon, Finalist",

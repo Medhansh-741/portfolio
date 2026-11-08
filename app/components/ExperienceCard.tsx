@@ -71,18 +71,6 @@ export default function ExperienceCard({
 							{exp.description}
 						</p>
 
-						{/* Tech Stack */}
-						<div className="flex flex-wrap gap-1 mt-1">
-							{exp.tech.map((tech) => (
-								<span
-									key={tech}
-									className="text-[length:var(--text-desktop-2xs)] font-mono uppercase font-bold border-[length:var(--border-fluid)] border-black px-1.5 py-0.5 bg-muted"
-								>
-									{tech}
-								</span>
-							))}
-						</div>
-
 						{/* Actions (Certificates) */}
 						{(exp.offerLetter || exp.completionLetter) && (
 							<div className="flex gap-1.5 mt-1.5">

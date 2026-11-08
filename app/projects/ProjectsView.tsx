@@ -102,17 +102,6 @@ export default function ProjectsView() {
 									{proj.description}
 								</p>
 
-								<div className="flex flex-wrap gap-2 mb-4">
-									{proj.tech.map((t) => (
-										<span
-											key={t}
-											className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider bg-muted text-muted-foreground border-[2px] border-border"
-										>
-											{t}
-										</span>
-									))}
-								</div>
-
 								<ul className="space-y-2 mb-6 flex-1">
 									{proj.highlights.map((h, j) => (
 										<li

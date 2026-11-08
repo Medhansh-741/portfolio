@@ -21,7 +21,6 @@ const cards = profile.experience.map((item) => {
 			<p class="experience-role">${escapeHtml(item.role)}</p>
 			<p class="experience-period">${escapeHtml(item.period)}</p>
 		</div>
-		<p class="detail-skills"><strong>Skills</strong> ${escapeHtml(item.tech.join(" · "))}</p>
 		<p>${escapeHtml(descriptions[item.company] ?? item.description)}</p>
 	</article>`;
 }).join("");

@@ -1,19 +1,52 @@
 const deck = document.querySelector("[data-deck]");
 const deckTrack = deck.querySelector(".deck-track");
-const categories = [...deck.querySelectorAll("[data-category]")];
+const categoryStrip = deck.querySelector("[data-categories]");
+const categories = [...categoryStrip.querySelectorAll("[data-category]")];
 const items = {
 	projects: [...deck.querySelectorAll("[data-project]")],
 	experience: [...deck.querySelectorAll("[data-experience]")],
+	achievements: [...deck.querySelectorAll("[data-achievement]")],
 };
 const position = deck.querySelector("[data-position]");
 const previous = deck.querySelector("[data-previous]");
 const next = deck.querySelector("[data-next]");
 const pagination = deck.querySelector("[data-pagination]");
 const status = deck.querySelector("[data-deck-status]");
-const indices = { projects: 0, experience: 0 };
+const indices = { projects: 0, experience: 0, achievements: 0 };
+const itemTypes = { projects: "project", experience: "experience entry", achievements: "achievement" };
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 let category = "projects";
 let swipe = null;
+let categoryDrag = null;
+
+categoryStrip.addEventListener("pointerdown", (event) => {
+	if (event.pointerType !== "mouse" || event.button !== 0 || categoryStrip.scrollWidth <= categoryStrip.clientWidth) return;
+	categoryDrag = { id: event.pointerId, x: event.clientX, scrollLeft: categoryStrip.scrollLeft };
+});
+
+categoryStrip.addEventListener("pointermove", (event) => {
+	if (!categoryDrag || event.pointerId !== categoryDrag.id) return;
+	const distance = categoryDrag.x - event.clientX;
+	if (!categoryStrip.hasPointerCapture(event.pointerId)) {
+		if (Math.abs(distance) < 6) return;
+		categoryStrip.setPointerCapture(event.pointerId);
+		categoryStrip.dataset.dragging = "";
+	}
+	categoryStrip.scrollLeft = categoryDrag.scrollLeft + distance;
+});
+
+function endCategoryDrag(event) {
+	if (categoryDrag?.id !== event.pointerId) return;
+	categoryDrag = null;
+	delete categoryStrip.dataset.dragging;
+}
+
+categoryStrip.addEventListener("pointerup", endCategoryDrag);
+categoryStrip.addEventListener("pointercancel", endCategoryDrag);
+categoryStrip.addEventListener("lostpointercapture", endCategoryDrag);
+categoryStrip.addEventListener("pointerleave", (event) => {
+	if (!categoryStrip.hasPointerCapture(event.pointerId)) endCategoryDrag(event);
+});
 
 function resetSwipe() {
 	if (!swipe) return;
@@ -32,7 +65,7 @@ function renderDeck(announce = false) {
 	const index = indices[category];
 	const count = items[category].length;
 	const item = items[category][index];
-	const itemType = category === "projects" ? "project" : "experience entry";
+	const itemType = itemTypes[category];
 
 	for (const [group, entries] of Object.entries(items)) {
 		entries.forEach((entry, i) => {
@@ -77,7 +110,7 @@ for (const button of categories) {
 
 previous.addEventListener("click", () => moveDeck(-1));
 next.addEventListener("click", () => moveDeck(1));
-deck.querySelector("[data-categories]").hidden = false;
+categoryStrip.hidden = false;
 renderDeck();
 
 const slide = (offset) => `translate3d(${offset}px, 0, 0)`;

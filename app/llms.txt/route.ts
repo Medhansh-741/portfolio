@@ -6,7 +6,7 @@ export function generateDynamicFaqs(): { question: string; answer: string }[] {
 	const topSkills = Array.from(new Set(allSkills)).slice(0, 15).join(", ");
 	const disambiguationText = getDisambiguatingDescription();
 	const projectSummaries = profile.projects
-		.map((p) => `${p.title} (${p.subtitle}, utilizing ${p.tech.slice(0, 4).join(", ")})`)
+		.map((p) => `${p.title} (${p.subtitle})`)
 		.join("; ");
 
 	return [
@@ -97,7 +97,6 @@ export function generateLlmsText(): string {
 		const slug = project.title.toLowerCase().replace(/\s+/g, "-");
 		sections.push(`### ${project.title} — ${project.subtitle} (${project.period})`);
 		sections.push(`${project.description}\n`);
-		sections.push(`**Technologies:** ${project.tech.join(", ")}\n`);
 		sections.push(`**Key Architecture & Highlights:**`);
 		for (const highlight of project.highlights) {
 			sections.push(`- ${highlight}`);
@@ -115,7 +114,6 @@ export function generateLlmsText(): string {
 	for (const exp of profile.experience) {
 		sections.push(`### ${exp.role} — ${exp.company} (${exp.period})`);
 		sections.push(`${exp.description}\n`);
-		sections.push(`**Technologies:** ${exp.tech.join(", ")}\n`);
 		sections.push(`**Key Contributions & Engineering Highlights:**`);
 		for (const highlight of exp.highlights) {
 			sections.push(`- ${highlight}`);

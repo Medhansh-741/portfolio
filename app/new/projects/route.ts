@@ -8,7 +8,6 @@ const descriptions: Record<string, string> = {
 const cards = profile.projects.map((project, index) => {
 	const title = escapeHtml(project.title);
 	const slug = getProjectSlug(project.title);
-	const skills = escapeHtml(project.tech.join(" · "));
 	return `<article class="detail-card" id="${escapeHtml(slug)}" aria-labelledby="${escapeHtml(slug)}-title">
 		<div class="detail-card-heading">
 			<h2 id="${escapeHtml(slug)}-title">${title}</h2>
@@ -18,7 +17,6 @@ const cards = profile.projects.map((project, index) => {
 			</div>
 		</div>
 		${renderDemo(project, index ? ' loading="lazy"' : "")}
-		<p class="detail-skills"><strong>Skills</strong> ${skills}</p>
 		<p>${escapeHtml(descriptions[slug] ?? project.description)}</p>
 	</article>`;
 }).join("");
