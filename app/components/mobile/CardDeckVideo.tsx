@@ -16,16 +16,17 @@ let hasUserInteracted = false;
 
 interface CardDeckVideoProps {
 	projectFileName: string;
+	posterOnly?: boolean;
 	className?: string;
 }
 
-function CardDeckVideo({ projectFileName, className = "" }: CardDeckVideoProps) {
+function CardDeckVideo({ projectFileName, posterOnly, className = "" }: CardDeckVideoProps) {
 	const { isTop } = useContext(CardDeckContext);
 	const [shouldLoadVideo, setShouldLoadVideo] = useState(() => isTop && hasUserInteracted);
 	const [isVideoPlaying, setIsVideoPlaying] = useState(false);
 
 	useEffect(() => {
-		if (!isTop) {
+		if (!isTop || posterOnly) {
 			setShouldLoadVideo(false);
 			setIsVideoPlaying(false);
 			return;
@@ -53,7 +54,7 @@ function CardDeckVideo({ projectFileName, className = "" }: CardDeckVideoProps) 
 			window.removeEventListener("pointerdown", enableVideo);
 			window.removeEventListener("scroll", enableVideo);
 		};
-	}, [isTop]);
+	}, [isTop, posterOnly]);
 
 	return (
 		<div className="relative w-full h-full overflow-hidden bg-muted">
@@ -70,7 +71,7 @@ function CardDeckVideo({ projectFileName, className = "" }: CardDeckVideoProps) 
 			/>
 
 			{/* Video Preview Layer - Fades in seamlessly over the image once buffered */}
-			{isTop && shouldLoadVideo && (
+			{isTop && shouldLoadVideo && !posterOnly && (
 				<video
 					className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${className} ${
 						isVideoPlaying ? "opacity-100" : "opacity-0"

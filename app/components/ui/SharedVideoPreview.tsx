@@ -1,14 +1,17 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 interface SharedVideoPreviewProps {
 	projectFileName: string;
+	posterOnly?: boolean;
 	className?: string;
 }
 
 export default function SharedVideoPreview({
 	projectFileName,
+	posterOnly,
 	className = "",
 }: SharedVideoPreviewProps) {
 	const videoRef = useRef<HTMLVideoElement>(null);
@@ -34,7 +37,19 @@ export default function SharedVideoPreview({
 
 		observer.observe(video);
 		return () => observer.disconnect();
-	}, []);
+	}, [posterOnly]);
+
+	if (posterOnly) {
+		return (
+			<Image
+				src={`/videos/${projectFileName}.webp`}
+				alt=""
+				fill
+				sizes="(max-width: 640px) 100vw, 24rem"
+				className={`object-cover ${className}`}
+			/>
+		);
+	}
 
 	return (
 		<video

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FiExternalLink } from "react-icons/fi";
-import type { Project } from "@/app/data/profile";
+import { getProjectSlug, type Project } from "@/app/data/profile";
 import { getYouTubeEmbedUrl } from "@/app/lib/youtube";
 import SharedVideoPreview from "./ui/SharedVideoPreview";
 
@@ -101,7 +101,8 @@ export default function DesktopProjectDirectView({ project }: DesktopProjectDire
 									/>
 								) : (
 									<SharedVideoPreview
-										projectFileName={project.title.toLowerCase().replace(/\s+/g, "")}
+										projectFileName={getProjectSlug(project.title)}
+										posterOnly={project.posterOnly}
 										className="w-full h-full object-cover"
 									/>
 								)}

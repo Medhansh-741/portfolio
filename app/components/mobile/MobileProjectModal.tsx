@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { Project } from "@/app/data/profile";
+import { getProjectSlug, type Project } from "@/app/data/profile";
 import { getYouTubeEmbedUrl } from "@/app/lib/youtube";
 import SharedVideoPreview from "../ui/SharedVideoPreview";
 import Logo from "../ui/Logo";
@@ -19,11 +19,6 @@ interface MobileProjectModalProps {
 	isDirect?: boolean;
 }
 
-const MOBILE_VIDEO_MAP: Record<string, string> = {
-	jansamadhan: "jansamadhan",
-	nyayaai: "nyayaai",
-};
-
 export default function MobileProjectModal({
 	project,
 	allProjects,
@@ -34,6 +29,7 @@ export default function MobileProjectModal({
 	const router = useRouter();
 	const otherProjects = allProjects.filter((p) => p.title !== project.title);
 	const youtubeEmbedUrl = getYouTubeEmbedUrl(project.links.demo);
+	const slug = getProjectSlug(project.title);
 
 	// Proactively prefetch destination routes into memory on mount for instant navigation
 	useEffect(() => {
@@ -70,7 +66,8 @@ export default function MobileProjectModal({
 							/>
 						) : (
 							<SharedVideoPreview
-								projectFileName={MOBILE_VIDEO_MAP[project.title.toLowerCase()] || project.title.toLowerCase()}
+								projectFileName={slug}
+								posterOnly={project.posterOnly}
 								className="w-full h-full object-cover"
 							/>
 						)}
@@ -122,7 +119,7 @@ export default function MobileProjectModal({
 						<MobileActionRow
 							url={project.links?.demo || ""}
 							projectName={project.title}
-							videoFileName={MOBILE_VIDEO_MAP[project.title.toLowerCase()] || project.title.toLowerCase()}
+							videoFileName={project.posterOnly ? undefined : slug}
 						/>
 					</section>
 
@@ -140,7 +137,7 @@ export default function MobileProjectModal({
 										{/* Large Static Thumbnail */}
 										<div className="w-full aspect-video bg-muted border-y-2 border-border overflow-hidden relative">
 											<Image
-												src={`/videos/${MOBILE_VIDEO_MAP[p.title.toLowerCase()] || p.title.toLowerCase()}.webp`}
+											src={`/videos/${getProjectSlug(p.title)}.webp`}
 												alt={`${p.title} — ${p.subtitle || "AI Project Architecture Preview"}`}
 												fill
 												sizes="(max-width: 768px) 100vw, 42rem"
@@ -166,7 +163,7 @@ export default function MobileProjectModal({
 							) : (
 								<Link
 									key={p.title}
-									href={`/projects/${p.title.toLowerCase()}`}
+									href={`/projects/${getProjectSlug(p.title)}`}
 									scroll={false}
 									className="flex flex-col min-w-0"
 								>
@@ -174,7 +171,7 @@ export default function MobileProjectModal({
 										{/* Large Static Thumbnail */}
 										<div className="w-full aspect-video bg-muted border-y-2 border-border overflow-hidden relative">
 											<Image
-												src={`/videos/${MOBILE_VIDEO_MAP[p.title.toLowerCase()] || p.title.toLowerCase()}.webp`}
+											src={`/videos/${getProjectSlug(p.title)}.webp`}
 												alt={`${p.title} — ${p.subtitle || "AI Project Architecture Preview"}`}
 												fill
 												sizes="(max-width: 768px) 100vw, 42rem"

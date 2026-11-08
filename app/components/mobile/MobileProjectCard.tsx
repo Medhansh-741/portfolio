@@ -1,4 +1,4 @@
-import { Project } from "@/app/data/profile";
+import { getProjectSlug, type Project } from "@/app/data/profile";
 import Link from "next/link";
 import { memo } from "react";
 import { FiFolder, FiArrowUpRight, FiGithub, FiYoutube } from "react-icons/fi";
@@ -9,12 +9,8 @@ interface MobileProjectCardProps {
 	onOpenDemo?: (project: Project) => void;
 }
 
-const MOBILE_VIDEO_MAP: Record<string, string> = {
-	jansamadhan: "jansamadhan",
-	nyayaai: "nyayaai",
-};
-
 function MobileProjectCard({ project, onOpenDemo }: MobileProjectCardProps) {
+	const slug = getProjectSlug(project.title);
 	return (
 		<div className="w-full h-full flex flex-col justify-between bg-card border border-border/50 rounded-xl shadow-[0_1px_3px_rgba(0,0,0,0.1),0_1px_2px_rgba(0,0,0,0.06)] p-fluid-md gap-fluid-sm relative">
 			{/* Card Header Equivalent */}
@@ -38,7 +34,8 @@ function MobileProjectCard({ project, onOpenDemo }: MobileProjectCardProps) {
 			{/* Video Preview */}
 			<div className="w-full flex-1 min-h-0 bg-muted border-2 border-border overflow-hidden relative mt-fluid-xs">
 				<CardDeckVideo
-					projectFileName={MOBILE_VIDEO_MAP[project.title.toLowerCase()] || project.title.toLowerCase()}
+					projectFileName={slug}
+					posterOnly={project.posterOnly}
 					className="w-full h-full object-cover"
 				/>
 			</div>
@@ -69,7 +66,7 @@ function MobileProjectCard({ project, onOpenDemo }: MobileProjectCardProps) {
 						</button>
 					) : (
 						<Link
-							href={`/projects/${project.title.toLowerCase().replace(/\s+/g, "-")}`}
+							href={`/projects/${slug}`}
 							scroll={false}
 							aria-label="View Project Demo"
 							className="flex items-center justify-center w-12 h-12 bg-background border-2 border-border shadow-[2px_2px_0_0_var(--color-border)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-150 text-[var(--color-accent-warning)]"
@@ -80,7 +77,7 @@ function MobileProjectCard({ project, onOpenDemo }: MobileProjectCardProps) {
 				)}
 
 				<Link
-					href={`/projects#${project.title.toLowerCase().replace(/\s+/g, "-")}`}
+					href={`/projects#${slug}`}
 					aria-label={`View ${project.title} Details`}
 					className="flex items-center justify-center w-12 h-12 ml-auto bg-background border-2 border-border shadow-[2px_2px_0_0_var(--color-border)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-150 text-foreground"
 				>

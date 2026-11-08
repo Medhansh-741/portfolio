@@ -116,6 +116,7 @@ export function getPersonSchema() {
 			name: "India",
 		},
 		knowsLanguage: ["English", "Hindi"],
+		award: profile.achievements.filter((achievement) => achievement.award).map(({ title }) => title),
 		alumniOf: profile.education.map((edu) => ({
 			"@type": "EducationalOrganization",
 			name: edu.institution,
@@ -227,7 +228,8 @@ export function getProjectsCollectionSchema() {
 				url: pageUrl,
 				name: "Projects — Medhansh Kapoor",
 				description:
-					"Explore production AI systems built by Medhansh Kapoor, including JanSamadhan (autonomous civic surveillance) and NyayaAI (multi-agent legal platform).",
+					staticRoutes.find((route) => route.path === "/projects")?.description ??
+					`Explore projects by ${profile.name}.`,
 				dateModified: ISO_DATE,
 				isPartOf: {
 					"@id": WEBSITE_ID,
@@ -243,12 +245,12 @@ export function getProjectsCollectionSchema() {
 								"@type": "SoftwareApplication",
 								name: proj.title,
 								description: proj.description,
-								applicationCategory: "AI / Machine Learning Application",
+								applicationCategory: proj.applicationCategory ?? "AI / Machine Learning Application",
 								operatingSystem: "Web",
 								url: proj.links.live,
 								image: `${SITE_URL}/og/${projSlug}.png`,
 								sameAs: [proj.links.github, proj.links.demo].filter(Boolean),
-								author: {
+								[proj.collaborative ? "contributor" : "author"]: {
 									"@id": PERSON_ID,
 								},
 							},
@@ -320,12 +322,12 @@ export function getSingleProjectSchema(project: Project, slug: string) {
 					"@id": `${pageUrl}/#software`,
 					name: project.title,
 					description: project.description,
-					applicationCategory: "AI / Machine Learning Application",
+					applicationCategory: project.applicationCategory ?? "AI / Machine Learning Application",
 					operatingSystem: "Web",
 					url: project.links.live,
 					image: ogImageUrl,
 					sameAs: [project.links.github, project.links.demo].filter(Boolean),
-					author: {
+					[project.collaborative ? "contributor" : "author"]: {
 						"@id": PERSON_ID,
 					},
 					offers: {

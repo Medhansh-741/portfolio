@@ -1,3 +1,44 @@
+type Achievement = {
+	title: string;
+	detail?: string;
+	award?: true;
+	certificate?: string;
+	eventUrl?: string;
+	images?: readonly { src: string; alt: string; width: number; height: number }[];
+};
+
+const achievements: readonly Achievement[] = [
+	{
+		title: "First Prize at Claude Impact Lab Bhopal",
+		detail: "My team won first prize in October 2026 for tackling a real government challenge at Claude Impact Lab, held in collaboration with MPSeDC and the Government of Madhya Pradesh.",
+		award: true,
+		eventUrl: "https://luma.com/claude-ozni",
+		images: [
+			{ src: "/new-portfolio/claude-impact-lab.webp", alt: "Group photo at the Manipal University Jaipur recognition for the Claude Impact Lab first prize", width: 1200, height: 800 },
+			{ src: "/new-portfolio/claude-impact-lab-demo.webp", alt: "The team presenting at the lectern", width: 1200, height: 800 },
+			{ src: "/new-portfolio/claude-impact-lab-team.webp", alt: "The team speaking with a university official on stage", width: 1200, height: 800 },
+			{ src: "/new-portfolio/claude-impact-lab-audience.webp", alt: "Medhansh Kapoor and Prakhar Gupta seated with university officials", width: 800, height: 533 },
+		],
+	},
+	{
+		title: "Certificate of Student Excellence, Manipal University Jaipur (2026)",
+		award: true,
+		images: [
+			{ src: "/new-portfolio/student-excellence-2026.webp", alt: "Manipal University Jaipur Certificate of Student Excellence awarded to Medhansh Kapoor in 2026", width: 800, height: 565 },
+		],
+	},
+	{
+		title: "India Innovates '26, National Finalist",
+		detail: "Winner in Digital Democracy track; presented JanSamadhan live before senior policy leaders at Bharat Mandapam; project forwarded to central ministries.",
+		certificate: "/India-Innovates.pdf",
+	},
+	{
+		title: "Prayatna 3.0 Hackathon, Finalist",
+		detail: "Built NyayaAI's 5-agent legal AI backend during a 36-hour sprint.",
+		certificate: "/Prayatna-3.0.pdf",
+	},
+];
+
 export const profile = {
 	name: "Medhansh Kapoor",
 	tagline: "AI/ML Engineer | Full-Stack Developer",
@@ -64,9 +105,9 @@ export const profile = {
 		{
 			company: "IndiaAI Mission (MeitY)",
 			role: "AI/ML Intern",
-			period: "May 2026 – July 2026",
+			period: "June 2026 – July 2026",
 			description:
-				"Built an automated dataset-quality evaluation toolkit for ICMR.",
+				"Built an AIKosh toolkit that accepts health research uploads, checks data quality and privacy across 15 areas, and automatically generates reports and sends verified dataset details.",
 			tech: [
 				"Next.js",
 				"FastAPI",
@@ -92,7 +133,7 @@ export const profile = {
 			role: "Student Trainee, Ministry of Defence",
 			period: "May 2026 – July 2026",
 			description:
-				"Developed an air-gapped GIS platform to securely process and visualize offline geospatial data.",
+				"Built an offline mapping platform that automatically imports map files and imagery and serves interactive maps in a browser over a secure local network.",
 			tech: [
 				"FastAPI",
 				"PostGIS",
@@ -113,9 +154,9 @@ export const profile = {
 		{
 			company: "Geminid Systems",
 			role: "Software Development Intern",
-			period: "May 2026 – July 2026",
+			period: "May 2026 – June 2026",
 			description:
-				"Evaluated enterprise AI toolchains and shipped integration tests for production Salesforce environments.",
+				"Built and tested Salesforce integrations, compared AI tools that turn questions into database queries, and benchmarked audio tools for voice analytics.",
 			tech: [
 				"Vanna.ai",
 				"LlamaIndex",
@@ -141,7 +182,7 @@ export const profile = {
 			subtitle: "Autonomous Civic Surveillance Platform",
 			period: "Mar 2026",
 			description:
-				"Detects civic issues via CCTV/dashcam, auto-generates complaint tickets, verifies repairs, and retrains itself.",
+				"JanSamadhan turns vetted CCTV and dashcam detections into civic repair tickets and takes citizen reports by chat, voice, or WhatsApp. Seva uses Gemini to classify reports and route them to the right Delhi department. India's DIGIPIN pinpoints issues, and residents can upvote nearby duplicates instead of filing again. Upvotes and missed deadlines raise priority, while public maps and ticket history show progress. Workers upload repair proof, camera rescans check the fix, and residents can confirm or reopen tickets. Field evidence feeds future model training.",
 			tech: [
 				"YOLOv8",
 				"ONNX",
@@ -153,7 +194,7 @@ export const profile = {
 
 			highlights: [
 				"Model & Inference: Trained YOLOv8 on 4,783 images with 30% engineered negatives and FN-bucketing for recall diagnosis; achieved 20ms ONNX inference on a FastAPI microservice deployed via GCP Cloud Run.",
-				"Auto-Ticketing & Reliability: Engineered a burst-frame extraction pipeline feeding a 4-tier reliability engine and DIGIPIN geospatial deduplication (4m² grid), processing 256 end-to-end complaints in 0.36s per ticket.",
+				"Auto-Ticketing & Reliability: Engineered a burst-frame extraction pipeline feeding a 4-tier reliability engine and DIGIPIN-based deduplication, processing 256 end-to-end complaints in 0.36s per ticket.",
 				"Verification & Active Learning: Enforced automated post-repair rescans to verify fixes before ticket closure; bucketed field data into labeled classes for continuous baseline-gated retraining.",
 				"LLM Routing (Seva): Integrated Gemini 2.5 Flash using a 4-step Chain-of-Thought to autonomously route complaints across 42 civic categories, auto-routing 125/256 tickets with zero manual input.",
 			],
@@ -193,21 +234,29 @@ export const profile = {
 				demo: "https://youtu.be/YwgooAeuRmo",
 			},
 		},
-	],
-	achievements: [
 		{
-			title: "India Innovates '26 — National Finalist",
-			detail:
-				"Winner in Digital Democracy track; presented JanSamadhan live before senior policy leaders at Bharat Mandapam; project forwarded to central ministries.",
-			certificate: "/India-Innovates.pdf",
-		},
-		{
-			title: "Prayatna 3.0 Hackathon — Finalist",
-			detail:
-				"Built NyayaAI's 5-agent legal AI backend during a 36-hour sprint.",
-			certificate: "/Prayatna-3.0.pdf",
+			title: "Ecoaudit",
+			subtitle: "Software Sustainability Auditor",
+			period: "Oct 2026",
+			description:
+				"Ecoaudit is an open-source tool that finds avoidable compute waste using rule-based checks, with no LLM or machine learning. It reads code from a public GitHub repo or a local Git checkout without running it. You can add existing deployment logs through read-only AWS IAM access and artifacts such as profiles or test reports from runs in your own environment. Ecoaudit checks that evidence against its rules, and you can run the entire app on localhost to keep your code and artifacts private.",
+			tech: ["Python", "TypeScript", "GitHub Actions", "AWS Lambda", "Amazon S3", "Lighthouse"],
+			highlights: [
+				"Performance profiling: Built a GitHub Action that collects Python CPU and memory profiles and runs Lighthouse, then uploads the results for analysis.",
+				"Database checks: Added detectors that flag wasteful SQL patterns and query plans, including sequential scans inside nested loops.",
+				"Report storage: Updated the Lighthouse worker to save JSON and HTML reports to private S3 and added a live demo script.",
+			],
+			posterOnly: true,
+			collaborative: true,
+			applicationCategory: "DeveloperApplication",
+			links: {
+				live: "https://main.dz3ac51z9uzpr.amplifyapp.com/",
+				github: "https://github.com/AWS-env/environmental-hacks/",
+				demo: "https://www.youtube.com/watch?v=YWgCT_omVGM",
+			},
 		},
 	],
+	achievements,
 	education: [
 		{
 			institution: "Manipal University Jaipur",
@@ -245,7 +294,7 @@ export const staticRoutes: NavRoute[] = [
 		name: "Projects",
 		path: "/projects",
 		description:
-			"Explore production AI systems built by Medhansh Kapoor, including JanSamadhan and NyayaAI.",
+			"Explore Medhansh Kapoor’s work on JanSamadhan, NyayaAI, and Ecoaudit.",
 	},
 	{
 		name: "Experience",
@@ -257,7 +306,7 @@ export const staticRoutes: NavRoute[] = [
 		name: "About",
 		path: "/about",
 		description:
-			"Engineering background, technical philosophy, and education of Medhansh Kapoor.",
+			"About Medhansh Kapoor, including his engineering background, first prize at Claude Impact Lab Bhopal, and Student Excellence award at Manipal University Jaipur.",
 	},
 	{
 		name: "Resume",
@@ -273,5 +322,5 @@ export const staticRoutes: NavRoute[] = [
 export function getDisambiguatingDescription(p = profile): string {
 	const projectsList = p.projects.map((proj) => proj.title).join(" and ");
 	const companiesList = p.experience.map((exp) => exp.company).join(", ");
-	return `${p.tagline} based in ${p.location} (creator of ${projectsList}, with completed engineering internships at ${companiesList}; ${p.disambiguation || ""})`.trim();
+	return `${p.tagline} based in ${p.location} (projects include ${projectsList}, with completed engineering internships at ${companiesList}; ${p.disambiguation || ""})`.trim();
 }

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { FiExternalLink } from "react-icons/fi";
-import type { Project } from "@/app/data/profile";
+import { getProjectSlug, type Project } from "@/app/data/profile";
 import { getYouTubeEmbedUrl } from "@/app/lib/youtube";
 import SharedVideoPreview from "./ui/SharedVideoPreview";
 
@@ -121,7 +121,8 @@ export default function GenieModal({
 											/>
 										) : (
 											<SharedVideoPreview
-												projectFileName={project.title.toLowerCase().replace(/\s+/g, '')}
+												projectFileName={getProjectSlug(project.title)}
+												posterOnly={project.posterOnly}
 												className="w-full h-full object-cover"
 											/>
 										)}

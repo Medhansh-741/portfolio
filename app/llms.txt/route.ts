@@ -15,8 +15,8 @@ export function generateDynamicFaqs(): { question: string; answer: string }[] {
 			answer: `${profile.name} is an ${disambiguationText}. ${profile.intro}`,
 		},
 		{
-			question: `What production AI systems has ${profile.name} built?`,
-			answer: `${profile.name} has designed and deployed: ${projectSummaries}.`,
+			question: `What projects has ${profile.name} worked on?`,
+			answer: `${profile.name}’s project work includes ${projectSummaries}.`,
 		},
 		{
 			question: `Where has ${profile.name} worked or interned?`,
@@ -28,7 +28,7 @@ export function generateDynamicFaqs(): { question: string; answer: string }[] {
 		},
 		{
 			question: `What are ${profile.name}'s key achievements and recognition?`,
-			answer: profile.achievements.map((a) => `${a.title}: ${a.detail}`).join(" "),
+			answer: profile.achievements.map(({ title, detail }) => detail ? `${title}: ${detail}` : `${title}.`).join(" "),
 		},
 		{
 			question: `What is ${profile.name}'s educational background?`,
@@ -130,10 +130,12 @@ export function generateLlmsText(): string {
 	sections.push(`## Achievements & Recognition\n`);
 	for (const ach of profile.achievements) {
 		sections.push(`### ${ach.title}`);
-		sections.push(`${ach.detail}`);
+		if (ach.detail) sections.push(ach.detail);
 		if (ach.certificate) {
 			sections.push(`- Certificate: https://medhanshk.me${ach.certificate}`);
 		}
+		if (ach.eventUrl) sections.push(`- Event: ${ach.eventUrl}`);
+		if (ach.images?.[0]) sections.push(`- Evidence image: https://medhanshk.me${ach.images[0].src}`);
 		sections.push(``);
 	}
 

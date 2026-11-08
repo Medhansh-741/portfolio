@@ -44,7 +44,7 @@ export default function AboutPage() {
 				data={getProfilePageSchema(
 					"/about",
 					"About — Medhansh Kapoor",
-					"Medhansh Kapoor — AI/ML Engineer & Full-Stack Developer based in Jaipur, India. Engineering philosophy, achievements, and education."
+					pageDescription
 				)}
 			/>
 			<AboutView />

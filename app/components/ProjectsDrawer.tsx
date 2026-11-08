@@ -5,7 +5,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { FiFolder } from "react-icons/fi";
-import { type Project, profile } from "@/app/data/profile";
+import { type Project, getProjectSlug, profile } from "@/app/data/profile";
+import { getYouTubeEmbedUrl } from "@/app/lib/youtube";
 import GenieModal from "./GenieModal";
 import CardFooter from "./ui/CardFooter";
 import CardHeader from "./ui/CardHeader";
@@ -37,14 +38,6 @@ export default function ProjectsDrawer({
 		router.prefetch("/projects");
 	}, [router]);
 
-	// Helper to extract YouTube ID from standard URL
-	const getYoutubeId = (url: string) => {
-		if (url.includes("youtu.be/")) {
-			return url.split("youtu.be/")[1];
-		}
-		return "";
-	};
-
 	// Safely sync desktop activeProject state with browser URL History API
 	useEffect(() => {
 		if (isInitialMount.current) {
@@ -55,7 +48,7 @@ export default function ProjectsDrawer({
 
 		if (activeProject) {
 			isNavigatingAway.current = false;
-			const targetUrl = `/projects/${activeProject.title.toLowerCase().replace(/\s+/g, "-")}`;
+			const targetUrl = `/projects/${getProjectSlug(activeProject.title)}`;
 			if (window.location.pathname !== targetUrl) {
 				window.history.pushState({ modal: activeProject.title }, "", targetUrl);
 			}
@@ -111,8 +104,8 @@ export default function ProjectsDrawer({
 				{/* Scrollable list inside */}
 				<div className="mt-3 flex flex-col gap-4 relative z-10 w-full">
 					{profile.projects.map((proj) => {
-						const videoId = getYoutubeId(proj.links.demo || "");
-						const slug = proj.title.toLowerCase().replace(/\s+/g, "-");
+						const hasVideo = Boolean(getYouTubeEmbedUrl(proj.links.demo));
+						const slug = getProjectSlug(proj.title);
 						const projectPath = `/projects/${slug}`;
 
 						return (
@@ -142,7 +135,7 @@ export default function ProjectsDrawer({
 								</div>
 
 								{/* Clean Video Preview Frame */}
-								{videoId && (
+								{hasVideo && (
 									<motion.button
 										layoutId={`project-window-${proj.title}`}
 										transition={{ layout: { path: arc({ direction: "cw" }) } }}
@@ -153,7 +146,8 @@ export default function ProjectsDrawer({
 										className="w-full aspect-video relative overflow-hidden bg-border border-[3px] border-border cursor-pointer transition-all duration-200 group"
 									>
 										<SharedVideoPreview
-											projectFileName={proj.title.toLowerCase() === "jansamadhan" ? "jansamadhan" : "nyayaai"}
+											projectFileName={slug}
+											posterOnly={proj.posterOnly}
 											className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
 										/>
 

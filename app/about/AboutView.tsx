@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { FiAward, FiBookOpen, FiExternalLink } from "react-icons/fi";
 import { profile } from "@/app/data/profile";
 
@@ -40,9 +41,9 @@ export default function AboutView() {
 							</h2>
 						</div>
 						<div className="space-y-6">
-							{profile.achievements.map((ach, i) => (
+							{profile.achievements.map(({ title, detail, certificate, eventUrl, images }, i) => (
 								<motion.div
-									key={ach.title}
+									key={title}
 									initial={{ opacity: 0, x: -16 }}
 									animate={{ opacity: 1, x: 0 }}
 									transition={{ delay: i * 0.2 }}
@@ -51,21 +52,22 @@ export default function AboutView() {
 									<div className="w-10 h-10 bg-accent-warning text-black flex items-center justify-center flex-shrink-0 mt-0.5 border-[2px] border-border">
 										<FiAward size={20} />
 									</div>
-									<div className="flex-1">
+									<div className="min-w-0 flex-1">
 										<h3 className="font-sans text-base font-bold text-foreground uppercase">
-											{ach.title}
+											{title}
 										</h3>
-										<p className="text-sm text-muted-foreground mt-1 leading-relaxed">
-											{ach.detail}
-										</p>
-										<a
-											href={ach.certificate}
+										{detail && <p className="text-sm text-muted-foreground mt-1 leading-relaxed">{detail}</p>}
+										{images?.[0] && (
+											<Image {...images[0]} sizes="(max-width: 672px) 75vw, 700px" className="mt-3 h-auto w-full" />
+										)}
+										{(certificate || eventUrl) && <a
+											href={certificate || eventUrl}
 											target="_blank"
 											rel="noopener noreferrer"
 											className="inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-widest text-accent-secondary hover:text-foreground transition-colors mt-2"
 										>
-											View Certificate <FiExternalLink size={12} />
-										</a>
+											{certificate ? "View Certificate" : "View Event"} <FiExternalLink size={12} />
+										</a>}
 									</div>
 								</motion.div>
 							))}

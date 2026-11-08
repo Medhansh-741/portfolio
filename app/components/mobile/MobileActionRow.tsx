@@ -7,7 +7,7 @@ import ShareActionButton from "./ShareActionButton";
 interface MobileActionRowProps {
 	url: string;
 	projectName: string;
-	videoFileName: string;
+	videoFileName?: string;
 }
 
 export default function MobileActionRow({ url, projectName, videoFileName }: MobileActionRowProps) {
@@ -56,15 +56,17 @@ export default function MobileActionRow({ url, projectName, videoFileName }: Mob
 			{/* Share & Download */}
 			<div className="flex items-center gap-0">
 				<ShareActionButton url={url} />
-				<a
-					href={`/videos/${videoFileName}.mp4`}
-					download
-					aria-label="Download video"
-					className="flex items-center justify-center min-w-[var(--spacing-fluid-xl-val)] min-h-[var(--spacing-fluid-xl-val)] text-foreground"
-					title="Download"
-				>
-					<FiDownload size="1.25em" />
-				</a>
+				{videoFileName && (
+					<a
+						href={`/videos/${videoFileName}.mp4`}
+						download
+						aria-label="Download video"
+						className="flex items-center justify-center min-w-[var(--spacing-fluid-xl-val)] min-h-[var(--spacing-fluid-xl-val)] text-foreground"
+						title="Download"
+					>
+						<FiDownload size="1.25em" />
+					</a>
+				)}
 			</div>
 		</div>
 	);

@@ -7,7 +7,7 @@ const projectsRoute = staticRoutes.find((r) => r.path === "/projects");
 const pageTitle = `Projects — ${profile.name}`;
 const pageDescription =
 	projectsRoute?.description ||
-	`Explore production AI systems built by ${profile.name}, including JanSamadhan and NyayaAI.`;
+	`Explore projects by ${profile.name}.`;
 
 export const metadata: Metadata = {
 	title: "Projects",

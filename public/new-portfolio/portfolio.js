@@ -1,23 +1,5 @@
-const clock = document.querySelector("[data-clock]");
-const clockDigits = clock.querySelectorAll("[data-digit]");
-
-function updateClock() {
-	const now = new Date();
-	const hours = String(now.getHours()).padStart(2, "0");
-	const minutes = String(now.getMinutes()).padStart(2, "0");
-	const time = `${hours}:${minutes}`;
-	if (clock.dateTime === time) return;
-	const digits = hours + minutes;
-	clockDigits.forEach((digit, index) => { digit.textContent = digits[index]; });
-	clock.dateTime = time;
-	clock.setAttribute("aria-label", `Local time ${time}`);
-	clock.hidden = false;
-}
-
-updateClock();
-setInterval(updateClock, 1000);
-
 const deck = document.querySelector("[data-deck]");
+const deckTrack = deck.querySelector(".deck-track");
 const categories = [...deck.querySelectorAll("[data-category]")];
 const items = {
 	projects: [...deck.querySelectorAll("[data-project]")],
@@ -29,9 +11,24 @@ const next = deck.querySelector("[data-next]");
 const pagination = deck.querySelector("[data-pagination]");
 const status = deck.querySelector("[data-deck-status]");
 const indices = { projects: 0, experience: 0 };
+const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 let category = "projects";
+let swipe = null;
+
+function resetSwipe() {
+	if (!swipe) return;
+	const { current, neighbor, animations } = swipe;
+	swipe = null;
+	animations?.forEach((animation) => animation.cancel());
+	current.style.transform = "";
+	if (neighbor) {
+		neighbor.style.transform = "";
+		delete neighbor.dataset.swipePreview;
+	}
+}
 
 function renderDeck(announce = false) {
+	resetSwipe();
 	const index = indices[category];
 	const count = items[category].length;
 	const item = items[category][index];
@@ -59,9 +56,13 @@ function renderDeck(announce = false) {
 	if (announce) status.textContent = `${item.querySelector("h2").textContent}. ${index + 1} of ${count}.`;
 }
 
-function moveDeck(direction) {
+function deckIndex(direction) {
 	const count = items[category].length;
-	indices[category] = (indices[category] + direction + count) % count;
+	return (indices[category] + direction + count) % count;
+}
+
+function moveDeck(direction) {
+	indices[category] = deckIndex(direction);
 	renderDeck(true);
 }
 
@@ -79,20 +80,80 @@ next.addEventListener("click", () => moveDeck(1));
 deck.querySelector("[data-categories]").hidden = false;
 renderDeck();
 
-for (const trigger of deck.querySelectorAll("[data-embed]")) {
-	trigger.addEventListener("click", (event) => {
-		if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || trigger.clientWidth < 200) return;
-		event.preventDefault();
-		const player = document.createElement("iframe");
-		player.title = trigger.getAttribute("aria-label");
-		player.src = trigger.dataset.embed;
-		player.allow = "autoplay; encrypted-media; picture-in-picture";
-		player.allowFullscreen = true;
-		trigger.after(player);
-		trigger.hidden = true;
-		player.focus();
-	});
-}
+const slide = (offset) => `translate3d(${offset}px, 0, 0)`;
+
+deckTrack.addEventListener("touchstart", (event) => {
+	if (event.touches.length !== 1 || swipe || items[category].length < 2) return;
+	const touch = event.touches[0];
+	swipe = {
+		id: touch.identifier,
+		x: touch.clientX,
+		y: touch.clientY,
+		started: event.timeStamp,
+		width: deckTrack.clientWidth,
+		current: items[category][indices[category]],
+		direction: 0,
+		offset: 0,
+	};
+}, { passive: true });
+
+deckTrack.addEventListener("touchmove", (event) => {
+	if (!swipe || swipe.animations) return;
+	if (event.touches.length !== 1) return resetSwipe();
+	const touch = event.touches[0];
+	if (swipe.id !== touch.identifier) return;
+	const dx = touch.clientX - swipe.x;
+	const dy = Math.abs(touch.clientY - swipe.y);
+	if (!swipe.direction) {
+		if (dy > 10 && dy >= Math.abs(dx)) return resetSwipe();
+		if (Math.abs(dx) < 10 || Math.abs(dx) < dy * 1.25) return;
+	}
+	if (event.cancelable) event.preventDefault();
+
+	const direction = dx <= 0 ? 1 : -1;
+	if (direction !== swipe.direction) {
+		if (swipe.neighbor) {
+			delete swipe.neighbor.dataset.swipePreview;
+			swipe.neighbor.style.transform = "";
+		}
+		swipe.direction = direction;
+		swipe.neighbor = items[category][deckIndex(direction)];
+	}
+	swipe.offset = Math.max(-swipe.width, Math.min(swipe.width, dx));
+	if (!reducedMotion.matches) {
+		swipe.current.style.transform = slide(swipe.offset);
+		swipe.neighbor.style.transform = slide(swipe.offset + direction * swipe.width);
+		swipe.neighbor.dataset.swipePreview = "";
+	}
+}, { passive: false });
+
+deckTrack.addEventListener("touchend", (event) => {
+	const gesture = swipe;
+	if (!gesture || gesture.id !== event.changedTouches[0]?.identifier || gesture.animations) return;
+	const { direction, offset, width, started, current, neighbor } = gesture;
+	if (!direction) return resetSwipe();
+	if (event.cancelable) event.preventDefault();
+
+	const distance = Math.abs(offset);
+	const quickSwipe = distance >= 28 && distance / Math.max(1, event.timeStamp - started) >= 0.45;
+	const advance = distance >= Math.min(72, width * 0.22) || quickSwipe;
+	const finish = () => {
+		if (swipe !== gesture) return;
+		if (advance) moveDeck(direction);
+		else resetSwipe();
+	};
+	if (reducedMotion.matches) return finish();
+
+	const end = advance ? -direction * width : 0;
+	const options = { duration: 180, easing: "cubic-bezier(0.2, 0.8, 0.2, 1)", fill: "forwards" };
+	gesture.animations = [
+		current.animate([{ transform: slide(offset) }, { transform: slide(end) }], options),
+		neighbor.animate([{ transform: slide(offset + direction * width) }, { transform: slide(end + direction * width) }], options),
+	];
+	gesture.animations[0].onfinish = finish;
+}, { passive: false });
+
+deckTrack.addEventListener("touchcancel", resetSwipe);
 
 async function loadContributionGraph() {
 	const heading = document.querySelector("[data-contribution-total]");
