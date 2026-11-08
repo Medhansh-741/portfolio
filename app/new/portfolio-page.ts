@@ -59,12 +59,8 @@ const routes = [
 ] as const;
 
 type Page = Exclude<(typeof routes)[number][0], "resume">;
-const swipeRoutes = routes.filter(([name]) => name !== "resume");
 
 export function portfolioResponse(page: Page, title: string, description: string, content: string) {
-	const pageIndex = swipeRoutes.findIndex(([name]) => name === page);
-	const previous = swipeRoutes[pageIndex - 1]?.[2] ?? "";
-	const next = swipeRoutes[pageIndex + 1]?.[2] ?? "";
 	const navigation = routes.map(([name, label, href]) =>
 		`<a href="${escapeHtml(href)}"${name === page ? ' class="bottom-current" aria-current="page"' : ""}>${icon(name)}${label}</a>`
 	).join("");
@@ -84,7 +80,7 @@ export function portfolioResponse(page: Page, title: string, description: string
 	${page === "home" ? '<script src="/new-portfolio/portfolio.js" defer></script>' : ""}
 </head>
 <body>
-	<div class="portfolio" data-page-previous="${escapeHtml(previous)}" data-page-next="${escapeHtml(next)}">
+	<div class="portfolio">
 		<header class="masthead">
 			${page === "home" ? `<h1>${escapeHtml(profile.name)}</h1>` : `<a class="masthead-name" href="/new">${escapeHtml(profile.name)}</a>`}
 			<time class="clock" data-clock aria-label="Local time" hidden>
