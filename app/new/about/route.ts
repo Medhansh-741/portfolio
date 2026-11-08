@@ -34,7 +34,7 @@ const education = profile.education.map(({ institution, degree, period }) => `
 
 const content = `
 	<h1>About</h1>
-	<div class="detail-card"><p>${escapeHtml(profile.about[0])}</p></div>
+	<div class="detail-card"><p>I like taking on problems I haven’t solved before, getting something working fast, and then figuring out how to make it hold up.</p></div>
 	<section class="detail-section" aria-labelledby="achievements">
 		<h2 id="achievements">Achievements</h2>
 		<div class="detail-list">${achievements}</div>
