@@ -69,21 +69,21 @@ const content = `
 				</details>
 			</section>
 			<section class="deck" aria-label="Selected work" data-deck>
-				<div class="deck-body" id="deck-content">
+				<div class="deck-track" id="deck-content">
+					${projects}
+					${experience}
+				</div>
+				<p class="sr-only" data-deck-status role="status"></p>
+				<div class="deck-footer">
+					<div class="deck-categories" role="group" aria-label="Work category" data-categories hidden>
+						<button type="button" data-category="projects" aria-pressed="true" aria-controls="deck-content">Projects</button>
+						<button type="button" data-category="experience" aria-pressed="false" aria-controls="deck-content">Experience</button>
+					</div>
 					<div class="deck-pagination" data-pagination hidden>
 						<button type="button" data-previous aria-label="Previous project">${icon("previous")}</button>
 						<span data-position></span>
 						<button type="button" data-next aria-label="Next project">${icon("next")}</button>
 					</div>
-					<div class="deck-track">
-						${projects}
-						${experience}
-					</div>
-				</div>
-				<p class="sr-only" data-deck-status role="status"></p>
-				<div class="deck-categories" role="group" aria-label="Work category" data-categories hidden>
-					<button type="button" data-category="projects" aria-pressed="true" aria-controls="deck-content">Projects</button>
-					<button type="button" data-category="experience" aria-pressed="false" aria-controls="deck-content">Experience</button>
 				</div>
 			</section>
 			<section class="contributions" aria-label="GitHub contributions">

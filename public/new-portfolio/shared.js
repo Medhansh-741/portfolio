@@ -17,6 +17,53 @@ function updateClock() {
 updateClock();
 setInterval(updateClock, 1000);
 
+const portfolio = document.querySelector(".portfolio");
+const { pagePrevious, pageNext } = portfolio.dataset;
+const swipeExclusions = "[data-deck], [data-gallery], [data-graph-scroll], input, textarea, select, [contenteditable]";
+const edgeInset = 24;
+let pageSwipe = null;
+
+portfolio.addEventListener("touchstart", (event) => {
+	pageSwipe = null;
+	if (event.touches.length !== 1 || event.target.closest(swipeExclusions) || window.visualViewport?.scale > 1) return;
+	const touch = event.touches[0];
+	if (touch.clientX < edgeInset || touch.clientX > document.documentElement.clientWidth - edgeInset) return;
+	pageSwipe = { id: touch.identifier, x: touch.clientX, y: touch.clientY };
+}, { passive: true });
+
+portfolio.addEventListener("touchmove", (event) => {
+	if (!pageSwipe) return;
+	const touch = event.touches[0];
+	if (event.touches.length !== 1 || touch.identifier !== pageSwipe.id) {
+		pageSwipe = null;
+		return;
+	}
+	const dx = touch.clientX - pageSwipe.x;
+	const dy = Math.abs(touch.clientY - pageSwipe.y);
+	if (dy > 12 && dy >= Math.abs(dx)) {
+		pageSwipe = null;
+		return;
+	}
+	if (Math.abs(dx) > 12 && Math.abs(dx) > dy * 1.5 && (dx < 0 ? pageNext : pagePrevious) && event.cancelable) {
+		event.preventDefault();
+	}
+}, { passive: false });
+
+portfolio.addEventListener("touchend", (event) => {
+	const gesture = pageSwipe;
+	pageSwipe = null;
+	const touch = event.changedTouches[0];
+	if (!gesture || !touch || gesture.id !== touch.identifier || window.getSelection()?.isCollapsed === false) return;
+	const dx = touch.clientX - gesture.x;
+	const dy = Math.abs(touch.clientY - gesture.y);
+	const target = dx < 0 ? pageNext : pagePrevious;
+	if (!target || Math.abs(dx) < 64 || Math.abs(dx) < dy * 1.5) return;
+	if (event.cancelable) event.preventDefault();
+	window.location.assign(target);
+}, { passive: false });
+
+portfolio.addEventListener("touchcancel", () => { pageSwipe = null; }, { passive: true });
+
 for (const trigger of document.querySelectorAll("[data-embed]")) {
 	trigger.addEventListener("click", (event) => {
 		if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || trigger.clientWidth < 200) return;

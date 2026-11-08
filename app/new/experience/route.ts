@@ -10,9 +10,9 @@ const descriptions: Record<string, string> = {
 const cards = profile.experience.map((item) => {
 	const company = escapeHtml(item.company);
 	return `<article class="detail-card">
-		<div class="detail-card-heading">
+		<div>
 			<h2>${company}</h2>
-			<div class="detail-actions detail-proof">
+			<div class="experience-proof" role="group" aria-label="Experience documents">
 				<a href="${escapeHtml(item.offerLetter)}" aria-label="Offer letter for ${company} (PDF)">Offer letter</a>
 				<a href="${escapeHtml(item.completionLetter)}" aria-label="Completion letter for ${company} (PDF)">Completion letter</a>
 			</div>
