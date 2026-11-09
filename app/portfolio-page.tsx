@@ -51,38 +51,22 @@ export function renderDemo(project: Project, imageAttributes = "") {
 }
 
 const routes = [
-	["home", "Home", "/new"],
-	["projects", "Projects", "/new/projects"],
-	["experience", "Experience", "/new/experience"],
+	["home", "Home", "/"],
+	["projects", "Projects", "/projects"],
+	["experience", "Experience", "/experience"],
 	["resume", "Résumé", profile.resumeUrl],
-	["about", "About", "/new/about"],
+	["about", "About", "/about"],
 ] as const;
 
 type Page = Exclude<(typeof routes)[number][0], "resume">;
 
-export function portfolioResponse(page: Page, title: string, description: string, content: string) {
+export function PortfolioPage({ page, content }: { page?: Page; content: string }) {
 	const navigation = routes.map(([name, label, href]) =>
 		`<a href="${escapeHtml(href)}"${name === page ? ' class="bottom-current" aria-current="page"' : ""}>${icon(name)}${label}</a>`
 	).join("");
-	const document = `<!doctype html>
-<html lang="en">
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-	<meta name="color-scheme" content="only light">
-	<meta name="theme-color" content="#ffffff">
-	<meta name="robots" content="noindex, follow">
-	<title>${escapeHtml(title)} | ${escapeHtml(profile.name)}</title>
-	<meta name="description" content="${escapeHtml(description)}">
-	<link rel="icon" href="/favicon.ico">
-	<link rel="stylesheet" href="/new-portfolio/styles.css">
-	<script src="/new-portfolio/shared.js" defer></script>
-	${page === "home" ? '<script src="/new-portfolio/portfolio.js" defer></script>' : ""}
-</head>
-<body>
-	<div class="portfolio">
+	const markup = `
 		<header class="masthead">
-			${page === "home" ? `<h1>${escapeHtml(profile.name)}</h1>` : `<a class="masthead-name" href="/new">${escapeHtml(profile.name)}</a>`}
+			${page === "home" ? `<h1>${escapeHtml(profile.name)}</h1>` : `<a class="masthead-name" href="/">${escapeHtml(profile.name)}</a>`}
 			<time class="clock" data-clock aria-label="Local time" hidden>
 				<span class="clock-dial" aria-hidden="true">
 					<span data-digit data-ghost="8"></span><span data-digit data-ghost="8"></span><span class="clock-colon">:</span><span data-digit data-ghost="8"></span><span data-digit data-ghost="8"></span>
@@ -90,10 +74,7 @@ export function portfolioResponse(page: Page, title: string, description: string
 			</time>
 		</header>
 		<main${page === "home" ? "" : ' class="detail-page"'}>${content}</main>
-		<nav class="bottom-bar" aria-label="Portfolio">${navigation}</nav>
-	</div>
-</body>
-</html>`;
+		<nav class="bottom-bar" aria-label="Portfolio">${navigation}</nav>`;
 
-	return new Response(document, { headers: { "Content-Type": "text/html; charset=utf-8" } });
+	return <div className="portfolio" dangerouslySetInnerHTML={{ __html: markup }} />;
 }

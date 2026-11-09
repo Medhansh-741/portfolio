@@ -1,54 +1,14 @@
 import GoogleAnalyticsDeferred from "./components/GoogleAnalyticsDeferred";
 import { Analytics } from "@vercel/analytics/react";
 import type { Metadata, Viewport } from "next";
-import { Inter, Pirata_One, Playfair_Display } from "next/font/google";
-import localFont from "next/font/local";
-import "./globals.css";
-import Navbar from "./components/Navbar";
-import MobileHeader from "./components/mobile/MobileHeader";
-import MobileBottomBar from "./components/mobile/MobileBottomBar";
-import { JsonLd, getRootGraphSchema } from "./lib/jsonld";
-
+import Script from "next/script";
 import { profile } from "./data/profile";
+import { JsonLd, getRootGraphSchema } from "./lib/jsonld";
 
 export const viewport: Viewport = {
 	themeColor: "#FFFFFF",
-	colorScheme: "only light" as "light",
+	colorScheme: "light",
 };
-
-const inter = Inter({
-	subsets: ["latin"],
-	variable: "--font-inter",
-});
-
-const playfair = Playfair_Display({
-	subsets: ["latin"],
-	variable: "--font-playfair",
-});
-
-const pirataOne = Pirata_One({
-	weight: "400",
-	subsets: ["latin"],
-	variable: "--font-pirata",
-});
-
-const dseg7 = localFont({
-	src: [
-		{ path: "../public/fonts/DSEG7Classic-Regular.woff2", weight: "400", style: "normal" },
-		{ path: "../public/fonts/DSEG7Classic-Bold.woff2", weight: "700", style: "normal" },
-	],
-	variable: "--font-dseg7",
-	display: "swap",
-});
-
-const dseg14 = localFont({
-	src: [
-		{ path: "../public/fonts/DSEG14Classic-Regular.woff2", weight: "400", style: "normal" },
-		{ path: "../public/fonts/DSEG14Classic-Bold.woff2", weight: "700", style: "normal" },
-	],
-	variable: "--font-dseg14",
-	display: "swap",
-});
 
 export const metadata: Metadata = {
 	metadataBase: new URL("https://medhanshk.me"),
@@ -110,30 +70,16 @@ export const metadata: Metadata = {
 	},
 };
 
-export default function RootLayout({
-	children,
-	modal,
-}: Readonly<{
-	children: React.ReactNode;
-	modal: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
-		<html lang="en" suppressHydrationWarning>
+		<html lang="en">
 			<head>
-				<meta name="color-scheme" content="only light" />
-				<meta name="theme-color" content="#FFFFFF" />
+				<link rel="stylesheet" href="/new-portfolio/styles.css" />
 			</head>
-			<body
-				className={`${inter.variable} ${playfair.variable} ${pirataOne.variable} ${dseg7.variable} ${dseg14.variable} antialiased bg-background text-foreground font-sans`}
-			>
+			<body>
 				<JsonLd data={getRootGraphSchema()} />
-				<div className="min-h-dvh flex flex-col">
-					<Navbar />
-					<MobileHeader />
-					{children}
-					{modal}
-					<MobileBottomBar />
-				</div>
+				{children}
+				<Script src="/new-portfolio/shared.js" strategy="afterInteractive" />
 				<Analytics />
 				<GoogleAnalyticsDeferred gaId="G-D064XWFM94" />
 			</body>

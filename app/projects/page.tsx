@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import ProjectsView from "./ProjectsView";
+import { PortfolioPage } from "../portfolio-page";
+import { renderProjectCard } from "./project-card";
 import { JsonLd, getProjectsCollectionSchema } from "@/app/lib/jsonld";
 import { profile, staticRoutes } from "@/app/data/profile";
 
@@ -37,11 +38,13 @@ export const metadata: Metadata = {
 	},
 };
 
+const cards = profile.projects.map((project, index) => renderProjectCard(project, { lazy: index > 0 })).join("");
+
 export default function ProjectsPage() {
 	return (
 		<>
 			<JsonLd data={getProjectsCollectionSchema()} />
-			<ProjectsView />
+			<PortfolioPage page="projects" content={`<h1>Projects</h1><div class="detail-list">${cards}</div>`} />
 		</>
 	);
 }
