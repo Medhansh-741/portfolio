@@ -3,31 +3,32 @@ import { Analytics } from "@vercel/analytics/react";
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { profile } from "./data/profile";
-import { JsonLd, getRootGraphSchema } from "./lib/jsonld";
+import { JsonLd, getRootGraphSchema, SITE_URL } from "./lib/jsonld";
 
 export const viewport: Viewport = {
 	themeColor: "#FFFFFF",
 	colorScheme: "light",
 };
 
+const homeTitle = `${profile.name} | ${profile.tagline.replace(" | ", " & ")}`;
+const homeDescription = `Portfolio of ${profile.name}, an AI/ML engineer and full-stack developer in ${profile.location}. Explore JanSamadhan, NyayaAI, Ecoaudit, and his engineering experience.`;
+
 export const metadata: Metadata = {
-	metadataBase: new URL("https://medhanshk.me"),
+	metadataBase: new URL(SITE_URL),
 	title: {
-		default: profile.name,
+		default: homeTitle,
 		template: `%s | ${profile.name}`,
 	},
-	description:
-		`Portfolio of ${profile.name} — AI/ML Engineer and Full-Stack Developer based in ${profile.location}. Specializing in AI agents, RAG pipelines, FastAPI, and Next.js.`,
-	authors: [{ name: profile.name, url: "https://medhanshk.me" }],
+	description: homeDescription,
+	authors: [{ name: profile.name, url: SITE_URL }],
 	creator: profile.name,
 	alternates: {
 		canonical: "/",
 	},
 	openGraph: {
-		title: `${profile.name} — AI/ML Engineer & Full-Stack Developer`,
-		description:
-			`Portfolio of ${profile.name} — AI/ML Engineer and Full-Stack Developer based in ${profile.location}. Specializing in AI agents, RAG pipelines, FastAPI, and Next.js.`,
-		url: "https://medhanshk.me",
+		title: homeTitle,
+		description: homeDescription,
+		url: SITE_URL,
 		siteName: profile.name,
 		locale: "en_US",
 		type: "website",
@@ -43,9 +44,8 @@ export const metadata: Metadata = {
 	twitter: {
 		card: "summary_large_image",
 		creator: "@medhansh541",
-		title: `${profile.name} — AI/ML Engineer & Full-Stack Developer`,
-		description:
-			`Portfolio of ${profile.name} — AI/ML Engineer and Full-Stack Developer based in ${profile.location}. Specializing in AI agents, RAG pipelines, FastAPI, and Next.js.`,
+		title: homeTitle,
+		description: homeDescription,
 		images: ["/og/og-image.png?v=2"],
 	},
 	robots: {

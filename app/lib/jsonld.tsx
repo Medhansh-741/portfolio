@@ -10,7 +10,6 @@ export const SITE_URL = "https://medhanshk.me";
 export const PERSON_ID = `${SITE_URL}/#person`;
 export const WEBSITE_ID = `${SITE_URL}/#website`;
 export const NAVIGATION_ID = `${SITE_URL}/#navigation`;
-export const ISO_DATE = "2026-08-28T00:00:00+00:00";
 
 export interface BreadcrumbItem {
 	name: string;
@@ -122,15 +121,9 @@ export function getPersonSchema() {
 			name: edu.institution,
 		})),
 		hasOccupation: profile.experience.map((exp) => ({
-			"@type": "Role",
-			roleName: exp.role,
+			"@type": "Occupation",
+			name: exp.role,
 			description: exp.description,
-			startDate: exp.period.includes("May 2026") ? "2026-05-01" : undefined,
-			endDate: exp.period.includes("July 2026") ? "2026-07-31" : undefined,
-			worksFor: {
-				"@type": "Organization",
-				name: exp.company,
-			},
 		})),
 		knowsAbout: allSkills,
 	};
@@ -190,16 +183,11 @@ export function getProfilePageSchema(
 			url: pageUrl,
 			name: title,
 			description,
-			dateModified: ISO_DATE,
 			isPartOf: {
 				"@id": WEBSITE_ID,
 			},
 			mainEntity: {
 				"@id": PERSON_ID,
-			},
-			speakable: {
-				"@type": "SpeakableSpecification",
-				cssSelector: ["h1", "p"],
 			},
 		},
 	];
@@ -230,7 +218,6 @@ export function getProjectsCollectionSchema() {
 				description:
 					staticRoutes.find((route) => route.path === "/projects")?.description ??
 					`Explore projects by ${profile.name}.`,
-				dateModified: ISO_DATE,
 				isPartOf: {
 					"@id": WEBSITE_ID,
 				},
@@ -278,7 +265,6 @@ export function getExperiencePageSchema() {
 				name: "Experience — Medhansh Kapoor",
 				description:
 					"Professional engineering experience of Medhansh Kapoor — AI/ML roles at IndiaAI Mission (MeitY), ISSA-DRDO, and Geminid Systems.",
-				dateModified: ISO_DATE,
 				isPartOf: {
 					"@id": WEBSITE_ID,
 				},
@@ -307,7 +293,6 @@ export function getSingleProjectSchema(project: Project, slug: string) {
 				url: pageUrl,
 				name: project.title,
 				description: project.description,
-				dateModified: ISO_DATE,
 				primaryImageOfPage: {
 					"@type": "ImageObject",
 					url: ogImageUrl,

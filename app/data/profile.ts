@@ -213,7 +213,7 @@ export const profile = {
 			subtitle: "Multi-Agent Legal Intelligence Platform",
 			period: "Mar 2026 (36-hr Sprint)",
 			description:
-				"5-agent pipeline: legal case in — research, strategy, drafted documents, and reasoned explainability out.",
+				"NyayaAI helps research legal cases, propose strategies, and draft documents, with sources and explanations for its recommendations. It reads scanned files, searches Indian laws, and falls back to another model or offline rules when needed. Citizens and lawyers can discuss cases in real time, and lawyers can manage cases through a dedicated portal.",
 			tech: [
 				"LangGraph",
 				"FastAPI",

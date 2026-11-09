@@ -30,16 +30,17 @@ export async function generateMetadata({
 
 	const fullTitle = `${project.title} | Medhansh Kapoor`;
 	const ogImageUrl = `https://medhanshk.me/og/${slug}.png`;
+	const [summary] = project.description.split(/(?<=\.)\s+/, 1);
 
 	return {
 		title: project.title,
-		description: project.description,
+		description: summary,
 		alternates: {
 			canonical: canonicalUrl,
 		},
 		openGraph: {
 			title: fullTitle,
-			description: project.description,
+			description: summary,
 			url: canonicalUrl,
 			siteName: "Medhansh Kapoor",
 			type: "article",
@@ -55,7 +56,7 @@ export async function generateMetadata({
 		twitter: {
 			card: "summary_large_image",
 			title: fullTitle,
-			description: project.description,
+			description: summary,
 			creator: "@medhansh541",
 			images: [ogImageUrl],
 		},
