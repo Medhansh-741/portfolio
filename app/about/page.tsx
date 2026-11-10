@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { escapeHtml, PortfolioPage } from "../portfolio-page";
+import { escapeHtml, icon, PortfolioPage } from "../portfolio-page";
 import { JsonLd, getProfilePageSchema } from "@/app/lib/jsonld";
-import { profile, staticRoutes } from "@/app/data/profile";
+import { getProjectSlug, profile, staticRoutes } from "@/app/data/profile";
 
 const aboutRoute = staticRoutes.find((r) => r.path === "/about");
 const pageTitle = `About — ${profile.name}`;
@@ -38,8 +38,15 @@ export const metadata: Metadata = {
 };
 
 
-const achievements = profile.achievements.map(({ title, detail, certificate, eventUrl, images = [] }) => {
+const achievements = profile.achievements.map(({ title, detail, certificate, eventUrl, coverage, projectTitle, images = [] }) => {
 	const displayTitle = escapeHtml(title);
+	const description = escapeHtml(detail ?? "");
+	const mentionsProject = projectTitle
+		? profile.projects.find((project) => project.title === projectTitle)
+		: undefined;
+	const mentions = mentionsProject && "mentions" in mentionsProject ? mentionsProject.mentions ?? [] : [];
+	const mentionsSummary = mentionsProject && "mentionsSummary" in mentionsProject ? mentionsProject.mentionsSummary : undefined;
+	const mentionsId = projectTitle ? `${escapeHtml(getProjectSlug(projectTitle))}-mentions` : "";
 	const carousel = images.length > 1;
 	const photos = images.map(({ src, alt, width, height }, index) =>
 		`<img class="achievement-photo" src="${escapeHtml(src)}" alt="${escapeHtml(alt)}" width="${width}" height="${height}"${carousel ? ' draggable="false"' : ' loading="lazy"'}${index ? ' fetchpriority="low"' : ""}>`
@@ -53,10 +60,30 @@ const achievements = profile.achievements.map(({ title, detail, certificate, eve
 	return `
 	<article class="detail-card">
 		<h3>${displayTitle}</h3>
-		${detail ? `<p>${escapeHtml(detail)}</p>` : ""}
+		${description ? `<p>${description}</p>` : ""}
 		${media}
-		${certificate ? `<a class="detail-text-link" href="${escapeHtml(certificate)}" aria-label="View certificate for ${displayTitle} (PDF)">View certificate</a>` : ""}
-		${eventUrl ? `<a class="detail-text-link" href="${escapeHtml(eventUrl)}">View event</a>` : ""}
+		${certificate || mentions.length ? `<div style="display:flex;flex-wrap:wrap;align-items:center;column-gap:0.75rem">
+			${certificate ? `<a class="detail-text-link" href="${escapeHtml(certificate)}" aria-label="View certificate for ${displayTitle} (PDF)">View certificate</a>` : ""}
+			${mentions.length ? `<button class="detail-text-link mentions-trigger" id="${mentionsId}" type="button" aria-haspopup="dialog" aria-controls="${mentionsId}-dialog" commandfor="${mentionsId}-dialog" command="show-modal" data-mentions-trigger style="margin-inline-start:auto"><span>Mentions (${mentions.length})</span>${icon("chevron")}</button>` : ""}
+		</div>` : ""}
+		${mentions.length ? `<dialog class="mentions-dialog" id="${mentionsId}-dialog" aria-labelledby="${mentionsId}-title">
+			<div class="mentions-content">
+				<div class="mentions-heading">
+					<h2 id="${mentionsId}-title">${escapeHtml(mentionsProject?.title ?? title)} mentions</h2>
+					<form method="dialog"><button class="detail-text-link mentions-close" type="submit" autofocus>Close</button></form>
+				</div>
+				${mentionsSummary ? `<p>${escapeHtml(mentionsSummary)}</p>` : ""}
+				<ul class="mentions-list">${mentions.map(({ title: mentionTitle, url, preview }) => `
+					<li><a class="mention-preview" href="${escapeHtml(url)}">
+						<strong>${escapeHtml(mentionTitle)}</strong>${icon("external")}
+						${preview ? `<p>${escapeHtml(preview)}</p>` : ""}
+					</a></li>`).join("")}</ul>
+			</div>
+		</dialog>` : ""}
+		${eventUrl || coverage ? `<div style="display:flex;flex-wrap:wrap;column-gap:0.75rem">
+			${eventUrl ? `<a class="detail-text-link" href="${escapeHtml(eventUrl)}">View event</a>` : ""}
+			${coverage ? `<a class="detail-text-link" style="margin-inline-start:auto;text-align:end" href="${escapeHtml(coverage.url)}">${escapeHtml(coverage.label)}</a>` : ""}
+		</div>` : ""}
 	</article>`;
 }).join("");
 
