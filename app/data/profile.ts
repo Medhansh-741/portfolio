@@ -1,11 +1,20 @@
 type AchievementImage = { src: string; alt: string; width: number; height: number };
 
+type ProjectMention = {
+	title: string;
+	preview?: string;
+	url: string;
+	publisher?: { name: string; type: "Organization" | "Person" };
+};
+
 type Achievement = {
 	title: string;
 	detail?: string;
 	award?: true;
 	certificate?: string;
 	eventUrl?: string;
+	coverage?: { label: string; url: string };
+	projectTitle?: string;
 	images?: readonly AchievementImage[];
 	homeImage?: AchievementImage;
 };
@@ -16,6 +25,10 @@ const achievements: readonly Achievement[] = [
 		detail: "My team won first prize in October 2026 for tackling a real government challenge at Claude Impact Lab, held in collaboration with MPSeDC and the Government of Madhya Pradesh.",
 		award: true,
 		eventUrl: "https://luma.com/claude-ozni",
+		coverage: {
+			label: "People’s Update coverage",
+			url: "https://peoplesupdate.com/claude-impact-lab-winner-bhopal-ai-hackathon-135939",
+		},
 		images: [
 			{ src: "/new-portfolio/claude-impact-lab.webp", alt: "Group photo at the Manipal University Jaipur recognition for the Claude Impact Lab first prize", width: 1200, height: 800 },
 			{ src: "/new-portfolio/claude-impact-lab-demo.webp", alt: "The team presenting at the lectern", width: 1200, height: 800 },
@@ -32,6 +45,7 @@ const achievements: readonly Achievement[] = [
 	},
 	{
 		title: "India Innovates '26, National Finalist",
+		projectTitle: "JanSamadhan",
 		detail: "Winner in Digital Democracy track; presented JanSamadhan live before senior policy leaders at Bharat Mandapam; project forwarded to central ministries.",
 		certificate: "/India-Innovates.pdf",
 		homeImage: { src: "/new-portfolio/india-innovates.webp", alt: "Medhansh Kapoor receiving his India Innovates certificate at Manipal University Jaipur", width: 800, height: 648 },
@@ -182,8 +196,43 @@ export const profile = {
 	],
 	projects: [
 		{
+			title: "Ecoaudit",
+			subtitle: "Software Sustainability Auditor",
+			seoTitle: "EcoAudit: Local Software Sustainability Auditor",
+			period: "Oct 2026",
+			description:
+				"Ecoaudit is an open-source tool that finds avoidable compute waste using rule-based checks, with no LLM or machine learning. It reads code from a public GitHub repo or a local Git checkout without running it. You can add existing deployment logs through read-only AWS IAM access and artifacts such as profiles or test reports from runs in your own environment. Ecoaudit checks that evidence against its rules, and you can run the entire app on localhost to keep your code and artifacts private.",
+			tech: ["Python", "TypeScript", "GitHub Actions", "AWS Lambda", "Amazon S3", "Lighthouse"],
+			highlights: [
+				"Performance profiling: Built a GitHub Action that collects Python CPU and memory profiles and runs Lighthouse, then uploads the results for analysis.",
+				"Database checks: Added detectors that flag wasteful SQL patterns and query plans, including sequential scans inside nested loops.",
+				"Report storage: Updated the Lighthouse worker to save JSON and HTML reports to private S3 and added a live demo script.",
+			],
+			posterOnly: true,
+			collaborative: true,
+			applicationCategory: "DeveloperApplication",
+			links: {
+				live: "https://main.dz3ac51z9uzpr.amplifyapp.com/",
+				github: "https://github.com/AWS-env/environmental-hacks/",
+				demo: "https://www.youtube.com/watch?v=YWgCT_omVGM",
+			},
+			mentions: [
+				{
+					title: "EcoAudit featured by Manipal University Jaipur’s CSE department",
+					url: "https://www.linkedin.com/feed/update/urn:li:activity:7516890358795100161/",
+					publisher: { name: "Manipal University Jaipur CSE", type: "Organization" },
+				},
+				{
+					title: "EcoAudit Post on LinkedIn",
+					preview: "A walkthrough of EcoAudit’s local profiler and read-only cloud analysis.",
+					url: "https://www.linkedin.com/feed/update/urn:li:activity:7515342085747589120/",
+				},
+			] as ProjectMention[],
+		},
+		{
 			title: "JanSamadhan",
 			subtitle: "Autonomous Civic Surveillance Platform",
+			seoTitle: "JanSamadhan: Civic Issue Detection and Repair Tracking",
 			period: "Mar 2026",
 			description:
 				"JanSamadhan turns vetted CCTV and dashcam detections into civic repair tickets and takes citizen reports by chat, voice, or WhatsApp. Seva uses Gemini to classify reports and route them to the right Delhi department. India's DIGIPIN pinpoints issues, and residents can upvote nearby duplicates instead of filing again. Upvotes and missed deadlines raise priority, while public maps and ticket history show progress. Workers upload repair proof, camera rescans check the fix, and residents can confirm or reopen tickets. Field evidence feeds future model training.",
@@ -207,10 +256,29 @@ export const profile = {
 				github: "https://github.com/Medhansh-741/ps-crmdev1",
 				demo: "https://youtu.be/JvkJd1MAV3M",
 			},
+			mentionsSummary: "Manipal University Jaipur announced JanSamadhan’s Digital Democracy win at India Innovates 2026.",
+			mentions: [
+				{
+					title: "India Innovates announcement on LinkedIn",
+					url: "https://www.linkedin.com/posts/manipal-university-jaipur_manipaluniversityjaipur-indiainnovates2026-activity-7450213113913692161-Gl9T",
+					publisher: { name: "Manipal University Jaipur", type: "Organization" },
+				},
+				{
+					title: "India Innovates announcement on X",
+					url: "https://x.com/Jaipur_Manipal/status/2044447854195015735",
+					publisher: { name: "Manipal University Jaipur", type: "Organization" },
+				},
+				{
+					title: "India Innovates announcement on Instagram",
+					url: "https://www.instagram.com/p/DXKI99jjxyx/",
+					publisher: { name: "Manipal University Jaipur", type: "Organization" },
+				},
+			] as ProjectMention[],
 		},
 		{
 			title: "NyayaAI",
 			subtitle: "Multi-Agent Legal Intelligence Platform",
+			seoTitle: "NyayaAI: Legal Research and Document Drafting",
 			period: "Mar 2026 (36-hr Sprint)",
 			description:
 				"NyayaAI helps research legal cases, propose strategies, and draft documents, with sources and explanations for its recommendations. It reads scanned files, searches Indian laws, and falls back to another model or offline rules when needed. Citizens and lawyers can discuss cases in real time, and lawyers can manage cases through a dedicated portal.",
@@ -236,27 +304,6 @@ export const profile = {
 				live: "https://nyay-ai-liard.vercel.app/",
 				github: "https://github.com/Medhansh-741/NyayAI",
 				demo: "https://youtu.be/YwgooAeuRmo",
-			},
-		},
-		{
-			title: "Ecoaudit",
-			subtitle: "Software Sustainability Auditor",
-			period: "Oct 2026",
-			description:
-				"Ecoaudit is an open-source tool that finds avoidable compute waste using rule-based checks, with no LLM or machine learning. It reads code from a public GitHub repo or a local Git checkout without running it. You can add existing deployment logs through read-only AWS IAM access and artifacts such as profiles or test reports from runs in your own environment. Ecoaudit checks that evidence against its rules, and you can run the entire app on localhost to keep your code and artifacts private.",
-			tech: ["Python", "TypeScript", "GitHub Actions", "AWS Lambda", "Amazon S3", "Lighthouse"],
-			highlights: [
-				"Performance profiling: Built a GitHub Action that collects Python CPU and memory profiles and runs Lighthouse, then uploads the results for analysis.",
-				"Database checks: Added detectors that flag wasteful SQL patterns and query plans, including sequential scans inside nested loops.",
-				"Report storage: Updated the Lighthouse worker to save JSON and HTML reports to private S3 and added a live demo script.",
-			],
-			posterOnly: true,
-			collaborative: true,
-			applicationCategory: "DeveloperApplication",
-			links: {
-				live: "https://main.dz3ac51z9uzpr.amplifyapp.com/",
-				github: "https://github.com/AWS-env/environmental-hacks/",
-				demo: "https://www.youtube.com/watch?v=YWgCT_omVGM",
 			},
 		},
 	],

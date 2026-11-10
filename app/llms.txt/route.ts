@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { profile, getDisambiguatingDescription } from "@/app/data/profile";
+import { profile, getDisambiguatingDescription, getProjectSlug } from "@/app/data/profile";
 
 export function generateDynamicFaqs(): { question: string; answer: string }[] {
 	const allSkills = Object.values(profile.skills).flat();
@@ -94,7 +94,7 @@ export function generateLlmsText(): string {
 	// 7. Production Projects
 	sections.push(`## Production Projects\n`);
 	for (const project of profile.projects) {
-		const slug = project.title.toLowerCase().replace(/\s+/g, "-");
+		const slug = getProjectSlug(project.title);
 		sections.push(`### ${project.title} — ${project.subtitle} (${project.period})`);
 		sections.push(`${project.description}\n`);
 		sections.push(`**Key Architecture & Highlights:**`);
@@ -106,6 +106,10 @@ export function generateLlmsText(): string {
 		if (project.links.live) sections.push(`- Live Application: ${project.links.live}`);
 		if (project.links.github) sections.push(`- GitHub Repository: ${project.links.github}`);
 		if (project.links.demo) sections.push(`- Video Demo: ${project.links.demo}`);
+		if (project.mentionsSummary) sections.push(`- Coverage: ${project.mentionsSummary}`);
+		for (const { title, url } of project.mentions ?? []) {
+			sections.push(`- ${title}: ${url}`);
+		}
 		sections.push(``);
 	}
 
@@ -133,6 +137,8 @@ export function generateLlmsText(): string {
 			sections.push(`- Certificate: https://medhanshk.me${ach.certificate}`);
 		}
 		if (ach.eventUrl) sections.push(`- Event: ${ach.eventUrl}`);
+		if (ach.coverage) sections.push(`- ${ach.coverage.label}: ${ach.coverage.url}`);
+		if (ach.projectTitle) sections.push(`- Project: https://medhanshk.me/projects/${getProjectSlug(ach.projectTitle)}`);
 		if (ach.images?.[0]) sections.push(`- Evidence image: https://medhanshk.me${ach.images[0].src}`);
 		sections.push(``);
 	}

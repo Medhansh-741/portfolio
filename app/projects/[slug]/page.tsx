@@ -28,12 +28,12 @@ export async function generateMetadata({
 	const slug = getProjectSlug(project.title);
 	const canonicalUrl = `https://medhanshk.me/projects/${slug}`;
 
-	const fullTitle = `${project.title} | Medhansh Kapoor`;
+	const fullTitle = `${project.seoTitle} | ${profile.name}`;
 	const ogImageUrl = `https://medhanshk.me/og/${slug}.png`;
 	const [summary] = project.description.split(/(?<=\.)\s+/, 1);
 
 	return {
-		title: project.title,
+		title: project.seoTitle,
 		description: summary,
 		alternates: {
 			canonical: canonicalUrl,

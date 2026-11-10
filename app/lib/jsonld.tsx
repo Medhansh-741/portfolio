@@ -202,6 +202,16 @@ export function getProfilePageSchema(
 	};
 }
 
+function getProjectMentionsSchema(project: Project) {
+	return project.mentions?.map(({ title, url, publisher, preview }) => ({
+		"@type": "SocialMediaPosting",
+		name: title,
+		url,
+		description: preview ?? project.mentionsSummary,
+		author: publisher ? { "@type": publisher.type, name: publisher.name } : undefined,
+	}));
+}
+
 /**
  * Generates CollectionPage + ItemList for projects with SoftwareApplication entities and BreadcrumbList.
  */
@@ -237,6 +247,7 @@ export function getProjectsCollectionSchema() {
 								url: proj.links.live,
 								image: `${SITE_URL}/og/${projSlug}.png`,
 								sameAs: [proj.links.github, proj.links.demo].filter(Boolean),
+								subjectOf: getProjectMentionsSchema(proj),
 								[proj.collaborative ? "contributor" : "author"]: {
 									"@id": PERSON_ID,
 								},
@@ -291,7 +302,7 @@ export function getSingleProjectSchema(project: Project, slug: string) {
 				"@type": "ItemPage",
 				"@id": `${pageUrl}/#webpage`,
 				url: pageUrl,
-				name: project.title,
+				name: project.seoTitle,
 				description: project.description,
 				primaryImageOfPage: {
 					"@type": "ImageObject",
@@ -312,6 +323,7 @@ export function getSingleProjectSchema(project: Project, slug: string) {
 					url: project.links.live,
 					image: ogImageUrl,
 					sameAs: [project.links.github, project.links.demo].filter(Boolean),
+					subjectOf: getProjectMentionsSchema(project),
 					[project.collaborative ? "contributor" : "author"]: {
 						"@id": PERSON_ID,
 					},

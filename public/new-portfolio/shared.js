@@ -32,6 +32,15 @@ for (const trigger of document.querySelectorAll("[data-embed]")) {
 	});
 }
 
+document.addEventListener("click", (event) => {
+	if (!(event.target instanceof Element)) return;
+	const trigger = event.target.closest("[data-mentions-trigger]");
+	if (trigger && !trigger.commandForElement) {
+		document.getElementById(trigger.getAttribute("aria-controls"))?.showModal();
+	}
+	if (event.target.matches("dialog.mentions-dialog")) event.target.close();
+});
+
 for (const gallery of document.querySelectorAll("[data-gallery]")) {
 	const track = gallery.querySelector("[data-gallery-track]");
 	const dots = gallery.querySelectorAll(".gallery-dots span");

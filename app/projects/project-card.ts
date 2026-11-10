@@ -5,6 +5,8 @@ export function renderProjectCard(project: Project, { lazy = false, detailed = f
 	const title = escapeHtml(project.title);
 	const slug = getProjectSlug(project.title);
 	const heading = detailed ? "h1" : "h2";
+	const mentions = project.mentions ?? [];
+	const mentionsId = `${escapeHtml(slug)}-mentions`;
 	return `<article class="detail-card" id="${escapeHtml(slug)}" aria-labelledby="${escapeHtml(slug)}-title">
 		<div class="detail-card-heading">
 			<${heading} id="${escapeHtml(slug)}-title">${detailed ? title : `<a href="/projects/${escapeHtml(slug)}">${title}</a>`}</${heading}>
@@ -15,7 +17,20 @@ export function renderProjectCard(project: Project, { lazy = false, detailed = f
 		</div>
 		${renderDemo(project, lazy ? ' loading="lazy"' : "")}
 		<p>${escapeHtml(project.description)}</p>
-		${detailed ? `<a class="detail-text-link" href="${escapeHtml(project.links.live)}">Open live project</a>
-		<ul class="project-highlights">${project.highlights.map((highlight) => `<li>${escapeHtml(highlight)}</li>`).join("")}</ul>` : ""}
+		${mentions.length ? `<button class="detail-text-link mentions-trigger" id="${mentionsId}" type="button" aria-haspopup="dialog" aria-controls="${mentionsId}-dialog" commandfor="${mentionsId}-dialog" command="show-modal" data-mentions-trigger><span>Mentions (${mentions.length})</span>${icon("chevron")}</button>
+		<dialog class="mentions-dialog" id="${mentionsId}-dialog" aria-labelledby="${mentionsId}-title">
+			<div class="mentions-content">
+				<div class="mentions-heading">
+					<h2 id="${mentionsId}-title">${title} mentions</h2>
+					<form method="dialog"><button class="detail-text-link mentions-close" type="submit" autofocus>Close</button></form>
+				</div>
+				${project.mentionsSummary ? `<p>${escapeHtml(project.mentionsSummary)}</p>` : ""}
+				<ul class="mentions-list">${mentions.map(({ title, url, preview }) => `
+					<li><a class="mention-preview" href="${escapeHtml(url)}">
+						<strong>${escapeHtml(title)}</strong>${icon("external")}
+						${preview ? `<p>${escapeHtml(preview)}</p>` : ""}
+					</a></li>`).join("")}</ul>
+			</div>
+		</dialog>` : ""}
 	</article>`;
 }

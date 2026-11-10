@@ -21,6 +21,7 @@ const icons = {
 	about: '<circle cx="12" cy="8" r="4"/><path d="M4 21v-1a5 5 0 0 1 5-5h6a5 5 0 0 1 5 5v1z"/>',
 	previous: '<path d="M20 12H4m6-6-6 6 6 6"/>',
 	next: '<path d="M4 12h16m-6-6 6 6-6 6"/>',
+	external: '<path d="M7 17 17 7M7 7h10v10"/>',
 	linkedin: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7.5 10v6.5m0-9v.1M11 16.5V10m0 2a2.6 2.6 0 0 1 5 1v3.5"/>',
 	x: '<path fill="currentColor" stroke="none" d="M17.3 3h3.1l-6.8 7.8L21.6 21h-6.2l-4.9-6.4L4.9 21H1.8l7.3-8.4L1.5 3h6.4l4.4 5.8zm-1.1 16.2h1.7L6.9 4.7H5.1z"/>',
 	email: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/>',
