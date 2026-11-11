@@ -44,7 +44,8 @@ const achievements: readonly Achievement[] = [
 		],
 	},
 	{
-		title: "India Innovates '26, National Finalist",
+		title: "India Innovates '26, Winner",
+		award: true,
 		projectTitle: "JanSamadhan",
 		detail: "Winner in Digital Democracy track; presented JanSamadhan live before senior policy leaders at Bharat Mandapam; project forwarded to central ministries.",
 		certificate: "/India-Innovates.pdf",
@@ -259,17 +260,17 @@ export const profile = {
 			mentionsSummary: "Manipal University Jaipur announced JanSamadhan’s Digital Democracy win at India Innovates 2026.",
 			mentions: [
 				{
-					title: "India Innovates announcement on LinkedIn",
+					title: "India Innovates '26 winner announcement on LinkedIn",
 					url: "https://www.linkedin.com/posts/manipal-university-jaipur_manipaluniversityjaipur-indiainnovates2026-activity-7450213113913692161-Gl9T",
 					publisher: { name: "Manipal University Jaipur", type: "Organization" },
 				},
 				{
-					title: "India Innovates announcement on X",
+					title: "India Innovates '26 winner announcement on X",
 					url: "https://x.com/Jaipur_Manipal/status/2044447854195015735",
 					publisher: { name: "Manipal University Jaipur", type: "Organization" },
 				},
 				{
-					title: "India Innovates announcement on Instagram",
+					title: "India Innovates '26 winner announcement on Instagram",
 					url: "https://www.instagram.com/p/DXKI99jjxyx/",
 					publisher: { name: "Manipal University Jaipur", type: "Organization" },
 				},

@@ -81,7 +81,7 @@ I build by jumping in headfirst. Every project is an excuse to explore a stack I
 
 ## Achievements & Recognition
 
-* **India Innovates '26 — National Finalist:** Winner in Digital Democracy track; presented live before senior policy leaders at Bharat Mandapam; project forwarded to central ministries.
+* **India Innovates '26 — Winner:** Winner in Digital Democracy track; presented live before senior policy leaders at Bharat Mandapam; project forwarded to central ministries.
 * **Prayatna 3.0 Hackathon — Finalist:** Built multi-agent legal AI backend during a 36-hour sprint.
 
 ---
