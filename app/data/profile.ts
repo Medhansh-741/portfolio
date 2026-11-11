@@ -219,7 +219,7 @@ export const profile = {
 			mentions: [
 				{
 					title: "EcoAudit featured by Manipal University Jaipur’s CSE department",
-					url: "https://www.linkedin.com/feed/update/urn:li:activity:7516890358795100161/",
+					url: "https://www.linkedin.com/posts/manipaluniversityjaipur-cse-studentinnovation-ugcPost-7516882467874607104-PXxY/",
 					publisher: { name: "Manipal University Jaipur CSE", type: "Organization" },
 				},
 				{
