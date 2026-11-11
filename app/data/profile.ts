@@ -257,7 +257,7 @@ export const profile = {
 				github: "https://github.com/Medhansh-741/ps-crmdev1",
 				demo: "https://youtu.be/JvkJd1MAV3M",
 			},
-			mentionsSummary: "Manipal University Jaipur announced JanSamadhan’s Digital Democracy win at India Innovates 2026.",
+			mentionsSummary: "JanSamadhan won the Digital Democracy track at India Innovates 2026.",
 			mentions: [
 				{
 					title: "India Innovates '26 winner announcement on LinkedIn",

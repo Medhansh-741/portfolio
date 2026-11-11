@@ -7,6 +7,7 @@ export function renderProjectCard(project: Project, { lazy = false, detailed = f
 	const heading = detailed ? "h1" : "h2";
 	const mentions = project.mentions ?? [];
 	const mentionsId = `${escapeHtml(slug)}-mentions`;
+	const announcement = detailed && slug === "jansamadhan" ? mentions[0] : undefined;
 	return `<article class="detail-card" id="${escapeHtml(slug)}" aria-labelledby="${escapeHtml(slug)}-title">
 		<div class="detail-card-heading">
 			<${heading} id="${escapeHtml(slug)}-title">${detailed ? title : `<a href="/projects/${escapeHtml(slug)}">${title}</a>`}</${heading}>
@@ -17,6 +18,7 @@ export function renderProjectCard(project: Project, { lazy = false, detailed = f
 		</div>
 		${renderDemo(project, lazy ? ' loading="lazy"' : "")}
 		<p>${escapeHtml(project.description)}</p>
+		${announcement && project.mentionsSummary ? `<p>${escapeHtml(project.mentionsSummary)} <a class="detail-text-link" href="${escapeHtml(announcement.url)}">Manipal University Jaipur announcement</a></p>` : ""}
 		${mentions.length ? `<button class="detail-text-link mentions-trigger" id="${mentionsId}" type="button" aria-haspopup="dialog" aria-controls="${mentionsId}-dialog" commandfor="${mentionsId}-dialog" command="show-modal" data-mentions-trigger><span>Mentions (${mentions.length})</span>${icon("chevron")}</button>
 		<dialog class="mentions-dialog" id="${mentionsId}-dialog" aria-labelledby="${mentionsId}-title">
 			<div class="mentions-content">
