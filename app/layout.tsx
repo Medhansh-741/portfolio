@@ -11,7 +11,7 @@ export const viewport: Viewport = {
 };
 
 const homeTitle = `${profile.name} | ${profile.tagline.replace(" | ", " & ")}`;
-const homeDescription = `Portfolio of ${profile.name}, an AI/ML engineer and full-stack developer in ${profile.location}. Explore JanSamadhan, NyayaAI, Ecoaudit, and his engineering experience.`;
+const homeDescription = `Portfolio of ${profile.name}, an AI/ML engineer and full-stack developer in ${profile.location}. Explore EcoAudit, JanSamadhan, NyayaAI, and his engineering experience.`;
 
 export const metadata: Metadata = {
 	metadataBase: new URL(SITE_URL),
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
 		type: "website",
 		images: [
 			{
-				url: "/og/og-image.png?v=2",
+				url: "/og/home-v2.png",
 				width: 1200,
 				height: 630,
 				alt: `${profile.name} — AI/ML Engineer & Full-Stack Developer`,
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
 		creator: "@medhansh541",
 		title: homeTitle,
 		description: homeDescription,
-		images: ["/og/og-image.png?v=2"],
+		images: ["/og/home-v2.png"],
 	},
 	robots: {
 		index: true,

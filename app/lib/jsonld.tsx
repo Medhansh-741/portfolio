@@ -245,7 +245,7 @@ export function getProjectsCollectionSchema() {
 								applicationCategory: proj.applicationCategory ?? "AI / Machine Learning Application",
 								operatingSystem: "Web",
 								url: proj.links.live,
-								image: `${SITE_URL}/og/${projSlug}.png`,
+								image: `${SITE_URL}/og/${projSlug}-v2.png`,
 								sameAs: [proj.links.github, proj.links.demo].filter(Boolean),
 								subjectOf: getProjectMentionsSchema(proj),
 								[proj.collaborative ? "contributor" : "author"]: {
@@ -293,7 +293,7 @@ export function getExperiencePageSchema() {
  */
 export function getSingleProjectSchema(project: Project, slug: string) {
 	const pageUrl = `${SITE_URL}/projects/${slug}`;
-	const ogImageUrl = `${SITE_URL}/og/${slug}.png`;
+	const ogImageUrl = `${SITE_URL}/og/${slug}-v2.png`;
 
 	return {
 		"@context": "https://schema.org",

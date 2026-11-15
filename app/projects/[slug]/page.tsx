@@ -29,7 +29,7 @@ export async function generateMetadata({
 	const canonicalUrl = `https://medhanshk.me/projects/${slug}`;
 
 	const fullTitle = `${project.seoTitle} | ${profile.name}`;
-	const ogImageUrl = `https://medhanshk.me/og/${slug}.png`;
+	const ogImageUrl = `https://medhanshk.me/og/${slug}-v2.png`;
 	const [summary] = project.description.split(/(?<=\.)\s+/, 1);
 
 	return {
@@ -49,7 +49,7 @@ export async function generateMetadata({
 					url: ogImageUrl,
 					width: 1200,
 					height: 630,
-					alt: `${project.title} Preview`,
+					alt: `${project.seoTitle} preview`,
 				},
 			],
 		},
