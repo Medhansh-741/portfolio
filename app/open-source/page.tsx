@@ -61,7 +61,7 @@ function renderPull(pull: Pull) {
 function renderRepo(p: UpstreamProject, open: boolean) {
 	return `<details class="oss-repo"${open ? " open" : ""}>
 		<summary>
-			<img src="https://github.com/${escapeHtml(p.owner)}.png?size=48" alt="" width="24" height="24" loading="lazy" decoding="async">
+			<img src="${escapeHtml(p.avatar)}" alt="" width="24" height="24" loading="lazy" decoding="async">
 			<span class="oss-repo-name">
 				<strong>${escapeHtml(p.project)}</strong>
 				<span class="oss-about">${escapeHtml(p.about)}</span>

@@ -79,9 +79,9 @@ function renderOpenSourceCard(stats: OpenSourceStats | null) {
 		</div>`;
 	}
 
-	const orgs = new Map<string, { owner: string; merged: number; open: number }>();
+	const orgs = new Map<string, { avatar: string; merged: number; open: number }>();
 	for (const p of stats.projects) {
-		const org = orgs.get(p.org) ?? { owner: p.owner, merged: 0, open: 0 };
+		const org = orgs.get(p.org) ?? { avatar: p.avatar, merged: 0, open: 0 };
 		org.merged += p.merged;
 		org.open += p.open;
 		orgs.set(p.org, org);
@@ -89,8 +89,8 @@ function renderOpenSourceCard(stats: OpenSourceStats | null) {
 	// Every org is listed; the list scrolls inside the card, so new orgs appear without growing the deck.
 	const sorted = [...orgs.entries()].sort(([, a], [, b]) => b.merged - a.merged || b.open - a.open);
 	const rows = sorted
-		.map(([name, { owner, merged, open }]) => `<li>
-				<img src="https://github.com/${escapeHtml(owner)}.png?size=40" alt="" width="20" height="20" loading="lazy" decoding="async">
+		.map(([name, { avatar, merged, open }]) => `<li>
+				<img src="${escapeHtml(avatar)}" alt="" width="20" height="20" loading="lazy" decoding="async">
 				<span class="oss-org">${escapeHtml(name)}</span>
 				<span class="oss-count">${merged + open}</span>
 			</li>`)

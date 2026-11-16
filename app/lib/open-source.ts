@@ -38,7 +38,7 @@ export interface Pull {
 
 export interface UpstreamProject {
 	repo: string;
-	owner: string; // GitHub org login, used for its avatar
+	avatar: string; // org logo, direct avatars.githubusercontent.com URL
 	project: string;
 	org: string;
 	about: string;
@@ -70,7 +70,7 @@ type GraphPull = {
 	additions: number;
 	deletions: number;
 	changedFiles: number;
-	repository: { nameWithOwner: string; stargazerCount: number };
+	repository: { nameWithOwner: string; stargazerCount: number; owner: { avatarUrl: string } };
 };
 
 const repoFilter = UPSTREAM.map(({ repo }) => `repo:${repo}`).join(" ");
@@ -81,7 +81,7 @@ const QUERY = `
 			nodes {
 				... on PullRequest {
 					number title url state createdAt mergedAt additions deletions changedFiles
-					repository { nameWithOwner stargazerCount }
+					repository { nameWithOwner stargazerCount owner { avatarUrl(size: 48) } }
 				}
 			}
 		}
@@ -139,7 +139,8 @@ export function summarise(nodes: GraphPull[], reviews: number): OpenSourceStats 
 			.sort((a, b) => b.date.localeCompare(a.date) || b.number - a.number);
 		return {
 			repo,
-			owner: repo.split("/")[0],
+			// Direct avatar URL: github.com/<org>.png redirects cross-site, which Brave Shields blocks.
+			avatar: mine[0]?.repository.owner.avatarUrl ?? `https://github.com/${repo.split("/")[0]}.png?size=48`,
 			project,
 			org,
 			about,
