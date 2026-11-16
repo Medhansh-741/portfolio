@@ -293,6 +293,36 @@ h2 { font-size: 1.0625rem; font-weight: 700; letter-spacing: -0.02em; line-heigh
 .detail-actions { display: flex; align-items: center; }
 .detail-text-link { display: inline-flex; align-items: center; min-height: var(--tap); }
 .detail-text-link { justify-self: start; font-size: 0.875rem; }
+
+/* ---- open source: deck card + /open-source ---- */
+.deck-item[data-oss] { align-content: start; }
+.oss-totals { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem; margin-bottom: 0.75rem; }
+.oss-totals:not(.oss-totals-wide) div:last-child { grid-column: 1 / -1; } /* deck card: lines merged gets the full width */
+.oss-totals-wide { grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr)); }
+.oss-totals dd { white-space: nowrap; }
+.oss-totals div { padding: 0.5rem 0.6rem; border: 1px solid var(--line-soft); }
+.oss-totals dt { color: var(--muted); font-size: 0.75rem; }
+.oss-totals dd { font-size: 1.0625rem; font-weight: 700; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; }
+.oss-orgs { margin: 0; padding: 0; list-style: none; font-size: 0.875rem; }
+.oss-orgs li { display: flex; justify-content: space-between; gap: 0.75rem; padding-block: 0.45rem; border-top: 1px solid var(--line-soft); }
+.oss-orgs li span:last-child { color: var(--muted); white-space: nowrap; }
+.oss-latest { margin-top: 0.6rem; color: var(--muted); font-size: 0.8125rem; }
+.oss-all { gap: 0.3rem; }
+.oss-all svg { width: 1rem; height: 1rem; }
+.oss-lede { margin-bottom: 1rem; color: var(--muted); font-size: 0.9375rem; }
+.oss-meta { color: var(--muted); font-size: 0.8125rem; }
+.oss-pulls { display: grid; margin: 0; padding: 0; list-style: none; }
+.oss-pull { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 0.6rem; row-gap: 0.15rem; padding-block: 0.6rem; border-top: 1px solid var(--line-soft); font-size: 0.9rem; }
+.oss-pull > :not(.oss-state) { grid-column: 2; }
+.oss-state { grid-row: 1 / span 3; align-self: start; padding: 0.1rem 0.4rem; border: 1px solid var(--line); font-size: 0.6875rem; font-weight: 600; white-space: nowrap; }
+.oss-state[data-state="merged"] { border-color: var(--ink); background: var(--ink); color: var(--paper); }
+.oss-state[data-state="closed"] { color: var(--muted); }
+.oss-note { font-size: 0.8125rem; }
+.oss-weeks { display: grid; gap: 0.6rem; margin: 0; padding: 0; list-style: none; font-size: 0.875rem; }
+.oss-weeks li { display: grid; gap: 0.25rem; }
+.oss-week-bar { display: flex; height: 0.6rem; background: var(--line-soft); }
+.oss-week-bar [data-state="merged"] { background: var(--ink); }
+.oss-week-bar [data-state="open"] { background: var(--line); }
 .mentions-trigger, .mentions-close {
 	border: 0;
 	padding: 0;

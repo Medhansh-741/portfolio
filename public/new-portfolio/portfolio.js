@@ -6,14 +6,15 @@ const items = {
 	projects: [...deck.querySelectorAll("[data-project]")],
 	experience: [...deck.querySelectorAll("[data-experience]")],
 	achievements: [...deck.querySelectorAll("[data-achievement]")],
+	oss: [...deck.querySelectorAll("[data-oss]")],
 };
 const position = deck.querySelector("[data-position]");
 const previous = deck.querySelector("[data-previous]");
 const next = deck.querySelector("[data-next]");
 const pagination = deck.querySelector("[data-pagination]");
 const status = deck.querySelector("[data-deck-status]");
-const indices = { projects: 0, experience: 0, achievements: 0 };
-const itemTypes = { projects: "project", experience: "experience entry", achievements: "achievement" };
+const indices = { projects: 0, experience: 0, achievements: 0, oss: 0 };
+const itemTypes = { projects: "project", experience: "experience entry", achievements: "achievement", oss: "open-source summary" };
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 let category = "projects";
 let swipe = null;

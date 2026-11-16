@@ -1,7 +1,8 @@
 import Script from "next/script";
 import { JsonLd, getProfilePageSchema } from "./lib/jsonld";
 import { profile } from "@/app/data/profile";
-import { escapeHtml, icon, PortfolioPage, renderDemo, repositoryLink } from "./portfolio-page";
+import { getOpenSourceStats, type OpenSourceStats } from "./lib/open-source";
+import { escapeHtml, formatPullDate, icon, PortfolioPage, renderDemo, repositoryLink } from "./portfolio-page";
 
 const skillGroups = [
 	["Languages", ["Python", "TypeScript", "JavaScript", "SQL", "C/C++"]],
@@ -64,7 +65,48 @@ const achievements = profile.achievements.map(({ title, homeImage, images }) => 
 	</div>`;
 }).join("");
 
-const content = `
+// One summary card for the deck's "Open source" tab; the full breakdown lives on /open-source.
+function renderOpenSourceCard(stats: OpenSourceStats | null) {
+	const allWork = `<a class="detail-text-link oss-all" href="/open-source">All open-source work ${icon("next")}</a>`;
+	if (!stats || stats.projects.length === 0) {
+		return `<div class="deck-item" data-oss inert>
+			<div class="deck-heading"><h2>Open source</h2></div>
+			<p class="deck-caption">Contributions to upstream community projects.</p>
+			${allWork}
+		</div>`;
+	}
+	const orgs = new Map<string, { merged: number; open: number }>();
+	for (const p of stats.projects) {
+		const org = orgs.get(p.org) ?? { merged: 0, open: 0 };
+		org.merged += p.merged;
+		org.open += p.open;
+		orgs.set(p.org, org);
+	}
+	const orgRows = [...orgs.entries()]
+		.sort(([, a], [, b]) => b.merged - a.merged || b.open - a.open)
+		.map(([name, { merged, open }]) => {
+			const counts = [merged && `${merged} merged`, open && `${open} in review`].filter(Boolean).join(" · ");
+			return `<li><span>${escapeHtml(name)}</span><span>${counts}</span></li>`;
+		})
+		.join("");
+	const latest = stats.latestMerge
+		? `<p class="oss-latest">Latest merge: <a href="${escapeHtml(stats.latestMerge.url)}">${escapeHtml(stats.latestMerge.project)} #${stats.latestMerge.number}</a> · ${formatPullDate(stats.latestMerge.date)}</p>`
+		: "";
+	return `<div class="deck-item" data-oss inert>
+		<div class="deck-heading"><h2>Open source</h2></div>
+		<p class="deck-caption">Upstream contributions to ${stats.projects.length} community projects.</p>
+		<dl class="oss-totals">
+			<div><dt>Merged</dt><dd>${stats.merged}</dd></div>
+			<div><dt>In review</dt><dd>${stats.open}</dd></div>
+			<div><dt>Lines merged</dt><dd>+${stats.additions.toLocaleString("en-US")} / −${stats.deletions.toLocaleString("en-US")}</dd></div>
+		</dl>
+		<ul class="oss-orgs">${orgRows}</ul>
+		${latest}
+		${allWork}
+	</div>`;
+}
+
+const renderContent = (openSourceCard: string) => `
 			<section class="intro" aria-label="Profile">
 				<p class="role">${escapeHtml(profile.tagline)}</p>
 				<ul class="contact-links" aria-label="Contact and profiles">
@@ -83,6 +125,7 @@ const content = `
 					${projects}
 					${experience}
 					${achievements}
+					${openSourceCard}
 				</div>
 				<p class="sr-only" data-deck-status role="status"></p>
 				<div class="deck-footer">
@@ -91,6 +134,7 @@ const content = `
 							<button type="button" data-category="projects" aria-pressed="true" aria-controls="deck-content">Projects</button>
 							<button type="button" data-category="experience" aria-pressed="false" aria-controls="deck-content">Experience</button>
 							<button type="button" data-category="achievements" aria-pressed="false" aria-controls="deck-content">Achievements</button>
+							<button type="button" data-category="oss" aria-pressed="false" aria-controls="deck-content">Open source</button>
 						</div>
 					</div>
 					<div class="deck-pagination" data-pagination hidden>
@@ -110,11 +154,12 @@ const content = `
 			</section>
 `;
 
-export default function Home() {
+export default async function Home() {
+	const openSource = await getOpenSourceStats();
 	return (
 		<>
 			<JsonLd data={getProfilePageSchema("", `${profile.name} | ${profile.tagline}`)} />
-			<PortfolioPage page="home" content={content} />
+			<PortfolioPage page="home" content={renderContent(renderOpenSourceCard(openSource))} />
 			<Script src="/new-portfolio/portfolio.js" strategy="afterInteractive" />
 		</>
 	);

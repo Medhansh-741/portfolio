@@ -32,6 +32,13 @@ const icons = {
 	play: '<path fill="currentColor" stroke="none" d="M8 5v14l12-7z"/>',
 };
 
+const pullDate = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
+
+/** "2026-11-16" -> "Nov 16, 2026" */
+export function formatPullDate(isoDate: string) {
+	return pullDate.format(new Date(`${isoDate}T00:00:00Z`));
+}
+
 export function icon(name: keyof typeof icons) {
 	return `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${icons[name]}</svg>`;
 }

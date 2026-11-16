@@ -355,6 +355,12 @@ export const staticRoutes: NavRoute[] = [
 			"Professional AI/ML engineering experience at IndiaAI Mission (MeitY), ISSA-DRDO, and Geminid Systems.",
 	},
 	{
+		name: "Open source",
+		path: "/open-source",
+		description:
+			"Medhansh Kapoor’s merged and in-review pull requests to upstream projects including Wikimedia Commons, OWASP, Hiero and Sugar Labs.",
+	},
+	{
 		name: "About",
 		path: "/about",
 		description:
