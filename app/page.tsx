@@ -90,7 +90,7 @@ function renderOpenSourceCard(stats: OpenSourceStats | null) {
 	const sorted = [...orgs.entries()].sort(([, a], [, b]) => b.merged - a.merged || b.open - a.open);
 	const rows = sorted
 		.map(([name, { avatar, merged, open }]) => `<li>
-				<img src="${escapeHtml(avatar)}" alt="" width="20" height="20" loading="lazy" decoding="async">
+				<img src="${escapeHtml(avatar)}" alt="" width="20" height="20">
 				<span class="oss-org">${escapeHtml(name)}</span>
 				<span class="oss-count">${merged + open}</span>
 			</li>`)

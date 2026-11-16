@@ -38,7 +38,7 @@ export interface Pull {
 
 export interface UpstreamProject {
 	repo: string;
-	avatar: string; // org logo, direct avatars.githubusercontent.com URL
+	avatar: string; // org logo URL, served same-origin via /api/org-logo
 	project: string;
 	org: string;
 	about: string;
@@ -117,6 +117,15 @@ export async function getOpenSourceStats(): Promise<OpenSourceStats | null> {
 	}
 }
 
+/**
+ * Org logos are served from this site (/api/org-logo, edge-cached) so they reuse the page's connection
+ * instead of opening a new one to GitHub's image server, which made them pop in late.
+ */
+function logoUrl(avatarUrl: string | undefined, owner: string) {
+	const id = avatarUrl?.match(/avatars\.githubusercontent\.com\/u\/(\d+)/)?.[1];
+	return id ? `/api/org-logo?u=${id}` : `https://github.com/${owner}.png?size=48`;
+}
+
 export function summarise(nodes: GraphPull[], reviews: number): OpenSourceStats {
 	const projects: UpstreamProject[] = UPSTREAM.map(({ repo, project, org, about }) => {
 		const mine = nodes.filter((n) => n.repository?.nameWithOwner?.toLowerCase() === repo.toLowerCase());
@@ -139,8 +148,7 @@ export function summarise(nodes: GraphPull[], reviews: number): OpenSourceStats 
 			.sort((a, b) => b.date.localeCompare(a.date) || b.number - a.number);
 		return {
 			repo,
-			// Direct avatar URL: github.com/<org>.png redirects cross-site, which Brave Shields blocks.
-			avatar: mine[0]?.repository.owner.avatarUrl ?? `https://github.com/${repo.split("/")[0]}.png?size=48`,
+			avatar: logoUrl(mine[0]?.repository.owner.avatarUrl, repo.split("/")[0]),
 			project,
 			org,
 			about,
