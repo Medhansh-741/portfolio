@@ -303,9 +303,10 @@ h2 { font-size: 1.0625rem; font-weight: 700; letter-spacing: -0.02em; line-heigh
 .oss-heading { justify-content: space-between; }
 .oss-all { display: inline-flex; align-items: center; gap: 0.25rem; min-height: var(--tap); padding-inline: 0.25rem; font-size: 0.875rem; }
 .oss-all svg { width: 1rem; height: 1rem; }
-/* square marks: filled = merged, outlined = in review (the headline doubles as the legend) */
-[data-oss] i[data-state] { display: inline-block; flex: none; width: 0.6rem; height: 0.6rem; border: 1.5px solid var(--ink); }
-[data-oss] i[data-state="merged"] { background: var(--ink); }
+/* square marks: filled = merged, outlined = in review, dotted = closed (the headline doubles as the legend) */
+i[data-state] { display: inline-block; flex: none; width: 0.6rem; height: 0.6rem; border: 1.5px solid var(--ink); }
+i[data-state="merged"] { background: var(--ink); }
+i[data-state="closed"] { border-style: dotted; border-color: var(--muted); }
 .oss-headline { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem 1.25rem; margin: 0 0 0.6rem; font-size: 0.875rem; color: var(--muted); }
 .oss-headline > span { display: inline-flex; align-items: center; gap: 0.45rem; white-space: nowrap; }
 .oss-lcd { position: relative; color: var(--ink); font: 700 1.75rem / 1 "Portfolio LCD", ui-monospace, monospace; }
@@ -320,25 +321,57 @@ h2 { font-size: 1.0625rem; font-weight: 700; letter-spacing: -0.02em; line-heigh
 .oss-squares i[data-state] { flex: 0 1 0.6rem; width: auto; min-width: 0.35rem; height: auto; aspect-ratio: 1; }
 .oss-count { text-align: end; font-variant-numeric: tabular-nums; color: var(--muted); }
 .oss-latest { overflow: hidden; margin: 0; padding-block: 0.55rem 0.45rem; color: var(--muted); font-size: 0.8125rem; text-overflow: ellipsis; white-space: nowrap; }
-/* /open-source totals */
-.oss-totals { display: grid; grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr)); gap: 0.5rem; margin-bottom: 0.75rem; }
-.oss-totals div { padding: 0.5rem 0.6rem; border: 1px solid var(--line-soft); }
-.oss-totals dt { color: var(--muted); font-size: 0.75rem; }
-.oss-totals dd { font-size: 1.0625rem; font-weight: 700; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; white-space: nowrap; }
+/* ---- /open-source page: same language as the deck card ---- */
 .oss-lede { margin-bottom: 1rem; color: var(--muted); font-size: 0.9375rem; }
 .oss-meta { color: var(--muted); font-size: 0.8125rem; }
-.oss-pulls { display: grid; margin: 0; padding: 0; list-style: none; }
-.oss-pull { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 0.6rem; row-gap: 0.15rem; padding-block: 0.6rem; border-top: 1px solid var(--line-soft); font-size: 0.9rem; }
-.oss-pull > :not(.oss-state) { grid-column: 2; }
-.oss-state { grid-row: 1 / span 3; align-self: start; padding: 0.1rem 0.4rem; border: 1px solid var(--line); font-size: 0.6875rem; font-weight: 600; white-space: nowrap; }
-.oss-state[data-state="merged"] { border-color: var(--ink); background: var(--ink); color: var(--paper); }
-.oss-state[data-state="closed"] { color: var(--muted); }
+.oss-panel { padding: 0.75rem 0.75rem 0; border: 1px solid var(--line); }
+.oss-panel .oss-headline { margin-bottom: 0.75rem; }
+.oss-panel-bottom { margin: 0; padding-block: 0.55rem; color: var(--muted); font-size: 0.8125rem; }
+.oss-repos { display: grid; gap: 0.625rem; }
+.oss-repo { border: 1px solid var(--line); }
+.oss-repo > summary {
+	display: grid;
+	grid-template-columns: 1.5rem minmax(0, 1fr) 1.5rem 1rem;
+	align-items: center;
+	gap: 0.6rem;
+	min-height: 3.5rem;
+	padding: 0.5rem 0.75rem;
+	cursor: pointer;
+	list-style: none;
+}
+.oss-repo > summary::-webkit-details-marker { display: none; }
+.oss-repo > summary img { display: block; width: 1.5rem; height: 1.5rem; border-radius: 0.25rem; }
+.oss-repo > summary svg { width: 1rem; height: 1rem; transition: rotate 160ms ease-out; }
+.oss-repo[open] > summary svg { rotate: 180deg; }
+.oss-repo > summary:hover { background: #f8f8f8; }
+.oss-repo-name { display: grid; gap: 0.2rem; min-width: 0; }
+.oss-repo-line { display: flex; align-items: center; gap: 0.6rem; min-width: 0; }
+/* page squares keep full size; only the deck card's squares shrink to fit */
+.oss-repo .oss-squares i[data-state], .oss-weeks .oss-squares i[data-state] { flex: none; width: 0.6rem; height: 0.6rem; }
+.oss-repo-name strong { overflow: hidden; font-size: 0.9375rem; text-overflow: ellipsis; white-space: nowrap; }
+/* PR list scrolls inside a fixed height (no visible scrollbar) so an open repo never stretches the page */
+.oss-scroll {
+	max-height: 17rem;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	scrollbar-width: none;
+	margin-inline: 0.75rem;
+	border-top: 1px solid var(--line-soft);
+}
+.oss-scroll::-webkit-scrollbar { display: none; }
+.oss-scroll:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.oss-pulls { margin: 0; padding: 0; list-style: none; }
+.oss-pull { display: grid; grid-template-columns: 0.6rem minmax(0, 1fr); gap: 0.6rem; padding-block: 0.65rem; font-size: 0.9rem; }
+.oss-pull + .oss-pull { border-top: 1px solid var(--line-soft); }
+.oss-pull > i[data-state] { margin-top: 0.35rem; }
+.oss-pull > div { display: grid; gap: 0.2rem; min-width: 0; overflow-wrap: anywhere; }
 .oss-note { font-size: 0.8125rem; }
-.oss-weeks { display: grid; gap: 0.6rem; margin: 0; padding: 0; list-style: none; font-size: 0.875rem; }
-.oss-weeks li { display: grid; gap: 0.25rem; }
-.oss-week-bar { display: flex; height: 0.6rem; background: var(--line-soft); }
-.oss-week-bar [data-state="merged"] { background: var(--ink); }
-.oss-week-bar [data-state="open"] { background: var(--line); }
+.oss-repo-link { display: flex; align-items: center; gap: 0.3rem; min-height: var(--tap); margin-inline: 0.75rem; font-size: 0.8125rem; }
+.oss-repo-link svg { width: 0.9rem; height: 0.9rem; }
+.oss-weeks { display: grid; margin: 0; padding: 0; list-style: none; font-size: 0.875rem; border: 1px solid var(--line); }
+.oss-weeks li { display: grid; grid-template-columns: minmax(0, 1fr) auto 1.5rem; align-items: center; gap: 0.75rem; min-height: var(--tap); padding-inline: 0.75rem; }
+.oss-weeks li + li { border-top: 1px solid var(--line-soft); }
+@media (prefers-reduced-motion: reduce) { .oss-repo > summary svg { transition: none; } }
 .mentions-trigger, .mentions-close {
 	border: 0;
 	padding: 0;

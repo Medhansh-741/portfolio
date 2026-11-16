@@ -39,6 +39,19 @@ export function formatPullDate(isoDate: string) {
 	return pullDate.format(new Date(`${isoDate}T00:00:00Z`));
 }
 
+/** Number in the header clock's LCD style: unlit "8"s sit behind the lit digits. */
+export function lcdNumber(value: number) {
+	return `<span class="oss-lcd" data-ghost="${"8".repeat(String(value).length)}">${value}</span>`;
+}
+
+/** Status squares: filled = merged, outlined = in review, dotted = closed. Capped so a row never overflows. */
+export function stateSquares(merged: number, open: number, closed = 0, max = 10) {
+	const m = Math.min(merged, max);
+	const o = Math.min(open, max - m);
+	const c = Math.min(closed, max - m - o);
+	return `${'<i data-state="merged"></i>'.repeat(m)}${'<i data-state="open"></i>'.repeat(o)}${'<i data-state="closed"></i>'.repeat(c)}`;
+}
+
 export function icon(name: keyof typeof icons) {
 	return `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${icons[name]}</svg>`;
 }

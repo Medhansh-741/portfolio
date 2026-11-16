@@ -2,7 +2,7 @@ import Script from "next/script";
 import { JsonLd, getProfilePageSchema } from "./lib/jsonld";
 import { profile } from "@/app/data/profile";
 import { getOpenSourceStats, type OpenSourceStats } from "./lib/open-source";
-import { escapeHtml, formatPullDate, icon, PortfolioPage, renderDemo, repositoryLink } from "./portfolio-page";
+import { escapeHtml, formatPullDate, icon, lcdNumber, PortfolioPage, renderDemo, repositoryLink, stateSquares } from "./portfolio-page";
 
 const skillGroups = [
 	["Languages", ["Python", "TypeScript", "JavaScript", "SQL", "C/C++"]],
@@ -65,12 +65,7 @@ const achievements = profile.achievements.map(({ title, homeImage, images }) => 
 	</div>`;
 }).join("");
 
-// One summary card for the deck's "Open source" tab; the full breakdown lives on /open-source.
 const MAX_ORG_ROWS = 4; // keeps the card inside the deck's existing height
-const MAX_SQUARES = 10;
-
-// LCD number like the header clock: unlit "8"s sit behind the lit digits.
-const lcd = (value: number) => `<span class="oss-lcd" data-ghost="${"8".repeat(String(value).length)}">${value}</span>`;
 
 // One glanceable card for the deck's "Open source" tab; the full breakdown lives on /open-source.
 function renderOpenSourceCard(stats: OpenSourceStats | null) {
@@ -95,9 +90,7 @@ function renderOpenSourceCard(stats: OpenSourceStats | null) {
 		.sort(([, a], [, b]) => b.merged - a.merged || b.open - a.open)
 		.slice(0, MAX_ORG_ROWS)
 		.map(([name, { owner, merged, open }]) => {
-			const shownMerged = Math.min(merged, MAX_SQUARES);
-			const shownOpen = Math.min(open, MAX_SQUARES - shownMerged);
-			const squares = `${'<i data-state="merged"></i>'.repeat(shownMerged)}${'<i data-state="open"></i>'.repeat(shownOpen)}`;
+			const squares = stateSquares(merged, open);
 			const label = [merged && `${merged} merged`, open && `${open} in review`].filter(Boolean).join(", ");
 			return `<li>
 				<img src="https://github.com/${escapeHtml(owner)}.png?size=40" alt="" width="20" height="20" loading="lazy" decoding="async">
@@ -114,8 +107,8 @@ function renderOpenSourceCard(stats: OpenSourceStats | null) {
 
 	return `<div class="deck-item" data-oss inert>${heading}
 		<p class="oss-headline">
-			<span><i data-state="merged" aria-hidden="true"></i>${lcd(stats.merged)} merged</span>
-			<span><i data-state="open" aria-hidden="true"></i>${lcd(stats.open)} in review</span>
+			<span><i data-state="merged" aria-hidden="true"></i>${lcdNumber(stats.merged)} merged</span>
+			<span><i data-state="open" aria-hidden="true"></i>${lcdNumber(stats.open)} in review</span>
 		</p>
 		<ul class="oss-orgs">${rows}</ul>
 		${latest}
