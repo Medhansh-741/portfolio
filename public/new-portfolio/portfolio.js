@@ -20,6 +20,7 @@ let swipe = null;
 let categoryDrag = null;
 
 categoryStrip.addEventListener("pointerdown", (event) => {
+	stopCategoryMarquee();
 	if (event.pointerType !== "mouse" || event.button !== 0 || categoryStrip.scrollWidth <= categoryStrip.clientWidth) return;
 	categoryDrag = { id: event.pointerId, x: event.clientX, scrollLeft: categoryStrip.scrollLeft };
 });
@@ -82,6 +83,9 @@ function renderDeck(announce = false) {
 	for (const button of categories) {
 		button.setAttribute("aria-pressed", String(button.dataset.category === category));
 	}
+	for (const copy of categoryStrip.querySelectorAll("[data-copy-of]")) {
+		copy.toggleAttribute("data-active", copy.dataset.copyOf === category);
+	}
 	position.textContent = `${index + 1} / ${count}`;
 	previous.setAttribute("aria-label", `Previous ${itemType}`);
 	next.setAttribute("aria-label", `Next ${itemType}`);
@@ -111,6 +115,51 @@ for (const button of categories) {
 previous.addEventListener("click", () => moveDeck(-1));
 next.addEventListener("click", () => moveDeck(1));
 categoryStrip.hidden = false;
+
+// Category marquee: the labels drift across the strip until the first touch, click, wheel or key press,
+// then it stops for good and the strip is an ordinary draggable row. Reduced motion never starts it.
+const categoryTrack = categoryStrip.querySelector("[data-categories-track]");
+const categoryCount = categories.length;
+let categoryMarqueeFrame = 0;
+let categoryMarqueeOffset = 0;
+let categoryMarqueeStopped = reducedMotion.matches;
+
+function stopCategoryMarquee() {
+	if (categoryMarqueeStopped) return;
+	categoryMarqueeStopped = true;
+	cancelAnimationFrame(categoryMarqueeFrame);
+}
+
+if (!categoryMarqueeStopped) {
+	// Clones are decorative: no data-category (so the real buttons stay the only ones wired up),
+	// hidden from assistive tech, and no aria-pressed (their state would otherwise go stale).
+	for (const original of [...categoryTrack.children]) {
+		const copy = original.cloneNode(true);
+		copy.dataset.copyOf = original.dataset.category;
+		copy.removeAttribute("data-category");
+		copy.removeAttribute("aria-pressed");
+		copy.setAttribute("aria-hidden", "true");
+		copy.tabIndex = -1;
+		copy.disabled = original.disabled;
+		copy.addEventListener("click", () => original.click()); // a copy may be the one in view once stopped
+		categoryTrack.append(copy);
+	}
+	for (const eventName of ["touchstart", "wheel", "keydown", "focusin"]) {
+		categoryStrip.addEventListener(eventName, stopCategoryMarquee, { passive: true });
+	}
+	let lastFrame = 0;
+	const driftCategories = (now) => {
+		const elapsed = lastFrame ? now - lastFrame : 0;
+		lastFrame = now;
+		const first = categoryTrack.children[0].getBoundingClientRect().left;
+		const repeatAt = categoryTrack.children[categoryCount].getBoundingClientRect().left - first;
+		categoryMarqueeOffset += elapsed * 0.04; // 40 px per second
+		if (categoryMarqueeOffset >= repeatAt) categoryMarqueeOffset -= repeatAt;
+		categoryStrip.scrollLeft = categoryMarqueeOffset;
+		categoryMarqueeFrame = requestAnimationFrame(driftCategories);
+	};
+	categoryMarqueeFrame = requestAnimationFrame(driftCategories);
+}
 renderDeck();
 
 const slide = (offset) => `translate3d(${offset}px, 0, 0)`;
