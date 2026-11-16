@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { escapeHtml, formatPullDate, icon, PortfolioPage, prBar, prIcon } from "../portfolio-page";
+import { escapeHtml, formatPullDate, icon, lcdNumber, PortfolioPage, prBar, prIcon } from "../portfolio-page";
 import { getOpenSourceStats, type OpenSourceStats, type Pull, type UpstreamProject } from "@/app/lib/open-source";
 import { profile, staticRoutes } from "@/app/data/profile";
 
@@ -28,9 +28,8 @@ function renderTotals(stats: OpenSourceStats) {
 	return `<section class="oss-panel" aria-label="Totals">
 		<p class="oss-headline">${states
 			.filter(([, count]) => count > 0)
-			.map(([state, count]) => `<span>${prIcon(state)}<strong>${count}</strong> ${STATE_LABEL[state]}</span>`)
+			.map(([state, count]) => `<span>${prIcon(state)}${lcdNumber(count)} ${STATE_LABEL[state]}</span>`)
 			.join("")}</p>
-		${prBar(stats.merged, stats.open, stats.closed)}
 	</section>`;
 }
 

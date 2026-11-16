@@ -328,10 +328,11 @@ h2 { font-size: 1.0625rem; font-weight: 700; letter-spacing: -0.02em; line-heigh
 .pr-bar > [data-state="closed"] { background: var(--gh-closed); }
 .pr-bar > .pr-bar-rest { background: var(--line-soft); }
 .bottom-bar a[href="/open-source"] svg { color: var(--gh-merged); }
-.oss-summary { display: grid; gap: 0.5rem; margin-bottom: 0.6rem; }
-.oss-headline { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem 1.25rem; margin: 0; font-size: 0.875rem; color: var(--muted); }
+.oss-headline { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem 1.25rem; margin: 0 0 0.6rem; font-size: 0.875rem; color: var(--muted); }
 .oss-headline > span { display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap; }
-.oss-headline strong { color: var(--ink); font-size: 1.25rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+/* totals in the header clock's LCD digits */
+.oss-lcd { position: relative; color: var(--ink); font: 700 1.75rem / 1 "Portfolio LCD", ui-monospace, monospace; }
+.oss-lcd::before { content: attr(data-ghost); position: absolute; inset: 0; opacity: 0.06; }
 .oss-orgs { margin: 0; padding: 0; list-style: none; font-size: 0.875rem; }
 .oss-orgs { display: grid; grid-template-columns: 1.25rem auto minmax(0, 1fr) 1.5rem; grid-auto-rows: 1fr; column-gap: 0.6rem; } /* rows share the middle space evenly */
 .oss-orgs li { display: grid; grid-column: 1 / -1; grid-template-columns: subgrid; align-items: center; gap: 0.6rem; min-height: 2rem; border-top: 1px solid var(--line-soft); }
@@ -344,7 +345,7 @@ h2 { font-size: 1.0625rem; font-weight: 700; letter-spacing: -0.02em; line-heigh
 .oss-lede { margin-bottom: 1rem; color: var(--muted); font-size: 0.9375rem; }
 .oss-meta { color: var(--muted); font-size: 0.8125rem; }
 .oss-panel { padding: 0.75rem; border: 1px solid var(--line); }
-.oss-panel { display: grid; gap: 0.6rem; }
+.oss-panel .oss-headline { margin: 0; }
 .oss-repos { display: grid; gap: 0.625rem; }
 .oss-repo { border: 1px solid var(--line); }
 .oss-repo > summary {

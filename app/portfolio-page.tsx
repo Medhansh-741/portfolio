@@ -41,6 +41,11 @@ export function formatPullDate(isoDate: string) {
 	return pullDate.format(new Date(`${isoDate}T00:00:00Z`));
 }
 
+/** Number in the header clock's LCD style: unlit "8"s sit behind the lit digits. */
+export function lcdNumber(value: number) {
+	return `<span class="oss-lcd" data-ghost="${"8".repeat(String(value).length)}">${value}</span>`;
+}
+
 export type PullState = "merged" | "open" | "closed";
 
 // GitHub's pull-request state octicons (16px), primer/octicons, MIT. Colour comes from CSS (Primer state colours).

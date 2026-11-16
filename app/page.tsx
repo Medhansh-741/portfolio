@@ -2,7 +2,7 @@ import Script from "next/script";
 import { JsonLd, getProfilePageSchema } from "./lib/jsonld";
 import { profile } from "@/app/data/profile";
 import { getOpenSourceStats, type OpenSourceStats } from "./lib/open-source";
-import { escapeHtml, formatPullDate, icon, PortfolioPage, prBar, prIcon, renderDemo, repositoryLink } from "./portfolio-page";
+import { escapeHtml, formatPullDate, icon, lcdNumber, PortfolioPage, prBar, prIcon, renderDemo, repositoryLink } from "./portfolio-page";
 
 const skillGroups = [
 	["Languages", ["Python", "TypeScript", "JavaScript", "SQL", "C/C++"]],
@@ -104,13 +104,10 @@ function renderOpenSourceCard(stats: OpenSourceStats | null) {
 
 	// GitHub's own language: state octicons in Primer colours, then one split bar for merged vs open.
 	return `<div class="deck-item" data-oss inert>${heading}
-		<div class="oss-summary">
-			<p class="oss-headline">
-				<span>${prIcon("merged")}<strong>${stats.merged}</strong> Merged</span>
-				<span>${prIcon("open")}<strong>${stats.open}</strong> Open</span>
-			</p>
-			${prBar(stats.merged, stats.open)}
-		</div>
+		<p class="oss-headline">
+			<span>${prIcon("merged")}${lcdNumber(stats.merged)} Merged</span>
+			<span>${prIcon("open")}${lcdNumber(stats.open)} Open</span>
+		</p>
 		<ul class="oss-orgs">${rows}</ul>
 		${latest}
 	</div>`;
