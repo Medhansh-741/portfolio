@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { escapeHtml, formatPullDate, icon, lcdNumber, PortfolioPage, stateSquares } from "../portfolio-page";
-import { getOpenSourceStats, weeklyActivity, type OpenSourceStats, type Pull, type UpstreamProject } from "@/app/lib/open-source";
+import { getOpenSourceStats, type OpenSourceStats, type Pull, type UpstreamProject } from "@/app/lib/open-source";
 import { profile, staticRoutes } from "@/app/data/profile";
 
 const route = staticRoutes.find((r) => r.path === "/open-source");
@@ -71,27 +71,13 @@ function renderRepo(p: UpstreamProject, open: boolean) {
 	</details>`;
 }
 
-function renderActivity(stats: OpenSourceStats) {
-	const weeks = weeklyActivity(stats).filter((w) => w.merged + w.opened > 0);
-	return `<ol class="oss-weeks">${weeks
-		.map(
-			({ week, merged, opened }) => `<li>
-				<span>Week of ${formatPullDate(week)}</span>
-				<span class="oss-squares" role="img" aria-label="${counts(merged, opened)}">${stateSquares(merged, opened, 0, 20)}</span>
-				<span class="oss-count">${merged + opened}</span>
-			</li>`,
-		)
-		.join("")}</ol>`;
-}
-
 export default async function OpenSourcePage() {
 	const stats = await getOpenSourceStats();
 	const intro = `<p class="oss-lede">Pull requests to upstream community projects. Team and hackathon repos are not counted.</p>`;
 	const body =
 		stats && stats.projects.length > 0
 			? `${renderTotals(stats)}
-				<section class="detail-section"><h2>Projects</h2><div class="oss-repos">${stats.projects.map((p, i) => renderRepo(p, i === 0)).join("")}</div></section>
-				<section class="detail-section"><h2>Activity by week</h2>${renderActivity(stats)}</section>`
+				<section class="detail-section"><h2>Projects</h2><div class="oss-repos">${stats.projects.map((p, i) => renderRepo(p, i === 0)).join("")}</div></section>`
 			: `<p class="oss-lede">The contribution list couldn't be loaded right now. <a href="${escapeHtml(profile.github)}">See GitHub</a>.</p>`;
 
 	return <PortfolioPage content={`<h1>Open source</h1>${intro}${body}`} />;

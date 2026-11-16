@@ -165,18 +165,3 @@ export function summarise(nodes: GraphPull[], reviews: number): OpenSourceStats 
 		latestMerge,
 	};
 }
-
-/** Merged and opened PRs per week (Monday start), oldest first. */
-export function weeklyActivity(stats: OpenSourceStats) {
-	const weeks = new Map<string, { merged: number; opened: number }>();
-	for (const pull of stats.projects.flatMap((p) => p.pulls)) {
-		const d = new Date(`${pull.date}T00:00:00Z`);
-		d.setUTCDate(d.getUTCDate() - ((d.getUTCDay() + 6) % 7));
-		const key = d.toISOString().slice(0, 10);
-		const week = weeks.get(key) ?? { merged: 0, opened: 0 };
-		if (pull.state === "merged") week.merged++;
-		else if (pull.state === "open") week.opened++;
-		weeks.set(key, week);
-	}
-	return [...weeks.entries()].sort(([a], [b]) => a.localeCompare(b)).map(([week, counts]) => ({ week, ...counts }));
-}
