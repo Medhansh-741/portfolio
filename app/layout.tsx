@@ -1,4 +1,3 @@
-import GoogleAnalyticsDeferred from "./components/GoogleAnalyticsDeferred";
 import { Analytics } from "@vercel/analytics/react";
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
@@ -82,7 +81,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 				{children}
 				<Script src={versioned("/new-portfolio/shared.js")} strategy="afterInteractive" />
 				<Analytics />
-				<GoogleAnalyticsDeferred gaId="G-D064XWFM94" />
 			</body>
 		</html>
 	);

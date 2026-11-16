@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { escapeHtml, icon, PortfolioPage } from "../portfolio-page";
+import { escapeHtml, icon, PortfolioPage, responsiveSrcset } from "../portfolio-page";
 import { JsonLd, getProfilePageSchema } from "@/app/lib/jsonld";
 import { getProjectSlug, profile, staticRoutes } from "@/app/data/profile";
 
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
 };
 
 
-const achievements = profile.achievements.map(({ title, detail, certificate, eventUrl, coverage, projectTitle, images = [] }) => {
+const achievements = profile.achievements.map(({ title, detail, certificate, eventUrl, coverage, projectTitle, images = [] }, achievementIndex) => {
 	const displayTitle = escapeHtml(title);
 	const description = escapeHtml(detail ?? "");
 	const mentionsProject = projectTitle
@@ -48,9 +48,13 @@ const achievements = profile.achievements.map(({ title, detail, certificate, eve
 	const mentionsSummary = mentionsProject && "mentionsSummary" in mentionsProject ? mentionsProject.mentionsSummary : undefined;
 	const mentionsId = projectTitle ? `${escapeHtml(getProjectSlug(projectTitle))}-mentions` : "";
 	const carousel = images.length > 1;
-	const photos = images.map(({ src, alt, width, height }, index) =>
-		`<img class="achievement-photo" src="${escapeHtml(src)}" alt="${escapeHtml(alt)}" width="${width}" height="${height}"${carousel ? ' draggable="false"' : ' loading="lazy"'}${index ? ' fetchpriority="low"' : ""}>`
-	).join("");
+	// The very first photo on the page is the main image (LCP), so it loads first; every other photo waits until
+	// it is near the viewport (carousel photos sit off to the side until swiped to).
+	const photos = images.map(({ src, alt, width, height }, index) => {
+		const isFirstOnPage = achievementIndex === 0 && index === 0;
+		const loading = isFirstOnPage ? ' fetchpriority="high"' : ' loading="lazy"';
+		return `<img class="achievement-photo" src="${escapeHtml(src)}"${responsiveSrcset(src, width)} alt="${escapeHtml(alt)}" width="${width}" height="${height}"${carousel ? ' draggable="false"' : ""}${loading}>`;
+	}).join("");
 	const media = carousel ? `<div class="achievement-gallery" data-gallery>
 		<div class="gallery-track" data-gallery-track tabindex="0" role="group" aria-label="${displayTitle} photos. Swipe or use the arrow keys to browse.">${photos}</div>
 		<div class="gallery-dots" aria-hidden="true">${images.map((_, index) => `<span${index === 0 ? " data-current" : ""}></span>`).join("")}</div>

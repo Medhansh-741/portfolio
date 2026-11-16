@@ -148,18 +148,30 @@ if (!categoryMarqueeStopped) {
 	for (const eventName of ["touchstart", "wheel", "keydown", "focusin"]) {
 		categoryStrip.addEventListener(eventName, stopCategoryMarquee, { passive: true });
 	}
+	// Width of one set of labels (where the copies begin). Measured once and again only when the strip resizes,
+	// so the animation never forces a layout read on every frame.
+	let repeatAt = 0;
+	const measure = () => {
+		repeatAt = categoryTrack.children[categoryCount].offsetLeft - categoryTrack.children[0].offsetLeft;
+	};
+	new ResizeObserver(measure).observe(categoryTrack);
 	let lastFrame = 0;
 	const driftCategories = (now) => {
 		const elapsed = lastFrame ? now - lastFrame : 0;
 		lastFrame = now;
-		const first = categoryTrack.children[0].getBoundingClientRect().left;
-		const repeatAt = categoryTrack.children[categoryCount].getBoundingClientRect().left - first;
 		categoryMarqueeOffset += elapsed * 0.04; // 40 px per second
-		if (categoryMarqueeOffset >= repeatAt) categoryMarqueeOffset -= repeatAt;
+		if (repeatAt > 0 && categoryMarqueeOffset >= repeatAt) categoryMarqueeOffset -= repeatAt;
 		categoryStrip.scrollLeft = categoryMarqueeOffset;
 		categoryMarqueeFrame = requestAnimationFrame(driftCategories);
 	};
-	categoryMarqueeFrame = requestAnimationFrame(driftCategories);
+	// Start drifting only once the page has loaded and the main thread is idle, so the animation never
+	// competes with the first paint (it also stays put if the visitor touches the strip before then).
+	const startDrift = () => {
+		if (!categoryMarqueeStopped) categoryMarqueeFrame = requestAnimationFrame(driftCategories);
+	};
+	const whenIdle = window.requestIdleCallback ?? ((fn) => setTimeout(fn, 1));
+	if (document.readyState === "complete") whenIdle(startDrift);
+	else window.addEventListener("load", () => whenIdle(startDrift), { once: true });
 }
 renderDeck();
 

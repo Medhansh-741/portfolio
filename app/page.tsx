@@ -3,7 +3,7 @@ import { JsonLd, getProfilePageSchema } from "./lib/jsonld";
 import { profile } from "@/app/data/profile";
 import { getOpenSourceStats, type OpenSourceStats } from "./lib/open-source";
 import { versioned } from "./lib/asset-version";
-import { escapeHtml, formatPullDate, icon, lcdNumber, PortfolioPage, prIcon, renderDemo, repositoryLink } from "./portfolio-page";
+import { escapeHtml, formatPullDate, icon, lcdNumber, PortfolioPage, prIcon, renderDemo, repositoryLink, responsiveSrcset } from "./portfolio-page";
 
 const skillGroups = [
 	["Languages", ["Python", "TypeScript", "JavaScript", "SQL", "C/C++"]],
@@ -39,7 +39,7 @@ const projects = profile.projects.map((project, index) => {
 			${repositoryLink(project)}
 		</div>
 		<p class="deck-caption">${escapeHtml(project.subtitle)}</p>
-		${renderDemo(project, index ? ' fetchpriority="low"' : "")}
+		${renderDemo(project, index ? ' fetchpriority="low"' : ' fetchpriority="high"')}
 	</div>`;
 }).join("");
 
@@ -63,7 +63,7 @@ const achievements = profile.achievements.map(({ title, homeImage, images }) => 
 	if (!photo) return "";
 	return `<div class="deck-item" data-achievement inert>
 		<div class="deck-heading"><h2>${escapeHtml(title)}</h2></div>
-		<img class="achievement-photo deck-achievement-photo" src="${escapeHtml(photo.src)}" alt="${escapeHtml(photo.alt)}" width="${photo.width}" height="${photo.height}" loading="lazy">
+		<img class="achievement-photo deck-achievement-photo" src="${escapeHtml(photo.src)}"${responsiveSrcset(photo.src, photo.width)} alt="${escapeHtml(photo.alt)}" width="${photo.width}" height="${photo.height}" loading="lazy">
 	</div>`;
 }).join("");
 

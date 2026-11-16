@@ -69,12 +69,28 @@ export function repositoryLink(project: Project) {
 	return `<a class="repository-link" href="${escapeHtml(project.links.github)}" aria-label="${escapeHtml(project.title)} repository on GitHub">${icon("github")}</a>`;
 }
 
+/**
+ * Smaller copies (`<name>-480.webp`, `<name>-720.webp`, made with sharp next to the original) let each screen
+ * fetch the size it shows; dense screens still get the original. Images sit inside the 30rem page column minus
+ * its gutter and card padding (~3.5rem).
+ */
+export function responsiveSrcset(src: string, width: number) {
+	if (width <= 720) return "";
+	const copy = (w: number) => `${escapeHtml(src.replace(/\.webp$/, `-${w}.webp`))} ${w}w`;
+	return ` srcset="${copy(480)}, ${copy(720)}, ${escapeHtml(src)} ${width}w" sizes="(max-width: 30rem) calc(100vw - 3.5rem), 26.5rem"`;
+}
+
+// Real widths of the demo thumbnails in /public/videos (their 720px copies sit alongside).
+const DEMO_THUMB_WIDTH: Record<string, number> = { ecoaudit: 960, jansamadhan: 1904, nyayaai: 1902 };
+
 export function renderDemo(project: Project, imageAttributes = "") {
 	const title = escapeHtml(project.title);
 	const embed = getYouTubeEmbedUrl(project.links.demo);
+	const slug = getProjectSlug(project.title);
+	const src = `/videos/${slug}.webp`;
 	return embed ? `<div class="demo-stage">
 		<a class="demo-trigger" href="${escapeHtml(project.links.demo)}" data-embed="${escapeHtml(embed)}" aria-label="Play ${title} demo">
-			<img src="/videos/${escapeHtml(getProjectSlug(project.title))}.webp" alt="" width="640" height="360"${imageAttributes}>
+			<img src="${escapeHtml(src)}"${responsiveSrcset(src, DEMO_THUMB_WIDTH[slug] ?? 0)} alt="" width="640" height="360"${imageAttributes}>
 			<span class="demo-play">${icon("play")}</span>
 		</a>
 	</div>` : "";
@@ -98,7 +114,7 @@ export function PortfolioPage({ page, content }: { page?: Page; content: string 
 	const markup = `
 		<header class="masthead">
 			${page === "home" ? `<h1>${escapeHtml(profile.name)}</h1>` : `<a class="masthead-name" href="/">${escapeHtml(profile.name)}</a>`}
-			<time class="clock" data-clock aria-label="Local time" hidden>
+			<time class="clock" data-clock role="img" aria-label="Local time" hidden>
 				<span class="clock-dial" aria-hidden="true">
 					<span data-digit data-ghost="8"></span><span data-digit data-ghost="8"></span><span class="clock-colon">:</span><span data-digit data-ghost="8"></span><span data-digit data-ghost="8"></span>
 				</span>
