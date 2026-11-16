@@ -4,6 +4,7 @@ import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { profile } from "./data/profile";
 import { JsonLd, getRootGraphSchema, SITE_URL } from "./lib/jsonld";
+import { versioned } from "./lib/asset-version";
 
 export const viewport: Viewport = {
 	themeColor: "#FFFFFF",
@@ -74,12 +75,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 	return (
 		<html lang="en">
 			<head>
-				<link rel="stylesheet" href="/new-portfolio/styles.css" />
+				<link rel="stylesheet" href={versioned("/new-portfolio/styles.css")} />
 			</head>
 			<body>
 				<JsonLd data={getRootGraphSchema()} />
 				{children}
-				<Script src="/new-portfolio/shared.js" strategy="afterInteractive" />
+				<Script src={versioned("/new-portfolio/shared.js")} strategy="afterInteractive" />
 				<Analytics />
 				<GoogleAnalyticsDeferred gaId="G-D064XWFM94" />
 			</body>

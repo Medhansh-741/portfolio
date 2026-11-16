@@ -2,6 +2,7 @@ import Script from "next/script";
 import { JsonLd, getProfilePageSchema } from "./lib/jsonld";
 import { profile } from "@/app/data/profile";
 import { getOpenSourceStats, type OpenSourceStats } from "./lib/open-source";
+import { versioned } from "./lib/asset-version";
 import { escapeHtml, formatPullDate, icon, lcdNumber, PortfolioPage, prIcon, renderDemo, repositoryLink } from "./portfolio-page";
 
 const skillGroups = [
@@ -165,7 +166,7 @@ export default async function Home() {
 		<>
 			<JsonLd data={getProfilePageSchema("", `${profile.name} | ${profile.tagline}`)} />
 			<PortfolioPage page="home" content={renderContent(renderOpenSourceCard(openSource))} />
-			<Script src="/new-portfolio/portfolio.js" strategy="afterInteractive" />
+			<Script src={versioned("/new-portfolio/portfolio.js")} strategy="afterInteractive" />
 		</>
 	);
 }
