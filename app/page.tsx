@@ -48,7 +48,8 @@ const experience = profile.experience.map((item) => `
 		<div class="experience-item">
 			<p class="experience-role">${escapeHtml(item.role)}</p>
 			<p class="experience-period">${escapeHtml(item.period)}</p>
-			<p>${escapeHtml(item.description)}</p>
+			<p class="experience-summary">${escapeHtml(item.summary)}</p>
+			<p class="experience-summary-short">${escapeHtml(item.description)}</p>
 		</div>
 		<div class="experience-proof deck-bottom" role="group" aria-label="Experience documents">
 			<a href="${escapeHtml(item.offerLetter)}">Offer letter</a>

@@ -127,6 +127,9 @@ export const profile = {
 			period: "June 2026 – July 2026",
 			description:
 				"Built an AIKosh toolkit that accepts health research uploads, checks data quality and privacy across 15 areas, and automatically generates reports and sends verified dataset details.",
+			// Longer paragraph shown on /experience and in the home deck (the short description is the fallback on very narrow phones).
+			summary:
+				"Built a toolkit for ICMR to upload health research datasets securely and check data quality and privacy across 15 areas. It scores which datasets can be shared openly or need restrictions, generates reports, and sends verified dataset details to AIKosh automatically.",
 			tech: [
 				"Next.js",
 				"FastAPI",
@@ -153,6 +156,8 @@ export const profile = {
 			period: "May 2026 – July 2026",
 			description:
 				"Built an offline mapping platform that automatically imports map files and imagery and serves interactive maps in a browser over a secure local network.",
+			summary:
+				"Built an offline mapping platform that automatically imports map files and satellite imagery and makes them available as interactive maps in a browser. Deployed it on a secure local network so teams could use it without internet access or manually set up map layers.",
 			tech: [
 				"FastAPI",
 				"PostGIS",
@@ -176,6 +181,8 @@ export const profile = {
 			period: "May 2026 – June 2026",
 			description:
 				"Built and tested Salesforce integrations, compared AI tools that turn questions into database queries, and benchmarked audio tools for voice analytics.",
+			summary:
+				"Built Salesforce integrations and tested AI prompts on CRM data. Compared how accurately AI tools turn questions into SQL across multiple tables, and wrote scripts and benchmark reports to evaluate Python audio libraries for voice analytics.",
 			tech: [
 				"Vanna.ai",
 				"LlamaIndex",

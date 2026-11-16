@@ -22,17 +22,11 @@ const counts = (merged: number, open: number) =>
 
 // Same language as the deck card: LCD totals whose squares double as the legend, then a ruled bottom row.
 function renderTotals(stats: OpenSourceStats) {
-	const secondary = [
-		`+${n(stats.additions)} / −${n(stats.deletions)} lines merged`,
-		`${stats.projects.length} projects`,
-		stats.reviews > 0 ? `${n(stats.reviews)} reviews given` : "",
-	].filter(Boolean);
 	return `<section class="oss-panel" aria-label="Totals">
 		<p class="oss-headline">
 			<span><i data-state="merged" aria-hidden="true"></i>${lcdNumber(stats.merged)} merged</span>
 			<span><i data-state="open" aria-hidden="true"></i>${lcdNumber(stats.open)} in review</span>
 		</p>
-		<p class="oss-panel-bottom deck-bottom">${secondary.join(" · ")}</p>
 	</section>`;
 }
 
