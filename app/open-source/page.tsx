@@ -4,11 +4,11 @@ import { getOpenSourceStats, type OpenSourceStats, type Pull, type UpstreamProje
 import { profile, staticRoutes } from "@/app/data/profile";
 
 const route = staticRoutes.find((r) => r.path === "/open-source");
-const pageTitle = `Open source — ${profile.name}`;
+const pageTitle = `Open Source — ${profile.name}`;
 const pageDescription = route?.description ?? `Open-source contributions by ${profile.name} to upstream community projects.`;
 
 export const metadata: Metadata = {
-	title: "Open source", // the root layout's template appends " | <name>"
+	title: "Open Source", // the root layout's template appends " | <name>"
 	description: pageDescription,
 	alternates: { canonical: "/open-source" },
 	openGraph: { title: pageTitle, description: pageDescription, url: "/open-source", type: "website" },
@@ -80,5 +80,5 @@ export default async function OpenSourcePage() {
 				<section class="detail-section"><h2>Projects</h2><div class="oss-repos">${stats.projects.map((p, i) => renderRepo(p, i === 0)).join("")}</div></section>`
 			: `<p class="oss-lede">The contribution list couldn't be loaded right now. <a href="${escapeHtml(profile.github)}">See GitHub</a>.</p>`;
 
-	return <PortfolioPage page="open-source" content={`<h1>Open source</h1>${intro}${body}`} />;
+	return <PortfolioPage page="open-source" content={`<h1>Open Source</h1>${intro}${body}`} />;
 }

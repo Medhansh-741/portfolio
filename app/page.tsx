@@ -67,10 +67,10 @@ const achievements = profile.achievements.map(({ title, homeImage, images }) => 
 	</div>`;
 }).join("");
 
-// One glanceable card for the deck's "Open source" tab; the full breakdown lives on /open-source.
+// One glanceable card for the deck's "Open Source" tab; the full breakdown lives on /open-source.
 function renderOpenSourceCard(stats: OpenSourceStats | null) {
 	const heading = `<div class="deck-heading oss-heading">
-		<h2>Open source</h2>
+		<h2>Open Source</h2>
 		<a class="oss-all" href="/open-source" aria-label="All open-source work">All ${icon("next")}</a>
 	</div>`;
 	if (!stats || stats.projects.length === 0) {
@@ -139,7 +139,7 @@ const renderContent = (openSourceCard: string) => `
 							<button type="button" data-category="projects" aria-pressed="true" aria-controls="deck-content">Projects</button>
 							<button type="button" data-category="experience" aria-pressed="false" aria-controls="deck-content">Experience</button>
 							<button type="button" data-category="achievements" aria-pressed="false" aria-controls="deck-content">Achievements</button>
-							<button type="button" data-category="oss" aria-pressed="false" aria-controls="deck-content">Open source</button>
+							<button type="button" data-category="oss" aria-pressed="false" aria-controls="deck-content">Open Source</button>
 						</div>
 					</div>
 					<div class="deck-pagination" data-pagination hidden>

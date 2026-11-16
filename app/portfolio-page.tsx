@@ -84,7 +84,7 @@ const routes = [
 	["home", "Home", "/"],
 	["projects", "Projects", "/projects"],
 	["experience", "Experience", "/experience"],
-	["open-source", "Open source", "/open-source"],
+	["open-source", "Open Source", "/open-source"],
 	["about", "About", "/about"],
 ] as const;
 
