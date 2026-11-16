@@ -2,7 +2,7 @@ import Script from "next/script";
 import { JsonLd, getProfilePageSchema } from "./lib/jsonld";
 import { profile } from "@/app/data/profile";
 import { getOpenSourceStats, type OpenSourceStats } from "./lib/open-source";
-import { escapeHtml, formatPullDate, icon, lcdNumber, PortfolioPage, prBar, prIcon, renderDemo, repositoryLink } from "./portfolio-page";
+import { escapeHtml, formatPullDate, icon, lcdNumber, PortfolioPage, prIcon, renderDemo, repositoryLink } from "./portfolio-page";
 
 const skillGroups = [
 	["Languages", ["Python", "TypeScript", "JavaScript", "SQL", "C/C++"]],
@@ -88,12 +88,10 @@ function renderOpenSourceCard(stats: OpenSourceStats | null) {
 		orgs.set(p.org, org);
 	}
 	const sorted = [...orgs.entries()].sort(([, a], [, b]) => b.merged - a.merged || b.open - a.open).slice(0, MAX_ORG_ROWS);
-	const longest = Math.max(...sorted.map(([, o]) => o.merged + o.open)); // all org bars share one scale
 	const rows = sorted
 		.map(([name, { owner, merged, open }]) => `<li>
 				<img src="https://github.com/${escapeHtml(owner)}.png?size=40" alt="" width="20" height="20" loading="lazy" decoding="async">
 				<span class="oss-org">${escapeHtml(name)}</span>
-				${prBar(merged, open, 0, longest)}
 				<span class="oss-count">${merged + open}</span>
 			</li>`)
 		.join("");

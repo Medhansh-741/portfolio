@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { escapeHtml, formatPullDate, icon, lcdNumber, PortfolioPage, prBar, prIcon } from "../portfolio-page";
+import { escapeHtml, formatPullDate, icon, lcdNumber, PortfolioPage, prIcon } from "../portfolio-page";
 import { getOpenSourceStats, type OpenSourceStats, type Pull, type UpstreamProject } from "@/app/lib/open-source";
 import { profile, staticRoutes } from "@/app/data/profile";
 
@@ -52,17 +52,13 @@ function renderPull(pull: Pull) {
 }
 
 // Each repo collapses to one row; open, its PR list scrolls inside a fixed height so the page stays short.
-function renderRepo(p: UpstreamProject, open: boolean, scale: number) {
-	const closed = p.pulls.filter((pull) => pull.state === "closed").length;
+function renderRepo(p: UpstreamProject, open: boolean) {
 	return `<details class="oss-repo"${open ? " open" : ""}>
 		<summary>
 			<img src="https://github.com/${escapeHtml(p.owner)}.png?size=48" alt="" width="24" height="24" loading="lazy" decoding="async">
 			<span class="oss-repo-name">
 				<strong>${escapeHtml(p.project)}</strong>
-				<span class="oss-repo-line">
-					${prBar(p.merged, p.open, closed, scale)}
-					<span class="oss-meta">★ ${n(p.stars)}</span>
-				</span>
+				<span class="oss-meta">★ ${n(p.stars)}</span>
 			</span>
 			<span class="oss-count">${p.pulls.length}</span>
 			${icon("chevron")}
@@ -80,7 +76,7 @@ export default async function OpenSourcePage() {
 	const body =
 		stats && stats.projects.length > 0
 			? `${renderTotals(stats)}
-				<section class="detail-section"><h2>Projects</h2><div class="oss-repos">${stats.projects.map((p, i, all) => renderRepo(p, i === 0, Math.max(...all.map((x) => x.pulls.length)))).join("")}</div></section>`
+				<section class="detail-section"><h2>Projects</h2><div class="oss-repos">${stats.projects.map((p, i) => renderRepo(p, i === 0)).join("")}</div></section>`
 			: `<p class="oss-lede">The contribution list couldn't be loaded right now. <a href="${escapeHtml(profile.github)}">See GitHub</a>.</p>`;
 
 	return <PortfolioPage page="open-source" content={`<h1>Open source</h1>${intro}${body}`} />;

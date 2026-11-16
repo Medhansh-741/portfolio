@@ -61,19 +61,6 @@ export function prIcon(state: PullState) {
 	return `<svg class="pr-icon" data-state="${state}" aria-hidden="true" viewBox="0 0 16 16"><path fill="currentColor" d="${PR_ICONS[state]}"/></svg>`;
 }
 
-/**
- * GitHub-style split bar: merged (purple), open (green) and closed (red) segments sized by their share.
- * `scale` lets several bars share one length (a row with fewer PRs draws a shorter bar).
- */
-export function prBar(merged: number, open: number, closed = 0, scale = merged + open + closed) {
-	const total = merged + open + closed;
-	const segment = (state: PullState, count: number) =>
-		count > 0 ? `<span data-state="${state}" style="flex-grow:${count}"></span>` : "";
-	const rest = scale > total ? `<span class="pr-bar-rest" style="flex-grow:${scale - total}"></span>` : "";
-	const label = [merged && `${merged} merged`, open && `${open} open`, closed && `${closed} closed`].filter(Boolean).join(", ");
-	return `<span class="pr-bar" role="img" aria-label="${label}">${segment("merged", merged)}${segment("open", open)}${segment("closed", closed)}${rest}</span>`;
-}
-
 export function icon(name: keyof typeof icons) {
 	return `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${icons[name]}</svg>`;
 }
