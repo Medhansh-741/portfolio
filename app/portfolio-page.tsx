@@ -15,8 +15,8 @@ export function escapeHtml(value: string) {
 
 const icons = {
 	home: '<path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/>',
-	// pull request: two branch dots joined by a line, an arrow curving into the third
-	"open-source": '<circle cx="6" cy="6" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/><path d="M6 8v8m12 0V9a3 3 0 0 0-3-3h-5m3-3-3 3 3 3"/>',
+	// GitHub's git-merge octicon (24px), primer/octicons, MIT; coloured merge-purple in CSS
+	"open-source": '<g fill="currentColor" stroke="none"><path d="M15 13.25a3.25 3.25 0 1 1 6.5 0 3.25 3.25 0 0 1-6.5 0Zm-12.5 6a3.25 3.25 0 1 1 6.5 0 3.25 3.25 0 0 1-6.5 0Zm0-14.5a3.25 3.25 0 1 1 6.5 0 3.25 3.25 0 0 1-6.5 0ZM5.75 6.5a1.75 1.75 0 1 0-.001-3.501A1.75 1.75 0 0 0 5.75 6.5Zm0 14.5a1.75 1.75 0 1 0-.001-3.501A1.75 1.75 0 0 0 5.75 21Zm12.5-6a1.75 1.75 0 1 0-.001-3.501A1.75 1.75 0 0 0 18.25 15Z"/><path d="M6.5 7.25c0 2.9 2.35 5.25 5.25 5.25h4.5V14h-4.5A6.75 6.75 0 0 1 5 7.25Z"/><path d="M5.75 16.75A.75.75 0 0 1 5 16V8a.75.75 0 0 1 1.5 0v8a.75.75 0 0 1-.75.75Z"/></g>',
 	projects: '<path d="M3 6a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
 	experience: '<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2M3 12a20 20 0 0 0 18 0m-9 1v2"/>',
 	resume: '<path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8zm0 0v5h5M8 12h8m-8 4h5"/>',
@@ -41,17 +41,32 @@ export function formatPullDate(isoDate: string) {
 	return pullDate.format(new Date(`${isoDate}T00:00:00Z`));
 }
 
-/** Number in the header clock's LCD style: unlit "8"s sit behind the lit digits. */
-export function lcdNumber(value: number) {
-	return `<span class="oss-lcd" data-ghost="${"8".repeat(String(value).length)}">${value}</span>`;
+export type PullState = "merged" | "open" | "closed";
+
+// GitHub's pull-request state octicons (16px), primer/octicons, MIT. Colour comes from CSS (Primer state colours).
+const PR_ICONS: Record<PullState, string> = {
+	merged:
+		"M5.45 5.154A4.25 4.25 0 0 0 9.25 7.5h1.378a2.251 2.251 0 1 1 0 1.5H9.25A5.734 5.734 0 0 1 5 7.123v3.505a2.25 2.25 0 1 1-1.5 0V5.372a2.25 2.25 0 1 1 1.95-.218ZM4.25 13.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm8.5-4.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM5 3.25a.75.75 0 1 0 0 .005V3.25Z",
+	open: "M1.5 3.25a2.25 2.25 0 1 1 3 2.122v5.256a2.251 2.251 0 1 1-1.5 0V5.372A2.25 2.25 0 0 1 1.5 3.25Zm5.677-.177L9.573.677A.25.25 0 0 1 10 .854V2.5h1A2.5 2.5 0 0 1 13.5 5v5.628a2.251 2.251 0 1 1-1.5 0V5a1 1 0 0 0-1-1h-1v1.646a.25.25 0 0 1-.427.177L7.177 3.427a.25.25 0 0 1 0-.354ZM3.75 2.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5Zm0 9.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5Zm8.25.75a.75.75 0 1 0 1.5 0 .75.75 0 0 0-1.5 0Z",
+	closed:
+		"M3.25 1A2.25 2.25 0 0 1 4 5.372v5.256a2.251 2.251 0 1 1-1.5 0V5.372A2.251 2.251 0 0 1 3.25 1Zm9.5 5.5a.75.75 0 0 1 .75.75v3.378a2.251 2.251 0 1 1-1.5 0V7.25a.75.75 0 0 1 .75-.75Zm-2.03-5.273a.75.75 0 0 1 1.06 0l.97.97.97-.97a.748.748 0 0 1 1.265.332.75.75 0 0 1-.205.729l-.97.97.97.97a.751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018l-.97-.97-.97.97a.749.749 0 0 1-1.275-.326.749.749 0 0 1 .215-.734l.97-.97-.97-.97a.75.75 0 0 1 0-1.06ZM2.5 3.25a.75.75 0 1 0 1.5 0 .75.75 0 0 0-1.5 0ZM3.25 12a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5Zm9.5 0a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5Z",
+};
+
+export function prIcon(state: PullState) {
+	return `<svg class="pr-icon" data-state="${state}" aria-hidden="true" viewBox="0 0 16 16"><path fill="currentColor" d="${PR_ICONS[state]}"/></svg>`;
 }
 
-/** Status squares: filled = merged, outlined = in review, dotted = closed. Capped so a row never overflows. */
-export function stateSquares(merged: number, open: number, closed = 0, max = 10) {
-	const m = Math.min(merged, max);
-	const o = Math.min(open, max - m);
-	const c = Math.min(closed, max - m - o);
-	return `${'<i data-state="merged"></i>'.repeat(m)}${'<i data-state="open"></i>'.repeat(o)}${'<i data-state="closed"></i>'.repeat(c)}`;
+/**
+ * GitHub-style split bar: merged (purple), open (green) and closed (red) segments sized by their share.
+ * `scale` lets several bars share one length (a row with fewer PRs draws a shorter bar).
+ */
+export function prBar(merged: number, open: number, closed = 0, scale = merged + open + closed) {
+	const total = merged + open + closed;
+	const segment = (state: PullState, count: number) =>
+		count > 0 ? `<span data-state="${state}" style="flex-grow:${count}"></span>` : "";
+	const rest = scale > total ? `<span class="pr-bar-rest" style="flex-grow:${scale - total}"></span>` : "";
+	const label = [merged && `${merged} merged`, open && `${open} open`, closed && `${closed} closed`].filter(Boolean).join(", ");
+	return `<span class="pr-bar" role="img" aria-label="${label}">${segment("merged", merged)}${segment("open", open)}${segment("closed", closed)}${rest}</span>`;
 }
 
 export function icon(name: keyof typeof icons) {

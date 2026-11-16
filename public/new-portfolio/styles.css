@@ -314,29 +314,37 @@ h2 { font-size: 1.0625rem; font-weight: 700; letter-spacing: -0.02em; line-heigh
 .oss-heading { justify-content: space-between; }
 .oss-all { display: inline-flex; align-items: center; gap: 0.25rem; min-height: var(--tap); padding-inline: 0.25rem; font-size: 0.875rem; }
 .oss-all svg { width: 1rem; height: 1rem; }
-/* square marks: filled = merged, outlined = in review, dotted = closed (the headline doubles as the legend) */
-i[data-state] { display: inline-block; flex: none; width: 0.6rem; height: 0.6rem; border: 1.5px solid var(--ink); }
-i[data-state="merged"] { background: var(--ink); }
-i[data-state="closed"] { border-style: dotted; border-color: var(--muted); }
-.oss-headline { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem 1.25rem; margin: 0 0 0.6rem; font-size: 0.875rem; color: var(--muted); }
-.oss-headline > span { display: inline-flex; align-items: center; gap: 0.45rem; white-space: nowrap; }
-.oss-lcd { position: relative; color: var(--ink); font: 700 1.75rem / 1 "Portfolio LCD", ui-monospace, monospace; }
-.oss-lcd::before { content: attr(data-ghost); position: absolute; inset: 0; opacity: 0.06; }
+/* GitHub's exact pull-request state colours (Primer light: fgColor.done / .open / .closed) and octicons */
+:root { --gh-merged: #8250df; --gh-open: #1a7f37; --gh-closed: #d1242f; }
+.pr-icon { display: block; flex: none; width: 1rem; height: 1rem; }
+.pr-icon[data-state="merged"] { color: var(--gh-merged); }
+.pr-icon[data-state="open"] { color: var(--gh-open); }
+.pr-icon[data-state="closed"] { color: var(--gh-closed); }
+/* split bar in the style of GitHub's language bar: each state's share, 2px gaps, rounded ends */
+.pr-bar { display: flex; gap: 2px; width: 100%; height: 0.5rem; overflow: hidden; border-radius: 999px; }
+.pr-bar > span { min-width: 4px; }
+.pr-bar > [data-state="merged"] { background: var(--gh-merged); }
+.pr-bar > [data-state="open"] { background: var(--gh-open); }
+.pr-bar > [data-state="closed"] { background: var(--gh-closed); }
+.pr-bar > .pr-bar-rest { background: var(--line-soft); }
+.bottom-bar a[href="/open-source"] svg { color: var(--gh-merged); }
+.oss-summary { display: grid; gap: 0.5rem; margin-bottom: 0.6rem; }
+.oss-headline { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem 1.25rem; margin: 0; font-size: 0.875rem; color: var(--muted); }
+.oss-headline > span { display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap; }
+.oss-headline strong { color: var(--ink); font-size: 1.25rem; font-weight: 700; font-variant-numeric: tabular-nums; }
 .oss-orgs { margin: 0; padding: 0; list-style: none; font-size: 0.875rem; }
 .oss-orgs { display: grid; grid-template-columns: 1.25rem auto minmax(0, 1fr) 1.5rem; grid-auto-rows: 1fr; column-gap: 0.6rem; } /* rows share the middle space evenly */
 .oss-orgs li { display: grid; grid-column: 1 / -1; grid-template-columns: subgrid; align-items: center; gap: 0.6rem; min-height: 2rem; border-top: 1px solid var(--line-soft); }
 .oss-orgs img { display: block; width: 1.25rem; height: 1.25rem; border-radius: 0.2rem; }
 .oss-org { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.oss-squares { display: flex; flex-wrap: nowrap; gap: 0.15rem; overflow: hidden; }
-/* squares shrink on narrow screens instead of being clipped, so the bar always matches the count */
-.oss-squares i[data-state] { flex: 0 1 0.6rem; width: auto; min-width: 0.35rem; height: auto; aspect-ratio: 1; }
 .oss-count { text-align: end; font-variant-numeric: tabular-nums; color: var(--muted); }
 .oss-latest { overflow: hidden; margin: 0; padding-block: 0.55rem 0.45rem; color: var(--muted); font-size: 0.8125rem; text-overflow: ellipsis; white-space: nowrap; }
+.oss-latest .pr-icon { display: inline-block; width: 0.9rem; height: 0.9rem; margin-inline-end: 0.35rem; vertical-align: -0.15rem; }
 /* ---- /open-source page: same language as the deck card ---- */
 .oss-lede { margin-bottom: 1rem; color: var(--muted); font-size: 0.9375rem; }
 .oss-meta { color: var(--muted); font-size: 0.8125rem; }
 .oss-panel { padding: 0.75rem; border: 1px solid var(--line); }
-.oss-panel .oss-headline { margin: 0; }
+.oss-panel { display: grid; gap: 0.6rem; }
 .oss-repos { display: grid; gap: 0.625rem; }
 .oss-repo { border: 1px solid var(--line); }
 .oss-repo > summary {
@@ -356,8 +364,7 @@ i[data-state="closed"] { border-style: dotted; border-color: var(--muted); }
 .oss-repo > summary:hover { background: #f8f8f8; }
 .oss-repo-name { display: grid; gap: 0.2rem; min-width: 0; }
 .oss-repo-line { display: flex; align-items: center; gap: 0.6rem; min-width: 0; }
-/* page squares keep full size; only the deck card's squares shrink to fit */
-.oss-repo .oss-squares i[data-state] { flex: none; width: 0.6rem; height: 0.6rem; }
+.oss-repo-line .pr-bar { flex: 1 1 auto; max-width: 9rem; }
 .oss-repo-name strong { overflow: hidden; font-size: 0.9375rem; text-overflow: ellipsis; white-space: nowrap; }
 /* PR list scrolls inside a fixed height (no visible scrollbar) so an open repo never stretches the page */
 .oss-scroll {
@@ -371,9 +378,9 @@ i[data-state="closed"] { border-style: dotted; border-color: var(--muted); }
 .oss-scroll::-webkit-scrollbar { display: none; }
 .oss-scroll:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 .oss-pulls { margin: 0; padding: 0; list-style: none; }
-.oss-pull { display: grid; grid-template-columns: 0.6rem minmax(0, 1fr); gap: 0.6rem; padding-block: 0.65rem; font-size: 0.9rem; }
+.oss-pull { display: grid; grid-template-columns: 1rem minmax(0, 1fr); gap: 0.6rem; padding-block: 0.65rem; font-size: 0.9rem; }
 .oss-pull + .oss-pull { border-top: 1px solid var(--line-soft); }
-.oss-pull > i[data-state] { margin-top: 0.35rem; }
+.oss-pull > .pr-icon { margin-top: 0.15rem; }
 .oss-pull > div { display: grid; gap: 0.2rem; min-width: 0; overflow-wrap: anywhere; }
 .oss-note { font-size: 0.8125rem; }
 .oss-repo-link { display: flex; align-items: center; gap: 0.3rem; min-height: var(--tap); margin-inline: 0.75rem; font-size: 0.8125rem; }

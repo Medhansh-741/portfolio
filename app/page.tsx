@@ -2,7 +2,7 @@ import Script from "next/script";
 import { JsonLd, getProfilePageSchema } from "./lib/jsonld";
 import { profile } from "@/app/data/profile";
 import { getOpenSourceStats, type OpenSourceStats } from "./lib/open-source";
-import { escapeHtml, formatPullDate, icon, lcdNumber, PortfolioPage, renderDemo, repositoryLink, stateSquares } from "./portfolio-page";
+import { escapeHtml, formatPullDate, icon, PortfolioPage, prBar, prIcon, renderDemo, repositoryLink } from "./portfolio-page";
 
 const skillGroups = [
 	["Languages", ["Python", "TypeScript", "JavaScript", "SQL", "C/C++"]],
@@ -87,30 +87,30 @@ function renderOpenSourceCard(stats: OpenSourceStats | null) {
 		org.open += p.open;
 		orgs.set(p.org, org);
 	}
-	const rows = [...orgs.entries()]
-		.sort(([, a], [, b]) => b.merged - a.merged || b.open - a.open)
-		.slice(0, MAX_ORG_ROWS)
-		.map(([name, { owner, merged, open }]) => {
-			const squares = stateSquares(merged, open);
-			const label = [merged && `${merged} merged`, open && `${open} in review`].filter(Boolean).join(", ");
-			return `<li>
+	const sorted = [...orgs.entries()].sort(([, a], [, b]) => b.merged - a.merged || b.open - a.open).slice(0, MAX_ORG_ROWS);
+	const longest = Math.max(...sorted.map(([, o]) => o.merged + o.open)); // all org bars share one scale
+	const rows = sorted
+		.map(([name, { owner, merged, open }]) => `<li>
 				<img src="https://github.com/${escapeHtml(owner)}.png?size=40" alt="" width="20" height="20" loading="lazy" decoding="async">
 				<span class="oss-org">${escapeHtml(name)}</span>
-				<span class="oss-squares" role="img" aria-label="${label}">${squares}</span>
+				${prBar(merged, open, 0, longest)}
 				<span class="oss-count">${merged + open}</span>
-			</li>`;
-		})
+			</li>`)
 		.join("");
 
 	const latest = stats.latestMerge
-		? `<p class="oss-latest deck-bottom">Latest: <a href="${escapeHtml(stats.latestMerge.url)}">${escapeHtml(stats.latestMerge.org)} #${stats.latestMerge.number}</a> · ${formatPullDate(stats.latestMerge.date).replace(/, \d{4}$/, "")}</p>`
+		? `<p class="oss-latest deck-bottom">${prIcon("merged")}Latest: <a href="${escapeHtml(stats.latestMerge.url)}">${escapeHtml(stats.latestMerge.org)} #${stats.latestMerge.number}</a> · ${formatPullDate(stats.latestMerge.date).replace(/, \d{4}$/, "")}</p>`
 		: "";
 
+	// GitHub's own language: state octicons in Primer colours, then one split bar for merged vs open.
 	return `<div class="deck-item" data-oss inert>${heading}
-		<p class="oss-headline">
-			<span><i data-state="merged" aria-hidden="true"></i>${lcdNumber(stats.merged)} merged</span>
-			<span><i data-state="open" aria-hidden="true"></i>${lcdNumber(stats.open)} in review</span>
-		</p>
+		<div class="oss-summary">
+			<p class="oss-headline">
+				<span>${prIcon("merged")}<strong>${stats.merged}</strong> Merged</span>
+				<span>${prIcon("open")}<strong>${stats.open}</strong> Open</span>
+			</p>
+			${prBar(stats.merged, stats.open)}
+		</div>
 		<ul class="oss-orgs">${rows}</ul>
 		${latest}
 	</div>`;

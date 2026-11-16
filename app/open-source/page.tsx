@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { escapeHtml, formatPullDate, icon, lcdNumber, PortfolioPage, stateSquares } from "../portfolio-page";
+import { escapeHtml, formatPullDate, icon, PortfolioPage, prBar, prIcon } from "../portfolio-page";
 import { getOpenSourceStats, type OpenSourceStats, type Pull, type UpstreamProject } from "@/app/lib/open-source";
 import { profile, staticRoutes } from "@/app/data/profile";
 
@@ -15,18 +15,22 @@ export const metadata: Metadata = {
 	twitter: { card: "summary", title: pageTitle, description: pageDescription },
 };
 
-const STATE_LABEL: Record<Pull["state"], string> = { merged: "Merged", open: "In review", closed: "Closed" };
+// GitHub's own wording, octicons and Primer state colours for everything pull-request related.
+const STATE_LABEL: Record<Pull["state"], string> = { merged: "Merged", open: "Open", closed: "Closed" };
 const n = (value: number) => value.toLocaleString("en-US");
-const counts = (merged: number, open: number) =>
-	[merged && `${merged} merged`, open && `${open} in review`].filter(Boolean).join(", ");
 
-// Same language as the deck card: LCD totals whose squares double as the legend, then a ruled bottom row.
 function renderTotals(stats: OpenSourceStats) {
+	const states = [
+		["merged", stats.merged],
+		["open", stats.open],
+		["closed", stats.closed],
+	] as const;
 	return `<section class="oss-panel" aria-label="Totals">
-		<p class="oss-headline">
-			<span><i data-state="merged" aria-hidden="true"></i>${lcdNumber(stats.merged)} merged</span>
-			<span><i data-state="open" aria-hidden="true"></i>${lcdNumber(stats.open)} in review</span>
-		</p>
+		<p class="oss-headline">${states
+			.filter(([, count]) => count > 0)
+			.map(([state, count]) => `<span>${prIcon(state)}<strong>${count}</strong> ${STATE_LABEL[state]}</span>`)
+			.join("")}</p>
+		${prBar(stats.merged, stats.open, stats.closed)}
 	</section>`;
 }
 
@@ -39,7 +43,7 @@ function renderPull(pull: Pull) {
 		`${pull.files} file${pull.files === 1 ? "" : "s"}`,
 	].join(" · ");
 	return `<li class="oss-pull">
-		<i data-state="${pull.state}" aria-hidden="true"></i>
+		${prIcon(pull.state)}
 		<div>
 			<a href="${escapeHtml(pull.url)}">${escapeHtml(pull.title)}</a>
 			<span class="oss-meta">${meta}</span>
@@ -49,7 +53,7 @@ function renderPull(pull: Pull) {
 }
 
 // Each repo collapses to one row; open, its PR list scrolls inside a fixed height so the page stays short.
-function renderRepo(p: UpstreamProject, open: boolean) {
+function renderRepo(p: UpstreamProject, open: boolean, scale: number) {
 	const closed = p.pulls.filter((pull) => pull.state === "closed").length;
 	return `<details class="oss-repo"${open ? " open" : ""}>
 		<summary>
@@ -57,7 +61,7 @@ function renderRepo(p: UpstreamProject, open: boolean) {
 			<span class="oss-repo-name">
 				<strong>${escapeHtml(p.project)}</strong>
 				<span class="oss-repo-line">
-					<span class="oss-squares" role="img" aria-label="${counts(p.merged, p.open)}${closed ? `, ${closed} closed` : ""}">${stateSquares(p.merged, p.open, closed)}</span>
+					${prBar(p.merged, p.open, closed, scale)}
 					<span class="oss-meta">★ ${n(p.stars)}</span>
 				</span>
 			</span>
@@ -77,7 +81,7 @@ export default async function OpenSourcePage() {
 	const body =
 		stats && stats.projects.length > 0
 			? `${renderTotals(stats)}
-				<section class="detail-section"><h2>Projects</h2><div class="oss-repos">${stats.projects.map((p, i) => renderRepo(p, i === 0)).join("")}</div></section>`
+				<section class="detail-section"><h2>Projects</h2><div class="oss-repos">${stats.projects.map((p, i, all) => renderRepo(p, i === 0, Math.max(...all.map((x) => x.pulls.length)))).join("")}</div></section>`
 			: `<p class="oss-lede">The contribution list couldn't be loaded right now. <a href="${escapeHtml(profile.github)}">See GitHub</a>.</p>`;
 
 	return <PortfolioPage page="open-source" content={`<h1>Open source</h1>${intro}${body}`} />;
