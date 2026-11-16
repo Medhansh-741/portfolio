@@ -309,8 +309,9 @@ h2 { font-size: 1.0625rem; font-weight: 700; letter-spacing: -0.02em; line-heigh
 .detail-text-link { justify-self: start; font-size: 0.875rem; }
 
 /* ---- open source: deck card + /open-source ---- */
-/* Deck card: must stay within the other cards' height (~270px on phones) so the shared deck doesn't grow. */
-.deck-item[data-oss] { grid-template-rows: auto auto 1fr auto; }
+/* Deck card: never sets the deck's height (contain: size gives it no intrinsic size), it just fills whatever
+   height the other cards give the deck; the org list absorbs any overflow by scrolling. */
+.deck-item[data-oss] { contain: size; grid-template-rows: auto auto minmax(0, 1fr) auto; }
 .oss-heading { justify-content: space-between; }
 .oss-all { display: inline-flex; align-items: center; gap: 0.25rem; min-height: var(--tap); padding-inline: 0.25rem; font-size: 0.875rem; }
 .oss-all svg { width: 1rem; height: 1rem; }
@@ -328,6 +329,10 @@ h2 { font-size: 1.0625rem; font-weight: 700; letter-spacing: -0.02em; line-heigh
 .oss-lcd::before { content: attr(data-ghost); position: absolute; inset: 0; opacity: 0.06; }
 .oss-orgs { margin: 0; padding: 0; list-style: none; font-size: 0.875rem; }
 .oss-orgs { display: grid; grid-template-columns: 1.25rem minmax(0, 1fr) 1.5rem; grid-auto-rows: 1fr; column-gap: 0.6rem; } /* rows share the middle space evenly */
+/* when the orgs outgrow that space, the list scrolls inside the card with no visible scrollbar */
+.oss-orgs { min-height: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none; }
+.oss-orgs::-webkit-scrollbar { display: none; }
+.oss-orgs:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
 .oss-orgs li { display: grid; grid-column: 1 / -1; grid-template-columns: subgrid; align-items: center; gap: 0.6rem; min-height: 2rem; border-top: 1px solid var(--line-soft); }
 .oss-orgs img { display: block; width: 1.25rem; height: 1.25rem; border-radius: 0.2rem; }
 .oss-org { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

@@ -67,8 +67,6 @@ const achievements = profile.achievements.map(({ title, homeImage, images }) => 
 	</div>`;
 }).join("");
 
-const MAX_ORG_ROWS = 4; // keeps the card inside the deck's existing height
-
 // One glanceable card for the deck's "Open source" tab; the full breakdown lives on /open-source.
 function renderOpenSourceCard(stats: OpenSourceStats | null) {
 	const heading = `<div class="deck-heading oss-heading">
@@ -88,7 +86,8 @@ function renderOpenSourceCard(stats: OpenSourceStats | null) {
 		org.open += p.open;
 		orgs.set(p.org, org);
 	}
-	const sorted = [...orgs.entries()].sort(([, a], [, b]) => b.merged - a.merged || b.open - a.open).slice(0, MAX_ORG_ROWS);
+	// Every org is listed; the list scrolls inside the card, so new orgs appear without growing the deck.
+	const sorted = [...orgs.entries()].sort(([, a], [, b]) => b.merged - a.merged || b.open - a.open);
 	const rows = sorted
 		.map(([name, { owner, merged, open }]) => `<li>
 				<img src="https://github.com/${escapeHtml(owner)}.png?size=40" alt="" width="20" height="20" loading="lazy" decoding="async">
@@ -107,7 +106,7 @@ function renderOpenSourceCard(stats: OpenSourceStats | null) {
 			<span>${prIcon("merged")}${lcdNumber(stats.merged)} Merged</span>
 			<span>${prIcon("open")}${lcdNumber(stats.open)} Open</span>
 		</p>
-		<ul class="oss-orgs">${rows}</ul>
+		<ul class="oss-orgs" tabindex="0" aria-label="Organizations contributed to">${rows}</ul>
 		${latest}
 	</div>`;
 }
