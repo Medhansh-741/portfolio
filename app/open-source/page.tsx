@@ -6,13 +6,19 @@ import { profile, staticRoutes } from "@/app/data/profile";
 const route = staticRoutes.find((r) => r.path === "/open-source");
 const pageTitle = `Open Source — ${profile.name}`;
 const pageDescription = route?.description ?? `Open-source contributions by ${profile.name} to upstream community projects.`;
+const preview = {
+	url: "/og/open-source.png",
+	width: 1200,
+	height: 630,
+	alt: `Open Source contributions by ${profile.name}`,
+};
 
 export const metadata: Metadata = {
 	title: "Open Source", // the root layout's template appends " | <name>"
 	description: pageDescription,
 	alternates: { canonical: "/open-source" },
-	openGraph: { title: pageTitle, description: pageDescription, url: "/open-source", type: "website" },
-	twitter: { card: "summary", title: pageTitle, description: pageDescription },
+	openGraph: { title: pageTitle, description: pageDescription, url: "/open-source", type: "website", images: [preview] },
+	twitter: { card: "summary_large_image", title: pageTitle, description: pageDescription, images: [preview] },
 };
 
 // GitHub's own wording, octicons and Primer state colours for everything pull-request related.
