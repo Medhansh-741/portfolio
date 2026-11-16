@@ -15,6 +15,8 @@ export function escapeHtml(value: string) {
 
 const icons = {
 	home: '<path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/>',
+	// pull request: two branch dots joined by a line, an arrow curving into the third
+	"open-source": '<circle cx="6" cy="6" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/><path d="M6 8v8m12 0V9a3 3 0 0 0-3-3h-5m3-3-3 3 3 3"/>',
 	projects: '<path d="M3 6a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
 	experience: '<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2M3 12a20 20 0 0 0 18 0m-9 1v2"/>',
 	resume: '<path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8zm0 0v5h5M8 12h8m-8 4h5"/>',
@@ -75,11 +77,12 @@ const routes = [
 	["home", "Home", "/"],
 	["projects", "Projects", "/projects"],
 	["experience", "Experience", "/experience"],
-	["resume", "Résumé", profile.resumeUrl],
+	["open-source", "Open source", "/open-source"],
 	["about", "About", "/about"],
 ] as const;
 
-type Page = Exclude<(typeof routes)[number][0], "resume">;
+// Résumé left the bar; it stays at /resume (rewrite to /resume.pdf) and in the home contact row.
+type Page = (typeof routes)[number][0];
 
 export function PortfolioPage({ page, content }: { page?: Page; content: string }) {
 	const navigation = routes.map(([name, label, href]) =>

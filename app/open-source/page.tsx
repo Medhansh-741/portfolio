@@ -80,5 +80,5 @@ export default async function OpenSourcePage() {
 				<section class="detail-section"><h2>Projects</h2><div class="oss-repos">${stats.projects.map((p, i) => renderRepo(p, i === 0)).join("")}</div></section>`
 			: `<p class="oss-lede">The contribution list couldn't be loaded right now. <a href="${escapeHtml(profile.github)}">See GitHub</a>.</p>`;
 
-	return <PortfolioPage content={`<h1>Open source</h1>${intro}${body}`} />;
+	return <PortfolioPage page="open-source" content={`<h1>Open source</h1>${intro}${body}`} />;
 }
