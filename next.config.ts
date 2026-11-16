@@ -3,6 +3,8 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
 	experimental: {
 		viewTransition: true,
+		// Put the (small) stylesheet inside each page so first paint doesn't wait for a second request.
+		inlineCss: true,
 	},
 	async redirects() {
 		return [

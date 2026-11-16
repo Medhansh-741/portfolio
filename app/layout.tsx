@@ -4,6 +4,7 @@ import Script from "next/script";
 import { profile } from "./data/profile";
 import { JsonLd, getRootGraphSchema, SITE_URL } from "./lib/jsonld";
 import { versioned } from "./lib/asset-version";
+import "./portfolio.css";
 
 export const viewport: Viewport = {
 	themeColor: "#FFFFFF",
@@ -74,7 +75,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 	return (
 		<html lang="en">
 			<head>
-				<link rel="stylesheet" href={versioned("/new-portfolio/styles.css")} />
 			</head>
 			<body>
 				<JsonLd data={getRootGraphSchema()} />
