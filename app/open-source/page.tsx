@@ -57,9 +57,9 @@ function renderPull(pull: Pull) {
 	</li>`;
 }
 
-// Each repo collapses to one row; open, its PR list scrolls inside a fixed height so the page stays short.
-function renderRepo(p: UpstreamProject, open: boolean) {
-	return `<details class="oss-repo"${open ? " open" : ""}>
+// Each repo starts collapsed to one row; opened, its PR list scrolls inside a fixed height.
+function renderRepo(p: UpstreamProject) {
+	return `<details class="oss-repo">
 		<summary>
 			<img src="${escapeHtml(p.avatar)}" alt="" width="24" height="24">
 			<span class="oss-repo-name">
@@ -83,7 +83,7 @@ export default async function OpenSourcePage() {
 	const body =
 		stats && stats.projects.length > 0
 			? `${renderTotals(stats)}
-				<section class="detail-section"><h2>Projects</h2><div class="oss-repos">${stats.projects.map((p, i) => renderRepo(p, i === 0)).join("")}</div></section>`
+				<section class="detail-section"><h2>Projects</h2><div class="oss-repos">${stats.projects.map(renderRepo).join("")}</div></section>`
 			: `<p class="oss-lede">The contribution list couldn't be loaded right now. <a href="${escapeHtml(profile.github)}">See GitHub</a>.</p>`;
 
 	return <PortfolioPage page="open-source" content={`<h1>Open Source</h1>${intro}${body}`} />;
