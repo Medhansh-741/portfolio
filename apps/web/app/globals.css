@@ -1,0 +1,68 @@
+/* Tailwind without preflight: the design relies on browser defaults, so only theme + utilities are loaded. */
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities) source(none);
+/* scan only source folders; auto-detection picked up junk class names from binaries in public/ */
+@source "./";
+@source "../components";
+@source "../lib";
+
+@theme {
+	--color-paper: #fff;
+	--color-ink: #171717;
+	--color-muted: #555;
+	--color-line: #bcbcbc;
+	--color-line-soft: #dedede;
+	--color-hover: #f4f4f4;
+	--color-hover-soft: #f8f8f8;
+	/* GitHub Primer light pull-request state colours (fgColor.done / .open / .closed) */
+	--color-gh-merged: #8250df;
+	--color-gh-open: #1a7f37;
+	--color-gh-closed: #d1242f;
+	--spacing-tap: 2.75rem;
+	--spacing-gutter: clamp(0.875rem, 4vw, 1.25rem);
+	--container-column: 30rem;
+	--font-lcd: "Portfolio LCD", ui-monospace, monospace;
+}
+
+@font-face {
+	font-family: Portfolio LCD;
+	src: url("/fonts/DSEG7Classic-Bold.woff2") format("woff2");
+	font-weight: 700;
+	font-display: swap;
+}
+
+@layer base {
+	:root {
+		color-scheme: only light;
+		scrollbar-width: none;
+		scroll-padding-block-end: calc(var(--spacing-tap) + 0.75rem + env(safe-area-inset-bottom));
+		background: var(--color-paper);
+		color: var(--color-ink);
+		font: 100% / 1.45 system-ui, sans-serif;
+	}
+	:root::-webkit-scrollbar { display: none; }
+	*, *::before, *::after { box-sizing: border-box; }
+	[hidden] { display: none !important; }
+	body, h1, h2, p, dl, dd, figure { margin: 0; }
+	a { color: inherit; text-underline-offset: 0.2em; }
+	a:hover { text-decoration-thickness: 2px; }
+	button { font: inherit; color: inherit; }
+	button:not(:disabled), summary { cursor: pointer; }
+	:focus-visible { outline: 2px solid var(--color-ink); outline-offset: 2px; }
+	::selection { background: #dce7db; color: var(--color-ink); }
+	h1 { font-size: clamp(1.375rem, 5.75vw, 1.75rem); font-weight: 720; letter-spacing: -0.035em; line-height: 1.15; }
+	h2 { font-size: 1.0625rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.25; }
+	summary::-webkit-details-marker { display: none; }
+}
+
+/* octagon (cut corners) used by the LCD clock; corner size comes from --cut */
+@utility clip-octagon {
+	clip-path: polygon(var(--cut) 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, var(--cut) 100%, 0 calc(100% - var(--cut)), 0 var(--cut));
+}
+
+/* scroll areas that scroll but never show a scrollbar */
+@utility scrollbar-none {
+	scrollbar-width: none;
+	&::-webkit-scrollbar { display: none; }
+}

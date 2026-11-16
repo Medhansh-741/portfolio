@@ -1,0 +1,90 @@
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { getProjectSlug, profile } from "@portfolio/data";
+import { Shell } from "@/components/shell";
+import { ProjectCard } from "../project-card";
+import { JsonLd, getSingleProjectSchema } from "@/app/lib/jsonld";
+
+export async function generateStaticParams() {
+	return profile.projects.map((project) => ({
+		slug: getProjectSlug(project.title),
+	}));
+}
+
+export async function generateMetadata({
+	params,
+}: {
+	params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+	const resolvedParams = await params;
+	const project = profile.projects.find(
+		(p) =>
+			p.title.toLowerCase() === resolvedParams.slug.toLowerCase() ||
+			getProjectSlug(p.title) === resolvedParams.slug.toLowerCase(),
+	);
+
+	if (!project) return { title: "Project Not Found" };
+
+	const slug = getProjectSlug(project.title);
+	const canonicalUrl = `https://medhanshk.me/projects/${slug}`;
+
+	const fullTitle = `${project.seoTitle} | ${profile.name}`;
+	const ogImageUrl = `https://medhanshk.me/og/${slug}-v2.png`;
+	const [summary] = project.description.split(/(?<=\.)\s+/, 1);
+
+	return {
+		title: project.seoTitle,
+		description: summary,
+		alternates: {
+			canonical: canonicalUrl,
+		},
+		openGraph: {
+			title: fullTitle,
+			description: summary,
+			url: canonicalUrl,
+			siteName: "Medhansh Kapoor",
+			type: "article",
+			images: [
+				{
+					url: ogImageUrl,
+					width: 1200,
+					height: 630,
+					alt: `${project.seoTitle} preview`,
+				},
+			],
+		},
+		twitter: {
+			card: "summary_large_image",
+			title: fullTitle,
+			description: summary,
+			creator: "@medhansh541",
+			images: [ogImageUrl],
+		},
+	};
+}
+
+export default async function ProjectPage({
+	params,
+}: {
+	params: Promise<{ slug: string }>;
+}) {
+	const resolvedParams = await params;
+	const project = profile.projects.find(
+		(p) =>
+			p.title.toLowerCase() === resolvedParams.slug.toLowerCase() ||
+			getProjectSlug(p.title) === resolvedParams.slug.toLowerCase(),
+	);
+
+	if (!project) {
+		notFound();
+	}
+
+	return (
+		<>
+			<JsonLd data={getSingleProjectSchema(project, getProjectSlug(project.title))} />
+			<Shell page="projects">
+				<ProjectCard project={project} detailed />
+			</Shell>
+		</>
+	);
+}

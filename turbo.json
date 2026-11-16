@@ -1,0 +1,8 @@
+{
+	"$schema": "https://turbo.build/schema.json",
+	"tasks": {
+		"build": { "dependsOn": ["^build"], "env": ["GITHUB_TOKEN", "GITHUB_USERNAME", "API_ORIGIN", "VERCEL_GIT_COMMIT_SHA", "VERCEL_DEPLOYMENT_ID"], "outputs": [".next/**", "!.next/cache/**"] },
+		"dev": { "cache": false, "persistent": true },
+		"start": { "dependsOn": ["build"], "cache": false, "persistent": true }
+	}
+}
