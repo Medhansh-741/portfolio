@@ -37,6 +37,7 @@ export interface Pull {
 
 export interface UpstreamProject {
 	repo: string;
+	owner: string; // GitHub org login, used for its avatar
 	project: string;
 	org: string;
 	url: string;
@@ -54,7 +55,7 @@ export interface OpenSourceStats {
 	additions: number;
 	deletions: number;
 	reviews: number;
-	latestMerge?: Pull & { project: string };
+	latestMerge?: Pull & { project: string; org: string };
 }
 
 type GraphPull = {
@@ -136,6 +137,7 @@ export function summarise(nodes: GraphPull[], reviews: number): OpenSourceStats 
 			.sort((a, b) => b.date.localeCompare(a.date) || b.number - a.number);
 		return {
 			repo,
+			owner: repo.split("/")[0],
 			project,
 			org,
 			url: `https://github.com/${repo}`,
@@ -148,7 +150,7 @@ export function summarise(nodes: GraphPull[], reviews: number): OpenSourceStats 
 		.filter((p) => p.pulls.length > 0)
 		.sort((a, b) => b.merged - a.merged || b.open - a.open || b.stars - a.stars);
 
-	const all = projects.flatMap((p) => p.pulls.map((pull) => ({ ...pull, project: p.project })));
+	const all = projects.flatMap((p) => p.pulls.map((pull) => ({ ...pull, project: p.project, org: p.org })));
 	const merged = all.filter((p) => p.state === "merged");
 	const latestMerge = [...merged].sort((a, b) => b.date.localeCompare(a.date))[0];
 

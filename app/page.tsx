@@ -66,43 +66,59 @@ const achievements = profile.achievements.map(({ title, homeImage, images }) => 
 }).join("");
 
 // One summary card for the deck's "Open source" tab; the full breakdown lives on /open-source.
+const MAX_ORG_ROWS = 4; // keeps the card inside the deck's existing height
+const MAX_SQUARES = 10;
+
+// LCD number like the header clock: unlit "8"s sit behind the lit digits.
+const lcd = (value: number) => `<span class="oss-lcd" data-ghost="${"8".repeat(String(value).length)}">${value}</span>`;
+
+// One glanceable card for the deck's "Open source" tab; the full breakdown lives on /open-source.
 function renderOpenSourceCard(stats: OpenSourceStats | null) {
-	const allWork = `<a class="detail-text-link oss-all" href="/open-source">All open-source work ${icon("next")}</a>`;
+	const heading = `<div class="deck-heading oss-heading">
+		<h2>Open source</h2>
+		<a class="oss-all" href="/open-source" aria-label="All open-source work">All ${icon("next")}</a>
+	</div>`;
 	if (!stats || stats.projects.length === 0) {
-		return `<div class="deck-item" data-oss inert>
-			<div class="deck-heading"><h2>Open source</h2></div>
+		return `<div class="deck-item" data-oss inert>${heading}
 			<p class="deck-caption">Contributions to upstream community projects.</p>
-			${allWork}
 		</div>`;
 	}
-	const orgs = new Map<string, { merged: number; open: number }>();
+
+	const orgs = new Map<string, { owner: string; merged: number; open: number }>();
 	for (const p of stats.projects) {
-		const org = orgs.get(p.org) ?? { merged: 0, open: 0 };
+		const org = orgs.get(p.org) ?? { owner: p.owner, merged: 0, open: 0 };
 		org.merged += p.merged;
 		org.open += p.open;
 		orgs.set(p.org, org);
 	}
-	const orgRows = [...orgs.entries()]
+	const rows = [...orgs.entries()]
 		.sort(([, a], [, b]) => b.merged - a.merged || b.open - a.open)
-		.map(([name, { merged, open }]) => {
-			const counts = [merged && `${merged} merged`, open && `${open} in review`].filter(Boolean).join(" · ");
-			return `<li><span>${escapeHtml(name)}</span><span>${counts}</span></li>`;
+		.slice(0, MAX_ORG_ROWS)
+		.map(([name, { owner, merged, open }]) => {
+			const shownMerged = Math.min(merged, MAX_SQUARES);
+			const shownOpen = Math.min(open, MAX_SQUARES - shownMerged);
+			const squares = `${'<i data-state="merged"></i>'.repeat(shownMerged)}${'<i data-state="open"></i>'.repeat(shownOpen)}`;
+			const label = [merged && `${merged} merged`, open && `${open} in review`].filter(Boolean).join(", ");
+			return `<li>
+				<img src="https://github.com/${escapeHtml(owner)}.png?size=40" alt="" width="20" height="20" loading="lazy" decoding="async">
+				<span class="oss-org">${escapeHtml(name)}</span>
+				<span class="oss-squares" role="img" aria-label="${label}">${squares}</span>
+				<span class="oss-count">${merged + open}</span>
+			</li>`;
 		})
 		.join("");
+
 	const latest = stats.latestMerge
-		? `<p class="oss-latest">Latest merge: <a href="${escapeHtml(stats.latestMerge.url)}">${escapeHtml(stats.latestMerge.project)} #${stats.latestMerge.number}</a> · ${formatPullDate(stats.latestMerge.date)}</p>`
+		? `<p class="oss-latest">Latest: <a href="${escapeHtml(stats.latestMerge.url)}">${escapeHtml(stats.latestMerge.org)} #${stats.latestMerge.number}</a> · ${formatPullDate(stats.latestMerge.date).replace(/, \d{4}$/, "")}</p>`
 		: "";
-	return `<div class="deck-item" data-oss inert>
-		<div class="deck-heading"><h2>Open source</h2></div>
-		<p class="deck-caption">Upstream contributions to ${stats.projects.length} community projects.</p>
-		<dl class="oss-totals">
-			<div><dt>Merged</dt><dd>${stats.merged}</dd></div>
-			<div><dt>In review</dt><dd>${stats.open}</dd></div>
-			<div><dt>Lines merged</dt><dd>+${stats.additions.toLocaleString("en-US")} / −${stats.deletions.toLocaleString("en-US")}</dd></div>
-		</dl>
-		<ul class="oss-orgs">${orgRows}</ul>
+
+	return `<div class="deck-item" data-oss inert>${heading}
+		<p class="oss-headline">
+			<span><i data-state="merged" aria-hidden="true"></i>${lcd(stats.merged)} merged</span>
+			<span><i data-state="open" aria-hidden="true"></i>${lcd(stats.open)} in review</span>
+		</p>
+		<ul class="oss-orgs">${rows}</ul>
 		${latest}
-		${allWork}
 	</div>`;
 }
 
