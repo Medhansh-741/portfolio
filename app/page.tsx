@@ -45,14 +45,14 @@ const projects = profile.projects.map((project, index) => {
 const experience = profile.experience.map((item) => `
 	<div class="deck-item" data-experience inert>
 		<div class="deck-heading"><h2>${escapeHtml(item.company)}</h2></div>
-		<div class="experience-proof" role="group" aria-label="Experience documents">
-			<a href="${escapeHtml(item.offerLetter)}">Offer letter</a>
-			<a href="${escapeHtml(item.completionLetter)}">Completion letter</a>
-		</div>
 		<div class="experience-item">
 			<p class="experience-role">${escapeHtml(item.role)}</p>
 			<p class="experience-period">${escapeHtml(item.period)}</p>
 			<p>${escapeHtml(item.description)}</p>
+		</div>
+		<div class="experience-proof deck-bottom" role="group" aria-label="Experience documents">
+			<a href="${escapeHtml(item.offerLetter)}">Offer letter</a>
+			<a href="${escapeHtml(item.completionLetter)}">Completion letter</a>
 		</div>
 	</div>`).join("");
 
@@ -109,7 +109,7 @@ function renderOpenSourceCard(stats: OpenSourceStats | null) {
 		.join("");
 
 	const latest = stats.latestMerge
-		? `<p class="oss-latest">Latest: <a href="${escapeHtml(stats.latestMerge.url)}">${escapeHtml(stats.latestMerge.org)} #${stats.latestMerge.number}</a> · ${formatPullDate(stats.latestMerge.date).replace(/, \d{4}$/, "")}</p>`
+		? `<p class="oss-latest deck-bottom">Latest: <a href="${escapeHtml(stats.latestMerge.url)}">${escapeHtml(stats.latestMerge.org)} #${stats.latestMerge.number}</a> · ${formatPullDate(stats.latestMerge.date).replace(/, \d{4}$/, "")}</p>`
 		: "";
 
 	return `<div class="deck-item" data-oss inert>${heading}

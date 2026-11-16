@@ -166,8 +166,11 @@ main { flex: 1; padding: 0 var(--gutter) 1rem; }
 /* Inactive items still size the shared grid track at the current width. */
 .deck-item[inert] { visibility: hidden; }
 .deck-item[data-swipe-preview] { visibility: visible; }
-.deck-item:is([data-project], [data-experience]) { grid-template-rows: auto auto 1fr; }
+/* Shared skeleton: title row on top, content fills the middle, a .deck-bottom row (when present) pins to the bottom. */
+.deck-item[data-project] { grid-template-rows: auto auto 1fr; }
+.deck-item[data-experience] { grid-template-rows: auto 1fr auto; }
 .deck-item[data-achievement] { grid-template-rows: auto 1fr; }
+.deck-bottom { align-self: end; border-top: 1px solid var(--line-soft); }
 .deck-item[data-project] .demo-stage { align-self: center; }
 .deck-heading { display: flex; flex-wrap: wrap; align-items: center; min-height: var(--tap); }
 h2 { font-size: 1.0625rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.25; }
@@ -192,7 +195,7 @@ h2 { font-size: 1.0625rem; font-weight: 700; letter-spacing: -0.02em; line-heigh
 .demo-trigger img { display: block; width: 100%; height: 100%; object-fit: contain; }
 .demo-play { position: absolute; inset: 50% auto auto 50%; translate: -50% -50%; display: grid; place-items: center; width: 3.25rem; height: 2.25rem; border-radius: 0.4rem; background: #d71d17; color: var(--paper); }
 .demo-play svg { width: 1.45rem; height: 1.45rem; }
-.experience-item { display: grid; align-self: center; gap: 0.45rem; padding-block: 0.4rem; font-size: 0.875rem; }
+.experience-item { display: grid; align-self: start; align-content: start; gap: 0.45rem; padding-block: 0.15rem 0.6rem; font-size: 0.875rem; }
 .experience-role { font-weight: 660; }
 .experience-period { color: var(--muted); font-size: 0.8125rem; }
 .deck-footer { display: flex; flex-wrap: wrap; align-items: center; column-gap: 0.5rem; margin-top: 0.35rem; }
@@ -296,7 +299,7 @@ h2 { font-size: 1.0625rem; font-weight: 700; letter-spacing: -0.02em; line-heigh
 
 /* ---- open source: deck card + /open-source ---- */
 /* Deck card: must stay within the other cards' height (~270px on phones) so the shared deck doesn't grow. */
-.deck-item[data-oss] { align-content: start; }
+.deck-item[data-oss] { grid-template-rows: auto auto 1fr auto; }
 .oss-heading { justify-content: space-between; }
 .oss-all { display: inline-flex; align-items: center; gap: 0.25rem; min-height: var(--tap); padding-inline: 0.25rem; font-size: 0.875rem; }
 .oss-all svg { width: 1rem; height: 1rem; }
@@ -308,7 +311,7 @@ h2 { font-size: 1.0625rem; font-weight: 700; letter-spacing: -0.02em; line-heigh
 .oss-lcd { position: relative; color: var(--ink); font: 700 1.75rem / 1 "Portfolio LCD", ui-monospace, monospace; }
 .oss-lcd::before { content: attr(data-ghost); position: absolute; inset: 0; opacity: 0.06; }
 .oss-orgs { margin: 0; padding: 0; list-style: none; font-size: 0.875rem; }
-.oss-orgs { display: grid; grid-template-columns: 1.25rem auto minmax(0, 1fr) 1.5rem; column-gap: 0.6rem; }
+.oss-orgs { display: grid; grid-template-columns: 1.25rem auto minmax(0, 1fr) 1.5rem; grid-auto-rows: 1fr; column-gap: 0.6rem; } /* rows share the middle space evenly */
 .oss-orgs li { display: grid; grid-column: 1 / -1; grid-template-columns: subgrid; align-items: center; gap: 0.6rem; min-height: 2rem; border-top: 1px solid var(--line-soft); }
 .oss-orgs img { display: block; width: 1.25rem; height: 1.25rem; border-radius: 0.2rem; }
 .oss-org { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -316,7 +319,7 @@ h2 { font-size: 1.0625rem; font-weight: 700; letter-spacing: -0.02em; line-heigh
 /* squares shrink on narrow screens instead of being clipped, so the bar always matches the count */
 .oss-squares i[data-state] { flex: 0 1 0.6rem; width: auto; min-width: 0.35rem; height: auto; aspect-ratio: 1; }
 .oss-count { text-align: end; font-variant-numeric: tabular-nums; color: var(--muted); }
-.oss-latest { overflow: hidden; margin-top: 0.5rem; color: var(--muted); font-size: 0.8125rem; text-overflow: ellipsis; white-space: nowrap; }
+.oss-latest { overflow: hidden; margin: 0; padding-block: 0.55rem 0.45rem; color: var(--muted); font-size: 0.8125rem; text-overflow: ellipsis; white-space: nowrap; }
 /* /open-source totals */
 .oss-totals { display: grid; grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr)); gap: 0.5rem; margin-bottom: 0.75rem; }
 .oss-totals div { padding: 0.5rem 0.6rem; border: 1px solid var(--line-soft); }
