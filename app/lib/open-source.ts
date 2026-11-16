@@ -4,13 +4,14 @@
 
 const AUTHOR = process.env.GITHUB_USERNAME || "Medhansh-741";
 
+// `about`: one line on what each project does, written from its GitHub description.
 export const UPSTREAM = [
-	{ repo: "commons-app/apps-android-commons", project: "Wikimedia Commons Android", org: "Wikimedia Commons" },
-	{ repo: "hiero-ledger/hiero-sdk-js", project: "Hiero SDK (JavaScript)", org: "Hiero" },
-	{ repo: "hiero-ledger/hiero-sdk-go", project: "Hiero SDK (Go)", org: "Hiero" },
-	{ repo: "OWASP/cve-lite-cli", project: "CVE Lite CLI", org: "OWASP" },
-	{ repo: "OWASP/Nest", project: "OWASP Nest", org: "OWASP" },
-	{ repo: "sugarlabs/musicblocks-v4", project: "Music Blocks v4", org: "Sugar Labs" },
+	{ repo: "commons-app/apps-android-commons", project: "Wikimedia Commons Android", org: "Wikimedia Commons", about: "Android app for uploading photos to Wikimedia Commons." },
+	{ repo: "hiero-ledger/hiero-sdk-js", project: "Hiero SDK (JavaScript)", org: "Hiero", about: "JavaScript/TypeScript SDK for building on Hedera and other Hiero networks." },
+	{ repo: "hiero-ledger/hiero-sdk-go", project: "Hiero SDK (Go)", org: "Hiero", about: "Go SDK for building on Hedera and other Hiero networks." },
+	{ repo: "OWASP/cve-lite-cli", project: "CVE Lite CLI", org: "OWASP", about: "Scans JavaScript and TypeScript dependencies for known vulnerabilities." },
+	{ repo: "OWASP/Nest", project: "OWASP Nest", org: "OWASP", about: "OWASP's platform for discovering and getting involved in its projects." },
+	{ repo: "sugarlabs/musicblocks-v4", project: "Music Blocks v4", org: "Sugar Labs", about: "Rewrite of Music Blocks, a visual language for learning music and coding." },
 ] as const;
 
 // Optional one-line notes, keyed "owner/repo#number". Live data can't say why a PR mattered.
@@ -40,6 +41,7 @@ export interface UpstreamProject {
 	owner: string; // GitHub org login, used for its avatar
 	project: string;
 	org: string;
+	about: string;
 	url: string;
 	stars: number;
 	pulls: Pull[];
@@ -116,7 +118,7 @@ export async function getOpenSourceStats(): Promise<OpenSourceStats | null> {
 }
 
 export function summarise(nodes: GraphPull[], reviews: number): OpenSourceStats {
-	const projects: UpstreamProject[] = UPSTREAM.map(({ repo, project, org }) => {
+	const projects: UpstreamProject[] = UPSTREAM.map(({ repo, project, org, about }) => {
 		const mine = nodes.filter((n) => n.repository?.nameWithOwner?.toLowerCase() === repo.toLowerCase());
 		const pulls: Pull[] = mine
 			.map((n) => {
@@ -140,6 +142,7 @@ export function summarise(nodes: GraphPull[], reviews: number): OpenSourceStats 
 			owner: repo.split("/")[0],
 			project,
 			org,
+			about,
 			url: `https://github.com/${repo}`,
 			stars: mine[0]?.repository.stargazerCount ?? 0,
 			pulls,

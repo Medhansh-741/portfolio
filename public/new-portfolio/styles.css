@@ -358,6 +358,7 @@ h2 { font-size: 1.0625rem; font-weight: 700; letter-spacing: -0.02em; line-heigh
 .oss-repo > summary:hover { background: #f8f8f8; }
 .oss-repo-name { display: grid; gap: 0.2rem; min-width: 0; }
 .oss-repo-name strong { overflow: hidden; font-size: 0.9375rem; text-overflow: ellipsis; white-space: nowrap; }
+.oss-about { color: var(--ink); font-size: 0.8125rem; line-height: 1.4; }
 /* PR list scrolls inside a fixed height (no visible scrollbar) so an open repo never stretches the page */
 .oss-scroll {
 	max-height: 17rem;
