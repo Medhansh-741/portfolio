@@ -105,7 +105,7 @@ export async function getOpenSourceStats(): Promise<OpenSourceStats | null> {
 					reviews: `is:pr reviewed-by:${AUTHOR} -author:${AUTHOR} ${repoFilter}`,
 				},
 			}),
-			next: { revalidate: 21600 }, // 6 hours
+			next: { revalidate: 3600 }, // 1 hour, same as the contribution graph
 		});
 		if (!res.ok) return null;
 		const json = await res.json();
