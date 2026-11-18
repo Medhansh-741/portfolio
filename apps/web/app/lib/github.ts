@@ -10,7 +10,8 @@ export async function getContributions(): Promise<ContributionGraph | null> {
 	const token = process.env.GITHUB_TOKEN;
 	if (!token) return null; // GitHub's GraphQL API requires a token
 
-	const year = new Date().getUTCFullYear();
+	const today = new Date().toISOString().slice(0, 10);
+	const year = Number(today.slice(0, 4));
 	try {
 		const res = await fetch("https://api.github.com/graphql", {
 			method: "POST",
@@ -34,7 +35,7 @@ export async function getContributions(): Promise<ContributionGraph | null> {
 		if (!Number.isInteger(calendar?.totalContributions)) return null;
 		const days: ContributionDay[] = calendar.weeks
 			.flatMap((week: { contributionDays: { contributionCount: number; date: string }[] }) => week.contributionDays)
-			.filter(({ date }: { date: string }) => date.startsWith(`${year}-`))
+			.filter(({ date }: { date: string }) => date.startsWith(`${year}-`) && date <= today)
 			.map(({ date, contributionCount }: { date: string; contributionCount: number }) => ({ date, count: contributionCount, level: level(contributionCount) }));
 		return days.length ? { year, total: calendar.totalContributions, days } : null;
 	} catch {

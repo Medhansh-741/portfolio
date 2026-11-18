@@ -33,12 +33,13 @@ export function Contributions({ graph, github }: { graph: ContributionGraph | nu
 				role="region"
 				aria-label="Contribution calendar, scroll horizontally for more dates"
 				tabIndex={0}
-				className="overflow-x-auto overscroll-x-contain scrollbar-none"
+				// rtl scroller starts at the right edge (latest days) with no JS; the grid itself stays ltr
+				className="overflow-x-auto overscroll-x-contain scrollbar-none [direction:rtl]"
 			>
 				<div
 					role="img"
 					aria-label={`GitHub calendar for ${graph.year}, ${count}`}
-					className="grid w-max auto-cols-[var(--cell)] grid-flow-col grid-rows-[repeat(7,var(--cell))] gap-[0.16rem] [--cell:clamp(0.56rem,2.15vw,0.75rem)]"
+					className="grid w-max [direction:ltr] auto-cols-[var(--cell)] grid-flow-col grid-rows-[repeat(7,var(--cell))] gap-[0.16rem] [--cell:clamp(0.56rem,2.15vw,0.75rem)]"
 				>
 					{Array.from({ length: blanks }, (_, i) => (
 						<span key={`blank-${i}`} />
