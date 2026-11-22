@@ -240,7 +240,7 @@ export function Deck({ cards }: { cards: DeckCard[] }) {
 			</p>
 			<div className="mt-2 grid min-h-[calc(var(--spacing-tap)+1px)] grid-cols-[minmax(0,1fr)_auto] items-center gap-2 border-t border-line-soft">
 				{/* Measure every title at the same width so wrapping cannot move the footer. */}
-				<div className="grid min-w-0">
+				<div className="grid min-w-0 items-center">
 					{cards.map(({ footerTitle }, i) => footerTitle && (
 						<div key={i} inert={i !== activeCard} className={`min-w-0 [grid-area:1/1] ${i === activeCard ? "" : "invisible"}`}>
 							{footerTitle}

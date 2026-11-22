@@ -48,13 +48,14 @@ function SkillList({ groups, className = "grid" }: { groups: ReadonlyArray<reado
 
 const bottom = "self-end border-t border-line-soft";
 const caption = "mt-[-0.15rem] mb-[0.65rem] text-[0.8125rem] text-muted";
+const footerHeading = "text-[0.875rem] leading-[1.3] [overflow-wrap:anywhere]";
 
 const projectCards: DeckCard[] = profile.projects.map((project, index) => ({
 	category: "projects",
 	title: project.title,
 	footerTitle: (
 		<div className="flex min-w-0 items-center">
-			<h2 className="text-[0.875rem] [overflow-wrap:anywhere]">{project.title}</h2>
+			<h2 className={footerHeading}>{project.title}</h2>
 			<a href={project.links.github} aria-label={`${project.title} repository on GitHub`} className="inline-flex min-h-tap min-w-tap shrink-0 items-center justify-center">
 				<Icon name="github" className="pointer-events-none size-[1.1rem]" />
 			</a>
@@ -71,7 +72,7 @@ const projectCards: DeckCard[] = profile.projects.map((project, index) => ({
 const experienceCards: DeckCard[] = profile.experience.map((item) => ({
 	category: "experience",
 	title: item.company,
-	footerTitle: <h2 className="py-2 text-[0.875rem] leading-[1.3] [overflow-wrap:anywhere]">{item.company}</h2>,
+	footerTitle: <h2 className={footerHeading}>{item.homeTitle ?? item.company}</h2>,
 	content: (
 		<div className="grid min-w-0 content-around gap-y-2">
 			<div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
@@ -90,7 +91,7 @@ const achievementCards: DeckCard[] = profile.achievements.flatMap(({ title, home
 	return [{
 		category: "achievements",
 		title,
-		footerTitle: <h2 className="py-2 text-[0.875rem] leading-[1.3] [overflow-wrap:anywhere]">{homeTitle ?? title}</h2>,
+		footerTitle: <h2 className={footerHeading}>{homeTitle ?? title}</h2>,
 		content: (
 			<>
 				<img

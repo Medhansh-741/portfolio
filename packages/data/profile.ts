@@ -130,6 +130,7 @@ export const profile = {
 	experience: [
 		{
 			company: "Boring Consulting Company (BCC)",
+			homeTitle: "Boring Consulting Company",
 			role: "Product Development Intern",
 			// Start: 12 October; completion certified 22 November. The letters do not state an exact end date.
 			period: "Oct 2026 – Nov 2026",
