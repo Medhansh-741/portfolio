@@ -2,6 +2,7 @@
 
 import { Fragment, useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import { flushSync } from "react-dom";
+import Link from "next/link";
 import { Icon } from "../icon";
 
 export type Category = "projects" | "experience" | "achievements" | "oss";
@@ -237,7 +238,7 @@ export function Deck({ cards }: { cards: DeckCard[] }) {
 			<p role="status" className="absolute h-px w-px overflow-hidden whitespace-nowrap [clip-path:inset(50%)]">
 				{state.status}
 			</p>
-			<div className={`mt-2 grid min-h-[calc(var(--spacing-tap)+1px)] grid-cols-[minmax(0,1fr)_auto] items-center gap-2 border-t ${count > 1 ? "border-line-soft" : "border-transparent"}`}>
+			<div className="mt-2 grid min-h-[calc(var(--spacing-tap)+1px)] grid-cols-[minmax(0,1fr)_auto] items-center gap-2 border-t border-line-soft">
 				{/* Measure every title at the same width so wrapping cannot move the footer. */}
 				<div className="grid min-w-0">
 					{cards.map(({ footerTitle }, i) => footerTitle && (
@@ -247,6 +248,11 @@ export function Deck({ cards }: { cards: DeckCard[] }) {
 					))}
 				</div>
 				<div className="w-[calc(var(--spacing-tap)*2+2.4rem)]">
+					{category === "oss" && (
+						<Link href="/open-source" aria-label="All open-source work" className="ms-auto flex min-h-tap w-fit items-center gap-1 px-1 text-[0.875rem]">
+							All <Icon name="next" className="pointer-events-none size-4" />
+						</Link>
+					)}
 					{count > 1 && (
 						<div role="group" aria-label="Card navigation" className="grid grid-cols-[var(--spacing-tap)_1fr_var(--spacing-tap)] items-center text-center">
 							<button type="button" aria-label={`Previous ${itemType}`} aria-controls="deck-content" onClick={() => choose(category, (indices[category] - 1 + count) % count)} className={`${BUTTON} grid min-w-tap place-items-center p-0`}>

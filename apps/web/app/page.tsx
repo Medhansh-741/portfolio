@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { JsonLd, getProfilePageSchema } from "./lib/jsonld";
 import { profile } from "@portfolio/data";
 import { getOpenSourceStats, type OpenSourceStats } from "./lib/open-source";
@@ -48,7 +47,6 @@ function SkillList({ groups, className = "grid" }: { groups: ReadonlyArray<reado
 }
 
 const bottom = "self-end border-t border-line-soft";
-const heading = "flex min-h-tap flex-wrap items-center";
 const caption = "mt-[-0.15rem] mb-[0.65rem] text-[0.8125rem] text-muted";
 
 const projectCards: DeckCard[] = profile.projects.map((project, index) => ({
@@ -114,14 +112,7 @@ const achievementCards: DeckCard[] = profile.achievements.flatMap(({ title, home
 
 // One glanceable card for the deck's "Open Source" tab; the full breakdown lives on /open-source.
 function openSourceCard(stats: OpenSourceStats | null): DeckCard {
-	const header = (
-		<div className={`${heading} justify-between`}>
-			<h2 className="[overflow-wrap:anywhere]">Open Source</h2>
-			<Link href="/open-source" aria-label="All open-source work" className="inline-flex min-h-tap items-center gap-1 px-1 text-[0.875rem]">
-				All <Icon name="next" className="pointer-events-none size-4" />
-			</Link>
-		</div>
-	);
+	const header = <h2 className="flex min-h-tap items-center [overflow-wrap:anywhere]">Open Source</h2>;
 	if (!stats || stats.projects.length === 0) {
 		return {
 			category: "oss",
