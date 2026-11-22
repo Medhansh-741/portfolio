@@ -68,6 +68,9 @@ I build by jumping in headfirst. Every project is an excuse to explore a stack I
 
 ## Engineering Experience (Internships)
 
+* **AI Research & Product Development Intern — Boring Consulting Company (BCC)** *(Oct 2026 – Nov 2026)*
+  Contributed to the development of AI-powered recruitment tools. [Offer letter](apps/web/public/BCC-offer-letter.pdf) · [Completion letter](apps/web/public/BCC-completion-letter.pdf)
+
 * **AI/ML Intern — IndiaAI Mission (MeitY)** *(May 2026 – July 2026)*  
   Built an automated dataset-quality evaluation toolkit for ICMR with asynchronous scoring across 15 government-defined quality domains.
 

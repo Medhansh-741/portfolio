@@ -3,6 +3,7 @@ import {
 	staticRoutes,
 	getProjectSlug,
 	getDisambiguatingDescription,
+	getExperienceCompanies,
 	type Project,
 } from "@portfolio/data";
 
@@ -182,6 +183,7 @@ export function getProfilePageSchema(
 			"@id": `${pageUrl}/#profilepage`,
 			url: pageUrl,
 			name: title,
+			dateModified: profile.contentUpdatedAt,
 			description,
 			isPartOf: {
 				"@id": WEBSITE_ID,
@@ -274,8 +276,9 @@ export function getExperiencePageSchema() {
 				"@id": `${pageUrl}/#webpage`,
 				url: pageUrl,
 				name: "Experience — Medhansh Kapoor",
+				dateModified: profile.contentUpdatedAt,
 				description:
-					"Professional engineering experience of Medhansh Kapoor — AI/ML roles at IndiaAI Mission (MeitY), ISSA-DRDO, and Geminid Systems.",
+					`Engineering internships at ${getExperienceCompanies()}.`,
 				isPartOf: {
 					"@id": WEBSITE_ID,
 				},

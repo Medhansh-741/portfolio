@@ -117,6 +117,7 @@ export default function AboutPage() {
 						I’m Medhansh Kapoor, an AI/ML engineer and Full-Stack Developer studying Computer Science and Engineering at
 						Manipal University Jaipur.
 					</p>
+					<p>{profile.about[1]}</p>
 				</div>
 				<section className="mt-6" aria-labelledby="achievements">
 					<h2 id="achievements" className="mb-[0.625rem]">

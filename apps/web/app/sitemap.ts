@@ -6,6 +6,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
 	const staticRouteUrls: MetadataRoute.Sitemap = staticRoutes.map((route) => ({
 		url: route.path.startsWith("http") ? route.path : `${baseUrl}${route.path}`,
+		...(["/experience", "/about"].includes(route.path) ? { lastModified: profile.contentUpdatedAt } : {}),
 	}));
 
 	const projectUrls: MetadataRoute.Sitemap = profile.projects.map((p) => ({
@@ -13,7 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 	}));
 
 	return [
-		{ url: baseUrl },
+		{ url: baseUrl, lastModified: profile.contentUpdatedAt },
 		...staticRouteUrls,
 		...projectUrls,
 	];

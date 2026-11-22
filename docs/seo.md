@@ -11,6 +11,27 @@ Every item carries a status — **DONE** / **PARTIAL** / **MISSING** / **FAIL** 
 
 ---
 
+## Internship content refresh — 22 November 2026
+
+BCC was added from the offer dated 12 October 2026 and completion letter dated 22 November 2026. The public timeline uses October–November 2026; the completion letter does not specify an exact last working day. Only confirmed contributions are described as completed. Planned offer milestones and an unverified technology stack are not listed as delivered work.
+
+- [x] Shared experience data: `packages/data/profile.ts`; newest internship first.
+- [x] Homepage experience deck and `/experience`: separate offer and completion links, derived from shared data.
+- [x] Both original letters: `apps/web/public/BCC-offer-letter.pdf` and `BCC-completion-letter.pdf`.
+- [x] Shared professional bio and visible `/about` background.
+- [x] Experience metadata, Open Graph/Twitter descriptions, and navigation descriptions.
+- [x] Experience social preview: `/og/experience-v3.png`, including all four organizations.
+- [x] Person occupations and disambiguation, plus experience WebPage JSON-LD.
+- [x] `/llms.txt` and `/llms-full.txt`, including generated internship FAQ and documentation links.
+- [x] Explicit content update date for home/about/experience structured data and sitemap entries. Unchanged routes and résumé do not receive a new modification date.
+- [x] Repository README internship entry.
+- [ ] Résumé PDF: deferred by Medhansh; he will update it later.
+- [ ] Commit, deploy, and post-deploy indexing checks: pending localhost approval. No indexing request or external profile update is part of this local edit.
+
+For future internships, repeat this checklist and inspect rendered HTML, AI text, PDFs, social preview, and desktop/mobile cards. Sections below retain the original August audit and its historical evidence.
+
+---
+
 ## 0. Baseline facts (re-gathered 2026-08-22)
 
 Production Lighthouse **mobile** (throttled — the ranking-relevant run): Performance **83**, Accessibility **86**, Best Practices **96**, SEO **100**, **Agentic-browsing 50**. FCP **1.2 s**, **LCP 3.0 s (FAIL)**, Speed Index 4.5 s, TBT **350 ms**, CLS **0**. LCP element is now the **`nyayaai.webp` `<img>`** on the mobile project card (not the `<h1>` anymore).

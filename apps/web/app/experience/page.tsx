@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import { Shell } from "@/components/shell";
 import { JsonLd, getExperiencePageSchema } from "@/app/lib/jsonld";
-import { profile, staticRoutes } from "@portfolio/data";
+import { profile, staticRoutes, getExperienceCompanies } from "@portfolio/data";
 
 const experienceRoute = staticRoutes.find((r) => r.path === "/experience");
 const pageTitle = `Experience — ${profile.name}`;
 const pageDescription =
 	experienceRoute?.description ||
-	`Professional AI/ML engineering experience of ${profile.name} across IndiaAI Mission, ISSA-DRDO, and Geminid Systems.`;
+	`Engineering internships at ${getExperienceCompanies()}.`;
 
 export const metadata: Metadata = {
 	title: "Experience",
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 		type: "website",
 		images: [
 			{
-				url: "/og/experience-v2.png",
+				url: "/og/experience-v3.png",
 				width: 1200,
 				height: 630,
 				alt: pageTitle,
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
 		card: "summary_large_image",
 		title: pageTitle,
 		description: pageDescription,
-		images: ["/og/experience-v2.png"],
+		images: ["/og/experience-v3.png"],
 	},
 };
 

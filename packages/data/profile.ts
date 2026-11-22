@@ -61,6 +61,7 @@ const achievements: readonly Achievement[] = [
 ];
 
 export const profile = {
+	contentUpdatedAt: "2026-11-22",
 	name: "Medhansh Kapoor",
 	tagline: "AI/ML Engineer | Full-Stack Developer",
 	disambiguation:
@@ -78,7 +79,7 @@ export const profile = {
 	resumeUrl: "/resume.pdf",
 	about: [
 		"I build by jumping in headfirst. Every project is an excuse to explore a stack I haven't mastered yet, a problem that feels just out of reach, or an architecture I haven't tried. I think in systems, not features: connecting ideas across AI, infrastructure, and full-stack to build solutions that hold up under pressure. I don't stay comfortable. I learn by doing, I ship fast, and I believe code should scale beyond its first use case.",
-		"AI/ML Engineer and Full-Stack Developer with hands-on experience building production-grade AI agents, geospatial intelligence systems, and civic-tech platforms across engineering internships at IndiaAI Mission (MeitY), ISSA-DRDO, and Geminid Systems.",
+		"AI/ML Engineer and Full-Stack Developer with experience in AI-powered recruitment tools, AI agents, geospatial intelligence systems, and civic-tech platforms across internships at Boring Consulting Company (BCC), IndiaAI Mission (MeitY), ISSA-DRDO, and Geminid Systems.",
 		"I specialize in FastAPI, Next.js, PyTorch, LangGraph, and PostgreSQL — with a strong focus on AI agent orchestration, RAG pipelines, real-time systems, and full-stack deployment. I build things that work in the real world, not just in notebooks.",
 	],
 	skills: {
@@ -123,6 +124,23 @@ export const profile = {
 		],
 	},
 	experience: [
+		{
+			company: "Boring Consulting Company (BCC)",
+			role: "AI Research & Product Development Intern",
+			// Start: 12 October; completion certified 22 November. The letters do not state an exact end date.
+			period: "Oct 2026 – Nov 2026",
+			description:
+				"Contributed to the development of AI-powered recruitment tools at Boring Consulting Company (BCC).",
+			summary:
+				"Contributed to the development of AI-powered recruitment tools during a research-led internship at Boring Consulting Company (BCC). The role focused on researching, experimenting with, and building AI-led career and recruitment products.",
+			// The letters do not verify a technology stack or completion of individual planned milestones.
+			tech: [],
+			highlights: [
+				"Recruitment tools: Contributed to the development of AI-powered recruitment tools, as confirmed in the internship completion letter.",
+			],
+			offerLetter: "/BCC-offer-letter.pdf",
+			completionLetter: "/BCC-completion-letter.pdf",
+		},
 		{
 			company: "IndiaAI Mission (MeitY)",
 			role: "AI/ML Intern",
@@ -332,6 +350,11 @@ export const profile = {
 	],
 };
 
+/** Completed internship organizations, in the same order as the visible experience timeline. */
+export function getExperienceCompanies(): string {
+	return profile.experience.map(({ company }) => company).join(", ");
+}
+
 export type Project = (typeof profile)["projects"][number];
 
 /**
@@ -361,7 +384,7 @@ export const staticRoutes: NavRoute[] = [
 		name: "Experience",
 		path: "/experience",
 		description:
-			"Professional AI/ML engineering experience at IndiaAI Mission (MeitY), ISSA-DRDO, and Geminid Systems.",
+			`Engineering internships at ${getExperienceCompanies()}.`,
 	},
 	{
 		name: "Open Source",

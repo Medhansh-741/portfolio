@@ -42,6 +42,7 @@ export function generateLlmsText(): string {
 
 	// 1. Header & Quick Identification
 	sections.push(`# ${profile.name}`);
+	sections.push(`Last updated: ${profile.contentUpdatedAt}\n`);
 	sections.push(`> ${profile.tagline} | Location: ${profile.location}\n`);
 
 	// 2. Verified Identity & Links
