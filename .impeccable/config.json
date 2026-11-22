@@ -1,0 +1,14 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "inter",
+        "createdAt": "2026-11-10T20:25:12.509Z",
+        "reason": "Agent verified app/globals.css is not imported by the current portfolio. The active stylesheet is public/new-portfolio/styles.css and uses system-ui."
+      }
+    ]
+  }
+}
