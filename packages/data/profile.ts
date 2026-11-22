@@ -151,7 +151,7 @@ export const profile = {
 			period: "June 2026 – July 2026",
 			description:
 				"Built an AIKosh toolkit that accepts health research uploads, checks data quality and privacy across 15 areas, and automatically generates reports and sends verified dataset details.",
-			// Longer paragraph shown on /experience and in the home deck (the short description is the fallback on very narrow phones).
+			// Full summary shared by the experience page and the home deck.
 			summary:
 				"Built a toolkit for ICMR to upload health research datasets securely and check data quality and privacy across 15 areas. It scores which datasets can be shared openly or need restrictions, generates reports, and sends verified dataset details to AIKosh automatically.",
 			tech: [

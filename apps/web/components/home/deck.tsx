@@ -198,7 +198,7 @@ export function Deck({ cards }: { cards: DeckCard[] }) {
 				aria-controls="deck-content"
 				disabled={groups[name].length === 0}
 				onClick={() => choose(name, indices[name])}
-				className={`${BUTTON} min-w-0 border-x-0 border-t-0 border-b-2 px-1 text-[0.8125rem] whitespace-nowrap focus-visible:outline-offset-[-2px] ${active ? "border-b-ink font-[690] text-ink" : "border-b-transparent text-muted"}`}
+				className={`${BUTTON} min-w-max flex-auto border-x-0 border-t-0 border-b-2 px-1 text-[0.8125rem] whitespace-nowrap focus-visible:outline-offset-[-2px] @min-[24rem]:flex-1 ${active ? "border-b-ink font-[690] text-ink" : "border-b-transparent text-muted"}`}
 			>
 				{label}
 			</button>
@@ -210,7 +210,7 @@ export function Deck({ cards }: { cards: DeckCard[] }) {
 			<div
 				role="group"
 				aria-label="Work category"
-				className="-mx-3 mb-3 grid grid-cols-2 gap-x-2 border-b border-line px-3 @min-[24rem]:grid-cols-4"
+				className="-mx-3 mb-3 flex flex-nowrap overflow-x-auto overscroll-x-contain border-b border-line @min-[24rem]:gap-x-2 @min-[24rem]:px-3"
 			>
 				{CATEGORIES.map(categoryButton)}
 			</div>

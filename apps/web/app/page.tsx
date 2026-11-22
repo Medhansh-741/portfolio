@@ -79,10 +79,7 @@ const experienceCards: DeckCard[] = profile.experience.map((item) => ({
 				<p className="text-[0.8125rem] text-muted">{item.period}</p>
 			</div>
 			<ExperienceLetters company={item.company} offerLetter={item.offerLetter} completionLetter={item.completionLetter} />
-			<div className="text-[clamp(1rem,3.9cqi,1.0625rem)] leading-normal">
-				<p className="@max-[22rem]:hidden">{item.summary}</p>
-				<p className="@min-[22rem]:hidden">{item.description}</p>
-			</div>
+			<p className="text-[clamp(1rem,3.9cqi,1.0625rem)] leading-normal">{item.summary}</p>
 		</div>
 	),
 }));
