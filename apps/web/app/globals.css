@@ -56,6 +56,31 @@
 	summary::-webkit-details-marker { display: none; }
 }
 
+@layer components {
+	.letter-key > span {
+		display: inline-flex;
+		align-items: center;
+		min-height: 24px;
+		padding-inline: 0.625rem;
+		border: 1px solid #9b9991;
+		border-radius: 4px;
+		background: #eeede7;
+		box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #d6d4cb, 0 1px 0 #817f77;
+	}
+
+	.letter-key:hover > span,
+	.letter-key:focus-visible > span {
+		background: #f6f5ef;
+		border-color: #77756d;
+	}
+
+	.letter-key:active > span {
+		transform: translateY(1px);
+		background: #e5e4dc;
+		box-shadow: inset 0 1px 1px #c4c2b8;
+	}
+}
+
 /* octagon (cut corners) used by the LCD clock; corner size comes from --cut */
 @utility clip-octagon {
 	clip-path: polygon(var(--cut) 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, var(--cut) 100%, 0 calc(100% - var(--cut)), 0 var(--cut));

@@ -9,6 +9,7 @@ type ProjectMention = {
 
 type Achievement = {
 	title: string;
+	homeTitle?: string;
 	detail?: string;
 	award?: true;
 	certificate?: string;
@@ -22,6 +23,7 @@ type Achievement = {
 const achievements: readonly Achievement[] = [
 	{
 		title: "First Prize at Claude Impact Lab Bhopal",
+		homeTitle: "Claude Impact Lab · First Prize",
 		detail: "My team won first prize in October 2026 for tackling a real government challenge at Claude Impact Lab, held in collaboration with MPSeDC and the Government of Madhya Pradesh.",
 		award: true,
 		eventUrl: "https://luma.com/claude-ozni",
@@ -38,6 +40,7 @@ const achievements: readonly Achievement[] = [
 	},
 	{
 		title: "Certificate of Student Excellence, Manipal University Jaipur (2026)",
+		homeTitle: "Student Excellence · MUJ",
 		award: true,
 		images: [
 			{ src: "/new-portfolio/student-excellence-2026.webp", alt: "Manipal University Jaipur Certificate of Student Excellence awarded to Medhansh Kapoor in 2026", width: 800, height: 565 },
@@ -45,6 +48,7 @@ const achievements: readonly Achievement[] = [
 	},
 	{
 		title: "India Innovates '26, Winner",
+		homeTitle: "India Innovates ’26 · Winner",
 		award: true,
 		projectTitle: "JanSamadhan",
 		detail: "Winner in Digital Democracy track; presented JanSamadhan live before senior policy leaders at Bharat Mandapam; project forwarded to central ministries.",
@@ -126,11 +130,11 @@ export const profile = {
 	experience: [
 		{
 			company: "Boring Consulting Company (BCC)",
-			role: "AI Research & Product Development Intern",
+			role: "Product Development Intern",
 			// Start: 12 October; completion certified 22 November. The letters do not state an exact end date.
 			period: "Oct 2026 – Nov 2026",
 			description:
-				"Contributed to the development of AI-powered recruitment tools at Boring Consulting Company (BCC).",
+				"Researched and helped build AI tools for recruitment.",
 			summary:
 				"Contributed to the development of AI-powered recruitment tools during a research-led internship at Boring Consulting Company (BCC). The role focused on researching, experimenting with, and building AI-led career and recruitment products.",
 			// The letters do not verify a technology stack or completion of individual planned milestones.

@@ -5,7 +5,7 @@ import { flushSync } from "react-dom";
 import { Icon } from "../icon";
 
 export type Category = "projects" | "experience" | "achievements" | "oss";
-export type DeckCard = { category: Category; title: string; content: ReactNode };
+export type DeckCard = { category: Category; title: string; footerTitle?: ReactNode; content: ReactNode };
 
 const CATEGORIES: [Category, string][] = [
 	["projects", "Projects"],
@@ -14,12 +14,12 @@ const CATEGORIES: [Category, string][] = [
 	["oss", "Open Source"],
 ];
 const ITEM_TYPE: Record<Category, string> = { projects: "project", experience: "experience entry", achievements: "achievement", oss: "open-source summary" };
-// Shared skeleton: title row on top, content fills the middle, a bottom row (when present) pins to the bottom.
+// Project and experience titles share the footer with navigation; their content stays in the swipe area.
 // The open-source card never sets the deck's height (contain: size); it fills what the other cards give it.
 const ROWS: Record<Category, string> = {
-	projects: "grid-rows-[auto_auto_1fr]",
-	experience: "grid-rows-[auto_1fr_auto]",
-	achievements: "grid-rows-[auto_1fr]",
+	projects: "grid-rows-[auto_1fr]",
+	experience: "grid-rows-[1fr]",
+	achievements: "grid-rows-[1fr]",
 	oss: "[contain:size] grid-rows-[auto_auto_minmax(0,1fr)_auto]",
 };
 const BUTTON = "min-h-tap border-0 bg-transparent [touch-action:manipulation] hover:bg-hover";
@@ -40,7 +40,7 @@ type Swipe = {
 
 /**
  * The home deck: one card per project/experience/achievement plus an open-source summary, switched by a
- * category strip (drifting marquee until first touch), previous/next buttons and horizontal swipes.
+ * static category buttons above the card, previous/next controls below it and horizontal swipes.
  */
 export function Deck({ cards }: { cards: DeckCard[] }) {
 	const [state, setState] = useState({
@@ -50,10 +50,7 @@ export function Deck({ cards }: { cards: DeckCard[] }) {
 		epochs: {} as Record<string, number>,
 		status: "",
 	});
-	const [clones, setClones] = useState(false);
 	const trackRef = useRef<HTMLDivElement>(null);
-	const stripRef = useRef<HTMLDivElement>(null);
-	const stripTrackRef = useRef<HTMLDivElement>(null);
 	const cardRefs = useRef<HTMLElement[]>([]);
 	const resetSwipe = useRef(() => {});
 
@@ -184,118 +181,23 @@ export function Deck({ cards }: { cards: DeckCard[] }) {
 		};
 	}, []);
 
-	// Category marquee: the labels drift across the strip until the first touch, click, wheel or key press,
-	// then it stops for good and the strip is an ordinary (mouse-draggable) row. Reduced motion never starts it.
-	useEffect(() => {
-		const strip = stripRef.current!;
-		const track = stripTrackRef.current!;
-		let stopped = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-		let frame = 0;
-		let idle = 0;
-		const stop = () => {
-			if (stopped) return;
-			stopped = true;
-			cancelAnimationFrame(frame);
-		};
-
-		let drag: { id: number; x: number; scrollLeft: number } | null = null;
-		const onDown = (event: PointerEvent) => {
-			stop();
-			if (event.pointerType !== "mouse" || event.button !== 0 || strip.scrollWidth <= strip.clientWidth) return;
-			drag = { id: event.pointerId, x: event.clientX, scrollLeft: strip.scrollLeft };
-		};
-		const onDrag = (event: PointerEvent) => {
-			if (!drag || event.pointerId !== drag.id) return;
-			const distance = drag.x - event.clientX;
-			if (!strip.hasPointerCapture(event.pointerId)) {
-				if (Math.abs(distance) < 6) return;
-				strip.setPointerCapture(event.pointerId);
-				strip.dataset.grabbing = "";
-			}
-			strip.scrollLeft = drag.scrollLeft + distance;
-		};
-		const endDrag = (event: PointerEvent) => {
-			if (drag?.id !== event.pointerId) return;
-			drag = null;
-			delete strip.dataset.grabbing;
-		};
-		const onLeave = (event: PointerEvent) => {
-			if (!strip.hasPointerCapture(event.pointerId)) endDrag(event);
-		};
-		strip.addEventListener("pointerdown", onDown);
-		strip.addEventListener("pointermove", onDrag);
-		strip.addEventListener("pointerup", endDrag);
-		strip.addEventListener("pointercancel", endDrag);
-		strip.addEventListener("lostpointercapture", endDrag);
-		strip.addEventListener("pointerleave", onLeave);
-		const stopEvents = ["touchstart", "wheel", "keydown", "focusin"];
-
-		let observer: ResizeObserver | undefined;
-		const startDrift = () => {
-			if (!stopped) frame = requestAnimationFrame(drift);
-		};
-		const whenIdle = (fn: () => void) => (idle = "requestIdleCallback" in window ? requestIdleCallback(fn) : setTimeout(fn, 1) as unknown as number);
-		const onLoad = () => whenIdle(startDrift);
-		// Width of one set of labels (where the copies begin); measured only when the strip resizes, never per frame.
-		let repeatAt = 0;
-		let offset = 0;
-		let lastFrame = 0;
-		const drift = (now: number) => {
-			const elapsed = lastFrame ? now - lastFrame : 0;
-			lastFrame = now;
-			offset += elapsed * 0.04; // 40 px per second
-			if (repeatAt > 0 && offset >= repeatAt) offset -= repeatAt;
-			strip.scrollLeft = offset;
-			frame = requestAnimationFrame(drift);
-		};
-		if (!stopped) {
-			// eslint-disable-next-line react-hooks/set-state-in-effect -- reduced motion is only known in the browser
-			setClones(true);
-			for (const name of stopEvents) strip.addEventListener(name, stop, { passive: true });
-			observer = new ResizeObserver(() => {
-				const copy = track.children[CATEGORIES.length] as HTMLElement | undefined;
-				repeatAt = copy ? copy.offsetLeft - (track.children[0] as HTMLElement).offsetLeft : 0;
-			});
-			observer.observe(track);
-			if (document.readyState === "complete") onLoad();
-			else window.addEventListener("load", onLoad, { once: true });
-		}
-		return () => {
-			stopped = true;
-			cancelAnimationFrame(frame);
-			if ("cancelIdleCallback" in window) cancelIdleCallback(idle);
-			else clearTimeout(idle);
-			observer?.disconnect();
-			window.removeEventListener("load", onLoad);
-			for (const name of stopEvents) strip.removeEventListener(name, stop);
-			strip.removeEventListener("pointerdown", onDown);
-			strip.removeEventListener("pointermove", onDrag);
-			strip.removeEventListener("pointerup", endDrag);
-			strip.removeEventListener("pointercancel", endDrag);
-			strip.removeEventListener("lostpointercapture", endDrag);
-			strip.removeEventListener("pointerleave", onLeave);
-		};
-	}, []);
-
 	const choose = (next: Category, index: number) => {
 		resetSwipe.current(); // a click mid-swipe drops the gesture
 		select(next, index);
 	};
 	const itemType = ITEM_TYPE[category];
-	const categoryButton = ([name, label]: [Category, string], copy: boolean) => {
+	const categoryButton = ([name, label]: [Category, string]) => {
 		const active = name === category;
 		return (
 			<button
-				key={`${copy ? "copy-" : ""}${name}`}
+				key={name}
 				type="button"
-				data-category={copy ? undefined : name}
-				aria-pressed={copy ? undefined : active}
-				aria-hidden={copy || undefined}
-				tabIndex={copy ? -1 : undefined}
+				data-category={name}
+				aria-pressed={active}
 				aria-controls="deck-content"
 				disabled={groups[name].length === 0}
 				onClick={() => choose(name, indices[name])}
-				className={`${BUTTON} flex-none border-x-0 border-t-0 border-b-2 px-[0.35rem] text-[0.875rem] whitespace-nowrap focus-visible:outline-offset-[-2px] ${active ? "border-b-ink font-[690] text-ink" : "border-b-transparent text-muted"}`}
+				className={`${BUTTON} min-w-0 border-x-0 border-t-0 border-b-2 px-1 text-[0.8125rem] whitespace-nowrap focus-visible:outline-offset-[-2px] ${active ? "border-b-ink font-[690] text-ink" : "border-b-transparent text-muted"}`}
 			>
 				{label}
 			</button>
@@ -303,7 +205,14 @@ export function Deck({ cards }: { cards: DeckCard[] }) {
 	};
 
 	return (
-		<section aria-label="Selected work" className="my-4 border border-line px-3 pt-3">
+		<section aria-label="Selected work" className="@container my-4 border border-line px-3">
+			<div
+				role="group"
+				aria-label="Work category"
+				className="-mx-3 mb-3 grid grid-cols-2 gap-x-2 border-b border-line px-3 @min-[24rem]:grid-cols-4"
+			>
+				{CATEGORIES.map(categoryButton)}
+			</div>
 			<div
 				ref={trackRef}
 				id="deck-content"
@@ -328,30 +237,27 @@ export function Deck({ cards }: { cards: DeckCard[] }) {
 			<p role="status" className="absolute h-px w-px overflow-hidden whitespace-nowrap [clip-path:inset(50%)]">
 				{state.status}
 			</p>
-			<div className="mt-[0.35rem] flex flex-wrap items-center gap-x-2">
-				<div
-					ref={stripRef}
-					role="group"
-					aria-label="Work category"
-					className="flex min-w-0 max-w-[12.5rem] flex-[1_1_9rem] overflow-x-auto overflow-y-hidden overscroll-x-contain scrollbar-none [touch-action:pan-x] select-none [mask-image:linear-gradient(to_right,transparent,#000_0.5rem,#000_calc(100%-0.5rem),transparent)] data-grabbing:[&_button]:cursor-grabbing"
-				>
-					<div ref={stripTrackRef} className="flex flex-none gap-[0.65rem]">
-						{CATEGORIES.map((c) => categoryButton(c, false))}
-						{/* Decorative copies for the marquee loop: hidden from assistive tech, not focusable. */}
-						{clones && CATEGORIES.map((c) => categoryButton(c, true))}
-					</div>
+			<div className={`mt-2 grid min-h-[calc(var(--spacing-tap)+1px)] grid-cols-[minmax(0,1fr)_auto] items-center gap-2 border-t ${count > 1 ? "border-line-soft" : "border-transparent"}`}>
+				{/* Measure every title at the same width so wrapping cannot move the footer. */}
+				<div className="grid min-w-0">
+					{cards.map(({ footerTitle }, i) => footerTitle && (
+						<div key={i} inert={i !== activeCard} className={`min-w-0 [grid-area:1/1] ${i === activeCard ? "" : "invisible"}`}>
+							{footerTitle}
+						</div>
+					))}
 				</div>
-				<div
-					hidden={count < 2}
-					className="ms-auto grid grid-cols-[var(--spacing-tap)_minmax(2.4rem,max-content)_var(--spacing-tap)] items-center text-center"
-				>
-					<button type="button" aria-label={`Previous ${itemType}`} onClick={() => choose(category, (indices[category] - 1 + count) % count)} className={`${BUTTON} grid min-w-tap place-items-center p-0`}>
-						<Icon name="previous" className="pointer-events-none size-[1.15rem]" />
-					</button>
-					<span className="text-[0.75rem] whitespace-nowrap text-muted tabular-nums">{`${indices[category] + 1} / ${count}`}</span>
-					<button type="button" aria-label={`Next ${itemType}`} onClick={() => choose(category, (indices[category] + 1) % count)} className={`${BUTTON} grid min-w-tap place-items-center p-0`}>
-						<Icon name="next" className="pointer-events-none size-[1.15rem]" />
-					</button>
+				<div className="w-[calc(var(--spacing-tap)*2+2.4rem)]">
+					{count > 1 && (
+						<div role="group" aria-label="Card navigation" className="grid grid-cols-[var(--spacing-tap)_1fr_var(--spacing-tap)] items-center text-center">
+							<button type="button" aria-label={`Previous ${itemType}`} aria-controls="deck-content" onClick={() => choose(category, (indices[category] - 1 + count) % count)} className={`${BUTTON} grid min-w-tap place-items-center p-0`}>
+								<Icon name="previous" className="pointer-events-none size-[1.15rem]" />
+							</button>
+							<span aria-label={`${CATEGORIES.find(([name]) => name === category)?.[1]} ${indices[category] + 1} of ${count}`} className="text-[0.75rem] whitespace-nowrap text-muted tabular-nums">{`${indices[category] + 1} / ${count}`}</span>
+							<button type="button" aria-label={`Next ${itemType}`} aria-controls="deck-content" onClick={() => choose(category, (indices[category] + 1) % count)} className={`${BUTTON} grid min-w-tap place-items-center p-0`}>
+								<Icon name="next" className="pointer-events-none size-[1.15rem]" />
+							</button>
+						</div>
+					)}
 				</div>
 			</div>
 		</section>
