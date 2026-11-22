@@ -79,7 +79,6 @@ export const profile = {
 	resumeUrl: "/resume.pdf",
 	about: [
 		"I build by jumping in headfirst. Every project is an excuse to explore a stack I haven't mastered yet, a problem that feels just out of reach, or an architecture I haven't tried. I think in systems, not features: connecting ideas across AI, infrastructure, and full-stack to build solutions that hold up under pressure. I don't stay comfortable. I learn by doing, I ship fast, and I believe code should scale beyond its first use case.",
-		"AI/ML Engineer and Full-Stack Developer with experience in AI-powered recruitment tools, AI agents, geospatial intelligence systems, and civic-tech platforms across internships at Boring Consulting Company (BCC), IndiaAI Mission (MeitY), ISSA-DRDO, and Geminid Systems.",
 		"I specialize in FastAPI, Next.js, PyTorch, LangGraph, and PostgreSQL — with a strong focus on AI agent orchestration, RAG pipelines, real-time systems, and full-stack deployment. I build things that work in the real world, not just in notebooks.",
 	],
 	skills: {
