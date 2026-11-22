@@ -9,7 +9,6 @@ type ProjectMention = {
 
 type Achievement = {
 	title: string;
-	homeTitle?: string;
 	detail?: string;
 	award?: true;
 	certificate?: string;
@@ -23,7 +22,6 @@ type Achievement = {
 const achievements: readonly Achievement[] = [
 	{
 		title: "First Prize at Claude Impact Lab Bhopal",
-		homeTitle: "Claude Impact Lab · First Prize",
 		detail: "My team won first prize in October 2026 for tackling a real government challenge at Claude Impact Lab, held in collaboration with MPSeDC and the Government of Madhya Pradesh.",
 		award: true,
 		eventUrl: "https://luma.com/claude-ozni",
@@ -40,7 +38,6 @@ const achievements: readonly Achievement[] = [
 	},
 	{
 		title: "Certificate of Student Excellence, Manipal University Jaipur (2026)",
-		homeTitle: "Student Excellence · MUJ",
 		award: true,
 		images: [
 			{ src: "/new-portfolio/student-excellence-2026.webp", alt: "Manipal University Jaipur Certificate of Student Excellence awarded to Medhansh Kapoor in 2026", width: 800, height: 565 },
@@ -48,7 +45,6 @@ const achievements: readonly Achievement[] = [
 	},
 	{
 		title: "India Innovates '26, Winner",
-		homeTitle: "India Innovates ’26 · Winner",
 		award: true,
 		projectTitle: "JanSamadhan",
 		detail: "Winner in Digital Democracy track; presented JanSamadhan live before senior policy leaders at Bharat Mandapam; project forwarded to central ministries.",
@@ -130,14 +126,13 @@ export const profile = {
 	experience: [
 		{
 			company: "Boring Consulting Company (BCC)",
-			homeTitle: "Boring Consulting Company",
-			role: "Product Development Intern",
+			role: "AI Research & Product Development Intern",
 			// Start: 12 October; completion certified 22 November. The letters do not state an exact end date.
 			period: "Oct 2026 – Nov 2026",
 			description:
-				"Researched and helped build AI tools for recruitment.",
+				"Contributed to the development of AI-powered recruitment tools at Boring Consulting Company (BCC).",
 			summary:
-				"Researched, experimented with and helped build AI-powered recruitment and career products during a research-led internship.",
+				"Contributed to the development of AI-powered recruitment tools during a research-led internship at Boring Consulting Company (BCC). The role focused on researching, experimenting with, and building AI-led career and recruitment products.",
 			// The letters do not verify a technology stack or completion of individual planned milestones.
 			tech: [],
 			highlights: [
@@ -152,9 +147,9 @@ export const profile = {
 			period: "June 2026 – July 2026",
 			description:
 				"Built an AIKosh toolkit that accepts health research uploads, checks data quality and privacy across 15 areas, and automatically generates reports and sends verified dataset details.",
-			// Full summary shared by the experience page and the home deck.
+			// Longer paragraph shown on /experience and in the home deck (the short description is the fallback on very narrow phones).
 			summary:
-				"Built an ICMR toolkit that checks health research datasets for quality and privacy across 15 areas, scores how openly each can be shared, and sends verified details to AIKosh.",
+				"Built a toolkit for ICMR to upload health research datasets securely and check data quality and privacy across 15 areas. It scores which datasets can be shared openly or need restrictions, generates reports, and sends verified dataset details to AIKosh automatically.",
 			tech: [
 				"Next.js",
 				"FastAPI",
@@ -182,7 +177,7 @@ export const profile = {
 			description:
 				"Built an offline mapping platform that automatically imports map files and imagery and serves interactive maps in a browser over a secure local network.",
 			summary:
-				"Built an offline mapping platform that turns map files and satellite imagery into interactive browser maps, deployed on a secure local network with no internet needed.",
+				"Built an offline mapping platform that automatically imports map files and satellite imagery and makes them available as interactive maps in a browser. Deployed it on a secure local network so teams could use it without internet access or manually set up map layers.",
 			tech: [
 				"FastAPI",
 				"PostGIS",
@@ -207,7 +202,7 @@ export const profile = {
 			description:
 				"Built and tested Salesforce integrations, compared AI tools that turn questions into database queries, and benchmarked audio tools for voice analytics.",
 			summary:
-				"Built Salesforce integrations, benchmarked how accurately AI tools turn questions into multi-table SQL, and evaluated Python audio libraries for voice analytics.",
+				"Built Salesforce integrations and tested AI prompts on CRM data. Compared how accurately AI tools turn questions into SQL across multiple tables, and wrote scripts and benchmark reports to evaluate Python audio libraries for voice analytics.",
 			tech: [
 				"Vanna.ai",
 				"LlamaIndex",
@@ -235,8 +230,7 @@ export const profile = {
 			period: "Oct 2026",
 			description:
 				"Ecoaudit is an open-source tool that finds avoidable compute waste using rule-based checks, with no LLM or machine learning. It reads code from a public GitHub repo or a local Git checkout without running it. You can add existing deployment logs through read-only AWS IAM access and artifacts such as profiles or test reports from runs in your own environment. Ecoaudit checks that evidence against its rules, and you can run the entire app on localhost to keep your code and artifacts private.",
-			// Home deck badges: only the few tools that define each project.
-			tech: ["AWS Lambda", "Step Functions", "SQS", "DynamoDB", "EventBridge", "S3"],
+			tech: ["Python", "TypeScript", "GitHub Actions", "AWS Lambda", "Amazon S3", "Lighthouse"],
 			highlights: [
 				"Performance profiling: Built a GitHub Action that collects Python CPU and memory profiles and runs Lighthouse, then uploads the results for analysis.",
 				"Database checks: Added detectors that flag wasteful SQL patterns and query plans, including sequential scans inside nested loops.",
@@ -270,7 +264,14 @@ export const profile = {
 			period: "Mar 2026",
 			description:
 				"JanSamadhan turns vetted CCTV and dashcam detections into civic repair tickets and takes citizen reports by chat, voice, or WhatsApp. Seva uses Gemini to classify reports and route them to the right Delhi department. India's DIGIPIN pinpoints issues, and residents can upvote nearby duplicates instead of filing again. Upvotes and missed deadlines raise priority, while public maps and ticket history show progress. Workers upload repair proof, camera rescans check the fix, and residents can confirm or reopen tickets. Field evidence feeds future model training.",
-			tech: ["YOLOv8", "OpenCV", "FastAPI", "PostGIS", "Gemini"],
+			tech: [
+				"YOLOv8",
+				"ONNX",
+				"OpenCV",
+				"FastAPI",
+				"PostgreSQL/PostGIS",
+				"Gemini 2.5",
+			],
 
 			highlights: [
 				"Model & Inference: Trained YOLOv8 on 4,783 images with 30% engineered negatives and FN-bucketing for recall diagnosis; achieved 20ms ONNX inference on a FastAPI microservice deployed via GCP Cloud Run.",
@@ -309,7 +310,17 @@ export const profile = {
 			period: "Mar 2026 (36-hr Sprint)",
 			description:
 				"NyayaAI helps research legal cases, propose strategies, and draft documents, with sources and explanations for its recommendations. It reads scanned files, searches Indian laws, and falls back to another model or offline rules when needed. Citizens and lawyers can discuss cases in real time, and lawyers can manage cases through a dedicated portal.",
-			tech: ["LangGraph", "Qdrant", "Neo4j", "FastAPI", "Gemini"],
+			tech: [
+				"LangGraph",
+				"FastAPI",
+				"Qdrant",
+				"Neo4j",
+				"Redis",
+				"WebSockets",
+				"Celery",
+				"Groq",
+				"Gemini",
+			],
 
 			highlights: [
 				"Orchestration & Intake: Built a stateful 5-stage LangGraph pipeline (Intake → Research → Strategy → Drafting → Explainability) with OCR-aware processing and SHA-256 caching to mitigate LLM hallucinations.",

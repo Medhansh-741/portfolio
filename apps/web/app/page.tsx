@@ -1,9 +1,9 @@
+import Link from "next/link";
 import { JsonLd, getProfilePageSchema } from "./lib/jsonld";
 import { profile } from "@portfolio/data";
 import { getOpenSourceStats, type OpenSourceStats } from "./lib/open-source";
 import { getContributions } from "./lib/github";
 import { Shell } from "@/components/shell";
-import { ExperienceLetters } from "@/components/experience-letters";
 import { Icon, type IconName } from "@/components/icon";
 import { LcdNumber, PrIcon } from "@/components/pr";
 import { Demo } from "@/components/demo";
@@ -46,64 +46,70 @@ function SkillList({ groups, className = "grid" }: { groups: ReadonlyArray<reado
 	);
 }
 
-const bottom = "self-end border-t border-line-soft";
+const heading = "flex min-h-tap flex-wrap items-center";
 const caption = "mt-[-0.15rem] mb-[0.65rem] text-[0.8125rem] text-muted";
-const footerHeading = "text-[0.875rem] leading-[1.3] [overflow-wrap:anywhere]";
+const bottom = "self-end border-t border-line-soft";
 
 const projectCards: DeckCard[] = profile.projects.map((project, index) => ({
 	category: "projects",
 	title: project.title,
-	footerTitle: (
-		<div className="flex min-w-0 items-center">
-			<h2 className={footerHeading}>{project.title}</h2>
-			<a href={project.links.github} aria-label={`${project.title} repository on GitHub`} className="inline-flex min-h-tap min-w-tap shrink-0 items-center justify-center">
-				<Icon name="github" className="pointer-events-none size-[1.1rem]" />
-			</a>
-		</div>
-	),
 	content: (
-		// Same type as the experience cards; kept as one centred block so spare deck height sits around it, not between items.
-		<div className="grid min-w-0 grid-cols-[minmax(0,1fr)] content-center gap-y-3">
-			<div>
-				<p className="text-[clamp(1.125rem,4.6cqi,1.375rem)] leading-tight font-[700] tracking-[-0.02em]">{project.subtitle}</p>
-				<ul aria-label="Tech stack" className="m-0 mt-2 flex list-none flex-wrap gap-1 p-0 text-[0.75rem] leading-5">
-					{project.tech.map((name) => (
-						// flat cousin of the .letter-key buttons: same paper and border, no bevel, so it doesn't read as clickable
-						<li key={name} className="rounded-[4px] border border-[#9b9991] bg-[#eeede7] px-1.5 whitespace-nowrap">{name}</li>
-					))}
-				</ul>
+		<>
+			<div className={heading}>
+				<h2 className="[overflow-wrap:anywhere]">{project.title}</h2>
+				<a
+					href={project.links.github}
+					aria-label={`${project.title} repository on GitHub`}
+					className="inline-flex min-h-tap min-w-tap items-center justify-center"
+				>
+					<Icon name="github" className="pointer-events-none size-[1.1rem]" />
+				</a>
 			</div>
-			<Demo project={project} priority={index ? "low" : "high"} />
-		</div>
+			<p className={caption}>{project.subtitle}</p>
+			<Demo project={project} priority={index ? "low" : "high"} className="self-center" />
+		</>
 	),
 }));
 
 const experienceCards: DeckCard[] = profile.experience.map((item) => ({
 	category: "experience",
 	title: item.company,
-	footerTitle: <h2 className={footerHeading}>{item.homeTitle ?? item.company}</h2>,
 	content: (
-		<div className="grid min-w-0 content-center gap-y-3">
-			<div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-				<p className="text-[clamp(1.125rem,4.6cqi,1.375rem)] leading-tight font-[700] tracking-[-0.02em]">{item.role}</p>
-				<p className="text-[0.8125rem] text-muted">{item.period}</p>
+		<>
+			<div className={heading}>
+				<h2 className="[overflow-wrap:anywhere]">{item.company}</h2>
 			</div>
-			<ExperienceLetters company={item.company} offerLetter={item.offerLetter} completionLetter={item.completionLetter} />
-			{/* grows with the deck until it hits the size it has at ~375px (about 19px under the 22px role), then holds that ratio */}
-			<p className="text-[clamp(1rem,6cqi,1.2rem)] leading-normal">{item.summary}</p>
-		</div>
+			{/* role and dates share a line so the longer summary fits the deck's fixed height; spare height is shared evenly */}
+			<div className="grid grid-cols-[minmax(0,1fr)_auto] content-evenly gap-x-3 gap-y-[0.4rem] self-stretch pb-2 text-[0.875rem]">
+				<p className="self-baseline font-[660]">{item.role}</p>
+				<p className="self-baseline justify-self-end text-[0.8125rem] whitespace-nowrap text-muted">{item.period}</p>
+				{/* below 360px the long summary would push the deck taller than the project cards; use the short one */}
+				<p className="col-span-full max-[22.4rem]:hidden">{item.summary}</p>
+				<p className="col-span-full hidden max-[22.4rem]:block">{item.description}</p>
+			</div>
+			<div role="group" aria-label="Experience documents" className={`flex flex-wrap gap-x-3 ${bottom}`}>
+				<a href={item.offerLetter} className="inline-flex min-h-tap items-center text-[0.8125rem] whitespace-nowrap">
+					Offer letter
+				</a>
+				<a href={item.completionLetter} className="ms-auto inline-flex min-h-tap items-center text-[0.8125rem] whitespace-nowrap">
+					Completion letter
+				</a>
+			</div>
+		</>
 	),
 }));
 
-const achievementCards: DeckCard[] = profile.achievements.flatMap(({ title, homeTitle, homeImage, images }) => {
+const achievementCards: DeckCard[] = profile.achievements.flatMap(({ title, homeImage, images }) => {
 	const photo = homeImage ?? images?.[0];
 	if (!photo) return [];
 	return [{
 		category: "achievements",
 		title,
-		footerTitle: <h2 className={footerHeading}>{homeTitle ?? title}</h2>,
 		content: (
 			<>
+				<div className={heading}>
+					<h2 className="[overflow-wrap:anywhere]">{title}</h2>
+				</div>
 				<img
 					src={photo.src}
 					{...responsiveImage(photo.src, photo.width)}
@@ -120,7 +126,14 @@ const achievementCards: DeckCard[] = profile.achievements.flatMap(({ title, home
 
 // One glanceable card for the deck's "Open Source" tab; the full breakdown lives on /open-source.
 function openSourceCard(stats: OpenSourceStats | null): DeckCard {
-	const header = <h2 className="flex min-h-tap items-center [overflow-wrap:anywhere]">Open Source</h2>;
+	const header = (
+		<div className={`${heading} justify-between`}>
+			<h2 className="[overflow-wrap:anywhere]">Open Source</h2>
+			<Link href="/open-source" aria-label="All open-source work" className="inline-flex min-h-tap items-center gap-1 px-1 text-[0.875rem]">
+				All <Icon name="next" className="pointer-events-none size-4" />
+			</Link>
+		</div>
+	);
 	if (!stats || stats.projects.length === 0) {
 		return {
 			category: "oss",

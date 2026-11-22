@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Shell } from "@/components/shell";
-import { ExperienceLetters } from "@/components/experience-letters";
 import { JsonLd, getExperiencePageSchema } from "@/app/lib/jsonld";
 import { profile, staticRoutes, getExperienceCompanies } from "@portfolio/data";
 
@@ -52,7 +51,14 @@ export default function ExperiencePage() {
 						>
 							<div>
 								<h2>{company}</h2>
-								<ExperienceLetters company={company} offerLetter={offerLetter} completionLetter={completionLetter} />
+								<div role="group" aria-label="Experience documents" className="flex flex-wrap gap-x-3 *:inline-flex *:min-h-tap *:items-center *:text-[0.8125rem] *:whitespace-nowrap">
+									<a href={offerLetter} aria-label={`Offer letter for ${company} (PDF)`}>
+										Offer letter
+									</a>
+									<a href={completionLetter} aria-label={`Completion letter for ${company} (PDF)`} className="ms-auto">
+										Completion letter
+									</a>
+								</div>
 							</div>
 							<div className="grid gap-[0.2rem]">
 								<p className="font-[660]">{role}</p>
