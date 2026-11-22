@@ -33,7 +33,8 @@ export function Demo({
 	const fill = "absolute inset-0 block size-full border-0";
 
 	return (
-		<div className={`relative min-h-[200px] w-full aspect-video bg-ink ${className}`}>
+		// YouTube needs a 200px-tall player; the thumbnail stays a true 16:9 so narrow screens neither crop nor letterbox it.
+		<div className={`relative w-full aspect-video bg-ink ${playing ? "min-h-[200px]" : ""} ${className}`}>
 			{playing ? (
 				<iframe
 					ref={(el) => el?.focus()}

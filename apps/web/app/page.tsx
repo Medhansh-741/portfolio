@@ -62,10 +62,19 @@ const projectCards: DeckCard[] = profile.projects.map((project, index) => ({
 		</div>
 	),
 	content: (
-		<>
-			<p className="mb-3 text-[0.9375rem] leading-[1.3] font-[660]">{project.subtitle}</p>
-			<Demo project={project} priority={index ? "low" : "high"} className="self-center" />
-		</>
+		// Same type as the experience cards; kept as one centred block so spare deck height sits around it, not between items.
+		<div className="grid min-w-0 grid-cols-[minmax(0,1fr)] content-center gap-y-3">
+			<div>
+				<p className="text-[clamp(1.125rem,4.6cqi,1.375rem)] leading-tight font-[700] tracking-[-0.02em]">{project.subtitle}</p>
+				<ul aria-label="Tech stack" className="m-0 mt-2 flex list-none flex-wrap gap-1 p-0 text-[0.75rem] leading-5">
+					{project.tech.map((name) => (
+						// flat cousin of the .letter-key buttons: same paper and border, no bevel, so it doesn't read as clickable
+						<li key={name} className="rounded-[4px] border border-[#9b9991] bg-[#eeede7] px-1.5 whitespace-nowrap">{name}</li>
+					))}
+				</ul>
+			</div>
+			<Demo project={project} priority={index ? "low" : "high"} />
+		</div>
 	),
 }));
 
@@ -74,13 +83,14 @@ const experienceCards: DeckCard[] = profile.experience.map((item) => ({
 	title: item.company,
 	footerTitle: <h2 className={footerHeading}>{item.homeTitle ?? item.company}</h2>,
 	content: (
-		<div className="grid min-w-0 content-around gap-y-2">
+		<div className="grid min-w-0 content-center gap-y-3">
 			<div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
 				<p className="text-[clamp(1.125rem,4.6cqi,1.375rem)] leading-tight font-[700] tracking-[-0.02em]">{item.role}</p>
 				<p className="text-[0.8125rem] text-muted">{item.period}</p>
 			</div>
 			<ExperienceLetters company={item.company} offerLetter={item.offerLetter} completionLetter={item.completionLetter} />
-			<p className="text-[clamp(1rem,3.9cqi,1.0625rem)] leading-normal">{item.summary}</p>
+			{/* grows with the deck until it hits the size it has at ~375px (about 19px under the 22px role), then holds that ratio */}
+			<p className="text-[clamp(1rem,6cqi,1.2rem)] leading-normal">{item.summary}</p>
 		</div>
 	),
 }));

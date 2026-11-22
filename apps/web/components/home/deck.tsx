@@ -12,13 +12,13 @@ const CATEGORIES: [Category, string][] = [
 	["projects", "Projects"],
 	["experience", "Experience"],
 	["achievements", "Achievements"],
-	["oss", "Open Source"],
+	["oss", "OSS"],
 ];
 const ITEM_TYPE: Record<Category, string> = { projects: "project", experience: "experience entry", achievements: "achievement", oss: "open-source summary" };
 // Project and experience titles share the footer with navigation; their content stays in the swipe area.
 // The open-source card never sets the deck's height (contain: size); it fills what the other cards give it.
 const ROWS: Record<Category, string> = {
-	projects: "grid-rows-[auto_1fr]",
+	projects: "grid-rows-[1fr]",
 	experience: "grid-rows-[1fr]",
 	achievements: "grid-rows-[1fr]",
 	oss: "[contain:size] grid-rows-[auto_auto_minmax(0,1fr)_auto]",
@@ -247,7 +247,8 @@ export function Deck({ cards }: { cards: DeckCard[] }) {
 						</div>
 					))}
 				</div>
-				<div className="w-[calc(var(--spacing-tap)*2+2.4rem)]">
+				{/* very narrow decks drop the "2 / 3" counter so titles like "JanSamadhan" don't split mid-word; the status line still announces it */}
+				<div className="w-[calc(var(--spacing-tap)*2+2.4rem)] @max-[18rem]:w-[calc(var(--spacing-tap)*2)]">
 					{category === "oss" && (
 						<Link href="/open-source" aria-label="All open-source work" className="ms-auto flex min-h-tap w-fit items-center gap-1 px-1 text-[0.875rem]">
 							All <Icon name="next" className="pointer-events-none size-4" />
@@ -258,7 +259,7 @@ export function Deck({ cards }: { cards: DeckCard[] }) {
 							<button type="button" aria-label={`Previous ${itemType}`} aria-controls="deck-content" onClick={() => choose(category, (indices[category] - 1 + count) % count)} className={`${BUTTON} grid min-w-tap place-items-center p-0`}>
 								<Icon name="previous" className="pointer-events-none size-[1.15rem]" />
 							</button>
-							<span aria-label={`${CATEGORIES.find(([name]) => name === category)?.[1]} ${indices[category] + 1} of ${count}`} className="text-[0.75rem] whitespace-nowrap text-muted tabular-nums">{`${indices[category] + 1} / ${count}`}</span>
+							<span aria-label={`${CATEGORIES.find(([name]) => name === category)?.[1]} ${indices[category] + 1} of ${count}`} className="text-[0.75rem] whitespace-nowrap text-muted tabular-nums @max-[18rem]:hidden">{`${indices[category] + 1} / ${count}`}</span>
 							<button type="button" aria-label={`Next ${itemType}`} aria-controls="deck-content" onClick={() => choose(category, (indices[category] + 1) % count)} className={`${BUTTON} grid min-w-tap place-items-center p-0`}>
 								<Icon name="next" className="pointer-events-none size-[1.15rem]" />
 							</button>
