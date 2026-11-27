@@ -93,11 +93,15 @@ export function getPersonSchema() {
 		name: profile.name,
 		alternateName: ["Medhansh", "Medhansh-741"],
 		url: SITE_URL,
+		identifier: {
+			"@type": "PropertyValue",
+			propertyID: "Wikidata",
+			value: "Q141155822",
+		},
 		jobTitle: "AI/ML Engineer & Full-Stack Developer",
 		disambiguatingDescription: getDisambiguatingDescription(),
 		description: profile.intro,
 		email: `mailto:${profile.email}`,
-		telephone: profile.phone,
 		address: {
 			"@type": "PostalAddress",
 			addressLocality: "Jaipur",

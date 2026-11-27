@@ -8,13 +8,13 @@ import { JsonLd, getProfilePageSchema } from "@/app/lib/jsonld";
 import { getProjectSlug, profile, staticRoutes } from "@portfolio/data";
 
 const aboutRoute = staticRoutes.find((r) => r.path === "/about");
-const pageTitle = `About — ${profile.name}`;
+const pageTitle = `About ${profile.name} — Background & Achievements`;
 const pageDescription =
 	aboutRoute?.description ||
 	`Engineering background, technical philosophy, and education of ${profile.name}.`;
 
 export const metadata: Metadata = {
-	title: "About",
+	title: { absolute: pageTitle },
 	description: pageDescription,
 	alternates: {
 		canonical: "/about",
@@ -109,9 +109,9 @@ function AchievementCard({ achievement, first }: { achievement: Achievement; fir
 export default function AboutPage() {
 	return (
 		<>
-			<JsonLd data={getProfilePageSchema("/about", "About — Medhansh Kapoor", pageDescription)} />
+			<JsonLd data={getProfilePageSchema("/about", pageTitle, pageDescription)} />
 			<Shell page="about">
-				<h1 className="mb-4">About</h1>
+				<h1 className="mb-4">About {profile.name}</h1>
 				<div className={card}>
 					<p>
 						I’m Medhansh Kapoor, an AI/ML engineer and Full-Stack Developer studying Computer Science and Engineering at

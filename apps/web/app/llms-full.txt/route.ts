@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
-import { generateLlmsText } from "@/app/llms.txt/route";
+import { generateLlmsText } from "@/app/lib/llms";
 
+/** Complete knowledge dump, linked from /llms.txt. */
 export async function GET() {
 	const content = generateLlmsText();
 	return new NextResponse(content, {

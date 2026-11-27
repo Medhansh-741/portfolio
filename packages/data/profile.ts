@@ -65,7 +65,7 @@ export const profile = {
 	name: "Medhansh Kapoor",
 	tagline: "AI/ML Engineer | Full-Stack Developer",
 	disambiguation:
-		"Distinct from other individuals of the same name, including the filmmaker/photographer at medhanshk.com and medical professionals.",
+		"Not affiliated with the filmmaker and photographer who operates medhanshk.com, nor with any medical professional or other individual of the same name; the canonical profile is medhanshk.me.",
 	intro:
 		"I take problems from the user experience down to technical architecture, building a working first-draft pipeline, learning as the solution demands, and dialing it in checkpoint by checkpoint.",
 	email: "medhansh541@gmail.com",
@@ -409,7 +409,8 @@ export const staticRoutes: NavRoute[] = [
  * Dynamically synthesizes the canonical disambiguation description from profile data.
  */
 export function getDisambiguatingDescription(p = profile): string {
-	const projectsList = p.projects.map((proj) => proj.title).join(" and ");
+	const projectsList = p.projects.map((proj) => proj.title).join(", ");
 	const companiesList = p.experience.map((exp) => exp.company).join(", ");
-	return `${p.tagline} based in ${p.location} (projects include ${projectsList}, with completed engineering internships at ${companiesList}; ${p.disambiguation || ""})`.trim();
+	const role = p.tagline.replace(/\s*\|\s*/, " and ");
+	return `${role} based in ${p.location}, with projects including ${projectsList} and engineering internships at ${companiesList}. ${p.disambiguation || ""}`.trim();
 }
