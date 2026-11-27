@@ -12,6 +12,8 @@ export const UPSTREAM = [
 	{ repo: "OWASP/cve-lite-cli", project: "CVE Lite CLI", org: "OWASP", about: "Scans JavaScript and TypeScript dependencies for known vulnerabilities." },
 	{ repo: "OWASP/Nest", project: "OWASP Nest", org: "OWASP", about: "OWASP's platform for discovering and getting involved in its projects." },
 	{ repo: "sugarlabs/musicblocks-v4", project: "Music Blocks v4", org: "Sugar Labs", about: "Rewrite of Music Blocks, a visual language for learning music and coding." },
+	{ repo: "kubescape/kubescape", project: "Kubescape", org: "Kubescape", about: "Open-source Kubernetes security platform for IDEs, CI/CD pipelines, and clusters." },
+	{ repo: "kubescape/opa-utils", project: "OPA Utils", org: "Kubescape", about: "Shared OPA and Rego utilities used by the Kubescape scanners." },
 ] as const;
 
 // Optional one-line notes, keyed "owner/repo#number". Live data can't say why a PR mattered.
